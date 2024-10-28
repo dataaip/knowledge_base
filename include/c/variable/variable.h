@@ -1,0 +1,1 @@
+int varle(void);

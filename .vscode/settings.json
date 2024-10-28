@@ -1,0 +1,209 @@
+{
+    "files.associations": {
+        "*.sh": "shellscript",
+        "*.scala": "java",
+        "*.sql": "sql",
+        "__bit_reference": "cpp",
+        "__config": "cpp",
+        "__locale": "cpp",
+        "__split_buffer": "cpp",
+        "__threading_support": "cpp",
+        "__verbose_abort": "cpp",
+        "array": "cpp",
+        "bitset": "cpp",
+        "cctype": "cpp",
+        "clocale": "cpp",
+        "cmath": "cpp",
+        "complex": "cpp",
+        "cstdarg": "cpp",
+        "cstddef": "cpp",
+        "cstdint": "cpp",
+        "cstdio": "cpp",
+        "cstdlib": "cpp",
+        "cstring": "cpp",
+        "ctime": "cpp",
+        "cwchar": "cpp",
+        "cwctype": "cpp",
+        "execution": "cpp",
+        "initializer_list": "cpp",
+        "ios": "cpp",
+        "iosfwd": "cpp",
+        "iostream": "cpp",
+        "istream": "cpp",
+        "limits": "cpp",
+        "locale": "cpp",
+        "mutex": "cpp",
+        "new": "cpp",
+        "ostream": "cpp",
+        "ratio": "cpp",
+        "sstream": "cpp",
+        "stdexcept": "cpp",
+        "streambuf": "cpp",
+        "string": "cpp",
+        "string_view": "cpp",
+        "tuple": "cpp",
+        "typeinfo": "cpp",
+        "variant": "cpp",
+        "vector": "cpp",
+        "algorithm": "cpp",
+        "stdio.h": "c",
+        "ccode.h": "c",
+        "compare": "cpp",
+        "bstree.h": "c",
+        "stdlib.h": "c",
+        "stdbool.h": "c",
+        "fstream": "c",
+        "_types.h": "c",
+        "valarray": "c",
+        "stat.h": "c",
+        "__hash_table": "cpp",
+        "atomic": "cpp",
+        "deque": "cpp",
+        "memory_resource": "cpp",
+        "filesystem": "cpp",
+        "iterator": "cpp",
+        "memory": "cpp",
+        "optional": "cpp",
+        "type_traits": "cpp",
+        "unordered_map": "cpp",
+        "utility": "cpp",
+        "cmain.h": "c"
+    },
+    // "background.enabled":true,
+    // "background.fullscreen": {
+    //   "images": ["/Users/minghui.liu/vscode/brightl/code-copy/.vscode/background.jpg"], // 图片的url
+    //   "opacity": 0.75, // 建议值 0.85 ~ 0.95
+    //   "size": "cover", // css, 建议使用 `cover`自适应，或者 `contain`、`200px 200px`
+    //   "position": "center", // 同 `background-position`, 默认 `center`
+    //   "interval": 0 // 设置图片轮播切换间隔 `秒` 数，默认 `0` 表示不开启
+    // },
+    "github.gitProtocol": "ssh",
+    "todo-tree.tree.scanMode": "workspace only",
+    "cmake.generator": "Unix Makefiles",
+    // 是否检查插件冲突
+    "clangd.detectExtensionConflicts": true,
+    // 查找的头文件路径，每一项前缀 -I
+    "clangd.fallbackFlags": [],
+    // 开启粘贴保存自动格式化
+    // "editor.formatOnPaste": true,
+    // "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "C_Cpp.errorSquiggles": "Disabled",
+    "C_Cpp.intelliSenseEngineFallback": "Disabled",
+    "C_Cpp.intelliSenseEngine": "Disabled",
+    "C_Cpp.autocomplete": "Disabled", // So you don't get autocomplete from both extensions.
+    "clangd.path": "/usr/bin/clangd",
+    // Clangd 运行参数(在终端/命令行输入 clangd --help-list-hidden 可查看更多)
+    "clangd.arguments": [
+        // 让 Clangd 生成更详细的日志
+        "--log=verbose",
+        // 输出的 JSON 文件更美观
+        "--pretty",
+        // 全局补全(输入时弹出的建议将会提供 CMakeLists.txt 里配置的所有文件中可能的符号，会自动补充头文件)
+        "--all-scopes-completion",
+        // 建议风格：打包(重载函数只会给出一个建议）
+        // 相反可以设置为detailed
+        "--completion-style=bundled",
+        // 跨文件重命名变量
+        "--cross-file-rename",
+        // 允许补充头文件
+        "--header-insertion=iwyu",
+        // 输入建议中，已包含头文件的项与还未包含头文件的项会以圆点加以区分
+        "--header-insertion-decorators",
+        // 在后台自动分析文件(基于 complie_commands，我们用CMake生成)
+        "--background-index",
+        // 启用 Clang-Tidy 以提供「静态检查」
+        "--clang-tidy",
+        // Clang-Tidy 静态检查的参数，指出按照哪些规则进行静态检查，详情见「与按照官方文档配置好的 VSCode 相比拥有的优势」
+        // 参数后部分的*表示通配符
+        // 在参数前加入-，如-modernize-use-trailing-return-type，将会禁用某一规则
+        "--clang-tidy-checks=cppcoreguidelines-*,performance-*,bugprone-*,portability-*,modernize-*,google-*",
+        // 默认格式化风格: 谷歌开源项目代码指南
+        "--fallback-style=file",
+        // 同时开启的任务数量
+        "-j=2",
+        // pch优化的位置(memory 或 disk，选择memory会增加内存开销，但会提升性能) 推荐在板子上使用disk
+        "--pch-storage=memory",
+        // 启用这项时，补全函数时，将会给参数提供占位符，键入后按 Tab 可以切换到下一占位符，乃至函数末
+        // 我选择禁用
+        "--function-arg-placeholders=false",
+        // compelie_commands.json 文件的目录位置(相对于工作区，由于 CMake 生成的该文件默认在 build 文件夹中，故设置为 build)
+        "--compile-commands-dir=build"
+    ],
+    // doxdocgen基础设置
+    "doxdocgen.c.triggerSequence": "/**",
+    "doxdocgen.c.firstLine": "/**",
+    "doxdocgen.c.commentPrefix": "*",
+    "doxdocgen.c.lastLine": "*/",
+    "doxdocgen.generic.linesToGet": 100, //如果有很多超级大函数要把这个值设置很大
+    //author
+    "doxdocgen.generic.authorEmail": "miguelau3016@outlook.com",
+    "doxdocgen.generic.authorName": "miguel",
+    "doxdocgen.generic.authorTag": /*"@author {author} ({email})"*/ " @author{indent:20}{author} {email}",
+    //date
+    "doxdocgen.generic.dateFormat": "YYYY.MM.DD",
+    "doxdocgen.generic.dateTemplate": " @date{indent:20}{date}",
+    // 文件头
+    "doxdocgen.file.fileOrder": [
+        "file", // 文件名
+        "brief", // 文件概述
+        "details", // 文件详述
+        "version", // 版本
+        "author", // 作者
+        "date", // 日期
+        "copyright", // 版权
+        "empty",
+        "custom", // 自定义
+    ],
+    //file
+    "doxdocgen.file.fileTemplate": " @file{indent:20}{name}",
+    //brief 居然和函数注释用的同一个
+    //"doxdocgen.generic.briefTemplate": "@brief{indent:10}{text}【描述】",
+    //details
+    //version
+    "doxdocgen.file.versionTag": " @version{indent:20}0.1",
+    //copyright
+    "doxdocgen.file.copyrightTag": [
+        " @copyright{indent:20}Copyright (c) {year}."
+    ],
+    //custom
+    "doxdocgen.file.customTag": [
+        " @note{indent:20}Revision History:",
+        " <table>",
+        " <tr><th>Date{indent:20}<th>Version{indent:40}<th>Author{indent:60}<th>Description",
+        " <tr><td>{date}{indent:20}<td>0.1{indent:40}<td>{author}{indent:60}<td>description",
+        " </table>",
+    ],
+    //函数注释
+    "doxdocgen.generic.order": [
+        "brief",
+        "param",
+        "return",
+        "empty",
+        "custom"
+    ],
+    //brief
+    "doxdocgen.generic.briefTemplate": " @brief{indent:20}brief",
+    "doxdocgen.generic.splitCasingSmartText": true, //（没用）
+    "doxdocgen.c.setterText": "Set {name}", //Get方法（没用）
+    "doxdocgen.c.getterText": "Get {name}", //Set方法（没用）
+    "doxdocgen.c.factoryMethodText": "Create {name}", //Create方法（没用）
+    //param
+    "doxdocgen.generic.paramTemplate": " @param{indent:10}{param}{indent:20}Param Description",
+    "doxdocgen.generic.filteredKeywords": [
+        "me"
+    ],
+    //return
+    "doxdocgen.generic.returnTemplate": " @return{indent:10}{type}{indent:20}Return Description",
+    "doxdocgen.generic.includeTypeAtReturn": true,
+    "doxdocgen.generic.boolReturnsTrueFalse": false,
+    //custom
+    "doxdocgen.generic.customTags": [
+        // " @warning{indent:20}[不可重入,阻塞等警告]",
+        " @note{indent:20}Revision History"
+    ], //用户自定义
+    //命令建议（没用）
+    "doxdocgen.generic.commandSuggestion": true,
+    "doxdocgen.generic.commandSuggestionAddPrefix": true,
+    "makefile.configureOnOpen": false,
+}
