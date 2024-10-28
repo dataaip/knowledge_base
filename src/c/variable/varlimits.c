@@ -7,6 +7,9 @@
 // 浮点类型的极限 在标头 <float.h> 定义
 #include <float.h>
 
+const int limita = 0;
+const int limitb = 10;
+
 void varlim(void){
    printf("CHAR_BIT       = %d\n", CHAR_BIT);
     printf("MB_LEN_MAX     = %d\n\n", MB_LEN_MAX);
