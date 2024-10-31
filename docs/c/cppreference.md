@@ -1,12 +1,5 @@
 ## cppreference
 
-### Basic concepts(概念，观念；思想)
-
-This section provides definitions for specific
-
-
-
-
 #if 0
   // 单行注释
   
