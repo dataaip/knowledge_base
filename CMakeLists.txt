@@ -21,7 +21,7 @@ set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release")
 # CMake 中可以通过设置编译器标志来添加 -pg 和 -g 参数
 # set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pg")
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O1")
+# set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O1")
 
 # 包含子目录
 add_subdirectory(lib/MathLib)        # 添加MathLib库的子目录

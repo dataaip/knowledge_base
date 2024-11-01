@@ -19,8 +19,8 @@
 
 #include <math.h>
 
-// #define ASCII_PRINT
-// #define LIMIT_PRINT
+#define ASCII_PRINT
+#define LIMIT_PRINT
 #define NUM 100
 #define DEC_NUM 100.55
 #define PRINT_DOC
@@ -163,8 +163,19 @@ int varle(void) {
          UINT_LEAST64_MAX, sizeof(uli6t));
 
   float ft = DEC_NUM;
+    printf(
+      "float min num is %f, float max num is %f, size num %lu byte.\n\n",
+      FLT_MIN, FLT_MAX, sizeof(ft));
+
   double de = DEC_NUM;
+  printf(
+      "double min num is %f, double max num is %f, size num %lu byte.\n\n",
+      DBL_MIN, DBL_MAX, sizeof(i6t));
+
   long double lde = DEC_NUM;
+    printf(
+      "long double min num is %Lf, long double max num is %Lf, size num %lu byte.\n\n",
+      LDBL_MIN, LDBL_MAX, sizeof(i6t));
 
   print_blue("limitb = %d\n",limitb);
 #endif
