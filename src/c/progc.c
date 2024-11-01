@@ -4,6 +4,7 @@
 
 extern int func(void);
 extern int add(int a, int b);
+extern int sub(int a, int b);
 
 int main(void) {
   printf("A .c is used to end a C program filename.\n\n");
@@ -37,6 +38,7 @@ int main(void) {
   int a = 20, b = 4;
 
   printf("Add: %d + %d = %d\n", a, b, add(a, b));
+  printf("Sub: %d - %d = %d\n", a, b, sub(a, b));
 
   __asm__("movq $60, %rax\n\t"
           "movq $2,  %rdi\n\t"
