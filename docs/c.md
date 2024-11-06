@@ -6,10 +6,9 @@
     - [profiling](#profiling)
     - [standard](#standard)
     - [variable](#variable)
-    - [pointers](#pointers)
-    - [function](#function)
     - [expressions](#expressions)
     - [statements](#statements)
+    - [datalife](#datalife)
     - [iostream](#iostream)
     - [memory](#memory)
     - [thread](#thread)
@@ -71,28 +70,25 @@
 
 ### standard
 - c标准
-- 代码风格规范
+- 代码风格规范：注释
 - 代码格式化
 - 程序结构    
 
 ### variable
-声明变量、初始化和关键词
+声明、初始化、关键词
 - 整型
 - 浮点型
 - 字符
 - 字符串
 - 枚举
-- 结构体/联合体
-- 关键词修饰
-
-### pointers
-指针和数组
-- 指针：指针、指针数组、指针字符串、指针函数、函数指针、多级指针、指针数组、数组指针
+- 结构体
+- 联合体
 - 数组：数组、二维数组、三维数组、多维数组
-
-### function
-函数
-- 函数    
+- 指针：指针、指针数组、指针字符串、指针函数、函数指针、多级指针、指针数组、数组指针
+- 函数：函数、函数指针、指针函数
+- void
+- 原子
+- 关键词修饰    
 
 ### expressions
 表达式和运算符
@@ -109,7 +105,20 @@
 - 选择语句
 - 循环语句
 - 跳转语句
-- 作用域   
+
+### datalife
+数据生存
+- 作用域
+- 生存期
+- 存储期
+- 对齐要求
+- 大小
+- 有效类型
+- 值
+- 标识符
+- 命名空间
+- 未定义行为
+- 内存模型与数据竞争  
 
 ### iostream
 文件操作和流处理
@@ -123,6 +132,7 @@
 ### thread
 线程操作和管理
 - <threads.h>
+- <pthread.h>
 
 ### errno
 异常处理和管理

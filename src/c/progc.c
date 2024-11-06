@@ -6,10 +6,15 @@ extern int func(void);
 extern int add(int a, int b);
 extern int sub(int a, int b);
 
-int main(void) {
-  printf("A .c is used to end a C program filename.\n\n");
-  printf("varle = %d\n\n", varle());
+// #define ASC_PRINT
 
+int main(void) {
+
+#ifdef INTEGER_FN
+  integer_fn();
+#endif // INTEGER_FN
+
+#ifdef ASC_PRINT
   int numa = 10;
   int numb = 20;
   __asm__("add %1, %2\n\t"
@@ -23,12 +28,13 @@ int main(void) {
   int array[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
   printf("array[2] = %p.\n\n", &array[2]);
   int *result;
-  __asm__ volatile("movq $2, %%rax\n\t"   // rax = 2
-          "leaq (%%rcx,%%rax,4),%%rbx\n\t" // ebx =  + (2 * 4) = 4
-          : "=b"(result)
-          : "c"(array)
-          : "%rax");
-  printf("Result:size of %lu byte, address = %p, value = %d.\n\n",sizeof(result), result, *result);
+  __asm__ volatile("movq $2, %%rax\n\t"             // rax = 2
+                   "leaq (%%rcx,%%rax,4),%%rbx\n\t" // ebx =  + (2 * 4) = 4
+                   : "=b"(result)
+                   : "c"(array)
+                   : "%rax");
+  printf("Result:size of %lu byte, address = %p, value = %d.\n\n",
+         sizeof(result), result, *result);
 
   int n = func();
   __asm__("leal (%0,%0,4),%0" : "=r"(n) : "0"(n)); // 7 +  (7*4)
@@ -43,7 +49,8 @@ int main(void) {
   __asm__("movq $60, %rax\n\t"
           "movq $2,  %rdi\n\t"
           "syscall");
-  // return 0;
+#endif // DEBUG
+  return 0;
 }
 
 // the definition of func is written in assembly language

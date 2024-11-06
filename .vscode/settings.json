@@ -137,8 +137,8 @@
     "doxdocgen.c.lastLine": "*/",
     "doxdocgen.generic.linesToGet": 100, //如果有很多超级大函数要把这个值设置很大
     //author
-    "doxdocgen.generic.authorEmail": "miguelau3016@outlook.com",
-    "doxdocgen.generic.authorName": "miguel",
+    "doxdocgen.generic.authorEmail": "birigtl3016@outlook.com",
+    "doxdocgen.generic.authorName": "brightl",
     "doxdocgen.generic.authorTag": /*"@author {author} ({email})"*/ " @author{indent:20}{author} {email}",
     //date
     "doxdocgen.generic.dateFormat": "YYYY.MM.DD",
