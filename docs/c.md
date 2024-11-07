@@ -201,3 +201,85 @@
 - 可分析性    
 
 
+
+/*
+各种动物和家禽的英文名称有很多，以下是一些常见的：
+一、哺乳动物
+1. 猫 cat
+2. 狗 dog
+3. 兔子 rabbit
+4. 老鼠 mouse
+5. 猪 pig
+6. 牛 cow
+7. 羊 sheep
+8. 马 horse
+9. 猴子 monkey
+10. 熊猫 panda
+11. 狮子 lion
+12. 老虎 tiger
+13. 熊 bear
+14. 袋鼠 kangaroo
+15. 大象 elephant
+16. 狼 wolf
+17. 狐狸 fox
+18. 鹿 deer
+19. 大猩猩 gorilla
+20. 犀牛 rhinoceros
+21. 河马 hippopotamus
+22. 骆驼 camel
+23. 海豹 seal
+25. 海豚 dolphin
+26. 鲸鱼 whale
+27. 蝙蝠 bat
+28. 松鼠 squirrel
+29. 穿山甲 pangolin
+30. 树懒 sloth
+31. 浣熊 raccoon
+32. 水獭 otter
+33. 羚羊 antelope
+34. 野猪 wild boar
+35. 牦牛 yak
+36. 棕熊 brown bear
+37. 北极熊 polar bear
+38. 猎豹 cheetah
+39. 黑豹 panther
+40. 猞猁 lynx
+41. 食蚁兽 anteater
+42. 袋鼠鼠 kangaroo rat
+43. 豪猪 porcupine
+44. 旱獭 marmot
+45. 鼹鼠 mole
+46. 刺猬 hedgehog
+47. 臭鼬 skunk
+48. 貂 mink
+49. 水豚 capybara
+50. 袋鼠熊 wombat
+51. 白鼬 stoat
+52. 海象 walrus
+53. 鸭嘴兽 platypus
+54. 负鼠 opossum
+55. 驯鹿 reindeer
+56. 马来貘 tapir
+57. 小熊猫 red panda
+58. 眼镜熊 spectacled bear
+59. 马来熊 sun bear
+60. 短尾猫 bobcat
+
+二、家禽
+1. 鸡 chicken
+2. 鸭 duck
+3. 鹅 goose
+4. 鸽子 pigeon
+
+三、其他动物
+1. 鸟 bird
+2. 鱼 fish
+3. 青蛙 frog
+4. 蛇 snake
+5. 乌龟 tortoise
+6. 蝴蝶 butterfly
+7. 蜜蜂 bee
+8. 蚂蚁 ant
+9. 蜘蛛 spider
+10. 蜗牛 snail
+*/
