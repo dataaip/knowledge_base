@@ -18,9 +18,29 @@
 // 定义 调用 integer_fn 函数
 #define INTEGER_FN
 /**
-* @brief             整型变量头文件
+* @brief             整型变量头文件函数
 * @return  int       Return Description
 *
 * @note              Revision History
 */
-int integer_fn (void);
+int integer_fn(void);
+
+// 定义 调用 boolean_fn 函数
+#define BOOLEAN_FN
+/**
+* @brief             布尔类型变量头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int boolean_fn(void);
+
+// 定义 调用 character_fn 函数
+#define CHARACTER_FN
+/**
+* @brief             字符类型变量头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int character_fn(void);

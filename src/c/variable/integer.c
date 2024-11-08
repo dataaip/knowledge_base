@@ -1,6 +1,6 @@
 /**
  * @file              integer.c
- * @brief             整数类型测试文件，测试整数类型变量包括 short、int、long、long long、bool、_Bitint(N)、__int128、int8_t~int64_t、int_fast8_t~int_fast64_t、int_least8_t~int_least64_t、intmax_t、intptr_t
+ * @brief             整数类型代码文件，测试整数类型变量包括 short、int、long、long long、bool、_Bitint(N)、__int128、int8_t~int64_t、int_fast8_t~int_fast64_t、int_least8_t~int_least64_t、intmax_t、intptr_t
  * @version           0.1
  * @author            brightl birigtl3016@outlook.com
  * @date              2024.11.06
@@ -28,7 +28,7 @@
 /**
  * @brief             基本整数类型 short、int、long、long long(c99起)
  *
- * @note              int 这是平台的最理想整数类型，保证至少为16位，当前大多数平台使用32位（见后数据模型）、数据模型中的位宽LP32 或 2/4/4、ILP32 或 4/4/4、LLP64 或 4/4/8、LP64 或 4/8/8 不同系统有不同的选择导致字节数不是固定的，C标准保证 1 == sizeof(char) ≤ sizeof(short) ≤ sizeof(int) ≤ sizeof(long) ≤ sizeof(long long)
+ * @note              int 这是平台的最理想整数类型，保证至少为16位，当前大多数平台使用32位（见后数据模型）、数据模型中的位宽LP32 或 2/4/4、ILP32 或 4/4/4、LLP64 或 4/4/8、LP64 或 4/8/8 不同系统有不同的选择导致字节宽度是不固定的，C标准保证 1 == sizeof(char) ≤ sizeof(short) ≤ sizeof(int) ≤ sizeof(long) ≤ sizeof(long long)
  */
 #define SHORT_TYPE
 #define INT_TYPE
@@ -38,7 +38,7 @@
 /**
  * @brief             定宽整数类型 包含宽度固定位数的类型(int8~64_t)、宽度至少位数最快的类型(int_fast8~64_t)、宽度至少位数最小的类型(int_least8~64_t)、最大宽度类型(intmax_t)、足以保有指针的类型(intptr_t)(c99起)、定宽整数类型其实就是对基本整数类型进行了一次宏包装，以屏蔽不同系统位数字节宽度不一致的问题，它不是一个新的类型是基础整数类型的一些宏定义包装
  *
- * @note              定长整型、最大整数类型和指针整数类型保证了代码在不同平台上的一致性和可移植性，当N不是8、16、32或64时，实现可以定义类型别名intN_t、int_fastN_t、int_leastN_t 如果实现支持具有该宽度且无填充的整数类型，则只能定义形式为intN_t的类型别名。因此uint24_t表示宽度正好为24位的无符号整数类型
+ * @note              定宽整型、最大整数类型和指针整数类型保证了代码在不同平台上的一致性和可移植性，当N不是8、16、32或64时，实现可以定义类型别名intN_t、int_fastN_t、int_leastN_t 如果实现支持具有该宽度且无填充的整数类型，则只能定义形式为intN_t的类型别名。因此uint24_t表示宽度正好为24位的无符号整数类型
  */
 #define INT8_64_T_TYPE
 #define INT_FAST8_64_T_TYPE
@@ -157,8 +157,7 @@ int integer_fn(void) {
   print_green("kangaroo number = %ld.\n", kangaroo);
   print_green("elephant number = %ld.\n", elephant);
   /*
-  当前 64位 linux 系统 -> 有符号 long 类型的极限 占用8个字节 64位、最小值
-  -9223372036854775808、最大值 9223372036854775807
+  当前 64位 linux 系统 -> 有符号 long 类型的极限 占用8个字节 64位、最小值 -9223372036854775808、最大值 9223372036854775807
   */
   print_green("long size of %ld byte. minimum = %ld. maximum = %ld.\n", sizeof(long), LONG_MIN, LONG_MAX);
 
@@ -172,8 +171,7 @@ int integer_fn(void) {
   print_green("wolf number = %lu.\n", wolf);
   print_green("fox number = %lu.\n", fox);
   /*
-  当前 64位 linux 系统 -> 无符号 unsigned long 类型的极限 占用8个字节
-  64位、最大值 18446744073709551615
+  当前 64位 linux 系统 -> 无符号 unsigned long 类型的极限 占用8个字节 64位、最大值 18446744073709551615
   */
   print_green("unsigned long size of %lu byte. maximum = %lu.\n", sizeof(unsigned long), ULONG_MAX);
 
@@ -210,7 +208,7 @@ int integer_fn(void) {
   print_yellow("camel number = %llu.\n", camel);
   print_yellow("seal number = %llu.\n", seal);
   /*
-  当前 64位 linux 系统 -> 无符号 unsigned long long 类型的极限 占用8个字节64位、最大值 18446744073709551615
+  当前 64位 linux 系统 -> 无符号 unsigned long long 类型的极限 占用8个字节 64位、最大值 18446744073709551615
   */
   print_yellow("unsigned long size of %llu byte. maximum = %llu.\n", sizeof(unsigned long long), ULLONG_MAX);
 
@@ -564,6 +562,21 @@ int integer_fn(void) {
   */
 
 #endif // INT128 __int128 类型
+
+/* 打印十进制、八进制、十六进制占位符
+  %d 十进制有符号整数 
+  %lld long long 类型  
+  %u 十进制无符号整数    
+  %f 浮点数 
+  %lf double类型   
+  %s 字符串     
+  %c 单个字符     
+  %p 指针的值     
+  %e 指数形式的浮点数     
+  %x,%X 无符号以十六进制表示的整数    
+  %o 无符号以八进制表示的整数    
+  %g 自动选择合适的表示法
+*/             
 
 #ifdef DECLARA_INIT
   int bird;              // 声明单个变量，无初始化

@@ -14,6 +14,14 @@ int main(void) {
   integer_fn();
 #endif // INTEGER_FN
 
+#ifdef BOOLEAN_FN
+  boolean_fn();
+#endif // BOOLEAN_FN
+
+#ifdef CHARACTER_FN
+  character_fn();
+#endif // CHARACTER_FN
+
 #ifdef ASC_PRINT
   int numa = 10;
   int numb = 20;
