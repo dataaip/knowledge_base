@@ -6,7 +6,9 @@ extern int func(void);
 extern int add(int a, int b);
 extern int sub(int a, int b);
 
-// #define ASC_PRINT
+int asc_print_fn(void);
+
+#define ASC_PRINT
 
 int main(void) {
 
@@ -23,6 +25,12 @@ int main(void) {
 #endif // CHARACTER_FN
 
 #ifdef ASC_PRINT
+  asc_print_fn();
+#endif // DEBUG
+  return 0;
+}
+
+int asc_print_fn(void) {
   int numa = 10;
   int numb = 20;
   __asm__("add %1, %2\n\t"
@@ -57,8 +65,8 @@ int main(void) {
   __asm__("movq $60, %rax\n\t"
           "movq $2,  %rdi\n\t"
           "syscall");
-#endif // DEBUG
-  return 0;
+
+  return 0;        
 }
 
 // the definition of func is written in assembly language

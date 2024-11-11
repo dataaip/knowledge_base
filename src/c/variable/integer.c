@@ -23,6 +23,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int print_int128(__int128 data);
+void print_int128_st1(__int128 temp);
+void print_int128_st1(__int128 temp);
+
 #define NUMBER 1
 
 /**
@@ -513,54 +517,6 @@ int integer_fn(void) {
   print_pink("otter number = "); PRINT_UINT128(otter);                                  // 打印极限最大值
   print_pink("raccoon number = %lld.\n", raccoon);                                      // 溢出无法表示
 
-  // 循环 -> 优化递归
-  /*
-  int print_int128(__int128 data) {
-    if (data == 0) {
-      putchar('0');
-      goto end;
-    }
-    char queue[40];
-    if (data < 0) {
-      putchar('-');
-    }
-    int i = 0;
-    __int128 temp = data;
-    while (!(temp == 0)) {
-      queue[i++] = '0' + abs((int)(temp % 10));
-      temp /= 10;
-    }
-    while (i > 0) {
-      putchar(queue[--i]);
-    }
-  end:
-    putchar('\n');
-    return 0;
-  }
-  // 递归 -> 不能优化为尾递归
-  void print_int128_st1(__int128 temp) {
-    if (temp == 0) {
-      return;
-    }
-    print_int128_st1(temp / 10);
-    putchar(abs((int)(temp % 10)) + '0');
-  }
-  int print_int128_st0(__int128 data) {
-    if (data == 0) {
-      putchar('0');
-      goto end;
-    }
-    if (data < 0) {
-      putchar('-');
-    }
-    __int128 temp = data;
-    print_int128_st1(temp);
-  end:
-    putchar('\n');
-    return 0;
-  } 
-  */
-
 #endif // INT128 __int128 类型
 
 /* 打印十进制、八进制、十六进制占位符
@@ -592,3 +548,61 @@ int integer_fn(void) {
 
   return 0;
 }
+
+/**
+* @brief             brief
+* @param   data      Param Description
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int print_int128(__int128 data) {
+  if (data == 0) {
+    putchar('0');
+    goto end;
+  }
+  char queue[40];
+  if (data < 0) {
+    putchar('-');
+  }
+  int i = 0;
+  __int128 temp = data;
+  while (!(temp == 0)) {
+    queue[i++] = '0' + abs((int)(temp % 10));
+    temp /= 10;
+  }
+  while (i > 0) {
+    putchar(queue[--i]);
+  }
+end:
+  putchar('\n');
+  return 0;
+}
+
+/**
+* @brief             brief
+* @param   temp      Param Description
+*
+* @note              Revision History
+*/
+void print_int128_st1(__int128 temp) {
+  if (temp == 0) {
+    return;
+  }
+  print_int128_st1(temp / 10);
+  putchar(abs((int)(temp % 10)) + '0');
+}
+int print_int128_st0(__int128 data) {
+  if (data == 0) {
+    putchar('0');
+    goto st0_end;
+  }
+  if (data < 0) {
+    putchar('-');
+  }
+  __int128 temp = data;
+  print_int128_st1(temp);
+st0_end:
+  putchar('\n');
+  return 0;
+} 
