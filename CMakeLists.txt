@@ -22,6 +22,9 @@ set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release")
 # set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pg")
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")
 # set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O1")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wextra")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -finput-charset=UTF-8 -fexec-charset=UTF-8")
 
 # 包含子目录
 add_subdirectory(lib/MathLib)        # 添加MathLib库的子目录
