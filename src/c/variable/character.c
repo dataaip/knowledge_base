@@ -133,6 +133,11 @@ int character_fn(void){
   printf 和 wprintf 混用，仅一个有效果，另一个写返回 -1，无 errno 信息，但是写失败，c 流格式化和非格式的输入输出是 locale 敏感的，可以宽字符或多字节的转换输出，和 C++ 流不一样，C++ 每个流关联自己的 locale，所有的 C 流获得相同的 locale object，通过调用 selocale 加载
   一个新打开的流没有取向，第一次调用 std::fwide 或者其他的 I/O函数 建立取向：宽I/O函数设置流定宽，窄I/O函数使流定窄，一旦设置，取向只能通过 std::freopen 改变，窄I/O函数不可以调用定宽流，宽I/O函数不可以调用定窄流，宽I/O函数使用 std::mbrtowc 和 std::wcrtomb 完成宽字符和多字节字符的转换
   wprintf 和 printf 不能同时针对同一个文件，wprintf 是宽流，窄串在内部被转为宽字符打印，printf 是窄流，宽字符在内部被转为窄串打印，wprinitf 字符串格式包含非ascii宽字符，程序只有在运行时的本区 LC_CTYPE 类型 和编译时本区 LC_CTYPE 类型一致时才能正常工作
+  
+  wchat_t 定义：wchar_t 是一个宽字符类型，在 C 和 C++ 中都有定义，用于表示宽字符
+  wchat_t 大小：wchar_t 的大小取决于具体的平台。例如，在 Windows 上，wchar_t 通常是 2 字节（16 位），而在大多数 Unix 和 Linux 系统上，wchar_t 通常是 4 字节（32 位），这种不一致性可能导致跨平台编程时的复杂性和不确定性
+  wchat_t 用途：在 Windows 上，wchar_t 通常用来表示 UTF-16 编码的字符；在 Unix 和 Linux 系统上，通常用来表示 UTF-32 编码的字符
+  wchat_t 标准化：wchar_t 是在更早的 C 标准中引入的，用于表示宽字符，但其具体大小和编码并不固定
   */
   setlocale(LC_ALL, "en_US.UTF-8");    // 设置区域
   wchar_t sheep = L'A';
@@ -186,7 +191,17 @@ int character_fn(void){
 
   char8_t <=> unsigned char 
   char16_t <=> uint_least16_t
-  char16_t <=> uint_least32_t
+  char32_t <=> uint_least32_t
+
+  char16_t 定义：char16_t 是在 C11 和 C++11 标准中引入的，用于表示 16 位的 Unicode 字符，目的是为了提供一致的、标准化的字符类型，这种一致性有助于跨平台编程和数据交换
+  char16_t 大小：char16_t 固定为 2 字节（16 位）
+  char16_t 用途：主要用于表示 UTF-16 编码的字符
+  char16_t 标准化：char16_t 是 C11 和 C++11 标准的一部分，专门用于表示 UTF-16 编码的字符，具有明确的大小，使用明确的字符类型（如 char16_t）可以提高类型安全性，避免因为不同大小的 wchar_t 导致的潜在错误
+
+  char32_t 定义：char32_t 也是在 C11 和 C++11 标准中引入的，用于表示 32 位的 Unicode 字符，目的是为了提供一致的、标准化的字符类型，这种一致性有助于跨平台编程和数据交换
+  char32_t 大小：char32_t 固定为 4 字节（32 位）
+  char32_t 用途：主要用于表示 UTF-32 编码的字符
+  char32_t 标准化：char32_t 是 C11 和 C++11 标准的一部分，专门用于表示 UTF-32 编码的字符，具有明确的大小，使用明确的字符类型（如 char32_t）可以提高类型安全性，避免因为不同大小的 wchar_t 导致的潜在错误
   */
   typedef unsigned char char8_t;
   const char8_t* elephant = (const char8_t*)"Hello, UTF-8 世界";
