@@ -55,7 +55,7 @@ void print_int128_st1(__int128 temp);
  *
  * @note              _BitInt(N) 其中N为整数常量表达式，指定用于表示该类型的位数，包括符号位，每个N值均代表一种独立类型
  */
-#define _BITINTN_TYPE
+#define BITINTN_TYPE
 
 /**
  * @brief             由各编辑器实现定义精确位的类型 __int128，占用128位 16字节(c99起)
@@ -417,7 +417,7 @@ int integer_fn(void) {
 
 #endif // INTPRT_T_TYPE intptr_t 类型
 
-#ifndef _BITINTN_TYPE
+#ifndef BITINTN_TYPE
   /*
   以下两个等价 _BitInt(2) <=> signed _BitInt(2)
   有符号长整型 signed 修饰 _BitInt(n)
@@ -440,7 +440,7 @@ int integer_fn(void) {
   print_red("bat number = %d.\n", bat);
   print_red("unsigned _BitInt(N) N maximum = %d", BITINT_MAXWIDTH);
 
-#endif // _BITINTN_TYPE _BitInt(N) 位精确类型(c23起)
+#endif // BITINTN_TYPE _BitInt(N) 位精确类型(c23起)
 
 #ifdef INT128
   /*
