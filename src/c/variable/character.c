@@ -210,7 +210,7 @@ int character_fn(void){
   
   print_green("elephant UTF-8 string: %s\n", elephant);
   
-  print_green("wolf UTF-16 string:\n"); // 打印 16 进制
+  print_green("wolf UTF-16 string:\n"); // 打印 UTF-16 16进制
   for (size_t i = 0; i < sizeof(wolf) / sizeof(wolf[0]); ++i) {
       print_green("%04x ", wolf[i]);
   }
@@ -219,7 +219,7 @@ int character_fn(void){
   utf16_to_utf8(utf16to8str, wolf, dest_size);  // UTF-16 转为 UTF-8 打印 
   print_green("\nwolf convert utf8 is %s. chart16 size of %d.\n", utf16to8str, sizeof(char16_t));
  
-  print_green("fox UTF-32 string\n");  // 打印 32 进制
+  print_green("fox UTF-32 string\n");  // 打印 UTF-32 16进制
   for (size_t i = 0; i < sizeof(fox) / sizeof(fox[0]); ++i) {
       print_green("%08x ", fox[i]);
   }
@@ -242,7 +242,7 @@ int character_fn(void){
 }
 
 /**
-* @brief             brief
+* @brief             utf16 转为 utf8
 * @param   dest      Param Description
 * @param   src       Param Description
 * @param   dest_size Param Description
@@ -288,7 +288,7 @@ void utf16_to_utf8(char *dest, const char16_t *src, size_t dest_size) {
 }
 
 /**
-* @brief             brief
+* @brief             utf32 转为 utf8
 * @param   dest      Param Description
 * @param   src       Param Description
 * @param   dest_size Param Description

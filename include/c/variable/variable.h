@@ -44,3 +44,13 @@ int boolean_fn(void);
 * @note              Revision History
 */
 int character_fn(void);
+
+// 定义 调用 floating_fn 函数
+#define FLOATING_FN
+/**
+* @brief             浮点类型变量头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int floating_fn(void);

@@ -1,4 +1,4 @@
-#include "MathLib/mathlib.h"
+#include "ToolsMathLib/toolsmathlib.h"
 #include "UtilsLib/utilslib.h"
 #include "fmt/base.h"
 #include <iostream>
@@ -7,7 +7,7 @@
 #include "spdlog/spdlog.h"
 
 int main() {
-  MathLib math;
+  ToolsMathLib math;
   UtilsLib utils;
 
 #ifdef Debug

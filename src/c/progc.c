@@ -8,7 +8,7 @@ extern int sub(int a, int b);
 
 int asc_print_fn(void);
 
-#define ASC_PRINT
+// #define ASC_PRINT
 
 int main(void) {
 
@@ -23,6 +23,10 @@ int main(void) {
 #ifdef CHARACTER_FN
   character_fn();
 #endif // CHARACTER_FN
+
+#ifdef FLOATING_FN
+  floating_fn();
+#endif // FLOATING_FN
 
 #ifdef ASC_PRINT
   asc_print_fn();

@@ -3,7 +3,7 @@ file(GLOB_RECURSE CUR_DIR_SRCS "./*.cpp")
 
 add_executable(progcpp ${CUR_DIR_SRCS}) 
 
-target_link_libraries(progcpp PRIVATE MathLib UtilsLib)
+target_link_libraries(progcpp PRIVATE ToolsMathLib UtilsLib)
 
 # 为目标添加头文件包含路径
 target_include_directories(progcpp PRIVATE ${CMAKE_SOURCE_DIR}/lib)
