@@ -32,6 +32,18 @@ int main(void) {
   floating_fn();
 #endif // FLOATING_FN
 
+#ifdef ENUMERATED_FN
+  enumerated_fn();
+#endif // ENUMERATED_FN
+
+#ifdef STRUCTURE_FN
+  structure_fn();
+#endif // STRUCTURE_FN
+
+#ifdef UNIONS_FN
+  unoins_fn();
+#endif // UNIONS_FN
+
 #ifdef ASC_PRINT
   asc_print_fn();
 #endif // DEBUG

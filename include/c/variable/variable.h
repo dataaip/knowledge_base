@@ -64,3 +64,33 @@ int string_fn(void);
 * @note              Revision History
 */
 int floating_fn(void);
+
+// 定义 调用 enumerated_fn 函数
+#define ENUMERATED_FN
+/**
+* @brief             枚举类型变量头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int enumerated_fn(void);
+
+// 定义 调用 structure_fn 函数
+#define STRUCTURE_FN
+/**
+* @brief             结构体类型变量头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int structure_fn(void);
+
+// 定义 调用 unoins_fn 函数
+#define UNIONS_FN
+/**
+* @brief             联合体类型变量头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int unoins_fn(void);
