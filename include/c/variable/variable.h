@@ -45,6 +45,16 @@ int boolean_fn(void);
 */
 int character_fn(void);
 
+// 定义 调用 string_fn 函数
+#define STRING_FN
+/**
+* @brief             字符串面量头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int string_fn(void);
+
 // 定义 调用 floating_fn 函数
 #define FLOATING_FN
 /**

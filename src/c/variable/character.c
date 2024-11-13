@@ -70,7 +70,7 @@ void utf32_to_utf8(char *dest, const char32_t *src, size_t dest_size);
 *
 * @note              char 与 signed char 或 unsigned char 等价（具体等价于哪个是实现定义的，并且可以通过编译器命令行开关控制），但 char 是独立的类型，与 signed char 及 unsigned char 都不相同
 */
-int character_fn(void){
+int character_fn(void) {
 #ifdef CHAR_TYPE
   /*
   可以看出 char 与 signed char 取值范围一样，在 linux 64 位 gcc 编译器实现中 等价

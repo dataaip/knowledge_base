@@ -24,6 +24,10 @@ int main(void) {
   character_fn();
 #endif // CHARACTER_FN
 
+#ifdef STRING_FN
+  string_fn();
+#endif // STRING_FN
+
 #ifdef FLOATING_FN
   floating_fn();
 #endif // FLOATING_FN

@@ -69,7 +69,7 @@ int float_limits(void); // 浮点 极限 定义
 *
 * @note              Revision History
 */
-int floating_fn(void){
+int floating_fn(void) {
 #ifdef FLOAT_DOUBLE_TYPE
   /*
   float 单精度浮点数类型、4字节（32位）、大约为6位有效数字
@@ -145,8 +145,8 @@ int floating_fn(void){
   
   _Decimal64 wildboar = otter * 2.0D64;                                        // 进行基本运算
   _Decimal64 yak = wildboar + otter;
-  printf("yak: %Hf\n", yak);                                                   // 输出十进制浮点数 
-  printf("wild boar: %Hf\n", wildboar);  
+  print_purple("yak: %Hf\n", yak);                                                   // 输出十进制浮点数 
+  print_purple("wild boar: %Hf\n", wildboar);  
   */
 
 #endif // DECIMAL32_128_TYPE _Decimal32、_Decimal64、_Decimal128 类型
@@ -251,7 +251,7 @@ int floating_fn(void){
   double _Complex pangolin = 0.0 + 3.0*I;
   double _Complex sloth = squirrel * pangolin;        // 结果为-6.0 + 3.0*I
 
-  printf("z = %.1f%+.1fi\n", creal(deer), cimag(deer));
+  print_green("z = %.1f%+.1fi\n", creal(deer), cimag(deer));
   */
   
 #endif // IMAGINARY_TYPE imaginary 类型
@@ -391,7 +391,7 @@ int is_err_fn(void) {
 * @brief             浮点计算精度和性能优化计算过程 宏 FLT_EVAL_METHOD 编译器指令 #pragma STDC FP_CONTRACT
 * @return  int       Return Description
 *
-* @note              Revision History
+* @note              FLT_EVAL_METHOD 决定了在表达式求值时可以使用的最大精度和范围、#pragma STDC FP_CONTRACT 决定了编译器是否可以将多个浮点运算合并，以提升计算效率
 */
 int evaluate_expression(void) {
   printf("FLT_EVAL_METHOD: %d\n", FLT_EVAL_METHOD); // 打印 FLT_EVAL_METHOD 的值
@@ -412,19 +412,20 @@ int evaluate_expression(void) {
 
   {
     #pragma STDC FP_CONTRACT ON   // #pragma STDC FP_CONTRACT 需要确保它出现在文件作用域或者复合语句的开头
-    result = (a + b) - b;
+    result = (a * b) - b;         // 这里可能会进行浮点数缩略
     printf("With FP_CONTRACT ON, result: %.8f\n", result);
   }
 
   {
     #pragma STDC FP_CONTRACT OFF  // #pragma STDC FP_CONTRACT 需要确保它出现在文件作用域或者复合语句的开头
-    result = (a + b) - b;
+    result = (a * b) - b;         // 这里不会进行浮点数缩略
     printf("With FP_CONTRACT OFF, result: %.8f\n", result);
   }
   /*
   浮点数表达式的计算不仅受到 FLT_EVAL_METHOD 的影响，还可以通过编译器指令（如 #pragma STDC FP_CONTRACT）来优化计算过程。#pragma STDC FP_CONTRACT 指示编译器可以将某些浮点运算合并，以提高性能，仿佛中间值拥有无限的范围和精度一样。这样做的结果是可能会得到更精确的结果，但也可能导致结果与逐步计算的结果不同。
+  #pragma STDC FP_CONTRACT 是一个预处理命令，用于指定编译器是否可以进行浮点数表达式的缩略（contraction）。缩略是指将多个浮点运算合并为一个运算，从而提高计算效率。这通常发生在像 Fused Multiply-Add (FMA) 这样的操作中，可以将乘法和加法合并为一个硬件指令
   #pragma STDC FP_CONTRACT 可以设置为 ON 或 OFF，决定是否允许浮点运算的合并
-  优化影响：#pragma STDC FP_CONTRACT ON 允许编译器进行更激进的优化，可能会带来更高的性能和精度
+  优化影响：#pragma STDC FP_CONTRACT ON 允许编译器进行更激进的优化，可能会带来更高的性能
   一致性：#pragma STDC FP_CONTRACT OFF 保证运算的逐步一致性，有助于调试和验证计算步骤
   平台相关：不同编译器和平台对 #pragma STDC FP_CONTRACT 的支持和行为可能不同，需要参考具体编译器文档
   */
@@ -492,7 +493,7 @@ int float_convert(void) {
 *
 * @note              Revision History
 */
-int float_limits(void){
+int float_limits(void) {
   printf("DECIMAL_DIG     = %d\n", DECIMAL_DIG);
   printf("FLT_DECIMAL_DIG = %d\n", FLT_DECIMAL_DIG);
   printf("FLT_RADIX       = %d\n", FLT_RADIX);

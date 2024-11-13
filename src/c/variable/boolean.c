@@ -30,7 +30,7 @@
 *
 * @note              Revision History
 */
-int boolean_fn(void){
+int boolean_fn(void) {
 #ifdef BOOL_TYPE
   /*
   类型 _Bool <=> bool(_Bool的宏) 
