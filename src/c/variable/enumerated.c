@@ -1,7 +1,7 @@
 /**
 * @file              enumerated.c
 * @brief             枚举类型 代码文件，测试枚举类型 enum
-* @version           0.1
+* @version           0.2
 * @author            brightl birigtl3016@outlook.com
 * @date              2024.11.13
 * @copyright         Copyright (c) 2024.
