@@ -70,5 +70,5 @@ int string_fn(void) {
 
 #endif // STRING_CHAR_ARRAY_TYPE 字符串 char[] 类型
 
-    return 0;
+  return 0;
 }

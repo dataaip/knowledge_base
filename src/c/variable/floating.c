@@ -256,7 +256,7 @@ int floating_fn(void) {
   
 #endif // IMAGINARY_TYPE imaginary 类型
 
-    return 0;
+  return 0;
 }
 
 /**

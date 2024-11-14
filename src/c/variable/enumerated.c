@@ -100,34 +100,30 @@ int enumerated_fn(void) {
   如果要添加的前一个枚举常量是有符号整数类型，则选择有符号整数类型。如果前一个枚举常量是无符号整数类型，则选择无符号整数类型、如果之前没有大小合适的整数类型可以表示新值，则枚举没有能够表示其所有值的类型
   */ 
   enum color0 { RED };
-  enum color1 { BLUE = RED }; //  同一枚举常量的重新声明 ：RED 的类型为 enum Color1
-  // enum FixedEnum : unsigned int { A = 1, B = 2 }; // 固定基础类型的枚举 ：A 和 B 的类型为 unsigned int
-  enum Example { X, Y, Z }; // 没有先前的枚举常量，没有带有定义整数常量表达式 ：X, Y, Z 都是 int 类型
-  enum AnotherExample { M = 1000, N = 2000 }; // 整数常量表达式的值可以用 int 表示 ：M 和 N 都是 int 类型
-  enum BigValues { P = 2147483648 }; // 整数常量表达式的值不能用 int ：P 的值超出 int 范围，会被推导为 long
-  // enum OverflowExample { Q = 2147483647, R }; // 上一个枚举常量的值的类型加上 1 溢出 ：Q 是 int 类型, R = 2147483648, 所以 R 是 long 类型
-  enum SignedExample { S = -1, T }; // 前一个枚举常量是有符号整数类型 ：S 是 int 类型, 所以 T = 0 也是 int 类型
-  // enum LargeRange { U = 9223372036854775807, V }; // 没有大小合适的整数类型可以表示新值 ：U 是 long long 类型, V = 9223372036854775808，没有更大的类型来表示
+  enum color1 { BLUE = RED };                                 // 1、同一枚举常量的重新声明 ：RED 的类型为 enum Color1
+  // enum FixedEnum : unsigned int { A = 1, B = 2 };          // 2、固定基础类型的枚举 ：A 和 B 的类型为 unsigned int
+  enum Example { X, Y, Z };                                   // 3、没有先前的枚举常量，没有带有定义整数常量表达式 ：X, Y, Z 都是 int 类型
+  enum AnotherExample { M = 1000, N = 2000 };                 // 4、整数常量表达式的值可以用 int 表示 ：M 和 N 都是 int 类型
+  enum BigValues { P = 2147483648 };                          // 5、整数常量表达式的值不能用 int ：P 的值超出 int 范围，会被推导为 long
+  // enum OverflowExample { Q = 2147483647, R };              // 6、上一个枚举常量的值的类型加上 1 溢出 ：Q 是 int 类型, R = 2147483648, 所以 R 是 long 类型
+  enum SignedExample { S = -1, T };                           // 前一个枚举常量是有符号整数类型 ：S 是 int 类型, 所以 T = 0 也是 int 类型
+  // enum LargeRange { U = 9223372036854775807, V };          // 没有大小合适的整数类型可以表示新值 ：U 是 long long 类型, V = 9223372036854775808，没有更大的类型来表示
   
   /*
   C23标准中，枚举类型的兼容类型和底层类型的选择规则：
-  1、每个无固定底层类型的(C23起)枚举类型与如下之一兼容：char、有符号整数类型或无符号整数类型（不包括 bool 和位精确整数类型）
-  enum Example1 { A = 1, B = 2 }; // 兼容类型可以是 int 或 unsigned int 等
-  
+  1、每个无固定底层类型的(C23起)枚举类型与如下之一兼容：char、有符号整数类型或无符号整数类型（不包括 bool 和位精确整数类型）  
   2、对于任何枚举类型，哪一个类型是兼容的是实现定义的，但无论是那种类型，都必须有足以表示该枚举中所有枚举项的值
-  enum Example2 { C = 1, D = 1000000 }; // 假设编译器选择 int 作为兼容类型 兼容类型为 int
-  
   3、对于所有具有固定底层类型的枚举，枚举的类型均与枚举的底层类型兼容
-  enum FixedBaseType : unsigned char { E = 1, F = 255 }; // E 和 F 的类型为 unsigned char
-  
   4、没有固定底层类型的枚举类型，在其完成处枚举成员的类型为：如果枚举的所有值均可表示为一个 int 则为 int，否则，为枚举的类型
-  enum Example3 { G = 1, H = 2 }; // G 和 H 的类型为 int
-  enum Example4 { I = 2147483648 }; // I 的类型为 long 因为值超出 int 范围
-  
   5、所有枚举均有底层类型，可以通过用 enum-类型说明符 显式指定底层类型，并作为其固定底层类型，如果未显式指定，则其底层类型为枚举的兼容类型，它为有符号或无符号的整数类型 或 char (C23起)
-  enum FixedBaseType2 : short { J = 1, K = 32767 }; // J 和 K 的底层类型为 short
-  enum Example5 { L = 1, M = 2 }; // 底层类型由实现决定，可以是 int
   */
+  enum Example1 { A1 = 1, B1 = 2 };                             // 1、兼容类型可以是 int 或 unsigned int 等
+  enum Example2 { C2 = 1, D2 = 1000000 };                       // 2、假设编译器选择 int 作为兼容类型 兼容类型为 int
+  // enum FixedBaseType : unsigned char { ET = 1, FT = 255 };   // 3、E 和 F 的类型为 unsigned char
+  enum Example3 { G3 = 1, H3 = 2 };                             // 4、 G 和 H 的类型为 int
+  enum Example4 { I4 = 2147483648 };                            // 4、I 的类型为 long 因为值超出 int 范围
+  // enum FixedBaseType2 : short { JT = 1, KT = 32767 };        // 5、J 和 K 的底层类型为 short
+  enum Example5 { L5 = 1, M5 = 2 };                             // 5、底层类型由实现决定，可以是 int
 
   /*
   1、若 枚举常量 后随 = 常量表达式 ，则其值为该常量表达式的值。若 枚举常量 没有后随 = 常量表达式 ，则其值是比同一枚举中前一枚举项的值大一的值。首个枚举项（若它不用 = 常量表达式 ）的值是零
@@ -140,11 +136,11 @@ int enumerated_fn(void) {
   // color2 x = GREEN;                              // ERROR： color2 不在通常命名空间中
   typedef enum color2 color_t;                      // typedef 到通常命名空间
   color_t x = GREEN;                                // OK
-  enum { ONE = 1, TWO } Example7;                   // 枚举类型是整数类型，从而可以用于任何其他整数类型能用之处
+  enum { ONE = 1, TWO } Example6;                   // 枚举类型是整数类型，从而可以用于任何其他整数类型能用之处
   long n = ONE;                                     // 提升
   double d = ONE;                                   // 转换
-  Example7 = 1.2;                                   // 转换，Example7 现在是 ONE
-  Example7 = Example7 + 1;                          // 转换，Example7 现在是 TWO   
+  Example6 = 1.2;                                   // 转换，Example6 现在是 ONE
+  Example6 = Example6 + 1;                          // 转换，Example6 现在是 TWO   
   
   /*    
   引入枚举类型和一或多个枚举常量的声明亦可声明一或多个该类型的对象：引入枚举类型和一或多个枚举常量的声明时，可以同时声明一个或多个该枚举类型的对象。这意味着在定义枚举类型的同时，也可以创建该类型的变量，而不必分两步进行
@@ -187,5 +183,5 @@ int enumerated_fn(void) {
 
 #endif // ENUM_TYPE enum 类型
 
-    return 0;
+  return 0;
 }
