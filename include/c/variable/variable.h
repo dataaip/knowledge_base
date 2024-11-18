@@ -94,3 +94,33 @@ int structure_fn(void);
 * @note              Revision History
 */
 int unoins_fn(void);
+
+// 定义 调用 arrays_fn 函数
+#define ARRAYS_FN
+/**
+* @brief             数组类型变量头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int arrays_fn(void);
+
+// 定义 调用 pointers_fn 函数
+#define POINTERS_FN
+/**
+* @brief             指针类型变量头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int pointers_fn(void);
+
+// 定义 调用 functions_fn 函数
+#define FUNCTIONS_FN
+/**
+* @brief             函数类型变量头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int functions_fn(void);

@@ -44,6 +44,18 @@ int main(void) {
   unoins_fn();
 #endif // UNIONS_FN
 
+#ifdef ARRAYS_FN
+  arrays_fn();
+#endif // ARRAYS_FN
+
+#ifdef POINTERS_FN
+  pointers_fn();
+#endif // POINTERS_FN
+
+#ifdef FUNCTIONS_FN
+  functions_fn();
+#endif // FUNCTIONS_FN
+
 #ifdef ASC_PRINT
   asc_print_fn();
 #endif // DEBUG

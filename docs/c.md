@@ -75,20 +75,23 @@
 - 程序结构    
 
 ### variable
-类型、声明、初始化、关键词修饰
-- 整型
-- 浮点型
-- 字符
-- 字符串
-- 枚举
-- 结构体
-- 联合体
-- 数组：数组、二维数组、三维数组、多维数组
-- 指针：指针、指针数组、指针字符串、指针函数、函数指针、多级指针、指针数组、数组指针
-- 函数：函数、函数指针、指针函数
-- void
-- 原子
-- 关键词修饰    
+类型、声明、初始化、关键词
+- 整型 integer
+- 布尔类型 boolean
+- 字符 character
+- 字符串 string
+- 浮点型 floating 
+- 枚举 enumeration
+- 结构体 structure
+- 联合体 unions 
+- 数组：数组、二维数组、三维数组、多维数组 arrays
+- 指针：指针、指针数组、指针字符串、指针函数、函数指针、多级指针、指针数组、数组指针 pionters
+- 函数：函数、函数指针、指针函数 functions
+- void voidtypes
+- 原子 atomics
+- 关键词  keywords
+- 初始化 initialization
+- 声明 declarations  
 
 ### expressions
 表达式和运算符

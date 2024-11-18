@@ -10,7 +10,7 @@
 * <table>
 * <tr><th>Date       <th>Version         <th>Author          <th>Description
 * <tr><td>2024.11.13 <td>0.1             <td>brightl         <td>全局、局部枚举声明方式、固定底层类型、无固定底层类型
-* <tr><td>2024.11.13 <td>0.1             <td>brightl         <td>枚举类型使用特性、存储大小、枚举常量类型推导
+* <tr><td>2024.11.13 <td>0.2             <td>brightl         <td>枚举类型使用特性、存储大小、枚举常量类型推导
 * </table>
 */
 
