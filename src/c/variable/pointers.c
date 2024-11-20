@@ -17,6 +17,37 @@
 
 #include "c/variable/variable.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void increment(int *value); // 按引用传递语义
+void dynamic(int *array, int sz_t); // 访问有动态存储期的对象
+void printIfNotNull(int *value); // 实现 “可选” 类型
+typedef struct Node {            // 结构体间的聚合关系 如链表
+  int data;
+  struct Node *next;
+} Node;
+void insert(Node **head, int value);
+void printList(Node *head);
+void sayHello(); // 回调（使用指向函数的指针）                       
+void sayGoodbye();
+void greeter(void (*greetFunction)());
+void printInt(void *data); // 泛型接口（使用指向 void 的指针）
+void printFloat(void *data);
+typedef struct { // 结构体聚合 通过指针实现结构体之间的聚合关系，允许一个结构体包含另一个结构体的指针。这种方式有很多优点，比如可以实现动态分配内存以及避免冗余的内存拷贝 // 定义 Address 结构体
+  char street[50];
+  char city[50];
+  int zipCode;
+} Address;
+typedef struct { // 定义 Person 结构体，其中包含一个指向 Address 结构体的指针
+  char name[50];
+  int age;
+  Address *address;  // 聚合关系，通过指针实现
+} Person;
+Address* createAddress(const char *street, const char *city, int zipCode);
+Person* createPerson(const char *name, int age, Address *address);
+void printPerson(Person *person);
+void freePerson(Person *person);
 
 /**
 * @brief             语法：类型说明符序列 * 属性说明符序列(可选) 限定符序列(可选) 声明符
@@ -67,11 +98,231 @@ int pointers_fn(void) {
   // pcp2 = NULL;            // 错误，不能修改 pcp2 pcp2 是一个 const 指针
    
   /*
-  解释
+  使用：指针用于间接使用，这是种普遍存在的编程技巧；它们可以用于实现按引用传递语义，访问有动态存储期的对象，实现“可选”类型（使用空指针值），结构体间的聚合关系，回调（使用指向函数指针），泛型接口（使用指向 void 的指针）以及其他更多
+  1、按引用传递语义 在函数调用时，我们通常按值传递参数，这意味着函数得到的是参数的一个副本。有时我们希望函数能够直接修改传递给它的变量，这时可以使用指针来实现按引用传递
+  2、访问有动态存储期的对象 通过动态内存分配（如 malloc 和 free），我们可以在运行时分配和释放内存，这些内存块的生命周期可以跨越函数调用
+  3、实现 “可选” 类型 指针可以用来表示一个“可选”值（例如，指针为 NULL 表示没有值）
+  4、结构体间的聚合关系 通过指针，可以实现结构体之间的聚合关系，例如链表、树等数据结构，结构体之间的聚合关系是一种常见的设计模式，它允许一个结构体包含另一个结构体的实例或指针。这种关系可以通过指针来实现，使得不同结构体能够协同工作，彼此引用，从而构建更复杂的数据结构和系统
+  5、回调（使用指向函数的指针）函数指针可以用来实现回调机制，使得函数的行为可以在运行时灵活变化
+  6、泛型接口（使用指向 void 的指针）void 指针可以指向任何类型的数据，常用于实现泛型接口
   */
+  int a = 5;
+  increment(&a);                              // 1、按引用传递语义 、传递变量 a 的地址
+  print_purple("a = %d.\n", a);                      // 输出 a = 6
+  int *array = (int *)malloc(5 * sizeof(int)); // 2、访问有动态存储期的对象 分配内存
+  dynamic(array,5);                            // 内存块的生命周期可以跨越函数调用
+  for (int i = 0; i < 5; ++i) {
+    print_purple("%d ", array[i]);
+  }
+  print_purple(".\n");
+  free(array);                                  // 释放内存 
+  int *ptr = &a;                                    // 3、实现 “可选” 类型
+  printIfNotNull(ptr);                        // 输出 Value is: 10
+  ptr = NULL;
+  printIfNotNull(ptr);                        // 输出 Value is NULL 
+  Node *head = NULL;                                // 4、结构体间的聚合关系
+  insert(&head, 3);
+  insert(&head, 2);
+  insert(&head, 1);
+  printList(head);                                  // 输出 1 -> 2 -> 3 -> NULL
+  Address *addr = createAddress("123 Main St", "Springfield", 12345);
+  Person *person = createPerson("John Doe", 30, addr);
+  printPerson(person);
+  freePerson(person);  
+  greeter(sayHello);                 // 5、回调（使用指向函数的指针） 输出 Hello!
+  greeter(sayGoodbye);               // 输出 Goodbye!
+  int va = 10;
+  float vb = 3.14;
+  printInt(&va);                              // 6、泛型接口（使用指向 void 的指针）输出 10
+  printFloat(&vb);                            // 输出 3.140000
+
+  /*
+  指向对象的指针 指向对象的指针可以通过应用于对象类型（可以不完整）表达式的取值运算符初始化
+
+  */
+  int nn;
+  int *nnp = &nn;                         // 指向 int 的指针
+  int *const *nnpp = &nnp;                // 指向 const 指针(这个const 指针指向 int 类型)的 非 const 指针，即 *nnpp 是 const
+  int ** const nnpp1 = &nnp;              // 指向 非 const 指针(这个const 指针指向 int 类型)的 const 指针，即 nnpp1 是 const 指针
+  int arr[2];
+  int (*arrp)[2] = &arr;                  // 指向 int 数组的指针  指向数组的一个指针
+  int* arr2[2] = {nnp, *nnpp1};           // 指针的数组  数组的元素是指针类型
+  struct S { int n; } s = {1};
+  int* sp  = &s;                          // 指向 s 结构体的指针
+  int* spn = &s.n;                        // 指向作为 s 成员的 int 的指针
   
 
 #endif // POINTER_TYPE pointer 类型   
 
   return 0;  
+}
+
+/**
+* @brief             按引用传递语义
+* @param   value     Param Description
+*
+* @note              Revision History
+*/
+void increment(int *value) {
+  *value += 1;
+}
+
+/**
+* @brief             访问有动态存储期的对象
+* @param   array     Param Description
+* @param   sz_t      Param Description
+*
+* @note              Revision History
+*/
+void dynamic(int *array, int sz_t) {
+  for (int i = 0; i < sz_t; ++i) {
+    array[i] = i * i;
+  }
+}
+
+/**
+* @brief             实现 “可选” 类型
+* @param   value     Param Description
+*
+* @note              Revision History
+*/
+void printIfNotNull(int *value) {
+  if (value != NULL) {
+    print_purple("Value is: %d\n", *value);
+  } else {
+    print_purple("Value is NULL\n");
+  }
+}
+
+/**
+* @brief             结构体间的聚合关系
+* @param   head      Param Description
+* @param   value     Param Description
+*
+* @note              Node **head：是一个指向 Node * 类型的指针（即指向指针的指针）。通常用于需要修改指针本身的函数，如插入或删除链表的节点，因为这样可以在函数内部改变链表的头节点
+*/
+void insert(Node **head, int value) {
+  Node *newNode = (Node *)malloc(sizeof(Node));
+  newNode->data = value;
+  newNode->next = *head;
+  *head = newNode;
+}
+/**
+* @brief             结构体间的聚合关系
+* @param   head      Param Description
+*
+* @note              Node *head：是一个指向 Node 结构体的指针。通常用于遍历链表或表示链表的头节点。在这种情况下，函数不能直接修改 head 的值（即不能改变链表的头节点），只能修改 head 所指向的节点的内容
+*/
+void printList(Node *head) {
+  Node *current = head;
+  while (current != NULL) {
+    print_purple("%d -> ", current->data);
+    current = current->next;
+  }
+  print_purple("NULL\n");
+}
+
+/**
+* @brief             回调（使用指向函数的指针）
+*
+* @note              Revision History
+*/
+void sayHello() {
+  print_purple("Hello!\n");
+}
+/**
+* @brief             回调（使用指向函数的指针）
+*
+* @note              Revision History
+*/
+void sayGoodbye() {
+  print_purple("Goodbye!\n");
+}
+/**
+* @brief             回调（使用指向函数的指针）
+* @param   greetFunctionParam Description
+*
+* @note              Revision History
+*/
+void greeter(void (*greetFunction)()) {
+  greetFunction();
+}
+
+/**
+* @brief             泛型接口（使用指向 void 的指针）
+* @param   data      Param Description
+*
+* @note              Revision History
+*/
+void printInt(void *data) {
+  print_purple("%d\n", *(int *)data);
+}
+/**
+* @brief             泛型接口（使用指向 void 的指针）
+* @param   data      Param Description
+*
+* @note              Revision History
+*/
+void printFloat(void *data) {
+  print_purple("%f\n", *(float *)data);
+}
+
+/**
+* @brief             创建一个 Address 实例并返回指向它的指针
+* @param   street    Param Description
+* @param   city      Param Description
+* @param   zipCode   Param Description
+* @return  Address*  Return Description
+*
+* @note              Revision History
+*/
+Address* createAddress(const char *street, const char *city, int zipCode) {
+  Address *addr = (Address *)malloc(sizeof(Address));
+  strcpy(addr->street, street);
+  strcpy(addr->city, city);
+  addr->zipCode = zipCode;
+  return addr;
+}
+/**
+* @brief             创建一个 Person 实例并返回指向它的指针
+* @param   name      Param Description
+* @param   age       Param Description
+* @param   address   Param Description
+* @return  Person*   Return Description
+*
+* @note              Revision History
+*/
+Person* createPerson(const char *name, int age, Address *address) {
+  Person *person = (Person *)malloc(sizeof(Person));
+  strcpy(person->name, name);
+  person->age = age;
+  person->address = address;
+  return person;
+}
+/**
+* @brief             打印 Person 信息
+* @param   person    Param Description
+*
+* @note              Revision History
+*/
+void printPerson(Person *person) {
+  if (person != NULL && person->address != NULL) {
+    print_purple("Name: %s\n", person->name);
+    print_purple("Age: %d\n", person->age);
+    print_purple("Address: %s, %s, %d\n", person->address->street, person->address->city, person->address->zipCode);
+  }
+}
+/**
+* @brief             释放 Person 和 Address 的内存
+* @param   person    Param Description
+*
+* @note              Revision History
+*/
+void freePerson(Person *person) {
+  if (person != NULL) {
+    if (person->address != NULL) {
+      free(person->address);
+    }
+    free(person);
+  }
 }
