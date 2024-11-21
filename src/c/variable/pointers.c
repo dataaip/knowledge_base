@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <pthread.h>
 
 void increment(int *value); // 按引用传递语义
 void dynamic(int *array, int sz_t); // 访问有动态存储期的对象
@@ -48,6 +49,20 @@ Address* createAddress(const char *street, const char *city, int zipCode);
 Person* createPerson(const char *name, int age, Address *address);
 void printPerson(Person *person);
 void freePerson(Person *person);
+
+void fp10(int num); // 指向函数的指针调用
+int add_one(int a); // 指向函数的指针调用
+int multiply_by_two(int a); // 指向函数的指针调用
+int square(int a);  // 指向函数的指针调用
+void process(int (*func)(int), int value);  // 指向函数的指针调用
+void fpc10(const int a);  // 函数比较
+void fpc12(int a);  // 函数比较
+void memory_allocation_example(); // void* 用于泛型接口
+int compare_ints(const void *a, const void *b);  // void* 用于泛型接口
+void sorting_example(); // void* 用于泛型接口
+void* thread_function(void *arg); // void* 用于泛型接口
+void threading_example(); // void* 用于泛型接口
+void process_pointer(int *ptr); // 函数接收指针参数并检查空指针 
 
 /**
 * @brief             语法：类型说明符序列 * 属性说明符序列(可选) 限定符序列(可选) 声明符
@@ -264,10 +279,100 @@ int pointers_fn(void) {
   /*
   指向函数的指针
   1、函数的指针初始化 指向函数的指针可由函数地址初始化。因为函数到指针转换，取址运算符是可选的
-  2、不同于函数，指向函数的指针是对象，从而能存储在数组中，被复制、赋值，作为参数传递给其他函数等等
-  3、指向函数的指针可以用作函数调用运算符的左操作数；这会调用所指向的函数
-  4、
+  2、函数传递 不同于函数，指向函数的指针是对象，从而能存储在数组中，被复制、赋值，作为参数传递给其他函数等等
+  3、函数指针调用 指向函数的指针可以用作函数调用运算符的左操作数；这会调用所指向的函数，即指向函数的指针可以用作函数调用运算符 () 的左操作数，这意味着你可以通过函数指针来调用它所指向的函数，函数指针的定义：函数指针是一个指向函数的指针。它可以存储函数的地址，从而可以通过这个指针来调用函数、用函数指针调用函数：当一个函数指针指向一个函数后，可以像普通函数一样使用函数调用运算符 () 来调用这个函数
+  4、解引用 对函数指针进行解引用会得到所指向函数的函数指示符
+  5、函数比较 相等性比较运算符定义于指向函数的指针（若指向相同函数则它们比较相等）因为函数类型的兼容性忽略函数形参的顶层限定符，指向仅在形参的顶层限定符有区别的函数指针是可互换的，即在 C 语言中，函数指针可以用来指向函数，并且可以通过比较运算符来判断两个函数指针是否指向同一个函数。此外，函数类型的兼容性规则会忽略函数形参的顶层限定符（如 const 和 volatile），因此这些限定符不会影响函数指针的比较和互换性
+  */ 
+  void (*pf1)(int) = &fp10;                                                           // 1、函数的指针初始化 指向函数的指针可由函数地址初始化、pf1指向函数的指针接受int类型返回void空类型 void fp1(int); 
+  void (*pf2)(int) = fp10;                                                            // 与 &fp1 相同 都代表函数地址，&fp1 和 fp1 都表示 fp1 函数的地址，但 &fp1 的类型是 void (*)(int) *（指向函数指针的指针），而 fp1 的类型是 void (*)(int)（指向函数的指针）
+  print_purple("&f address = %p. f address = %p.\n", (void *)&fp10, (void *)fp10);    // 通过 (void *) 类型转换，你可以确保地址以统一的格式输出
+  // void * pf3(int);                                                                 // 是一个返回值为void*指针的函数，并非指向函数的指针
+  pf1(10);
+  pf2(20);
+  
+  void (*say1)() = sayHello;
+  void (*say2)() = sayGoodbye;
+  greeter(say1);                                                        // 2、不同于函数，指向函数的指针是对象，从而能存储在数组中，被复制、赋值，作为参数传递给其他函数 输出 Hello!
+  greeter(say2);                                                        // 输出 Goodbye!
+  
+  int (*func_ptr)(int);                                                                // 3、指向函数的指针可以用作函数调用运算符的左操作数；这会调用所指向的函数
+  func_ptr = add_one;                                                                  // 指向 add_one 函数并调用
+  print_purple("add_one(5) = %d\n", func_ptr(5)); 
+  func_ptr = multiply_by_two;                                                          // 指向 multiply_by_two 函数并调用
+  print_purple("multiply_by_two(5) = %d\n", func_ptr(5)); 
+  func_ptr = square;                                                                   // 指向 square 函数并调用
+  print_purple("square(5) = %d\n", func_ptr(5)); 
+  process(add_one,10);
+  process(multiply_by_two,10);
+  process(square,10);
+  
+  void (*pf3)(int) = fp10;                                                              // 4、对函数指针进行解引用会得到所指向函数的函数指示符
+  (*pf3)(50);                                                                           // 通过解引用函数指针得到的函数指代器调用函数 f
+  pf3(50);                                                                              // 直接通过函数指针调用 f
+  
+  void (*pc10)(const int) = fpc10;                                                      // 5、函数指针的相等性比较：当两个函数指针指向同一个函数时，它们被认为是相等的，可以使用 == 运算符进行比较、函数形参的顶层限定符：函数形参的顶层限定符（如 const 和 volatile）在函数类型兼容性检查时会被忽略。这意味着指向仅在形参的顶层限定符上有所不同的函数指针是可互换的
+  void (*pc12)(int) = fpc12;                                                            // 
+  if (pc10 == pc12) {                                                                   // pc10 == pc12：此比较结果为 false，因为两个指针指向不同的函数
+    print_purple("pc10 and pc12 point to the same function.\n");
+  } else {
+    print_purple("pc10 and pc12 point to different functions.\n");
+  }
+  pc12 = fpc10;
+  if (pc10 == pc12) {                                                                   // pc10 == pc12：此比较结果为 true，因为两个指针都指向相同的函数 f1，尽管参数类型稍有不同，在函数类型兼容性检查中，形参的顶层限定符（如 const 和 volatile）是被忽略的
+    print_purple("pc10 and pc12 point to the same function.\n");
+  } else {
+    print_purple("pc10 and pc12 point to different functions.\n");
+  } 
+
+  /*
+  指向 void 类型的指针
+  1、指向任意类型对象的指针能隐式转换成指向 void 的指针（可选地有 const 或 volatile 限定），反之亦然
+  2、指向 void 的指针用于传递未知类型的对象，这在泛型接口中常用：malloc 返回 void*，qsort 期待用户提供接受两个 const void* 实参的回调。pthread_create 期待用户提供接受并返回 void* 的回调。所有情况下，调用方负责在使用前将指针转换到正确的类型，即在 C 语言中，void* 类型的指针是一种通用指针类型，可以指向任何类型的对象。这使得 void* 非常适合用于泛型接口，例如内存分配、排序函数和多线程编程
   */
+  int nv = 1, *pv=&nv;                // 1、任意类型指针与 void* 的转换 隐式转换：任意类型的指针可以隐式地转换为 void* 类型的指针、void* 类型的指针可以隐式地转换为任意类型的指针，但需要显式类型转换
+  void* pvv = pv;                     // int* 到 void*   隐式转换成指向 void 的指针
+  int* pv2 = pvv;                     // void* 到 int*   隐式转换成指向 int 的指针
+  print_purple("pv2 = %d\n", *pv2);   // 打印 1
+  print_purple("Memory Allocation Example:\n");  // 内存分配示例
+  memory_allocation_example();
+  print_purple("\nSorting Example:\n");           // 排序示例
+  sorting_example();
+  print_purple("\nThreading Example:\n");         // 多线程示例
+  threading_example();  
+
+  /*
+  空指针
+  1、每种类型的指针都有一个特殊的值，称为该类型的 “空指针值”。值为 null 的指针不指向任何对象或函数（解引用空指针是未定义行为），并且与同一类型值也为 null 的所有指针比较相等
+  2、要将指针初始化为 null 或者将 null 值赋给已有的指针，可以使用空指针常量（如 “NULL” 或者任何其他值为零的整数常量）。“静态初始化” 也会将指针初始化为它们的 null 值
+  3、空指针可以表示对象不存在，也可以用于表示其他类型的错误情况。通常，接收指针参数的函数几乎总是需要检查该值是否为空，并以不同的方式处理这种情况（例如，当传递空指针时，free不执行任何操作）
+  */
+  int *nup1 = NULL;       // 1、使用 NULL 初始化 空指针初始化 可以使用 NULL 或整数常量 0 将指针初始化为空指针、静态初始化（如全局变量或静态局部变量）会将指针自动初始化为空指针
+  int *nup2 = 0;          // 使用整数常量 0 初始化
+  static int *nup3;       // 静态初始化，自动初始化为空指针
+  if (nup1 == NULL) {     // 3、空指针的使用 空指针可以用于表示对象不存在或其他错误条件，在函数中接收指针参数时，通常需要检查指针是否为空，并做相应处理
+    print_purple("nup1 is a null pointer.\n");
+  } else {
+    print_purple("nup1 points to an integer: %d\n", *nup1);  // 这段代码不会执行，因为 p1 是空指针
+  }
+  int *data = (int *)malloc(sizeof(int));
+  if (data != NULL) {
+    *data = 42;
+  }
+  process_pointer(data);                                // 传递指针给函数
+  process_pointer(NULL);                                // 传递空指针给函数
+  free(data);                                           // 释放动态分配的内存
+  free(NULL);                                           // free 空指针，什么也不会做
+  if (nup1 == nup2) {     // 2、空指针的比较 两个同类型的空指针比较时，它们总是相等的
+    print_purple("nup1 == nup2.\n");
+  } else {
+    print_purple("nup1 != nup2.\n");
+  }
+
+  /*
+  注解
+  */
+  
 
 #endif // POINTER_TYPE pointer 类型   
 
@@ -441,5 +546,172 @@ void freePerson(Person *person) {
       free(person->address);
     }
     free(person);
+  }
+}
+
+/**
+* @brief             指向函数的指针初始化
+* @param   num       Param Description
+*
+* @note              Revision History
+*/
+void fp10(int num) {
+    print_purple("Function fp1 called with number %d\n", num);
+}
+
+/**
+* @brief             指向函数的指针调用
+* @param   a         Param Description
+* @return  int       Return Description
+*
+* @note              定义三个函数，每个函数接受一个 int 参数并返回 int 值
+*/
+int add_one(int a) {
+    return a + 1;
+}
+/**
+* @brief             指向函数的指针调用
+* @param   a         Param Description
+* @return  int       Return Description
+*
+* @note              定义三个函数，每个函数接受一个 int 参数并返回 int 值
+*/
+int multiply_by_two(int a) {
+    return a * 2;
+}
+/**
+* @brief             指向函数的指针调用
+* @param   a         Param Description
+* @return  int       Return Description
+*
+* @note              定义三个函数，每个函数接受一个 int 参数并返回 int 值
+*/
+int square(int a) {
+    return a * a;
+}
+/**
+* @brief             指向函数的指针调用
+* @param   func      Param Description
+* @param   value     Param Description
+*
+* @note              定义一个函数，接受一个函数指针和一个 int 参数，并调用该函数指针指向的函数
+*/
+void process(int (*func)(int), int value) {
+    print_purple("Result: %d\n", func(value));
+}
+
+/**
+* @brief             函数比较
+* @param   a         Param Description
+*
+* @note              定义两个函数，f1 和 f2
+*/
+void fpc10(const int a) {
+    print_purple("Function f1 is called with %d.\n", a);
+}
+/**
+* @brief             函数比较
+* @param   a         Param Description
+*
+* @note              定义两个函数，f1 和 f2
+*/
+void fpc12(int a) {
+    print_purple("Function f2 is called with %d.\n", a);
+}
+
+/**
+* @brief             void * 泛型接口
+*
+* @note              示例 1：内存分配
+*/
+void memory_allocation_example() {
+  // 使用 malloc 分配内存，                                         molloc返回 void*指针
+  int *arr = (int *)malloc(5 * sizeof(int));  
+  if (arr == NULL) {
+    perror("Failed to allocate memory");
+    return;
+  }
+  // 使用分配的内存
+  for (int i = 0; i < 5; i++) {
+    arr[i] = i * i;
+  }
+  // 打印数组
+  for (int i = 0; i < 5; i++) {
+    print_purple("arr[%d] = %d\n", i, arr[i]);
+  }
+  // 释放内存
+  free(arr);
+}
+/**
+* @brief             void * 泛型接口
+* @param   a         Param Description
+* @param   b         Param Description
+* @return  int       Return Description
+*
+* @note              示例 2：排序
+*/
+int compare_ints(const void *a, const void *b) {  
+  int arg1 = *(const int*)a;                                          // a参数 void*指针
+  int arg2 = *(const int*)b;                                          // b参数 void*指针
+  return (arg1 > arg2) - (arg1 < arg2);
+}
+/**
+* @brief             void * 泛型接口
+*
+* @note              示例 2：排序
+*/
+void sorting_example() {
+  int arr[] = {5, 2, 9, 1, 6};
+  size_t arr_size = sizeof(arr) / sizeof(arr[0]);
+  // 使用 qsort 对数组进行排序
+  qsort(arr, arr_size, sizeof(int), compare_ints);
+  // 打印排序后的数组
+  for (size_t i = 0; i < arr_size; i++) {
+    print_purple("arr[%zu] = %d\n", i, arr[i]);
+  }
+}
+/**
+* @brief             void * 泛型接口
+* @param   arg       Param Description
+* @return  void*     Return Description
+*
+* @note              示例 3：多线程编程
+*/
+void* thread_function(void *arg) {
+  int num = *(int *)arg;                                        // arg 参数 void*指针
+  print_purple("Thread received number: %d\n", num);
+  return NULL;
+}
+/**
+* @brief             void * 泛型接口
+*
+* @note              示例 3：多线程编程
+*/
+void threading_example() {
+  pthread_t thread;
+  int num = 42;
+  // 创建线程
+  if (pthread_create(&thread, NULL, thread_function, &num) != 0) {
+    perror("Failed to create thread");
+    return;
+  }
+  // 等待线程完成
+  if (pthread_join(thread, NULL) != 0) {
+    perror("Failed to join thread");
+    return;
+  }
+}
+
+/**
+* @brief             函数接收指针参数并检查空指针
+* @param   ptr       Param Description
+*
+* @note              函数接收指针参数并检查空指针
+*/
+void process_pointer(int *ptr) {
+  if (ptr == NULL) {
+    print_purple("Received a null pointer.\n");
+  } else {
+    print_purple("Received a valid pointer: %d\n", *ptr);
   }
 }
