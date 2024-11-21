@@ -137,11 +137,15 @@ int pointers_fn(void) {
   printFloat(&vb);                            // 输出 3.140000
 
   /*
-  指向对象的指针 指向对象的指针可以通过应用于对象类型（可以不完整）表达式的取值运算符初始化
-
-  */
+  指向对象的指针 
+  1、对象指针初始化 指向对象的指针可以通过应用于对象类型（可以不完整）表达式的取址运算符初始化，即指针初始化可以通过应用于对象类型表达式的取址运算符来初始化指向对象的指针
+  2、* 一元运算符(对象) 指针可以出现作为间接运算符（一元 *）的操作数，它返回标识所指向对象的左值，即在 C 语言中，指针可以通过间接运算符（即一元 *）来访问它所指向的对象，可以通过这种方式对指针所指向的对象进行读取和修改操作，指针在操作内存和变量时使得我们能够通过指针间接访问和操作变量的值
+  3、-> 运算符(结构体联合体) 指向结构体和联合体类型的对象的指针亦可作为经由指针的成员访问运算符 -> 的左操作数出现，在 C 语言中，当我们使用指针指向结构体或联合体类型的对象时，可以通过箭头运算符 -> 来访问结构体或联合体的成员。这种运算符的使用简化了指针操作，使得代码更加易读
+  4、隐式转换算术运算(数组) 因为数组到指针具有隐式转换，指向数组首元素的指针可通过数组类型表达式初始化，有一些加法、减法、复合赋值、自增和自减运算符对指向数组元素的指针有定义，在 C 语言中，数组名在大多数表达式中会被隐式转换为指向其第一个元素的指针。这使得我们可以方便地通过数组名来初始化指向数组元素的指针。此外，指向数组元素的指针也可以进行一些指针运算，如加法、减法、自增和自减运算等
+  5、指针比较运算符 比较运算符在一些情况下对指向对象的指针有定义：两个表示相同地址的指针比较相等，两个空指针值比较相等，比较指向同一数组的元素的指针以两个元素的数组下标进行比较，以及指向结构体成员的指针以这些成员的声明顺序进行比较，许多实现亦提供对任意来源指针的严格全序，例如若它们实现在连续（“平直”）的虚拟地址空间上，关键点 比较相同地址的指针、空指针比较、指向同一数组的指针比较、指向结构体成员的指针比较、任意来源指针的严格全序
+  */ 
   int nn;
-  int *nnp = &nn;                         // 指向 int 的指针
+  int *nnp = &nn;                         // 1、指向对象的指针初始化，指向 int 的指针
   int *const *nnpp = &nnp;                // 指向 const 指针(这个const 指针指向 int 类型)的 非 const 指针，即 *nnpp 是 const
   int ** const nnpp1 = &nnp;              // 指向 非 const 指针(这个const 指针指向 int 类型)的 const 指针，即 nnpp1 是 const 指针
   int arr[2];
@@ -151,6 +155,119 @@ int pointers_fn(void) {
   int* sp  = &s;                          // 指向 s 结构体的指针
   int* spn = &s.n;                        // 指向作为 s 成员的 int 的指针
   
+  int n5;                                 // 2、指针访问指向的对象、修改和读取，定义一个整型变量 n5
+  int* np5 = &n5;                         // 定义一个指向整型的指针 np5，并让 np5 指向 n5 的地址
+  *np5 = 7;                               // 通过指针 np5 访问 n5，并将值 7 存储到 n5 中
+  print_purple("n5 = %d\n", *np5);        // 打印 n5 的值，通过指针 np5 访问 n5 的值
+  
+  struct S1 {
+    int n;
+    float f;
+  };
+  struct S1 s1 = {5, 3.14};                               // 3、指向结构体或联合体类型指针访问、修改、读取 定义并初始化一个结构体变量 s1
+  struct S1 *sp1 = &s1;                                   // 定义一个指向结构体 S1 的指针 sp1，并将其初始化为 s1 的地址
+  print_purple("Value of s.n: %d\n", sp1->n);             // 输出结构体成员 n 的值，结果是 5
+  print_purple("Value of s.f: %.2f\n", sp1->f);           // 输出结构体成员 f 的值，结果是 3.14
+  sp1->n = 10;                                            // 修改结构体成员的值
+  sp1->f = 6.28;                                          // 修改结构体成员的值
+  print_purple("Updated value of s.n: %d\n", sp1->n);     // 再次通过指针访问修改后的成员，输出修改后的成员 n 的值，结果是 10
+  print_purple("Updated value of s.f: %.2f\n", sp1->f);   // 再次通过指针访问修改后的成员，输出修改后的成员 f 的值，结果是 6.28
+
+  int a5[2] = {1, 2};                                     // 4、因为数组到指针具有隐式转换，指向数组首元素的指针可通过数组类型表达式初始化，定义并初始化一个包含两个元素的整型数组 a
+  int *ap5 = a5;                                          // 定义一个指向 int 的指针 p，并将其初始化为数组 a 的首元素地址
+  print_purple("Value of a5[0]: %d\n", *ap5);             // 访问数组元素 通过指针 p 访问并打印 a[0] 的值，输出 1
+  print_purple("Value of a5[1]: %d\n", *(ap5 + 1));       // 访问数组元素 通过指针 p 访问并打印 a[1] 的值，输出 2
+  int (*a6)[2] = &a5;
+  print_purple("Value of a5[0]: %d\n", (*a6)[0]);
+  print_purple("Value of a5[1]: %d\n", (*a6)[1]);
+  int *ap7 = (int *)a6;
+  print_purple("Value of a5[0]: %d\n", *ap7);
+  print_purple("Value of a5[1]: %d\n", *(ap7 + 1));
+  print_purple("a5 address = %p. ap5 address = %p. a6 adrres = %p. &a5 address = %p.\n", a5, ap5, *a6, &a5);
+  int b[3][3] = {                                           // 初始化指向多维数组的指针
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9}
+  };                                                        // 定义并初始化一个 3x3 的二维数组 b
+  int *bp = b;
+  print_purple("Value of b[0][0]: %d\n", *bp);
+  print_purple("Value of b[0][1]: %d\n", *(bp + 1));
+  print_purple("Value of b[1][0]: %d\n", *(bp + 3));
+  int (*row)[3] = b;                                        // 定义一个指向包含三个 int 元素的数组（即一行）的指针 row，并将其初始化为二维数组 b 的首行地址
+  print_purple("Value of b[0][0]: %d\n", (*row)[0]);        // 通过指针 row 访问并打印 b[0][0] 的值，输出 1
+  print_purple("Value of b[1][1]: %d\n", (*(row + 1))[1]);  // 通过指针 row 访问并打印 b[1][1] 的值，输出 5
+  int (*ele)[3][3] = &b;
+  print_purple("Value of b[0][0]: %d\n", (*ele)[0][0]);
+  print_purple("Value of b[1][1]: %d\n", (*ele)[1][1]);
+  int a7[5] = {10, 20, 30, 40, 50};                         // 4、指向数组元素的指针也可以进行一些指针运算，如加法、减法、自增和自减运算等，定义并初始化一个包含五个元素的整型数组 a7
+  int *p6 = a7;                                             // 定义一个指向 int 的指针 p6，并将其初始化为数组 a7 的首元素地址
+  print_purple("Value at p6: %d\n", *p6);                   // 输出指针 p 所指向的值，结果是 10
+  p6++;                                                     // 自增运算符 将指针 p6 自增，使其指向下一个元素
+  print_purple("Value at p6 after p6++: %d\n", *p6);
+  p6--;                                                     // 自减运算符 将指针 p6 自减，使其指回到上一个元素
+  print_purple("Value at p6 after p6--: %d\n", *p6);
+  p6 = p6 + 2;                                              // 指针加法运算符 将指针 p6 增加 2，使其指向 a6[2]
+  print_purple("Value at p6 after p6 + 2: %d\n", *p6);
+  p6 = p6 - 1;                                              // 指针减法运算符 将指针 p6 减少 1，使其指向 a6[1]
+  print_purple("Value at p6 after p6 - 1: %d\n", *p6);
+
+  int x = 10;                                               // 5、指针比较运算符 关键点 比较相同地址的指针、空指针比较、指向同一数组的指针比较、指向结构体成员的指针比较、任意来源指针的严格全序
+  int *xp1 = &x;
+  int *xp2 = &x;                                            // 比较相同地址的指针 如果两个指针指向相同的内存地址（即相同的对象或数组元素），那么它们是相等的
+  if (xp1 == xp2) {
+    print_purple("xp1 and xp2 point to the same address.\n"); // xp1 == xp2：由于 xp1 和 xp2 都指向变量 x 的地址，所以它们相等
+  } else {
+    print_purple("xp1 and xp2 point to different addresses.\n");
+  }
+  int *np1 = NULL;                                          // 空指针比较 所有空指针（例如 NULL）相互比较都是相等的
+  int *np2 = NULL;
+  if (np1 == np2) {
+    print_purple("np1 and np2 are both NULL.\n");           // np1 == np2：因为 np1 和 np2 都是空指针，所以它们相等
+  } else {
+    print_purple("np1 and np2 are not both NULL.\n");
+  }
+  int arrar[5] = {1, 2, 3, 4, 5};                           // 指向同一数组的指针比较 如果两个指针指向同一个数组的元素，可以基于数组元素的索引进行比较
+  int *arp1 = &arrar[1];
+  int *arp2 = &arrar[3];
+  if (arp1 < arp2) {                                        // p1 < p2：由于 p1 指向 arr[1]，p2 指向 arr[3]，所以 p1 小于 p2
+    print_purple("arp1 points to an earlier element in the array than arp2.\n");
+  } else {
+    print_purple("arp1 does not point to an earlier element in the array than arp2.\n");
+  }  
+  struct Sq {
+    int a;
+    double b;
+    char c;
+  };
+  struct Sq sq;                                             // 指向结构体成员的指针比较 指针指向结构体成员时，根据这些成员在结构体声明中的顺序进行比较
+  int *sqp1 = &sq.a;
+  double *sqp2 = &sq.b;
+  if (sqp1 < (int*)&sqp2) {                                 // p1 < (int*)&p2：由于 a 在结构体 S 中声明在 b 之前，所以 p1 小于 p2。（注意：这里使用了类型转换 int* 以便进行比较，实际使用时应谨慎处理指针类型转换
+    print_purple("sqp1 points to a member declared before the member sqp2 points to.\n");
+  } else {
+    print_purple("sqp1 does not point to a member declared before the member sqp2 points to.\n");
+  }    
+  int xy = 10;
+  int yz = 20;
+  int *xyp1 = &xy;
+  int *yzp2 = &yz;
+  print_purple("Address of xy: %p\n", (void*)xyp1);
+  print_purple("Address of yz: %p\n", (void*)yzp2);
+  if (xyp1 < yzp2) {                                            // // 任意来源指针的严格全序 在某些系统和编译器实现中，内存地址空间是连续的（也称为“平直”地址空间），这意味着指针的比较可以基于它们的实际内存地址。这种实现提供了对任意来源指针的严格全序关系，即可以对来自不同对象或数据结构的指针进行比较，并且结果具有一致性和可预测性
+      print_purple("xyp1 (address of x) is less than yzp2 (address of y)\n");
+  } else if (xyp1 > yzp2) {
+      print_purple("xyp1 (address of x) is greater than yzp2 (address of y)\n");
+  } else {
+      print_purple("xyp1 (address of x) is equal to yzp2 (address of y)\n");
+  }
+
+  /*
+  指向函数的指针
+  1、函数的指针初始化 指向函数的指针可由函数地址初始化。因为函数到指针转换，取址运算符是可选的
+  2、不同于函数，指向函数的指针是对象，从而能存储在数组中，被复制、赋值，作为参数传递给其他函数等等
+  3、指向函数的指针可以用作函数调用运算符的左操作数；这会调用所指向的函数
+  4、
+  */
 
 #endif // POINTER_TYPE pointer 类型   
 
