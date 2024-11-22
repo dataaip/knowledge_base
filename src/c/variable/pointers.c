@@ -370,9 +370,44 @@ int pointers_fn(void) {
   }
 
   /*
-  注解
+  注解 在 C 语言中，指针和类型转换涉及许多复杂的规则和未定义行为
+  1、严格别名规则 严格别名规则规定，解引用一个指针时，如果该指针的类型与对象的声明类型不同，则几乎总是会导致未定义行为。这是为了优化编译器的代码生成
+  2、restrict 关键字 restrict 关键字是在 C99 中引入的，用于指示一个指针是唯一访问某一块内存的手段。这意味着通过该指针访问的内存不会被其他指针别名，从而允许编译器进行更多的优化
+  3、数组到指针的转换 在大多数情况下，数组类型的左值表达式会隐式转换成指向数组首元素的指针。这个转换称为“数组到指针转换” 个别情况见 arrays.c 说明
+  4、指针指向char类型 在 C 语言中，指向 char 类型的指针通常用于表示字符串。字符串是以 '\0'（空字符）结尾的 char 数组。为了表示合法的字符串，指针必须指向 char 数组的元素，并且数组中必须有一个或多个 '\0' 字符以示字符串的结束
   */
+  int az = 42;
+  float *pz = (float *)&az;                 // 1、严格别名规则 违反严格别名规则
+  *pz = 3.14f;                              // 未定义行为
+  print_purple("az = %d\n", az);            // 输出结果未定义，int 类型的变量 a 被强制转换成 float* 类型的指针，并通过该指针赋值。这违反了严格别名规则，导致未定义行为
   
+  int resa[] = {1, 2, 3, 4, 5};
+  int resb[] = {6, 7, 8, 9, 10};
+  int resc[5];
+  int *restrict resap = resa;               // 2、restrict 关键字 表示这些指针指向的内存区域不会被其他指针别名。这允许编译器进行更好的优化
+  int *restrict resbp = resb;
+  int *restrict rescp = resc;
+  for (size_t i = 0; i < 5; i++) {
+    rescp[i] = resap[i] + resbp[i];
+  }
+  for (size_t i = 0; i < 5; i++) {
+    print_purple("c[%zu] = %d\n", i, resc[i]);
+  }
+  
+  int arrays[5] = {1, 2, 3, 4, 5};        
+  int *arraysp = arrays;                   // 3、隐式转换：数组类型的左值表达式转换为指向首元素的指针，数组类型的左值表达式 array 被隐式转换为指向数组首元素的指针
+  for (size_t i = 0; i < 5; i++) {  
+    print_purple("%d ", arraysp[i]);
+  }
+  print_purple("\n");
+
+  char str1p[] = "Hello, World!";                     // 自动包含结尾的 '\0'，字符串的定义 字符串是一个以 '\0' 结尾的 char 数组，没有 '\0' 结尾的 char 数组不是合法的字符串
+  char str2p[] = {'H', 'e', 'l', 'l', 'o', '\0'};     // 手动添加 '\0'
+  char *str1p1 = str1p;                               // 使用指针指向字符串，指针和字符串 指向 char 的指针可以指向字符串的第一个字符，在数组中，必须有一个 '\0' 字符来标志字符串的结束
+  char *str2p2 = str2p;                               // 使用指针指向字符串
+  print_purple("str1p1: %s\n", str1p1);               // 输出: Hello, World!
+  print_purple("str2p2: %s\n", str2p2);               // 输出: Hello
+  char *strp = "abc";                                 // 指针指向char类型 "abc" 是 char[4] 类型的数组，strp 是指向 'a' 的指针
 
 #endif // POINTER_TYPE pointer 类型   
 
