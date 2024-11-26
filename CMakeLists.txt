@@ -1,7 +1,7 @@
 # 设置cmake的最低版本
 cmake_minimum_required(VERSION 3.22.0)
 # 设置工程名称和版本
-project(brightl-test VERSION 0.1.1 LANGUAGES ASM C CXX)
+project(brightl-pl VERSION 0.1.1 LANGUAGES ASM C CXX)
 # 设置指定的C++编译器版本是必须的，如果不设置，或者为OFF，则指定版本不可用时，会使用上一版本。
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # 不接受编译器提供的C++扩展（便于跨编译器使用）
