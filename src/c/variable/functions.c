@@ -16,6 +16,7 @@
 
 #include "c/variable/variable.h"
 #include <stdio.h>
+#include <stdint.h>
 #include <stdbool.h>
 #include <stdarg.h> // 为了处理变参函数，C 标准库提供了一组宏，包括 stdarg.h 中定义的 va_list、va_start、va_arg 和 va_end。这些宏用于访问变参函数中的可变参数
 
@@ -85,31 +86,46 @@ int fxc6(int arr[static 10]) {        // int fxc6(int arr[static 10]); 声明了
 
 int sumb(int count, ...);             // 变参函数（variadic functions）允许函数接受可变数量的参数。这种函数的形参列表可以以 , ... 或（从 C23 标准开始） ... 结束，以表明函数可以接受可变数量的参数
 int sumb(int count, ...) {            // 变参函数定义，int sum(int count, ...) 定义了一个变参函数，接受一个确定的参数 count，后面可以接受任意数量的 int 类型参数 
-    va_list args;                     // 声明一个变量用于处理变参列表
-    va_start(args, count);            // 初始化 va_list，指示从 count 后开始的参数
+  va_list args;                       // 声明一个变量用于处理变参列表
+  va_start(args, count);              // 初始化 va_list，指示从 count 后开始的参数
 
-    int total = 0;
-    for (int i = 0; i < count; ++i) {
-        total += va_arg(args, int);  // 获取下一个参数，类型为 int
-    }
+  int total = 0;
+  for (int i = 0; i < count; ++i) {
+    total += va_arg(args, int);       // 获取下一个参数，类型为 int
+  }
 
-    va_end(args);                    // 清理 va_list
-    return total;
+  va_end(args);                       // 清理 va_list
+  return total;
 }
-// int sumc(...);                       // 变参函数声明，从 C23 标准开始，可以省略逗号，形参列表直接以省略号结尾
-// int sumc(...) {                      // 变参函数定义，int sum(...) 定义了一个变参函数，没有明确的固定参数，形参列表直接以省略号结尾
-//     va_list args;
-//     va_start(args, 0);               // va_start(args, 0) 初始化 va_list，由于没有固定参数，第二个参数为 0 或 NULL
+// int sumc(...);                     // 变参函数声明，从 C23 标准开始，可以省略逗号，形参列表直接以省略号结尾
+// int sumc(...) {                    // 变参函数定义，int sum(...) 定义了一个变参函数，没有明确的固定参数，形参列表直接以省略号结尾
+//   va_list args;
+//   va_start(args, 0);               // va_start(args, 0) 初始化 va_list，由于没有固定参数，第二个参数为 0 或 NULL
 
-//     int count = va_arg(args, int);   // int count = va_arg(args, int); 从变参列表中获取第一个参数作为 count，指示后续参数的数量
-//     int total = 0;
-//     for (int i = 0; i < count; ++i) {
-//         total += va_arg(args, int);  // 获取下一个参数
-//     }
+//   int count = va_arg(args, int);   // int count = va_arg(args, int); 从变参列表中获取第一个参数作为 count，指示后续参数的数量
+//   int total = 0;
+//   for (int i = 0; i < count; ++i) {
+//     total += va_arg(args, int);    // 获取下一个参数
+//   }
 
-//     va_end(args);                    // 清理 va_list
-//     return total;
-// }          
+//   va_end(args);                    // 清理 va_list
+//   return total;
+// } 
+
+void processArray(int arr[]);         // 不完整类型 函数声明时，形参可以是不完整类型，void processArray(int arr[]); 是函数声明，其中 int arr[] 是不完整类型，在 C99 及其后续标准中，函数的形参列表可以包含不完整类型（incomplete types）和可变长度数组（Variable Length Arrays, VLA）。然而，在函数定义中，这些类型必须在经过数组到指针和函数到指针调整后变为完整类型
+void processArray(int arr[]) {        // 不完整类型 在函数定义中，形参类型必须是完整的，在函数定义 void processArray(int arr[]) 中，int arr[] 实际上被调整为 int* arr，这是一个完整类型
+  for (int i = 0; i < 5; ++i) {
+    print_purple("%d ", arr[i]);
+  }
+  print_purple("\n");
+}
+void processVLA(int n, int arr[n]);   // 可变长度数组（VLA） 函数声明，使用 VLA 记法，void processVLA(int n, int arr[n]); 是函数声明，其中 int arr[n] 是一个 VLA
+void processVLA(int n, int arr[n]) {  // 可变长度数组（VLA） 函数定义，形参类型调整为指针类型和 VLA（完整类型），在函数定义 void processVLA(int n, int arr[n]) 中，即使 arr 的类型是 VLA，经过数组到指针的调整后，arr 实际上被调整为 int* arr，这是一个完整类型
+  for (int i = 0; i < n; ++i) {
+    print_purple("%d ", arr[i]);
+  }
+  print_purple("\n");
+}
 
 #ifdef FUNCTION_TYPE
 
@@ -179,10 +195,14 @@ int functions_fn(void) {
   形参列表可以以 , ... 或... (C23起) 终止，细节见变参数函数，即在 C 语言中，变参函数（variadic functions）允许函数接受可变数量的参数。这种函数的形参列表可以以 , ... 或（从 C23 标准开始） ... 结束，以表明函数可以接受可变数量的参数
   形参不能拥有 void 类型（但可以拥有指向 void 指针类型）。完全由关键词 void 组成的特殊形参列表用于声明不接收实参的函数
   任何出现于形参列表中，能被当成 typedef 名或形参名的标识符，都会被当做 typedef 名：int f(size_t, uintptr_t) 被分析成新式声明符，声明一个函数，它接收二个 size_t 和 uintptr_t 类型的无名形参，而非开始定义接收二个名为“ size_t ”和“ uintptr_t ”的函数的 旧式声明符，即形参列表中的标识符可以被解释为类型名或形参名。为了避免歧义，编译器需要明确这些标识符的含义。你提到的规则指出了当标识符既可以被解释为 typedef 名（类型别名）又可以被解释为形参名时，优先将其解释为 typedef 名，如果 size_t 和 uintptr_t 是 typedef 名，那么它们会被解析为类型而不是形参名
-  形参列表可以拥有不完整类型而且可以用 VLA 记法 [*] (C99起)（但在函数定义中，在数组到指针和函数到指针调整后，形参类型必须完整）
-  属性说明符序列亦能应用到函数形参(C23起)
-  其他函数调用机制上的细节见函数调用运算符，关于从函数返回，见 return 
-
+  形参列表可以拥有不完整类型而且可以用 VLA 记法 [*] (C99起)（但在函数定义中，在数组到指针和函数到指针调整后，形参类型必须完整），即在C99及其后续标准中，函数的形参列表可以包含不完整类型（incomplete types）和可变长度数组（Variable Length Arrays, VLA）。然而，在函数定义中，这些类型必须在经过数组到指针和函数到指针调整后变为完整类型
+  属性说明符序列亦能应用到函数形参(C23起)，在 C23 标准中，引入了一些新的特性，其中之一是属性说明符序列（attribute specifier sequences）可以应用于函数形参。这些属性说明符可以用于指定某些编译器属性，以便影响函数参数的行为或优化编译器生成的代码
+  其他函数调用机制上的细节见函数调用运算符，关于从函数返回，见 return，即函数调用运算符 ()：用于调用一个函数。形如 func(a, b) 的调用方式，返回语句 return：用于从函数中返回一个值，或从 void 类型的函数中返回 
+  
+  函数声明解释
+  11、不同于 C++，声明符 f() 与 f(void) 拥有不同含义：声明符 f(void) 是新式（原型）声明符，声明函数不接收形参。声明符 f() 是声明函数接收未指定数量的形参的声明符（除非用于函数定义） (C23起)
+  12、和在函数定义中不同，形参列表可以从 typedef 继承
+  13、C89中，说明符与限定符 是可选的，且若省略它，则函数的返回类型默认为 int（可以由 声明符 修改）
   */
   int nm1 = max1(12.01, 3.14);      // 1、OK：从 double 转换到 int
   int nm2 = max2(true, (char)'a');  // 2、以二个 int 参数调用 max2 （提升后）
@@ -282,7 +302,57 @@ int functions_fn(void) {
   int fxc12(void);                          // 10、OK，形参不能拥有 void 类型（但可以拥有指向 void 指针类型）。完全由关键词 void 组成的特殊形参列表用于声明不接收实参的函数
   // int fxc13(void x);                     // 错误，形参不能拥有 void 类型
   int fxc14(void* x);                       // OK，可以拥有指向 void 指针类型
+  
+  int fxc15(size_t, uintptr_t);             // 10、任何出现于形参列表中，能被当成 typedef 名或形参名的标识符，都会被当做 typedef 名：int f(size_t, uintptr_t) 被分析成新式声明符，声明一个函数，它接收二个 size_t 和 uintptr_t 类型的无名形参，而非开始定义接收二个名为“ size_t ”和“ uintptr_t ”的函数的旧式声明符，int f(size_t, uintptr_t); 声明了一个返回 int 类型并接收两个无名参数的函数 f。参数类型分别是 size_t 和 uintptr_t，函数定义时，参数 a 和 b 分别是 size_t 和 uintptr_t 类型
+  typedef int mytype;                       // mytype 是通过 typedef 定义的一个类型名，等同于 int、size_t 是标准库中的类型名，通常用于表示对象的大小（无符号整数类型）     
+  int fxc16(mytype, size_t);                // 新式声明符 声明的函数 fxc16 接收两个无名参数：第一个参数类型为 mytype（即 int）、第二个参数类型为 size_t。这与旧式声明符不同，旧式声明符会将形参列表中的标识符解析为参数名，而不是类型名
+  // int fxc16(mytype a, size_t b) {        // 函数定义，函数 fxc16 定义时，参数 a 和 b 分别是 mytype 和 size_t 类型，在 main 函数中，调用 fxc16(a, b)，其中 a 是 mytype 类型（即 int），b 是 size_t 类型
+  //   return a + b;                        // 新式声明符：在形参列表中，任何能被当成 typedef 名或形参名的标识符，都会被优先当作 typedef 名。结果是，声明的函数会接收这些类型的无名参数。int f(size_t, uintptr_t); 声明一个接收 size_t 和 uintptr_t 类型无名参数的函数 f
+  // }
+  int fxc17(mytype mytype, size_t size_t);      // 旧式声明符  int fxc17(mytype mytype, size_t size_t); 声明了一个函数 fxc17，接收两个参数，参数名分别为 mytype 和 size_t，即参数列表中有两个参数：第一个参数名为 mytype，类型为 mytype（即 int），第二个参数名为 size_t，类型为 size_t，这种旧式声明符容易引发混淆，因为参数名和类型名相同
+  // int fxc17(mytype mytype, size_t size_t) {  // 函数定义，函数 fxc17 定义时，参数名 mytype 和 size_t 分别是 mytype 和 size_t 类型，在 main 函数中，调用 fxc17(mytype, size_t)，其中参数 mytype 是 mytype 类型（即 int），size_t 是 size_t 类型，极容易引发混淆，因为参数名和类型名相同
+  //     return mytype + size_t;                // 旧式声明符：参数名是必须的，容易混淆类型名和参数名，int f(size_t size_t, uintptr_t uintptr_t); 声明一个接收两个分别命名为 size_t 和 uintptr_t 的参数的函数 f
+  // }
 
+  int arrayp[5] = {1, 2, 3, 4, 5};              // 10、在 C99 及其后续标准中，函数的形参列表可以包含不完整类型（incomplete types）和可变长度数组（Variable Length Arrays, VLA）。然而，在函数定义中，这些类型必须在经过数组到指针和函数到指针调整后变为完整类型，调整后的完整类型 确保编译器能够确定参数的大小和布局，从而正确生成代码
+  processArray(arrayp);                    // 不完整类型是指在声明时其大小未完全确定的类型。例如 未定义大小的数组，不完全定义的结构或联合，不完整类型可以出现在函数的形参列表中，但在函数定义中，必须确保这些类型在经过必要的调整后变为完整类型
+  processVLA(5,arrayp);                 // 可变长度数组（VLA）VLA 是一种数组，其大小在运行时确定，C99 引入了 VLA 的概念，允许数组的大小在运行时确定， 
+
+  void printMessage(const char *message) __attribute__((nonnull)); // 10、使用 __attribute__ 指定属性，GCC 编译器支持的一些属性是通过 __attribute__ 关键字来实现的。比如 nonnull 属性可以用于告诉编译器某个参数不能为空指针，__attribute__((nonnull)) 告诉编译器，printMessage 函数的参数 message 不能为空指针，如果在调用时传递了一个空指针，编译器可以发出警告
+  // void printMessage(const char *message) {                      // 函数定义
+  //   printf("%s\n", message);                                    // 属性说明符序列 是编译器特定的扩展，用于向编译器提供额外的信息。例如，这些属性可以用于优化、代码生成、安全检查等
+  // }
+  // void printMessage(const char *message) [[nonnull]];           // 使用 C23 标准的属性说明符， C23 标准引入了一个新的属性说明符 [[nonnull]]，类似于 C++ 的属性语法。[[nonnull]] 是一个假设的 C23 标准属性说明符，用于指定 printMessage 函数的参数 message 不能为空指针
+  // void printMessage(const char *message) {                      // 函数定义
+  //   printf("%s\n", message);                                    // 在 C23 标准中，属性说明符序列可以应用到函数的形参上，这意味着我们可以在函数参数上使用类似 _Attribute_ 或其他形式的属性说明符
+  // } 
+  /*
+  __attribute__ 和属性运算符（在 C23 标准中引入的 [[attribute]]）都可以用于向编译器提供额外的信息，以便影响编译行为、优化代码或启用特定的编译器检查。虽然它们的功能类似，但语法和适用范围有所不同
+  __attribute__ 是一种编译器特定的扩展，最常用于 GNU 编译器集合（GCC）。它的主要特点如下
+  语法：放在函数、变量、类型等的声明之后括号中的关键字，__attribute__ 使用括号和双下划线：__attribute__((attribute))
+  兼容性：主要用于 GCC 和 Clang 编译器，但其他编译器可能不支持或支持有限，
+  应用范围：可以应用于函数、变量、类型、字段等
+
+  属性运算符 [[attribute]] 是在 C23 标准中引入的一种新的属性语法，类似于 C++11 中的属性。其主要特点如下
+  语法：使用双方括号 [[ ]] 包围的关键字或关键字列表，可以放在声明的不同位置，属性运算符使用双方括号：[[attribute]]
+  标准化：这是 C 标准的一部分，有助于提高可移植性和一致性
+  应用范围：预计可以应用于函数、变量、类型、字段等，但具体细节取决于 C23 标准的最终版本和各个编译器的实现
+  */ 
+  
+  int fxc18(void);                                      // 11、声明：不接收参数，不同于 C++，声明符 f() 与 f(void) 拥有不同含义：声明符 f(void) 是新式（原型）声明符，声明函数不接收形参。声明符 f() 是声明函数接收未指定数量的形参的声明符（除非用于函数定义） (C23起)
+  int fxc19();                                          // 声明：接收未知参数
+  // int fxc18(void) { return 1; )                      // 实际定义
+  // int fxc19(a,b,c,d) int a,b,c,d; { return 2; }      // 实际定义
+  // fxc18(1);                                          // 编译时错误
+  // fxc19(2);                                          // 未定义行为
+
+  typedef int p(int q, int r);                          // 12、p 是函数类型 int(int, int)，和在函数定义中不同，形参列表可以从 typedef 继承，typedef可以用于创建类型别名，这在编写更易读和可维护的代码时非常有用
+  p fxc20;                                              // 声明 int f(int, int)
+  void executeFunction(p* func, int x, int y);          // 使用 typedef 定义的函数类型作为参数类型
+
+  // *fxc21() {                                         // 13、返回 int* 的函数，C89中说明符与限定符是可选的，且若省略它则函数的返回类型默认为 int（可以由 声明符 修改）
+  //  return NULL;
+  // }
 
   /*
   函数定义
