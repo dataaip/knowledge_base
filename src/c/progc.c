@@ -1,5 +1,4 @@
 #include "c/progc.h"
-#include "c/variable/variable.h"
 #include <stdio.h>
 
 extern int func(void);
@@ -55,6 +54,14 @@ int main(void) {
 #ifdef FUNCTIONS_FN
   functions_fn();
 #endif // FUNCTIONS_FN
+
+#ifdef VOIDTYPES_FN
+  voidtypes_fn();
+#endif // VOIDTYPES_FN
+
+#ifdef ATOMICS_FN
+  atomics_fn();
+#endif // ATOMICS_FN
 
 #ifdef ASC_PRINT
   asc_print_fn();

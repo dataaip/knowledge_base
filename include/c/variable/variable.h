@@ -124,3 +124,23 @@ int pointers_fn(void);
 * @note              Revision History
 */
 int functions_fn(void);
+
+// 定义 调用 voidtypes_fn 函数
+#define VOIDTYPES_FN
+/**
+* @brief             void 类型变量头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int voidtypes_fn(void);
+
+// 定义 调用 atomics_fn 函数
+#define ATOMICS_FN
+/**
+* @brief             原子类型变量头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int atomics_fn(void);
