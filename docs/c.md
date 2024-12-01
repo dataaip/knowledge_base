@@ -84,14 +84,14 @@
 - 枚举 enumeration
 - 结构体 structure
 - 联合体 unions 
-- 数组：数组、二维数组、三维数组、多维数组 arrays
-- 指针：指针、指针数组、指针字符串、指针函数、函数指针、多级指针、指针数组、数组指针 pionters
-- 函数：函数、函数指针、指针函数 functions
+- 数组 array
+- 指针 pionters
+- 函数 functions
 - void voidtypes
 - 原子 atomics
-- 关键词  keywords
+- 声明 declarations
 - 初始化 initialization
-- 声明 declarations  
+- 关键词 keywords  
 
 ### expressions
 表达式和运算符
