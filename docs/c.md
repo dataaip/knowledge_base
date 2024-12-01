@@ -9,11 +9,11 @@
     - [expressions](#expressions)
     - [statements](#statements)
     - [datalife](#datalife)
+    - [preprocessor](#preprocessor)
     - [iostream](#iostream)
     - [memory](#memory)
     - [thread](#thread)
     - [errno](#errno)
-    - [preprocessor](#preprocessor)
     - [headers](#headers)
     - [containers](#containers)
     - [algorithms](#algorithms)
@@ -121,7 +121,17 @@
 - 标识符
 - 命名空间
 - 未定义行为
-- 内存模型与数据竞争  
+- 内存模型与数据竞争
+
+### preprocessor
+预处理器
+- 预处理指令
+- #if, #ifdef, #ifndef, #else, #elif, #elifdef, #elifndef、#endif
+- #define、#undef 
+- #include
+- #error、#warning
+- #pragma
+- #line  
 
 ### iostream
 文件操作和流处理
@@ -139,17 +149,7 @@
 
 ### errno
 异常处理和管理
-- <errno.h>  
-
-### preprocessor
-预处理器
-- 预处理指令
-- #if, #ifdef, #ifndef, #else, #elif, #elifdef, #elifndef、#endif
-- #define、#undef 
-- #include
-- #error、#warning
-- #pragma
-- #line   
+- <errno.h>     
 
 ### headers
 头文件和标准库
