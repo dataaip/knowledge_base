@@ -22,6 +22,17 @@
 * @note              对于每个声明符，若不省略初始化式，则它可以是下列之一：= 表达式、= {初始化式列表}、= {}	
 */
 #define INITIALIZATION
+// 初始化
+
+// 显式初始化
+// 隐式初始化
+// 空初始化
+
+// 标量初始化
+
+// 数组初始化
+
+// 结构体及联合体初始化
 
 /**
 * @brief             对象声明可以通过名为初始化的步骤提供其初始值
@@ -32,7 +43,17 @@
 int initialization_fn(void) {
 #ifdef INITIALIZATION
   /*
+  初始化
   
+  显式初始化
+  隐式初始化
+  空初始化
+  
+  标量初始化
+  
+  数组初始化
+
+  结构体及联合体初始化
   */
   print_purple("initialization start...\n");
 
