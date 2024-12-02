@@ -144,3 +144,33 @@ int voidtypes_fn(void);
 * @note              Revision History
 */
 int atomics_fn(void);
+
+// 定义 调用 initialization_fn 函数
+#define INITIALIZATION_FN
+/**
+* @brief             初始化变量 头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int initialization_fn(void);
+
+// 定义 调用 declarations_fn 函数
+#define DECLARATIONS_FN
+/**
+* @brief             声明变量 头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int declarations_fn(void);
+
+// 定义 调用 keywords_fn 函数
+#define KEYWORDS_FN
+/**
+* @brief             关键词列表 头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int keywords_fn(void);

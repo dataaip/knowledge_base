@@ -63,6 +63,18 @@ int main(void) {
   atomics_fn();
 #endif // ATOMICS_FN
 
+#ifdef INITIALIZATION_FN
+  initialization_fn();
+#endif // INITIALIZATION_FN
+
+#ifdef DECLARATIONS_FN
+  declarations_fn();
+#endif // DECLARATIONS_FN
+
+#ifdef KEYWORDS_FN
+  keywords_fn();
+#endif // KEYWORDS_FN
+
 #ifdef ASC_PRINT
   asc_print_fn();
 #endif // DEBUG

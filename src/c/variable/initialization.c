@@ -38,5 +38,5 @@ int initialization_fn(void) {
 
 #endif // INITIALIZATION initialization
 
-    return 0;
+  return 0;
 }
