@@ -29,7 +29,9 @@
 *
 * @note              函数声明引入一个标识符，该标识符指定一个函数，并可选择指定函数参数的类型（原型）。函数声明（与定义不同）可以出现在块作用域和文件作用域，函数定义将函数体（声明与语句的序列）与函数名及形参列表关联。不同于函数声明，函数定义只允许在文件作用域（不存在嵌套函数）
 */
-#define FUNCTION_TYPE     
+#define FUNCTION_TYPE
+
+#ifdef FUNCTION_TYPE
 int sum(int x, int y) {     // 函数定义 定义一个名为“sum”并拥有函数体“ { return x+y; } ”的函数 
   //  return x + a + b;     // 错误：不能在 sum 中访问 main 的 x
   return x + y;
@@ -279,8 +281,6 @@ noreturn void exit_now(int i) {                                     // 在 i <= 
   if (i > 0)
     exit(i);
 }
-
-#ifdef FUNCTION_TYPE
 
 #endif // FUNCTION_TYPE function 类型 
 
