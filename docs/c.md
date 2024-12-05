@@ -3,6 +3,7 @@
     - [相关网站资料](#相关网站资料)
     - [compiler](#compiler)
     - [build](#build)
+    - [deubug](#deubug)
     - [profiling](#profiling)
     - [standard](#standard)
     - [variable](#variable)
@@ -63,6 +64,9 @@
 - 包管理器
 - 项目架构规范
 - 目录结构规范
+
+### deubug
+- 代表调试 gdb
 
 ### profiling
 - 性能分析
