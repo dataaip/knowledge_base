@@ -71,3 +71,5 @@ set(CPACK_GENERATOR "TGZ;DEB;RPM")
 
 # 配置依赖关系
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.14), libgcc1 (>= 1:3.0)")
+
+
