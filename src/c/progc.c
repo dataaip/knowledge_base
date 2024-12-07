@@ -78,6 +78,7 @@ int main(void) {
 #ifdef ASC_PRINT
   asc_print_fn();
 #endif // DEBUG
+
   return 0;
 }
 
