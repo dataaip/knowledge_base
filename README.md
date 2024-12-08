@@ -1,7 +1,5 @@
 ## pl_c.md
 
-
-
 《C Primer Plus 6th》
 https://zh.cppreference.com/w/c/11
 
