@@ -31,12 +31,20 @@
     IdentityFile ~/.ssh/gitee_id_rsa
     User brightl3016@outlook.com
 
-  # github
+  # github                              # 
   Host github.com
     HostName github.com
     PreferredAuthentications publickey
     IdentityFile ~/.ssh/github_id_rsa
     User brightl3016@outlook.com
+
+  # ssh.github.com
+  Host github.com
+      HostName ssh.github.com
+      Port 443
+      PreferredAuthentications publickey
+      IdentityFile ~/.ssh/github_id_rsa
+      User brightl3016@outlook.com    
   ```
 
 ### 3、GitHub 配置 SSH Key 公钥
@@ -49,7 +57,42 @@
   ```bash
   ssh -T git@gitee.com
   ssh -T git@github.com
+  ssh -T -p 443 git@ssh.github.com
   ```
+# 这段文本是一个用于配置 SSH 的文件示例（通常是 ~/.ssh/config 文件），用于连接 GitHub 的两种不同方式。以下是详细解释：
+# 第一部分：直接连接 GitHub
+# github
+Host github.com
+    HostName github.com
+    PreferredAuthentications publickey
+    IdentityFile ~/.ssh/github_id_rsa
+    User brightl3016@outlook.com
+# github：注释，说明此部分配置是针对 GitHub 的
+Host github.com：定义一个主机别名，后续的配置均是针对 github.com 的
+HostName github.com：实际主机名，表示连接到 GitHub 的默认域名
+PreferredAuthentications publickey：指定优先使用公钥认证进行连接
+IdentityFile ~/.ssh/github_id_rsa：指定用于连接的私钥文件路径
+User brightl3016@outlook.com：指定用于连接的用户名
+
+# 第二部分：通过 ssh.github.com 连接 GitHub
+# ssh.github.com
+Host github.com
+    HostName ssh.github.com
+    Port 443
+    PreferredAuthentications publickey
+    IdentityFile ~/.ssh/github_id_rsa
+    User brightl3016@outlook.com
+# ssh.github.com：注释，说明此部分配置是针对通过 ssh.github.com 连接 GitHub 的
+Host github.com：定义一个主机别名，仍然是针对 github.com 的，但通过不同的方式连接
+HostName ssh.github.com：实际主机名，这里使用 ssh.github.com 来连接 GitHub
+Port 443：指定连接端口为 443（通常是 HTTPS 端口），用来规避防火墙限制
+PreferredAuthentications publickey：同样优先使用公钥认证
+IdentityFile ~/.ssh/github_id_rsa：指定用于连接的私钥文件路径
+User brightl3016@outlook.com：指定用于连接的用户名
+
+# 总结
+第一部分使用标准的端口（22）直接连接到 github.com。
+第二部分则通过 HTTPS 端口（443）连接到 ssh.github.com，这对某些防火墙设置严格的网络环境很有用
 
 ## 二、Git 代码提交、合并、拉取    
 在 Git 中，你可以通过以下步骤进行代码的提交、合并和拉取      
