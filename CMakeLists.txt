@@ -56,7 +56,6 @@ install(TARGETS ToolsMathLib UtilsLib
 # install(DIRECTORY "path/to/data"
 #         DESTINATION share/mybasicapp)
 
-
 # =================================================
 # 打包
 include(CPack)
