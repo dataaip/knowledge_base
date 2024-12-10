@@ -877,6 +877,9 @@ int declarations_fn(void) {
 
   /*
   原子类型(C11)，详细见 atomics.c 文档
+  原子类型语法 (C11起) _Atomic 有两种用法：用作类型说明符和用作类型限定符
+  
+
   */    
 
   /*
