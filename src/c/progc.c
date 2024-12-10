@@ -75,6 +75,10 @@ int main(void) {
   keywords_fn();
 #endif // KEYWORDS_FN
 
+#ifdef BITFIELDS_FN
+  bitfields_fn();
+#endif // BITFIELDS_FN
+
 #ifdef ASC_PRINT
   asc_print_fn();
 #endif // DEBUG

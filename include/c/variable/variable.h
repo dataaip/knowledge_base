@@ -165,6 +165,16 @@ int initialization_fn(void);
 */
 int declarations_fn(void);
 
+// 定义 调用 bitfields_fn 函数
+#define BITFIELDS_FN
+/**
+* @brief             关键词列表 头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int bitfields_fn(void);
+
 // 定义 调用 keywords_fn 函数
 #define KEYWORDS_FN
 /**
