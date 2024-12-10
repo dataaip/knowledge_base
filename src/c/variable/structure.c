@@ -163,7 +163,7 @@ int structure_fn(void) {
     unsigned int a : 3;
     unsigned int b : 5;
     unsigned int c : 6;
-    unsigned int d : 20; // 如果加上这个成员，编译器可能会使用新的分配单元，假设 unsigned int 是32位（4字节），那么 a 和 b 会共享同一个 unsigned int 分配单元，如果加上成员 c，编译器可能会在需要时使用新的分配单元
+    unsigned int d : 20; // 如果加上这个成员，编译器可能会使用新的分配单元，假设 unsigned int 是32位（4字节），那么 a 和 b、c 会共享同一个 unsigned int 分配单元，如果加上成员 d，编译器可能会在需要时使用新的分配单元
   };
   print_purple("Size of struct BitFieldExample3: %zu\n", sizeof(struct BitFieldExample3));
   struct BitFieldExample3 bitexample3 = {5, 3, 25, 1};   //  unit 1：011001 00011 101 、unit 2：0000 0000 0000 0000 0001
