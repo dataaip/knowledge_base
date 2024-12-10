@@ -29,8 +29,8 @@
 // enum
 // struct
 // union
-// 位域
 // 原子类型(C11)
+// 位域
 
 // const
 // volatile
@@ -804,7 +804,8 @@ int declarations_fn(void) {
   联合体声明方式语法规则 
   union 属性声明符序列(可选) 名字(可选) { 联合体声明列表 }  联合体定义：引入一个新类型 union 名字 并定义其含义
   union 属性声明符序列(可选) 名字 声明但不定义 union 名字（前置声明），在其他上下文中命名先前声明的联合体，并且不允许属性说明符序列，即属性声明符序列存在，它不能后随 
-  名字 所定义的联合体的名称、联合体声明列表	任意数量的变量声明，位域声明和静态断言声明，不允许不完整类型的成员和函数类型的成员、属性声明符序列 (C23起)可选的属性列表应用到联合体类型，若这种形式不后随（即不是前置声明）则不允许
+  名字 所定义的联合体的名称
+  联合体声明列表	任意数量的变量声明，位域声明和静态断言声明，不允许不完整类型的成员和函数类型的成员、属性声明符序列 (C23起)可选的属性列表应用到联合体类型，若这种形式不后随（即不是前置声明）则不允许
 
   联合体特性、使用、初始化
   1、联合体中的所有成员共享同一块内存区域，联合体的大小至少等于其最大成员的大小。编译器可能会添加额外的尾随填充字节，以满足对齐要求
@@ -813,14 +814,73 @@ int declarations_fn(void) {
   4、匿名联合体 类似结构体，类型为不带名字的联合体的无名联合体成员，每个匿名联合体的成员被认为是外围结构体或联合体的成员并维持联合体布局不变。若外围结构体或联合体亦为匿名，则递归应用此规则
   5、类似结构体，若不以任何具名成员（包含经由匿名嵌套结构体或联合体获得的成员）定义联合体，则程序行为未定义 
   */
-  
+  union Data {
+    int i;
+    float f;
+    char str[20];     //最大的字节成员
+  };
+  union Data data;
+  data.i = 10;
+  print_purple("data.i : %d\n", data.i);
+  data.f = 220.5f;
+  print_purple("data.f : %f\n", data.f);
+  strcpy(data.str, "C Programming");
+  print_purple("data.str : %s\n", data.str);
+  print_purple("size of Data = %zu. size of data = %zu.\n", sizeof(union Data), sizeof(data));  
 
-  /*
-  位域
-  */
+  union Exampleun { // 1、在这个联合体中，int 通常占 4 个字节，double 通常占 8 个字节，char 占 1 个字节。联合体的总大小至少是 8 个字节，因为 double 是最大的成员。编译器也可能添加一些额外的填充字节以满足对齐要求
+    int i;
+    double d;
+    char c;
+  };
+  union Exampleun ex;
+  union Exampleun *pex = &ex;
+  int *puni = (int *)pex;                         // 2、指向联合体的指针转换为成员的指针，可以将指向联合体的指针转换为指向其任意成员的指针。这是因为联合体的所有成员共享同一块内存区域
+  double *pd = (double *)pex;
+  char *punc = (char *)pex;
+  ex.i = 42;
+  int *pxi = &ex.i;
+  union Exampleun *pexi = (union Exampleun *)pi;    // 2、指向联合体成员的指针转换为指向联合体的指针，指向联合体成员的指针也可以转换为指向整个联合体的指针   
+  union Exampleun1 {
+    unsigned int field1 : 3;   // 一个3位的无符号整数
+    unsigned int field2 : 5;   // 一个5位的无符号整数
+    unsigned int field3 : 8;   // 一个8位的无符号整数
+  };
+  union Exampleun1 ex1;
+  ex1.field1 = 5;              // 将field1设置为5（二进制：101）
+  unsigned int *pField1 = (unsigned int *)&ex1;
+  struct vun {                 // 4、匿名联合体的成员被视为其外围结构体或联合体的成员，可以直接访问。这种规则可以递归应用于嵌套的匿名联合体
+    union { // 匿名联合体
+      struct { int i, j; }; // 匿名结构体
+      struct { long k, l; } w;
+    };
+    int m;
+  } vun1;
+  vun1.i = 2;      // 合法，可直接访问
+  // vun1.k = 3;   // 非法：内层结构体不是匿名的
+  vun1.w.k = 5;    // 合法，通过名称访问
+  union Exampleun2 {          // 5、没有具名成员的联合体、联合体中包含匿名嵌套结构体或联合体，但这些结构体或联合体也不包含任何具名成员，结果会导致未定义行为
+    struct {
+      // 没有具名成员 结构未定义
+    };
+  }; 
+  union Exampleun3 {
+    int i;  // 具名成员
+    float f;
+  };
+
+  union pad {               // 此联合体拥有尾随的 3 个填充字节
+    char  c[5];             // 占据 5 字节 => char c[5] 需要 5 字节，但没有特定对齐要求
+    float f;                // 占据 4 字节，隐含对齐 4 => float f 需要 4 字节，并且要求 4 字节对齐
+  } pun = {.f = 1.23};      // 大小为 8 以满足 float 的对齐，联合体的大小必须满足所有成员的对齐要求和大小需求，为了满足 float 的对齐要求（通常是 4 字节），联合体的总大小必须是 float 对齐的倍数。因为 char c[5] 和 float f 共享相同的存储空间，联合体的总大小必须是 4 的倍数，并且至少需要容纳最大的成员 c[5] 的 5 字节。因此，编译器会在 char c[5] 后面添加 3 个字节的填充，使得总大小达到 8 字节，以满足 float 的对齐要求
+  print_purple("size of union of char[5] and float is %zu\n", sizeof pun); // 内存对齐是指数据在内存中存储的位置需满足某种约束条件，以提高内存访问的效率。不同类型的数据可能有不同的对齐要求。例如，4字节的 float 类型通常要求4字节对齐，这意味着它的地址必须是4的倍数
 
   /*
   原子类型(C11)，详细见 atomics.c 文档
+  */    
+
+  /*
+  位域
   */
 
   /* 

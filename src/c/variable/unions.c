@@ -132,7 +132,7 @@ int unoins_fn(void) {
     char  c[5];             // 占据 5 字节 => char c[5] 需要 5 字节，但没有特定对齐要求
     float f;                // 占据 4 字节，隐含对齐 4 => float f 需要 4 字节，并且要求 4 字节对齐
   } p = {.f = 1.23};        // 大小为 8 以满足 float 的对齐，联合体的大小必须满足所有成员的对齐要求和大小需求，为了满足 float 的对齐要求（通常是 4 字节），联合体的总大小必须是 float 对齐的倍数。因为 char c[5] 和 float f 共享相同的存储空间，联合体的总大小必须是 4 的倍数，并且至少需要容纳最大的成员 c[5] 的 5 字节。因此，编译器会在 char c[5] 后面添加 3 个字节的填充，使得总大小达到 8 字节，以满足 float 的对齐要求
-  print_purple("size of union of char[5] and float is %zu\n", sizeof p);
+  print_purple("size of union of char[5] and float is %zu\n", sizeof p); // 内存对齐是指数据在内存中存储的位置需满足某种约束条件，以提高内存访问的效率。不同类型的数据可能有不同的对齐要求。例如，4字节的 float 类型通常要求4字节对齐，这意味着它的地址必须是4的倍数
 
 #endif // UNION_TYPE union 类型
 
