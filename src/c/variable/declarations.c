@@ -1456,14 +1456,16 @@ int declarations_fn(void) {
   */
   // int restrict *resp;              // 1、错误 restrict 限定的是 *resp
   // float (* restrict resf9)(void);  // 错误 restrict 不能用于函数指针，restrict 只应限定指针，而不应直接限定基本数据类型或函数指针  
-  int * restrict restp;               // restp 是一个指向 int 的指针，并且被 restrict 限定
-  float * restrict restq;             // restq 是一个指向 float 的指针，并且被 restrict 限定
-  int * restrict restarr[10];         // restarr 是一个数组，数组的每个元素是一个被 restrict 限定的指向 int 的指针
-  int * restrict restp1;                  // 2、限制语义仅适用于左值表达式
-  *restp1 = 10;                           // 左值上下文中的 restrict：这里 restp1 是一个左值，并且有 restrict 限定，所以编译器可以进行优化  
-  int *restq1 = (int * restrict) restp1;  // 非左值上下文中的 restrict（无效）：这里 restp1 不是左值，restrict 限定无效
-  *restq1 = 10;                           // 这行代码中，restq1 是一个左值，但 restrict 限定信息已经丢失 ，(int * restrict) p 是一个强制转换表达式，结果不是左值，因此 restrict 限定符无效。赋值给 q 后，q 的 restrict 限定符信息已经丢失，所以在 *q = 10 这一行中，编译器不能利用 restrict 信息进行优化 
-  int * restrict barrest(void);           // 函数返回值中的 restrict（无效）：bar() 函数返回一个 restrict 限定的指针，但返回值本身不是左值，因此 restrict 限定符无效
+  int restrictnum = 10;
+  float restrictnum1 = 10.f;
+  int * restrict restp = &restrictnum;                // restp 是一个指向 int 的指针，并且被 restrict 限定
+  float * restrict restq = &restrictnum1;             // restq 是一个指向 float 的指针，并且被 restrict 限定
+  int * restrict restarr[10];                         // restarr 是一个数组，数组的每个元素是一个被 restrict 限定的指向 int 的指针
+  int * restrict restp1 = &restrictnum;               // 2、限制语义仅适用于左值表达式
+  *restp1 = 10;                                       // 左值上下文中的 restrict：这里 restp1 是一个左值，并且有 restrict 限定，所以编译器可以进行优化  
+  int *restq1 = (int * restrict) restp1;              // 非左值上下文中的 restrict（无效）：这里 restp1 不是左值，restrict 限定无效
+  *restq1 = 10;                                       // 这行代码中，restq1 是一个左值，但 restrict 限定信息已经丢失 ，(int * restrict) p 是一个强制转换表达式，结果不是左值，因此 restrict 限定符无效。赋值给 q 后，q 的 restrict 限定符信息已经丢失，所以在 *q = 10 这一行中，编译器不能利用 restrict 信息进行优化 
+  int * restrict barrest(void);                       // 函数返回值中的 restrict（无效）：bar() 函数返回一个 restrict 限定的指针，但返回值本身不是左值，因此 restrict 限定符无效
   // void f(int n, int * restrict p, int * restrict q) {
   //   while (n-- > 0)                    // 3、必须由声明了 restrict 的指针 p 进行所有访问（读或写），否则会发生定义行为
   //     *p++ = *q++;                     // 通过 *p 修改的对象与通过 *q 读取的无一相同
@@ -1474,27 +1476,27 @@ int declarations_fn(void) {
   //   f(50, d + 50, d);                  // OK，不会 p 和 q 不会重复访问
   //   f(50, d + 1, d);                   // 未定义行为：f 中的 p 和 q 均可访问 d[1]
   // }
-  const int * restrict crestp;            // 4、crestp 是 restrict 限定的指针，并且它们指向的对象是 const 类型（只读）。因为对象不会被修改，编译器可以假设通过 crestp 的访问不会相互影响，从而进行优化
+  const int * restrict crestp = &restrictnum;  // 4、crestp 是 restrict 限定的指针，并且它们指向的对象是 const 类型（只读）。因为对象不会被修改，编译器可以假设通过 crestp 的访问不会相互影响，从而进行优化
   int acrestp = *crestp;
-  int ** restrict crestpp;                // crestpp 是 restrict 指向指针的指针。因为 crestpp 指向的对象本身是指针，编译器在处理间接访问 *crestpp 时，难以保证这些指针不会引入冲突或修改，从而可能抑制优化
+  int ** restrict crestpp;                     // crestpp 是 restrict 指向指针的指针。因为 crestpp 指向的对象本身是指针，编译器在处理间接访问 *crestpp 时，难以保证这些指针不会引入冲突或修改，从而可能抑制优化
   int *acrestpp = *crestpp;               
-  *acrestpp = 10;                         // 由于 crestpp 指向的是指针，它们的间接访问可能引入冲突，限制优化
+  // *acrestpp = 10;                           // 由于 crestpp 指向的是指针，它们的间接访问可能引入冲突，限制优化
   // 初始化 crestpp：crestpp 是一个 restrict 指向指针的指针。它指向某个 int* 类型的指针
   // 间接访问 *crestpp：int *acrestpp = *crestpp; 这行代码首先通过 crestpp 访问到一个 int* 类型的指针，并将其赋值给 acrestpp
   // 修改内存 *acrestpp = 10;：这行代码通过 acrestpp 修改了内存中的一个整数值
   // 地址冲突的潜在风险：编译器无法保证 *crestpp 指向的 int* 指针没有通过其他途径被修改或访问。也就是说，crestpp 指向的内存位置可能还被其他指针间接访问或修改，从而引入内存访问冲突
   // 优化限制：为了进行优化，编译器需要确定内存访问彼此独立且没有冲突。当无法确定时，编译器不得不保守地假设可能存在冲突，从而限制优化。例如，它无法重排序指令或进行寄存器重用优化，因为无法确定对内存的访问是否安全
-  int ** restrict crestpp0;               // crestpp 是一个 restrict 指针，指向一个 int* 指针
-  int *acrestpp1 = *crestpp0;             // acrestpp1 和 acrestpp2 都间接指向 crestpp 指向的 int* 指针
-  int *acrestpp2 = *crestpp0;             // 但是编译器无法确定 *crestpp 是否会被其他指针（例如 acrestpp2）间接访问和修改。这意味着编译器必须假设 *crestpp 可能通过其他指针被修改，从而抑制某些优化
-  *acrestpp1 = 10;
-  *acrestpp2 = 20;
-  int* restrict restrictp1 = &a;          // 5、从一个受限指针 restrict 赋值给另一个受限指针 restrict 是未定义行为
-  int* restrict restrictp2 = &b;
-  restrictp1 = restrictp2;                // 未定义行为
-  int * restrict outerrestp;              // 将指向外部块的 restrict 指针赋值给内部块中的指针，外部块的 restrict 指针
+  int ** restrict crestpp0;                    // crestpp 是一个 restrict 指针，指向一个 int* 指针
+  int *acrestpp1 = *crestpp0;                  // acrestpp1 和 acrestpp2 都间接指向 crestpp 指向的 int* 指针
+  int *acrestpp2 = *crestpp0;                  // 但是编译器无法确定 *crestpp 是否会被其他指针（例如 acrestpp2）间接访问和修改。这意味着编译器必须假设 *crestpp 可能通过其他指针被修改，从而抑制某些优化
+  // *acrestpp1 = 10;
+  // *acrestpp2 = 20;
+  // int* restrict restrictp1 = &a;          // 5、从一个受限指针 restrict 赋值给另一个受限指针 restrict 是未定义行为
+  // int* restrict restrictp2 = &b;
+  // restrictp1 = restrictp2;                // 未定义行为
+  int * restrict outerrestp;                 // 将指向外部块的 restrict 指针赋值给内部块中的指针，外部块的 restrict 指针
   {
-    int *outerrestq = outerrestp;         // 合法：outerrestq 在 outerrestp 所在块的内部
+    int *outerrestq = outerrestp;            // 合法：outerrestq 在 outerrestp 所在块的内部
   }
   // void process_array(int * restrict arr); // 将 restrict 指针作为参数传递给函数
   // int * restrict arrrestp;
@@ -1512,7 +1514,7 @@ int declarations_fn(void) {
   //   while (n-- > 0)                       // 6、restrict 指针可以自由地赋值给非 restrict 指针，只要编译器还能优化代码，优化机会还是保留
   //     *p++ = *q++;                        // 几乎肯定优化成仅如 *r++ = *s++ 一般
   // }
-  typedef int *array_t[10];                  // 7、若以 restrict 类型限定符声明数组类型（通过使用 typedef），则数组类型无 restrict 限定，但其元素类型有 restrict 限定 (C23前)始终认为数组类型与其元素类型同等地拥有 restrict 限定(C23起)
+  typedef int *array_t[10];                     // 7、若以 restrict 类型限定符声明数组类型（通过使用 typedef），则数组类型无 restrict 限定，但其元素类型有 restrict 限定 (C23前)始终认为数组类型与其元素类型同等地拥有 restrict 限定(C23起)
   // restrict array_t a;                        // a 的类型是 int *restrict[10]，在这个声明中，restrict 关键字应用于数组的元素类型，而不是数组类型本身。也就是说，数组 a 的每个元素都是一个 int * restrict 类型的指针。这意味着每个指针都具有 restrict 限定符，但数组 a 本身并不具有 restrict 限定符，注：clang 和 icc 以 array_t 不是指针类型为由拒绝
   // void *unqual_ptr = &a;                     // C23 前 OK 在这种情况下，unqual_ptr 是一个 void* 类型的指针，指向数组 a，这种转换是合法的，因为 restrict 限定符只影响指针的行为，而不影响数组本身； C23 起错误，在 C23 标准及之后的标准中，这种转换被视为非法，因为 restrict 限定符适用于整个数组类型和它的元素类型，赋值给无限定符的指针会违反 restrict 的独占访问假设，clang 即使在 C89-C17 模式也应用 C++/C23 中的规则，
   // void f(int m, int n, float a[restrict m][n], float b[restrict m][n]);
