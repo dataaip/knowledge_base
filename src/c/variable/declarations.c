@@ -1370,7 +1370,7 @@ int declarations_fn(void) {
   for (int n = 0; n < 10000; ++n)
     for (int m = 0; m < 10000; ++m)
       dt += dt * n * m;           // 读写非 volatile 对象
-  printf("Modified a non-volatile variable 100m times. Time used: %.2f seconds\n", (double)(clock() - t)/CLOCKS_PER_SEC );
+  print_purple("Modified a non-volatile variable 100m times. Time used: %.2f seconds\n", (double)(clock() - t)/CLOCKS_PER_SEC );
   t = clock();
   volatile double vdt = 0.0;
   for (int n = 0; n < 10000; ++n)
@@ -1378,7 +1378,7 @@ int declarations_fn(void) {
       double prod = vdt * n * m;  // 读 volatile 对象
       vdt += prod;                // 读写 volatile 对象
     } 
-  printf("Modified a volatile variable 100m times. Time used: %.2f seconds\n", (double)(clock() - t)/CLOCKS_PER_SEC );  
+  print_purple("Modified a volatile variable 100m times. Time used: %.2f seconds\n", (double)(clock() - t)/CLOCKS_PER_SEC );  
 
   /*
   restrict(C99) 类型限定符
@@ -1461,10 +1461,14 @@ int declarations_fn(void) {
   int * restrict restp = &restrictnum;                // restp 是一个指向 int 的指针，并且被 restrict 限定
   float * restrict restq = &restrictnum1;             // restq 是一个指向 float 的指针，并且被 restrict 限定
   int * restrict restarr[10];                         // restarr 是一个数组，数组的每个元素是一个被 restrict 限定的指向 int 的指针
+  print_purple("restrict restp = %d.\n", *restp);
+  print_purple("restrict restq = %.2f.\n", *restq);
   int * restrict restp1 = &restrictnum;               // 2、限制语义仅适用于左值表达式
   *restp1 = 10;                                       // 左值上下文中的 restrict：这里 restp1 是一个左值，并且有 restrict 限定，所以编译器可以进行优化  
   int *restq1 = (int * restrict) restp1;              // 非左值上下文中的 restrict（无效）：这里 restp1 不是左值，restrict 限定无效
   *restq1 = 10;                                       // 这行代码中，restq1 是一个左值，但 restrict 限定信息已经丢失 ，(int * restrict) p 是一个强制转换表达式，结果不是左值，因此 restrict 限定符无效。赋值给 q 后，q 的 restrict 限定符信息已经丢失，所以在 *q = 10 这一行中，编译器不能利用 restrict 信息进行优化 
+  print_purple("restrict restp1 = %d.\n", *restp1);
+  print_purple("restrict restq1 = %d.\n", *restq1);
   int * restrict barrest(void);                       // 函数返回值中的 restrict（无效）：bar() 函数返回一个 restrict 限定的指针，但返回值本身不是左值，因此 restrict 限定符无效
   // void f(int n, int * restrict p, int * restrict q) {
   //   while (n-- > 0)                    // 3、必须由声明了 restrict 的指针 p 进行所有访问（读或写），否则会发生定义行为
@@ -1479,7 +1483,7 @@ int declarations_fn(void) {
   const int * restrict crestp = &restrictnum;  // 4、crestp 是 restrict 限定的指针，并且它们指向的对象是 const 类型（只读）。因为对象不会被修改，编译器可以假设通过 crestp 的访问不会相互影响，从而进行优化
   int acrestp = *crestp;
   int ** restrict crestpp;                     // crestpp 是 restrict 指向指针的指针。因为 crestpp 指向的对象本身是指针，编译器在处理间接访问 *crestpp 时，难以保证这些指针不会引入冲突或修改，从而可能抑制优化
-  int *acrestpp = *crestpp;               
+  int *acrestpp = *crestpp;                
   // *acrestpp = 10;                           // 由于 crestpp 指向的是指针，它们的间接访问可能引入冲突，限制优化
   // 初始化 crestpp：crestpp 是一个 restrict 指向指针的指针。它指向某个 int* 类型的指针
   // 间接访问 *crestpp：int *acrestpp = *crestpp; 这行代码首先通过 crestpp 访问到一个 int* 类型的指针，并将其赋值给 acrestpp
@@ -1522,7 +1526,7 @@ int declarations_fn(void) {
   //   f(10, n, p, p+10);                       // OK，在第一次调用中，m 的值是 10，因此 a 和 b 分别指向 p 和 p + 10，即 p 指向的数组和紧接在其后的数组。这种情况是安全的，因为 p 和 p + 10 指向的内存区域不会重叠                 
   //   f(20, n, p, p+10);                       // 可能是未定义行为（取决于 f 所为），在第二次调用中，m 的值是 20，因此 a 和 b 分别指向 p 和 p + 10，即 p 指向的数组和紧接在其后的 20 个数组。在这种情况下，p 和 p + 10 所指向的内存区域可能存在重叠，具体取决于 n 的值和 f 函数的实现。如果 n 的值较小，例如只有 1，那么 p 和 p + 10 实际上可能指向同一个内存区域的部分
   // }
-
+  
 
   /* 
   constexpr(C23)
