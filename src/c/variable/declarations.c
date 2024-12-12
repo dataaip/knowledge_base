@@ -1252,6 +1252,8 @@ int declarations_fn(void) {
   12、含有对 setjmp 宏调用的函数中的局部 volatile 变量，是在 longjmp 返回后仅有保证恢复其值的局部变量，在使用 setjmp 和 longjmp 时， volatile 关键字可以保证在 longjmp 返回后，局部变量的值能够被正确恢复
   13、volatile 变量可用于禁用某些优化形式，例如禁用死存储消除，或为微基准测试禁用常量折叠，volatile 变量可以防止编译器对代码进行某些优化，例如死存储消除或常量折叠。这在编写低级代码或进行微基准测试时尤为重要
   14、volatile 变量不适合线程间交流；它们不提供原子性、同步或内存定序。读取一个被另一线程未经同步地修改的 volatile 变量，或两个未同步的线程的共时修改，对于一些数据竞争是未定义行为
+  
+  多线程 lock-free 问题 volatile、原子类型、内存栅栏/屏障、编译器重排、CPU乱序
   */
   volatile bool flagv = false;  // 1、volatile bool flag 表示 flag 是一个可能被外部因素（比如另一个线程或硬件中断）修改的变量
   // void set_flag() {          // 在 check_flag() 函数中，编译器不能对 while (!flag) 循环进行优化，必须每次都从内存读取 flag 的值，以确保当另一个线程调用 set_flag() 将 flag 设为 true 时，check_flag() 能够检测到这一变化
@@ -1381,6 +1383,7 @@ int declarations_fn(void) {
   /*
   restrict(C99) 类型限定符
   在 C 类型系统中每一个独立的类型都有数个该类型的限定版本，对应 const、volatile，以及对于指向对象指针的 restrict 限定符中的一个、两个或全部三个。此节描述 restrict 限定符的效果
+  
   
   */
 
