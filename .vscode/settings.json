@@ -206,4 +206,7 @@
     "doxdocgen.generic.commandSuggestion": true,
     "doxdocgen.generic.commandSuggestionAddPrefix": true,
     "makefile.configureOnOpen": false,
+    "cSpell.words": [
+        "Alignas"
+    ],
 }
