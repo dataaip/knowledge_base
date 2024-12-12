@@ -14,10 +14,12 @@
 */
 
 #include "c/variable/variable.h"
+#include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <assert.h>
 #include <stdatomic.h> 
+#include <time.h>
 
 /**
 * @brief             声明是一种引入一个或多个标识符到程序中，并指定其含义及属性的 C 语言构造
@@ -1087,11 +1089,304 @@ int declarations_fn(void) {
   };
   print_purple("Sbt2 sizeof = %zu\n", sizeof(struct Sbt2)); // 通常打印 8
 
-  /* 
-  const
-  volatile
-  restrict(C99)
+  /*
+  const 类型限定符 
+  在 C 类型系统中每一个独立的类型，都有该类型的几个限定版本，对应 const、volatile 及对于指向对象指针的 restrict 限定符中的一个、两个或全部三个。本节描述 const 限定符的效果
   
+  1、用 const 限定类型声明的对象可能会被编译器放置在只读内存中，并且如果在程序中从未获取过 const 对象的地址，那么它可能根本不会被存储，任何尝试修改类型为 const 限定的对象的行为都会导致未定义的行为
+  
+  2、const 语义仅适用于左值表达式；当在不需要左值的上下文中使用常量左值表达式时，其 const 限定符会丢失（请注意，如果存在 volatile 限定符，则不会丢失）
+  左值（lvalue）的概念：左值是一个表示数据对象的表达式，它具有确定的内存地址，并且在程序执行过程中可以出现在赋值运算符的左边（当然，不是所有左值都能合法地放在赋值运算符左边，比如被 const 修饰的左值就不行）。例如，变量名就是常见的左值，像 int num = 10; 这里的 num 就是一个左值，它对应内存中存储 num 值的位置，可以通过 num 去获取或者修改这个位置存储的值（如果没有其他限制条件的话）
+  const 语义与左值：当我们用 const 修饰一个变量，比如 const int n = 5;，此时 n 就是一个常量左值表达式。const 的语义作用在这个左值上，意味着这个左值所代表的数据对象（也就是 n 对应的内存存储的值）在程序中是不应该被修改的，编译器会基于这个限定来进行一些检查和优化（虽然通过一些不正当手段还是可能破坏这个限定，如前面提到的利用指针强制类型转换去修改 const 变量，但这属于未定义行为）。所以说 const 语义是针对左值表达式来体现的，它限定了这个左值所关联的对象的可修改性
+  不需要左值的上下文举例：比如在函数调用传值的场景中，如果函数参数是按值传递（不是传递指针或者引用），并且参数类型是一个 const 限定的基本类型。例如有函数 void printValue(const int x) { printf("%d\n", x); }，在调用 printValue(n);（假设前面定义了 const int n = 5;）时，n 这个常量左值表达式的值会被拷贝一份传递给函数 printValue 里的形参 x。在这里，函数内部只是使用 x 的值去打印，并不需要把 x 当作一个能修改的左值（实际上也不能修改，因为有 const 修饰），此时对于这个形参 x 所处的这个 “使用其值” 的上下文（而不是把它当作可修改的对象的上下文）来说，它的 const 限定符在某种意义上 “丢失” 了作用。也就是说在函数内部的代码生成等处理中，编译器更多地只是把它当作一个普通的值来处理，只要保证不会出现对它进行赋值等修改操作就行，不会像对待真正要维持常量性的左值那样严格限制所有相关的代码生成情况
+  volatile 限定符的作用：volatile 主要用于告诉编译器，被它修饰的变量可能会在程序执行过程中被意想不到的因素（比如硬件中断、多线程并发访问等情况）修改，所以编译器不能对这个变量进行常规的优化（比如缓存其值到寄存器等可能导致看不到外部对其修改的优化行为），每次使用这个变量时都要从内存中重新读取其值
+  与 const 结合时的情况：当一个变量同时被 const 和 volatile 修饰，例如 volatile const int flag = 0;，即使在一些看似不需要左值的上下文中，它的 const 限定符也不会丢失。这是因为 volatile 强调了这个变量的特殊性，其值随时可能被外部改变，所以编译器始终要把它当作一个具有特殊性质（既不能随意修改它 —— 因为有 const，又要时刻关注它的值可能变化 —— 因为有 volatile）的左值来对待，不管在何种使用场景下，都会严格遵循 const 和 volatile 的语义要求来生成相应的代码，不会出现因为上下文好像不需要左值特性就忽略 const 限定的情况
+
+  const 对象
+  3、指定具有常量限定类型 const 的对象的左值表达式，以及指定具有至少一个常量限定类型成员（包括递归包含的聚合体或联合体的成员）的结构体或联合体类型对象的左值表达式，不是可修改的左值。特别是，它们不可赋值
+  针对基本类型的 const 左值 对于像 const int n = 10; 这样简单的情况，n 是一个具有常量限定类型（const int）的左值表达式。根据这条规则，它不是可修改的左值，意味着像 n = 20; 这样的赋值操作是非法的，编译器会报错。因为 const 明确限定了这个左值所代表的对象（也就是 n 对应的那个整数存储的值）不能被改变，它在整个程序的正常执行流程中应该始终保持初始设定的常量值
+  针对结构体或联合体中的 const 成员 假设有如下结构体定义 struct Point { const int x; int y; }; 如果定义了一个结构体变量 struct Point p = {10, 20};，那么 p.x 就是一个指定具有常量限定类型成员（这里 x 是 const int 类型）的结构体类型对象的左值表达式。按照规则，p.x 是不可修改的左值，像 p.x = 30; 这样的赋值操作就是不合法的，编译器会检测出这违反了 const 的语义限定，阻止这样的代码通过编译
+  对于联合体也是类似的道理 union Data { const int num; char str[10]; }; 定义 union Data d; 后，d.num 作为指定了常量限定类型成员的联合体对象的左值表达式，同样不可以被赋值修改，像 d.num = 5; 这种操作是不符合语言规范的，会被编译器认定为错误操作
+  递归包含情况 假如存在结构体嵌套结构体，并且内层结构体有 const 限定的成员，同样不可修改，编译器会依据 const 的语义规则禁止这样的代码编译通过
+
+  const 结构体联合体
+  4、常量限定的结构或联合类型的成员会获得其所属类型的限定如 const（无论是使用 “.” 运算符还是 “->” 运算符访问时）
+  
+  const 数组
+  5、若以 const 类型限定符声明数组类型（通过使用 typedef），则数组类型无 const 限定，但其元素类型有(C23前)，但(C23起) 始终认为数组类型与其元素类型同等地拥有 const 限定
+  在 C23 之前，通过 typedef 使用 const 来限定数组时，const 的限定作用主要体现在数组元素层面，保证元素不可修改，但并没有对数组整体的可赋值等操作（从类型层面当作一个不可变的实体）进行限定，这和很多人直观上认为的整个数组都被 const 修饰的理解是不太一样的，容易产生混淆，也可能导致一些代码出现不符合预期的行为（如果程序员错误地以为数组整体不可变）
+  C23 标准下让数组类型和其元素类型在 const 限定方面的处理更加统一、直观，减少了因之前标准下两者限定不一致而可能导致的误解和编程错误，使代码中对于 const 修饰数组情况的行为更符合程序员通常期望的那种 “整个数组都不可变” 的语义理解
+  实际编程中，如果代码要在不同 C 语言标准的环境下编译运行，就需要特别留意这种关于数组和 const 限定相关规则的变化，避免出现兼容性问题
+
+  const 函数
+  6、若以 const 类型限定符声明函数类型（通过使用 typedef），则行为未定义，typedef 常用于给已有的数据类型定义一个新的别名，方便代码书写和增强可读性等。例如可以用 typedef 给函数指针类型定义别名，像这样 typedef int (*FuncPtr)(int);，如果试图使用 const 来限定函数类型本身（通过 typedef 操作），这在 C 语言标准中是未定义行为。例如，下面这样的代码（虽然不符合标准规范，但展示下错误示例）typedef int const FuncType(const int);  
+  函数在 C 语言里有其自身特殊的调用机制、存储方式以及语义规则等。函数本身不是像普通变量那样可以简单地用 const 去限定其整体不可变，因为函数调用涉及到执行一段代码逻辑、参数传递、栈帧的操作等复杂过程。C 语言标准并没有明确规定用 const 去限定函数类型该如何处理，所以不同的编译器面对这样的情况可能会有不同的处理方式，甚至可能直接报错，这就导致了行为的不可预测性，也就是所谓的未定义行为
+  7、函数声明中，关键词 const 可出现在用于声明函数形参的数组类型的方括号内。它限定数组类型所变换到的指针类型，
+  在 C 语言中，当函数的形参声明为数组形式时，比如 void func(int arr[5])，实际上在函数调用传递参数时，数组会自动退化为指向其首元素的指针，即上述函数声明等同于 void func(int *arr)。这是 C 语言的一个重要特性，为了方便函数处理数组数据
+  两条声明声明相同函数 void f(double x[const], const double y[const]); 退化成指针 void f(double * const x, const double * const y);
+
+  const 复合字面量
+  8、常量限定的复合字面量不一定指定不同的对象；它们可能与其他复合字面量以及碰巧具有相同或重叠表示的字符串字面量共享存储
+  复合字面量是一种可以创建匿名对象（没有显式命名的对象）的语法结构，当使用 const 对复合字面量进行限定的时候，它有一些特殊的存储特性
+  对于带有 const 修饰的复合字面量，编译器在处理时，出于存储优化等方面的考虑，有可能会把它们在内存中的存储进行重叠安排（只要符合相应规则，不影响程序语义的正确性），而不是一定为每个这样的复合字面量都分配完全独立、不同的内存区域，而且它们还可能和字符串字面量在存储上有重叠情况（因为字符串字面量本身也是一种不可修改的常量性质的数据，存储在只读的内存区域，和 const 限定的复合字面量在不可变这点上有相似性）
+  这种重叠存储情况是编译器实现层面基于标准允许的优化可能带来的结果，不同的编译器可能有不同的表现，在实际编写代码时不能依赖这种不确定的、依赖编译器行为的情况来确保程序逻辑的绝对正确性，除非是非常明确知晓并且在特定、可控的环境下利用这种特性
+
+  const 指针
+  9、指向非 const 类型的指针能隐式转换成指向同一或兼容类型的 const 限定版本的指针。需要转型表达式进行逆向转换
+  注意 指向指向 T 指针的指针不可转换为指向指向 const T 指针的指针；对于要兼容的二个类型，其限定必须等同，即 指向char*的指针 不能转为指向const char*的指针
+
+  const 注解 在 C 中不是常量表达式，在 C++ 中为常量表达式
+  10、C 从 C++ 中采纳了 “const” 限定符，但是与 C++ 不同，在 C 中具有 const 限定类型的表达式不是常量表达式；它们不能用作 case 标签，也不能用于初始化静态和线程存储持续时间对象、枚举常量或位域大小。当它们用作数组大小时，结果数组是可变长度数组 VLA
+  在早期的 C 语言中并没有 const 这个关键字来专门限定常量，后来从 C++ 引入了 const 限定符。在 C++ 中，const 有着比较明确且丰富的语义用于定义常量，比如用 const 修饰的变量一旦初始化后其值就不能被改变，并且在很多场景下 const 修饰的表达式可以当作真正的常量表达式来使用。而 C 语言虽然接纳了 const 限定符，但是对它的处理和 C++ 有着关键的区别
+  不是常量表达式：在 C 语言里，即使一个表达式被 const 限定了，它本质上仍然只是一个具有只读属性的变量（在内存中有对应的存储单元，和普通变量类似只是不能修改它的值），而不是像在 C++ 中那样完全等同于常量表达式 
+  不可用作 case 标号：在 switch 语句中，case 后面跟的必须是常量表达式，用于和 switch 表达式的值进行匹配判断。在 C 语言中，由于 const 限定的表达式不是常量表达式
+  不能用于初始化静态和线程存储期对象：静态存储期对象是指那些在程序整个生命周期内都存在的对象，例如定义在所有函数外部的全局变量，或者用 static 关键字修饰的局部变量等。在 C 语言中，初始化这类对象要求使用常量表达式，而 const 限定的表达式不符合要求
+  不能用作枚举项：枚举类型中每个枚举项本质上也相当于是一个常量，在 C 语言里，const 限定的表达式没办法充当枚举项
+  不能用于位域大小：在结构体中定义位域时，用于指定位域宽度的数值必须是常量表达式。同样因为 const 限定的表达式在 C 语言中不算常量表达式，所以不能用于这个用途
+  当在 C 语言中把 const 限定的表达式用作数组大小时，它会生成可变长数组（Variable Length Array，简称 VLA）。可变长数组是 C99 标准引入的特性，它允许数组的大小在运行时根据实际情况确定（只要符合一定的内存等条件限制）
+  */
+  const int nct = 1;      // 1、const 限定类型的对象
+  // nct = 2;             // 不可修改，首先，定义了一个 const int 类型的变量 n 并初始化为 1。const 关键字修饰意味着这个变量的值在正常情况下是不应该被修改的，它承诺在程序执行期间保持常量性，编译器会基于这个假设做一些优化处理，并且从语义层面阻止程序员去直接修改它的值
+  int* pct = (int*)&nct;  // 声明了一个 int* 类型的指针 p，并通过强制类型转换将 n 的地址赋值给 p。这里的强制类型转换其实是一种绕过 const 限定的危险操作，因为从语言设计意图来讲，不应该通过这样的指针去修改 const 变量的值
+  *pct = 2;               // 未定义行为，这块本应内存不可修改，然后执行 *p = 2，试图通过指针 p 去修改 n 的值。在 C 语言标准中，这样去修改一个 const 限定的对象的值属于未定义行为（Undefined Behavior），这意味着编译器可以自由选择如何处理这种情况，不同的编译器实现、不同的编译选项（比如是否开启优化）都可能导致截然不同的结果
+  print_purple("cnt = %d, cnt address = %p\n", nct, &nct); 
+  print_purple("pct = %d, pct value = %p\n", *pct, pct);
+  const int nct1 = 1;     // 3、const 类型对象
+  // nct1 = 2;            // 错误： nct1 的类型为 const 限定
+  int xct = 2;            // 未限定类型的对象
+  const int* pxct = &xct; // const 类型对象
+  // *pxct = 3;           // 错误：左值 *pxct 的类型为 const 限定 
+  struct {int a; const int b; } s1st = {.b=1}, s2st = {.b=2};
+  // s1st = s2st;         // 错误：s1 的类型无限定，但它有 const 成员
+  struct s4st { int i; const int ci; } cs5;      // 4、cs5.i 的类型为 int，cs5.ci 的类型为 const int
+  const struct s4st cs6;                         // cs6.i 和 cs6.ci 的类型都是 const int
+  typedef int Aarr[2][3];                        // 5、定义了一个名为Aarr的类型别名，表示一个二维数组类型，该二维数组有 2 行 3 列，元素类型为int
+  const Aarr arrt = { {4, 5, 6}, {7, 8, 9} };    // const 限定了 arrt 数组中的元素不能被修改。对于这个二维数组，任何试图修改其元素值的操作都是非法的
+  // arrt[0][0] = 10;                            // 非法操作，因为 arrt 是 const 限定的，不能修改其元素
+  int* prti = arrt[0];                           // ？a[0] 拥有 const int* 类型，Initializing 'int *' with an expression of type 'const int[3]' discards qualifiers
+  void* unqual_p = arrt;                         // ？C23 前 OK ； C23 起错误 // 注： clang 即使在 C89-C17 模式也应用 C++/C23 中的规则 Initializing 'void *' with an expression of type 'const Aarr' (aka 'const int[2][3]') discards qualifiers
+  // typedef const int ArrayType[5];             // 通过typedef定义了一个新的数组类型别名，元素是const int类型
+  // ArrayType arrt3;
+  // void *unqual_ptr = arrt3;                   // 可以将一个ArrayType类型的数组赋值给另一个同类型数组，因为数组类型本身未被const限定，在C23中，这会被视为错误，因为数组类型本身现在被const限定了，不能随意赋值
+  // arrt3[0] = 10;                              // 错误，试图修改const int类型的元素，违反了const语义
+  typedef int (*FuncPtr)(int);                   // 6、定义了一个名为FuncPtr的函数指针类型别名，指向的函数参数为int，返回值为int
+  typedef int const FuncType(const int);         // 试图用const限定函数类型，这是错误的，行为未定义
+  void fn1(double x[const], const double y[const]);   // 7、退化成指针 void fn2(double * const x, const double * const y);
+  void fn2(double * const x, const double * const y); // x 是一个指向 double 类型的 const 指针，这意味着指针 x 本身不能被修改，不能再指向其他地址，但它指向的值可以被修改
+  void fn3(double x[], const double y[]);             // y 的元素不能被修改，声明表示数组中的元素是常量，不能被修改
+  void fn4(double *x, const double *y);               // y 的元素不能被修改，此指针不能修改它所指向的double类型的值，但指针本身可以指向不同的地址
+  const int* pcst1 = (const int[]){1, 2, 3};          // 8、通过复合字面量 (const int[]){1, 2, 3} 创建了一个匿名的 const int 类型的数组（元素为 1、2、3），然后定义了一个指向 const int 的指针 p1 指向这个匿名数组的首元素
+  const int* pcst2 = (const int[]){2, 3, 4};          // pcst2 的值可等于 pcst1+1，第二行代码里，同样用复合字面量 (const int[]){2, 3, 4} 创建了另一个匿名的 const int 类型数组（元素为 2、3、4），并让指针 p2 指向它。这里注释提到 p2 的值可等于 p1 + 1，意思是由于编译器对这些 const 限定的复合字面量存储处理的灵活性，有可能在内存布局上，后面这个匿名数组 (const int[]){2, 3, 4} 的起始地址刚好和前一个匿名数组 (const int[]){1, 2, 3} 的第二个元素地址是重合的（虽然这不是必然情况，取决于编译器的实现，但标准允许这种可能的存储优化存在），所以从语法概念上来说，就好像 p2 的值等同于 p1 + 1 一样，也就是两个复合字面量所代表的数组在内存中存在了重叠表示的情况
+  _Bool bl = "foobar" + 3 == (const char[]){"bar"};   // bl 的值可为 1，"foobar" 是一个字符串字面量，在 C 语言中它存储在只读的内存区域，并且它本质上可以看作是一个 const char 类型的数组（因为其内容不可修改）。表达式 "foobar" + 3 是对这个字符串字面量做指针运算，它得到的是指向该字符串中字符 'b' 的指针（因为跳过了前面 3 个字符）
+  int* ptr1 = 0;                                      // 9、指向非 const 类型的指针能隐式转换成指向同一或兼容类型的 const 限定版本的指针。逆向转换需要转型表达式处理
+  const int* cptr1 = ptr1;                            // OK：添加限定符（int 到 const int）
+  ptr1 = cptr1;                                       // 错误：舍弃限定符（const int 到 int），Assigning to 'int *' from 'const int *' discards qualifiers
+  ptr1 = (int*)cptr1;                                 // OK：转型
+  char *ptr2 = 0;
+  const char **cpptr2 = &ptr2;                        // const作用域 **cpptr2  错误：char* 与 const char* 不是兼容类型，Initializing 'const char **' with an expression of type 'char **' discards qualifiers in nested pointer types
+  char * const *pcptr2 = &ptr2;                       // const作用域 *pcptr2 OK：添加限定符（char* 到 char *const）
+  char ** const ppctr2 = &ptr2;                       // const作用域 ppctr2
+  const int num = 5;                                  // 10、// 在C++中，下面这种用法是合法的，因为const int类型的num可以当作常量表达式，但在C语言中是非法的，因为C不认为num是常量表达式
+  int arrnum[num];
+  const int choice = 2;
+  switch (choice) {
+    case choice:                                      // 在C语言中，这是非法的，因为choice虽然被const限定，但不是常量表达式
+      // do something
+      break;
+    default:
+      break;
+  }
+  const int global_const = 10;
+  static int static_variable = global_const;          // 下面是非法的，试图用const限定的global_const去初始化静态存储期的变量，在C中不行
+  const int enum_value = 3;
+  enum Color {
+    REDC = enum_value,                                // 在C语言中，这是非法的，不能用const限定的enum_value作为枚举项
+    GREENC
+  };
+  const int bit_width = 4;
+  struct BitFieldStruct {
+    unsigned int field : bit_width;                   // 在C语言中，这是非法的，不能用const限定的bit_width作为位域大小
+  };
+  int size = 10;
+  const int const_size = size;
+  int arrcval[const_size];                            // 这里定义了一个可变长数组，因为使用了const限定的const_size作为数组大小，在C语言中会这样处理
+
+  /*
+  volatile 类型限定符
+  C 类型系统中的每个单独类型都有该类型的多个限定版本，对应于 const、volatile 中的一个、两个或全部三个，对于指向对象类型的指针，restrict 限定符。本节介绍 volatile 限定符的效果
+  关于 volatile 限定符的基本作用 在 C 和 C++ 语言中，volatile 是一个类型限定符，它主要用于告诉编译器，被它修饰的对象（通常是变量等左值表达式所代表的对象）具有一些特殊的、易变的性质，其值可能会在程序控制流之外被改变，比如可能被硬件（像外部设备寄存器等情况）或者其他并发执行的线程（在多线程环境下）修改
+  在 C 或 C++ 中，volatile 关键字被用来防止编译器对其修饰的变量进行优化，从而确保程序在每次访问该变量时（无论是读取还是写入）都直接进行内存操作。这对于某些硬件寄存器或多线程编程中特殊的内存位置是非常重要的
+
+  1、通过 volatile 限定类型的左值表达式进行的每次访问（读取和写入）都被视为用于优化的可观察副作用，并严格根据抽象机器的规则进行评估（即，所有写入都在下一个序列点之前的某个时间完成）。这意味着在单个执行线程中，无法相对于另一个可见的副作用（由 sequence point 与 volatile 访问分开）优化或重新排序 volatile 访问
+  可观察的副作用：对 volatile 变量的每一次访问（无论是读取还是写入）都被视为一个可观察的副作用。这意味着这些访问不会被编译器优化掉，因为它们被认为是对程序行为有实际影响的操作
+  严格的评估顺序：根据抽象机器（即标准规定的行为模型）的规则，所有对 volatile 变量的写入操作必须在下一个序列点（sequence point）之前完成。换句话说，编译器不能随意重新排序这些操作
+  单线程中的顺序保证：在单个线程的执行过程中，volatile 变量的访问顺序不能被重新排序到另一个可见的副作用之前或之后，除非有明确的序列点将它们分开
+  
+  访问和优化：volatile 修饰的变量在每次访问时都被视为有可观察的副作用，这意味着编译器不应该对这些访问进行优化（如缓存，寄存器替换等），确保每次访问都是直接从内存读取或写入
+  序列点：序列点是 C/C++ 中定义的一个概念，表示在某些关键位置，所有的副作用（包括修改和读取）都应该在下一步之前完成。通常来说，一个序列点确保前面的所有操作都完成，后面的操作才开始
+  单线程环境中的顺序保证：在单线程环境下，每个 volatile 访问（读取或写入）都会严格按程序中定义的顺序执行，而不会被编译器重新排序
+
+  2、将 非 volatile 值强制转换为 volatile 类型不起作用。要使用 volatile 语义访问非 volatile 对象，必须将其地址强制转换为指向 volatile 的指针，然后必须通过该指针进行访问
+  如果你有一个非 volatile 的变量，你不能简单地通过类型转换将其转换成 volatile 类型来获得 volatile 的语义。这是因为 volatile 的语义不仅仅涉及到变量的类型，还涉及到编译器对该变量的访问处理方式，正确的方法是通过一个指向 volatile 的指针来访问这个变量，编译器会知道对该变量的访问需要按照 volatile 的语义进行处理
+
+  3、任何通过 非 volatile 左值读取或写入其类型符合 volatile 条件的对象的行为都会导致 undefined 行为
+  如果一个对象被声明为 volatile，但是你通过一个非 volatile 的左值（变量或指针）来访问它，编译器可能会对这种访问进行优化，结果可能会导致未定义行为。未定义行为意味着程序的行为无法预测，可能会导致程序崩溃或其他不可预见的问题
+
+  volatile 限定结构体联合体
+  4、volatile 限定结构或联合类型的成员将获得其所属类型的限定（使用 . 运算符或 -> 运算符访问时）
+
+  volatile 限定数组
+  5、若以 volatile 类型限定符声明数组类型（通过使用 typedef），则数组类型无 volatile 限定，但其元素类型有(C23前)，从 C23 起 始终认为数组类型与其元素类型同等地拥有 volatile 限定 (C23起)
+
+  volatile 限定函数
+  6、若函数类型声明具有 volatile 类型限定（通过使用 typedef），则行为未定义，类同 const
+  7、在函数声明中，关键词 volatile 可以出现于用以声明数组类型的函数形参的方括号内。它对数组所转换得的指针类型赋予限定，类同 const
+
+  volatile 限定指针
+  8、指向非 volatile 类型的指针可以隐式转换成指向同一或兼容类型的 volatile 限定版本的指针。逆向转换需要使用转型表达式进行
+  9、注意指向 T 的指针的指针不可转换成指向 volatile T 的指针的指针；对于要兼容的两个类型，它们的限定必须相同，即 指向 char* 的指针 不可转为指向 volatile char* 的指针
+
+  volatile 的用法
+  10、static volatile 对象模仿映射于内存的 I/O 端口，而 static const volatile 对象模仿映射于内存的输入端口，例如实时时钟，volatile 关键字用于指示编译器，不要优化访问 ttyport 指针指向的内存位置。也就是说，每次访问 *ttyport 都应该直接访问内存地址 TTYPORT_ADDR，而不是使用缓存的值。这种用法通常用于硬件寄存器或 I/O 端口
+  11、sig_atomic_t 类型的 static volatile 对象用于与 signal 处理函数交流，当处理信号时，信号处理函数可能会在异步执行的环境中访问某些变量。使用 volatile 和 sig_atomic_t 类型可以确保这些变量在信号处理函数中正确地被读取和写入
+  12、含有对 setjmp 宏调用的函数中的局部 volatile 变量，是在 longjmp 返回后仅有保证恢复其值的局部变量，在使用 setjmp 和 longjmp 时， volatile 关键字可以保证在 longjmp 返回后，局部变量的值能够被正确恢复
+  13、volatile 变量可用于禁用某些优化形式，例如禁用死存储消除，或为微基准测试禁用常量折叠，volatile 变量可以防止编译器对代码进行某些优化，例如死存储消除或常量折叠。这在编写低级代码或进行微基准测试时尤为重要
+  14、volatile 变量不适合线程间交流；它们不提供原子性、同步或内存定序。读取一个被另一线程未经同步地修改的 volatile 变量，或两个未同步的线程的共时修改，对于一些数据竞争是未定义行为
+  */
+  volatile bool flagv = false;  // 1、volatile bool flag 表示 flag 是一个可能被外部因素（比如另一个线程或硬件中断）修改的变量
+  // void set_flag() {          // 在 check_flag() 函数中，编译器不能对 while (!flag) 循环进行优化，必须每次都从内存读取 flag 的值，以确保当另一个线程调用 set_flag() 将 flag 设为 true 时，check_flag() 能够检测到这一变化
+  //   flag = true;             // 如果没有使用 volatile 关键字，编译器可能会优化 while (!flag) 循环，将 flag 的值缓存到寄存器中。这意味着 flag 的变化可能不会被检测到，导致 check_flag() 无限循环
+  // }                          // 在多线程编程中，volatile 关键字可以确保一个线程对变量的修改对另一个线程来说是可见的。虽然 volatile 不能保证线程安全（需要结合锁或其它同步机制），但它能保证每次访问变量时都读取最新的值
+  // void check_flag() {        // volatile 关键字防止编译器对变量访问进行优化，从而确保每次访问都会直接操作内存中的值。这对于变量可能在程序之外被修改的情况（如多线程环境或硬件寄存器）尤为重要。通过使用 volatile，我们保证了程序的正确性和可预见性，即使在复杂的并发或硬件交互环境中也是如此
+  //   while (!flag) {
+  //     // 等待 flag 变为 true
+  //   }
+  //   printf("Flag is set!\n");
+  // }
+  // int main() {
+  //   // 这里假设两个函数在不同的线程中运行
+  //   set_flag();
+  //   check_flag();
+  //   return 0;
+  // } 
+  volatile int shared_var = 0;  // 在 write_to_shared 函数中，有两个对 shared_var 的写操作。由于 shared_var 被声明为 volatile，编译器保证这两个写操作在程序执行时不会被优化或重新排序。它们会严格按顺序写入内存
+  // void write_to_shared() {   // 同样，在 read_from_shared 函数中，有两个对 shared_var 的读操作。编译器会确保每次读操作都直接从内存中读取，而不是使用任何缓存值
+  //   shared_var = 1; // volatile write
+  //   shared_var = 2; // volatile write
+  // }
+  // void read_from_shared() {  
+  //   int x = shared_var; // volatile read
+  //   int y = shared_var; // volatile read
+  //   printf("x = %d, y = %d\n", x, y);
+  // }
+  // int main() {               // 我们可以通过编译和执行该程序，观察输出结果来验证这些行为。如果 volatile 关键字没有发挥作用，我们可能会看到编译器优化后的结果（如：寄存器缓存导致的错误读取）。但是由于 volatile 的保证，shared_var 的每次访问都会直接从内存中进行，确保了读取和写入的正确性
+  //   write_to_shared();       // 编译并运行上面的代码，输出将是：x = 2, y = 2
+  //   read_from_shared();      // 这说明 shared_var 的每次读取都确实从内存中获取了最新的值，且没有任何优化和重排发生。这验证了 volatile 关键字确保了访问顺序和内存同步的规则
+  //   return 0;
+  // } 
+  // 未重排  
+  // int a = 0;                 // 按照书写顺序，我们期望先执行代码块A，然后执行代码块B。然而，编译器可能会进行重排和优化，以提高性能或者减少不必要的计算。如果编译器发现代码块A和代码块B之间没有数据依赖关系（即它们之间互不影响），编译器可能会将代码块B提前执行
+  // int b = 1;                 
+  // // 代码块 A
+  // a = b * 2;
+  // // 代码块 B
+  // b = 3;
+  // 重排后                      // 在这种情况下，最终的a的值将是6，而不是我们预期的2。编译器这样做的目的是优化代码的执行效率，但有时这种优化会导致意想不到的结果，尤其是在多线程环境中
+  // int a = 0;
+  // int b = 1;
+  // // 编译器重排后代码
+  // // 代码块 B
+  // b = 3; 
+  // // 代码块 A   
+  // a = b * 2; 
+  // 防止编译器重排               // 为了防止编译器进行不安全的重排，可以使用内存屏障或其它同步机制，例如在多线程程序中使用volatile关键字或其它同步原语
+  // volatile int a = 0;        // 使用volatile关键字后，编译器会确保对这些变量的读写操作不会被重排，从而保证程序按照预期的顺序执行。需要注意的是，volatile关键字并不能解决所有的并发问题，对于更复杂的同步需求，还需要使用互斥锁（mutex）、条件变量（condition variable）等同步原语
+  // volatile int b = 1;
+  // // 代码块 A
+  // a = b * 2;
+  // // 代码块 B
+  // b = 3;
+  int non_volatile_var = 42;                             // 2、非volatile变量，将非 volatile 值强制转换为 volatile 类型不起作用。要使用 volatile 语义访问非 volatile 对象，必须将其地址强制转换为指向 volatile 的指针，然后必须通过该指针进行访问
+  volatile int *ptr = (volatile int *)&non_volatile_var; // 将其地址强制转换为指向volatile的指针
+  *ptr = 43;                                             // 通过volatile指针进行访问
+  volatile int volatile_var = 42;                        // 3、声明为volatile的变量，通过非 volatile 指针 non_volatile_ptr 访问 volatile 变量 volatile_var 是未定义行为。编译器可能会对这种访问进行优化，导致程序的行为不可预测
+  int *non_volatile_ptr = (int *)&volatile_var;          // 非volatile指针
+  int valuen = *non_volatile_ptr;                        // 通过非volatile指针读取volatile变量
+  *non_volatile_ptr = 43;                                // 通过非volatile指针写入volatile变量
+  volatile int nvlt = 1;                                 // volatile 限定类型的对象
+  int* pvlt = (int*)&nvlt;                               // 非volatile指针
+  int valt = *pvlt;                                      // 未定义行为
+  struct svc { int i; const int ci; } sv;                // 4、s.i 类型是 int，s.ci 的类型是 const int
+  volatile struct svc vs;                                // vs.i 和 vs.ci 的类型各是 volatile int 和 const volatile in
+  typedef int Avl[2][3];                                 // 5、volatile 限定 数组
+  volatile Avl al = {{4, 5, 6}, {7, 8, 9}};              // volatile int 的数组的数组
+  int* pil = al[0];                                      // a[0] 拥有 volatile int* 类型，Initializing 'int *' with an expression of type 'volatile int[3]' discards qualifiers
+  void *unqual_ptrvl = al;                               // C23 前 OK；C23 起错误 // 注：clang 即使在 C89-C17 模式也应用 C++/C23 中的规则，Initializing 'void *' with an expression of type 'volatile Avl' (aka 'volatile int[2][3]') discards qualifiers
+  typedef int FuncTypec(const int);                      // 6、若函数类型声明具有 const 类型限定（通过使用 typedef），则行为未定义
+  typedef int const FuncTypect(const int); 
+  typedef int FuncTypevl(volatile int);                  // 若函数类型声明具有 volatile 类型限定（通过使用 typedef），则行为未定义
+  typedef int volatile FuncTypevtl(volatile int);   
+  void fv1(double x[volatile], const double y[volatile]);   // 7、在函数声明中，关键词 volatile 可以出现于用以声明数组类型的函数形参的方括号内。它对数组所转换得的指针类型赋予限定 
+  void fv2(double * volatile x, const double * volatile y); // 类似 const 限定
+  int* pvtl = 0;                                            // 8、指向非 volatile 类型的指针可以隐式转换成指向同一或兼容类型的 volatile 限定版本的指针。逆向转换需要使用转型表达式进行
+  volatile int* vpvtl = pvtl;                               // OK：添加限定符（int 到 volatile int）
+  pvtl = vpvtl;                                             // 丢弃限定符（volatile int 到 int）
+  pvtl = (int*)vpvtl;                                       // OK：类型转换
+  char *pvtlc = 0;                                          // 9、注意指向 T 的指针的指针不可转换成指向 volatile T 的指针的指针；对于要兼容的两个类型，它们的限定必须相同
+  volatile char **vppvtlc = &pvtlc;                         // char* 和 volatile char* 不是兼容类型
+  char * volatile *pvpvtlc = &pvtlc;                        // 添加限定符（char* 到 char* volatile）
+  char ** volatile ppvvtlc = &pvtlc;                        
+  // volatile short *ttyport = (volatile short*)TTYPORT_ADDR; // 10、(volatile short*)TTYPORT_ADDR 进行类型转换，将 TTYPORT_ADDR 地址转换为指向 volatile short 类型的指针。这是因为在嵌入式编程中，硬件寄存器地址通常需要进行这种类型的转换，volatile 关键字用于指示编译器，不要优化访问 ttyport 指针指向的内存位置。也就是说，每次访问 *ttyport 都应该直接访问内存地址 TTYPORT_ADDR，而不是使用缓存的值。这种用法通常用于硬件寄存器或 I/O 端口
+  // for(int i = 0; i < N; ++i) *ttyport = a[i];              // *ttyport 是 volatile short 类型的左值，这段代码很可能在与某个硬件设备进行通信，比如一个串行端口（tty port）。通过将数据写入 ttyport 对应的地址，程序可以将数据发送到这个设备
+  // sig_atomic_t flagsl = 0;                                 // 11、当处理信号时，信号处理函数可能会在异步执行的环境中访问某些变量。使用 volatile 和 sig_atomic_t 类型可以确保这些变量在信号处理函数中正确地被读取和写入
+  // void signal_handler(int signal) {                
+  //   flag = 1; // 设置一个标志，告诉主程序信号已到来
+  // }
+  // #include <setjmp.h>                                      // 12、在使用 setjmp 和 longjmp 时， volatile 关键字可以保证在 longjmp 返回后，局部变量的值能够被正确恢复
+  // jmp_buf env;                                             // env 是一个保存程序执行环境的结构，用于存储 setjmp 函数调用时的上下文信息
+  // void function() {
+  //   volatile int i = 0;                                    // volatile 修饰符的作用是告诉编译器变量 i 的值可能会在程序的控制流之外发生变化，因此每次访问 i 时都要重新读取它的值，而不是使用缓存的值
+  //   if (setjmp(env) == 0) {                                // setjmp(env) 保存当前的执行环境到 env 中，并返回 0，这个条件语句会在 setjmp 被初次调用时返回 0，因此会执行 i = 42;
+  //     // 初次调用 setjmp, 返回 0     
+  //     i = 42;
+  //   } else {                                               // 当 longjmp(env, 1) 被调用时，程序的控制流会跳回到 setjmp(env) 的位置，此时 setjmp 返回 1，所以会执行 else 中的代码，打印 i 的值
+  //     // 从 longjmp 返回，i 的值将保持为 42
+  //     printf("i = %d\n", i);
+  //   }
+  // }
+  // int main() {
+  //   function();
+  //   longjmp(env, 1);
+  //   return 0;
+  // }
+  // volatile int x = 0;                                      // 13、volatile 变量可以防止编译器对代码进行某些优化，例如死存储消除或常量折叠。这在编写低级代码或进行微基准测试时尤为重要
+  // while (x == 0) {
+  //   // 这里的 x == 0 将不会被编译器优化掉
+  // }
+  clock_t t = clock();            // 展示用 volatile 禁用优化
+  double dt = 0.0;
+  for (int n = 0; n < 10000; ++n)
+    for (int m = 0; m < 10000; ++m)
+      dt += dt * n * m;           // 读写非 volatile 对象
+  printf("Modified a non-volatile variable 100m times. Time used: %.2f seconds\n", (double)(clock() - t)/CLOCKS_PER_SEC );
+  t = clock();
+  volatile double vdt = 0.0;
+  for (int n = 0; n < 10000; ++n)
+    for (int m = 0; m < 10000; ++m) {
+      double prod = vdt * n * m;  // 读 volatile 对象
+      vdt += prod;                // 读写 volatile 对象
+    } 
+  printf("Modified a volatile variable 100m times. Time used: %.2f seconds\n", (double)(clock() - t)/CLOCKS_PER_SEC );  
+
+  /*
+  restrict(C99) 类型限定符
+  在 C 类型系统中每一个独立的类型都有数个该类型的限定版本，对应 const、volatile，以及对于指向对象指针的 restrict 限定符中的一个、两个或全部三个。此节描述 restrict 限定符的效果
+  
+  */
+
+  /* 
+  constexpr(C23)
+
   对齐说明符(C11)
       内存对齐是一种优化技术，旨在提高程序的性能和减少内存访问错误。4字节对齐和8字节对齐是两种常见的内存对齐方式。以下是它们的主要区别和相关概念
       4字节对齐
