@@ -1446,7 +1446,13 @@ int declarations_fn(void) {
   许多编译器提供了一种与 restrict 相反的语言扩展，用于指示即使指针类型不同，这些指针也可能别名。例如，GCC 提供的 may_alias 属性，may_alias 扩展是一种编译器属性，告诉编译器即使指针类型不同，这些指针也可能指向相同的内存区域。这与 restrict 的作用相反。restrict 用于指示某个指针是唯一访问某一块内存区域的方式，从而允许更激进的优化，而 may_alias 则用于指示指针可能别名，从而避免优化导致的错误
   int * __attribute__((may_alias)) ptr; 这个属性告诉编译器，即使 ptr 的类型与其他指针不同，它们也可能指向相同的内存区域，编译器应考虑这种可能性，在没有 may_alias 属性的情况下，编译器可能假设 float 类型的指针和 int 类型的指针不会指向同一内存区域，从而进行一些不安全的优化
 
-  
+  使用模式
+  9、restrict 限定指针有几种常用的使用模式
+  文件作用域
+  函数形参
+  块作用域
+  结构体成员
+
   */
   // int restrict *resp;              // 1、错误 restrict 限定的是 *resp
   // float (* restrict resf9)(void);  // 错误 restrict 不能用于函数指针，restrict 只应限定指针，而不应直接限定基本数据类型或函数指针  
