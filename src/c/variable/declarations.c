@@ -20,6 +20,8 @@
 #include <assert.h>
 #include <stdatomic.h> 
 #include <time.h>
+#include <stdalign.h>
+#include <threads.h>
 
 /**
 * @brief             声明是一种引入一个或多个标识符到程序中，并指定其含义及属性的 C 语言构造
@@ -1565,6 +1567,7 @@ int declarations_fn(void) {
     movl      $5, (%rdi)  ; 存储 5 于 *a
     movl      $6, (%rsi)  ; 存储 6 于 *b
     ret
+  关键字 restrict 只用于限定指针；该关键字用于告知编译器，所有修改该指针所指向内容的操作全部都是基于(base on)该指针的，即不存在其它进行修改操作的途径；这样的后果是帮助编译器进行更好的代码优化，生成更有效率的汇编代码  
   */
   // int restrict *resp;              // 1、错误 restrict 限定的是 *resp
   // float (* restrict resf9)(void);  // 错误 restrict 不能用于函数指针，restrict 只应限定指针，而不应直接限定基本数据类型或函数指针  
@@ -1672,44 +1675,367 @@ int declarations_fn(void) {
   //   // 每次执行 ff 时全部指向无交集的存储区
   //   // ...
   // }                                            // 别名引用断言 r.p、r.q、s.p、s.q、u.p、u.q 都是 restrict 限定指针，每次调用 ff 函数时，编译器可以假设这些指针在函数调用期间指向的内存区域是独占的，不会与其他指针别名。这允许编译器进行更激进的优化，在 ff 函数的执行过程中，可以确保 r.p、r.q、s.p、s.q、u.p 和 u.q 指向的内存区域不会交叉，从而避免数据竞争和提升性能
+  void ff(struct t r, struct t s);
 
   /* 
-  constexpr(C23)
-
   对齐说明符(C11)
-      内存对齐是一种优化技术，旨在提高程序的性能和减少内存访问错误。4字节对齐和8字节对齐是两种常见的内存对齐方式。以下是它们的主要区别和相关概念
-      4字节对齐
-      定义：数据在内存中的起始地址必须是4的倍数
-      适用对象：一般用于较小的数据类型，例如int（通常占用4字节）
-      优点：
-      可以减少内存空间的浪费
-      对于32位系统，访问速度较快
-      使用场景：适合那些需要频繁访问的4字节数据类型
+    内存对齐是一种优化技术，旨在提高程序的性能和减少内存访问错误。4字节对齐和8字节对齐是两种常见的内存对齐方式。以下是它们的主要区别和相关概念
+    4字节对齐 定义：数据在内存中的起始地址必须是4的倍数 适用对象：一般用于较小的数据类型，例如int（通常占用4字节）
+    优点：可以减少内存空间的浪费、对于32位系统，访问速度较快
+    使用场景：适合那些需要频繁访问的4字节数据类型
+  
+    8字节对齐 定义：数据在内存中的起始地址必须是8的倍数 适用对象：适用于较大的数据类型，例如double（通常占用8字节）和64位系统的指针
+    优点：在64位系统上，访问速度较快，因为64位处理器通常一次能处理8字节数据、可以避免某些架构上由于未对齐访问带来的性能损失和潜在的硬件异常
+    使用场景：适合那些需要频繁访问的8字节数据类型以及64位系统上的数据
     
-      8字节对齐
-      定义：数据在内存中的起始地址必须是8的倍数
-      适用对象：适用于较大的数据类型，例如double（通常占用8字节）和64位系统的指针
-      优点：
-      在64位系统上，访问速度较快，因为64位处理器通常一次能处理8字节数据
-      可以避免某些架构上由于未对齐访问带来的性能损失和潜在的硬件异常
-      使用场景：适合那些需要频繁访问的8字节数据类型以及64位系统上的数据
-      
-      假如在一块内存中存储两个数据，一个是4字节的int，另一个是8字节的double
-      4字节对齐：
-      int数据存储在地址0x0000处
-      double数据需要存储在地址0x0004处（因为4字节对齐），但这样会导致double数据的访问可能需要两次读取操作，影响性能
-      
-      8字节对齐：
-      int数据存储在地址0x0000处
-      double数据存储在地址0x0008处（因为8字节对齐），保证了数据的高效访问
+    假如在一块内存中存储两个数据，一个是4字节的int，另一个是8字节的double
+    4字节对齐：
+    int数据存储在地址0x0000处
+    double数据需要存储在地址0x0004处（因为4字节对齐），但这样会导致double数据的访问可能需要两次读取操作，影响性能
+    8字节对齐：
+    int数据存储在地址0x0000处
+    double数据存储在地址0x0008处（因为8字节对齐），保证了数据的高效访问
 
+  _Alignas (C11起), alignas (C23起) 出现于声明语法中，作为修改所声明对象的对齐要求的类型说明符
+  _Alignas (表达式)	(1)	(C11起)
+  alignas (表达式)	(2)	(C23起)
+  _Alignas (类型)	  (3)	(C11起)
+  alignas (类型)	  (4)	(C23起)
+  表达式-	任何值为合法对齐或零的整数常量表达式，整数常量表达式在编译时求值
+  类型- 任何类型名称
+  关键词 _Alignas 亦用作便利宏 alignas，于头文件 <stdalign.h> 提供(C23前)
+
+  解释
+  1、_Alignas(C23前)alignas(C23起) 说明符只能在声明不是位域，且不拥有寄存器存储类的对象时使用。它不能用于函数参数声明，亦不能用于 typedef
+  在 C 语言中，_Alignas（在C23之前）或 alignas（从C23起）说明符用于指定对象的对齐要求。对齐是指数据在内存中存储时的起始地址必须是某个特定的倍数，这样可以提高访问速度和效率。对于某些硬件架构或性能需求，可以手动指定这种对齐要求
+  _Alignas / alignas 说明符有一些使用限制
+  不能用于位域：位域是一种结构体成员，表示多个字段共享一个存储单元，对齐要求不适用于这种情况
+  不能用于具有寄存器存储类的对象：寄存器变量存储在 CPU 寄存器中，而不是内存中，因此对齐没有意义
+  不能用于函数参数声明：函数参数不需要显式的内存对齐，因为它们的管理由编译器处理
+  不能用于 typedef 声明：typedef 声明只是类型的别名，不涉及具体的内存分配，因此对齐说明符无
+
+  用于声明时，设置被声明对象的对齐要求为
+  1,2) 表达式 的结果，除非它是零
+  3,4) 类型 的对齐要求，即设置为 _Alignof(type)(C23前) alignof(type)(C23起)
+  struct S1 {
+    _Alignas(16) char arr[64]; // 在 C23 之前：arr 的对齐为 16 字节
+    alignas(16) char arr[64];  // 从 C23 起：arr 的对齐为 16 字节
+  };
+  struct S2 {
+    _Alignas(double) int x; // 在 C23 之前：x 的对齐为 double 的对齐
+    alignas(double) int x;  // 从 C23 起：x 的对齐为 double 的对齐
+  };
+
+  当你使用类型的对齐要求时，如果这会降低该类型本身的自然对齐要求，那么这种更改是无效的，在这个例子中，如果 double 的对齐要求大于 float 的对齐要求，那么这种设置是无效的，因为不能降低 double 的自然对齐要求
+  struct Sa1 {
+    _Alignas(float) double x1;  // 在 C23 之前，Requested alignment is less than minimum alignment of 8 for type 'double'
+    alignas(float) double x2;   // 从 C23 起，Requested alignment is less than minimum alignment of 8 for type 'double'
+  };
+
+  2、表达式求值为零的情况 如果用于对齐的表达式求值为零，则此对齐说明符将没有效果。也就是说，对象将使用其默认的对齐要求
+  3、多个对齐说明符 如果在同一个声明中出现多个 _Alignas（或 alignas）说明符，编译器会选择最严格的对齐要求，即最大的对齐要求
+  4、对齐说明符在声明和定义中的一致性 alignas（或 _Alignas）说明符只需要在对象定义中出现一次。如果在对象的任何声明中使用了对齐说明符，则在对象的定义中也必须使用相同的对齐要求，如果不同的翻译单元（即不同源文件）为同一个对象声明了不同的对齐要求，则行为是未定义的。这意味着程序可能会在不同编译器或平台上表现出不同的行为，甚至可能导致崩溃或数据损坏
+  
+  注解
+  5、C++ 中，alignas 说明符亦可应用于声明 class/struct/union 类型以及枚举。这在 C 中不受支持，但可通过在成员声明中使用 _Alignas(C23 前)alignas(C23 起) 来控制 struct 类型的对齐  
+  */
+  struct Sa {
+    _Alignas(double) int x1;            // 1、在 C23 之前
+    alignas(double) int x2;             // 从 C23 起
+  };
+  // void func(alignas(16) int param);  // 错误，无法使用 alignas 在函数参数声明中
+  _Alignas(0) int xa;                   // 2、在 C23 之前：无效果，使用 int 的默认对齐，如果 alignas 的表达式求值为零，则对象的对齐使用其默认对齐要求
+  alignas(0) int ya;                    // 从 C23 起：无效果，使用 int 的默认对齐  
+  _Alignas(8) _Alignas(16) int xa1;     // 3、在 C23 之前：实际对齐为 16，在同一个声明中出现多个 alignas 说明符时，使用最大的对齐要求
+  alignas(8) alignas(16) int ya1;       // 从 C23 起：实际对齐为 16
+  // extern int xa6 alignas(32);        // 4、声明 x，指定对齐为 32 字节，声明和定义中的一致性：如果在对象的任何声明中使用了 alignas，则在对象定义中必须使用相同的对齐要求。不同翻译单元声明同一对象时，如果对齐不同，则行为未定义
+  // int xa6 alignas(32);               // 定义 x，必须与声明中的对齐一致
+  // extern int xa6 alignas(16);        // 错误：如果在另一个翻译单元（另一个文件）中声明为不同的对齐，与其他翻译单元中的对齐不一致，行为未定义
+  struct sse_t                          // 5、每一个 struct sse_t 类型的对象会在 16 字节边界对齐，（注意：需要支持 DR 444）
+  {
+    alignas(16) float sse_data[4];      // alignas(16) 说明符指定 sse_data 数组的起始地址必须是 16 字节的倍数，这意味着每一个 struct sse_t 类型的对象都会在 16 字节边界对齐。这种对齐通常用于 SIMD（单指令多数据）操作，提高了操作效率
+  };
+  struct data {                         // 这种 struct data 的每一个对象都会在 128 字节边界对齐
+    char x;                             // alignas(128) 说明符指定 cacheline 数组的起始地址必须是 128 字节的倍数
+    alignas(128) char cacheline[128];   // 因为 cacheline 是一个数组对象而不是单个 char 对象，所以整个 struct data 的对齐也需要满足 128 字节的对齐要求，这种对齐要求通常用于缓存对齐，提高了缓存命中率和访问效率
+  };  
+  print_purple("sizeof(data) = %zu (1 byte + 127 bytes padding + 128-byte array)\n", sizeof(struct data));
+  print_purple("alignment of sse_t is %zu\n", alignof(struct sse_t));
+  alignas(2048) struct data dsa;        // 此 struct data 的实例会更严格地对齐
+  print_purple("alignment of dsa is %zu\n", alignof(dsa));
+
+  /*
   存储期与链接
+  存储类说明符 指定对象和函数的存储期（storage duration）和链接（linkage）
+  auto - 自动存储期与无链接
+  register - 自动存储期与无链接；不能取这种对象的地址
+  static - 静态存储期与内部链接（除非在块作用域）
+  extern - 静态存储期与外部链接（除非已声明带内部链接）
+  _Thread_local(C23前)thread_local(C23起) - 线程存储期(C11起)
 
+  auto
+  自动存储期：auto 变量的生命周期从进入其定义所在的代码块开始，到离开该块为止
+  无链接：auto 变量只能在其定义所在的代码块中访问，不能在其他代码块中使用
+  默认行为：在块作用域（如函数内），未明确指定存储类的局部变量默认为 auto
+  auto int x = 10; // x 是一个自动存储期的局部变量
+  
+  register
+  自动存储期：register 变量的生命周期与 auto 相同
+  无链接：同样只能在其定义所在的代码块中使用
+  优化提示：提示编译器将变量尽量存储在 CPU 寄存器中，以提高访问速度（现代编译器通常会自行进行优化，register 提示不一定有效）
+  限制：不能取这种变量的地址，即不能使用 & 操作符
+  register int y = 20; // y 是一个建议存储在寄存器中的局部变量
+
+  static
+  静态存储期：static 变量在程序的整个生命周期内存在，从程序启动到程序结束
+  内部链接：在文件作用域中定义的 static 变量或函数只能在该文件中使用
+  块作用域：在块作用域中定义的 static 变量具有静态存储期，但没有链接，仍然只能在定义它的代码块中使用
+  static int globalVar = 100; // 文件作用域，只能在这个文件中访问
+  void function() {
+    static int z = 30;        // 块作用域，z 是一个静态存储期的局部变量，生命周期为整个程序期间
+  }
+
+  extern
+  静态存储期：extern 变量在程序的整个生命周期内存在，从程序启动到程序结束
+  外部链接：extern 变量或函数可以在多个文件间共享使用
+  声明与定义：extern 通常用于声明在其他文件中定义的变量    
+  int sharedVar = 200;        // 在一个文件中定义
+  extern int sharedVar;       // 在另一个文件中声明，告诉编译器 sharedVar 是一个在其他文件中定义的全局变量
+
+  _Thread_local（C23前）或 thread_local（C23起）
+  线程存储期：_Thread_local 或 thread_local 变量在每个线程中独立存在，有自己的存储空间
+  C11 起：C11 标准引入了这个存储类说明符，用于支持多线程编程。每个线程有独立的变量副本，各个线程的副本在程序运行期间独立存在
+  #include <threads.h> // 包含线程相关头文件（C11 标准）
+  _Thread_local int threadVar = 300; // C23 前
+  thread_local int threadVar = 300;  // C23 起
+  void function() {
+    threadVar++;
+  }
+
+  存储类说明符为变量和函数的生命周期、可见性及访问权限提供了灵活的控制手段，有助于优化内存使用和程序性能
+
+  解释
+  1、存储类说明符出现于声明和复合字面量表达式(C23起)中。至多可使用一个说明符，但可以将 _Thread_local(C23 前)thread_local(C23 起) 与 static 或 extern 组合以调整链接(C11 起)。存储类说明符确定其所声明的名称的两个独立属性：存储期与链接
+  auto 说明符只允许用于声明于块作用域的对象（除了函数形参列表）。它指示自动存储期与无链接，也是这种声明的默认属性
+  register 说明符只允许用于声明于块作用域的对象，包括函数形参列表。它指示自动存储期与无链接（即这种声明的默认属性），但另外提示优化器，若可能则将此对象的值存储于 CPU 寄存器中。无论此优化是否发生，声明为 register 的对象不能用作取址运算符的参数，不能用 alignas(C11 起)，而且 register 数组不能转换为指针
+  static 说明符指定静态存储期（除非与 _Thread_local 组合）(C11起)和内部链接（除非用于块作用域）。它能用于在 文件作用域的函数，以及 文件 和 块作用域的变量，但不能用于函数形参列表
+  extern 指定静态存储期（除非与 _Thread_local(C23 前)thread_local(C23 起) 组合）(C11 起)和外部链接。它能用于 文件 和 块作用域中 的 函数和对象 声明（除了函数形参列表）。若 extern 出现在已经声明带内部链接的标识符上，则链接仍为内部。否则（若前一声明为外部、无链接或不在作用域内）链接则为外部链接
+  
+  _Thread_local(C23 前)thread_local(C23 起) 指示线程存储期。它不能用于函数声明。若将它用在对象声明上，则它必须在同一对象的每次声明上都存在。若将它用在块作用域声明上，则必须与 static 或 extern 之一组合以决定链接，线程存储期：指定变量在所属线程的整个生命周期内存在。每个线程都有自己独立的变量副本，互不干扰。这些变量会在线程创建时被初始化，并在线程结束时销毁
+  对象声明的一致性：如果 _Thread_local 或 thread_local 用在对象声明上，它必须在该对象的每次声明中都存在。这确保了所有的声明一致指示该对象具有线程存储期
+  块作用域：当在块作用域（如函数内部）使用 _Thread_local 或 thread_local 说明符时，必须与 static 或 extern 之一组合使用。这是因为在块作用域中需要明确指定存储期和链接属性
+
+  2、若不提供存储类说明符，则默认为，对所有函数为 extern、对在文件作用域的对象为 extern、对在块作用域的对象为 auto
+  
+  3、存储类说明符在结构体或联合体中的应用，当用存储类说明符（如 static, extern, _Thread_local, 或 thread_local）来声明结构体或联合体时，这些存储期规范会递归地应用到结构体或联合体的每个成员     
+
+  4、在块作用域（如函数内部），函数声明可以使用 extern 也可以完全不使用存储类说明符，extern 函数声明表示函数可以在其他文件中访问（具有外部链接）
+  5、在文件作用域（全局变量和函数的顶层作用域），函数声明可以使用 extern 或 static，static 函数声明表示函数只能在定义它的文件中访问（具有内部链接）
+
+  6、函数形参不能使用除 register 以外的存储类说明符。register 提示编译器尽量将变量存储在寄存器中，以提高访问速度
+  7、static 在数组类型的函数形参中的特殊含义 在数组类型的函数形参中，static 有特殊含义。它提示调用函数时，传递的数组指针所指向的数组至少有指定的元素数目，这对于优化可以很有帮助
+
+  存储期
+  4、每个对象都有一个名为 存储期 的属性，它限制了对象的生命周期。在 C 语言中有四种存储期
+  在 C 语言中，每个对象都有一个称为存储期的属性，它决定了对象何时分配和释放内存。C 中有四种存储期：自动存储期、静态存储期、线程存储期和分配存储期
+  
+  自动存储期 (Automatic Storage Duration)
+  分配和释放：当程序执行进入对象所声明于其中的块（例如函数或代码块）时，自动分配该对象的存储；当退出该块时，无论是通过 goto、return 还是正常到达块的结尾，存储都会被释放
+  VLA（变长数组）：从 C99 起，VLA 的存储是在执行声明时分配的，而不是在块入口时分配的，存储在声明离开作用域时解分配而非退出块时解分配
+  递归：如果递归地进入同一个块，每次递归调用都会进行新的存储分配
+  适用对象：所有函数形参和非 static 块作用域的对象，以及在块作用域中使用的复合字面量（C23前）都拥有自动存储期
+
+  静态存储期 (Static Storage Duration)
+  分配和释放：存储期是整个程序的执行过程，只在 main 函数之前初始化一次，存储直到程序结束
+  适用对象：所有声明为 static 的对象和所有带内部或外部链接且未声明为 _Thread_local（C23前）或 thread_local（C23起）的对象都拥有静态存储期
+
+  线程存储期 (Thread Storage Duration) (C11起)
+  分配和释放：存储期是创建该对象的线程的整个执行过程，在线程启动时初始化存储，在线程结束时释放存储。每个线程都有自己独立的对象副本
+  注意事项：如果一个线程访问另一个线程初始化的 thread_local 对象，行为是实现定义的
+  适用对象：所有声明为 _Thread_local（C23前）或 thread_local（C23起）的对象拥有线程存储期
+
+  分配存储期 (Allocated Storage Duration)
+  分配和释放：通过动态内存分配函数（如 malloc、calloc、realloc）进行分配，并通过 free 函数进行释放。存储期由程序员显式控制
+  适用对象：所有通过动态内存分配函数分配的对象都拥有分配存储期
+
+  自动存储期：对象在进入块时分配，退出块时释放。典型对象包括函数形参和非 static 块作用域对象
+  静态存储期：对象在程序开始时分配，程序结束时释放。典型对象包括声明为 static 和具有内部或外部链接的全局变量
+  线程存储期：对象在线程开始时分配，线程结束时释放。典型对象包括声明为 _Thread_local 或 thread_local 的变量
+  分配存储期：对象通过动态内存分配函数分配，并通过 free 释放。典型对象包括通过 malloc、calloc 或 realloc 分配的内存
+
+  链接
+  5、在 C 语言中，链接（linkage）指的是变量或函数标识符在不同作用域之间的可见性和可访问性。了解链接的不同类型有助于正确地管理变量和函数的作用范围和生命周期。C 中有三种主要的链接：无链接、内部链接和外部链接
+  链接（Linkage）是指标识符（变量或函数）在其他作用域中被引用的能力。如果在多个作用域中声明了具有相同标识符的变量或函数，但并非在所有作用域中都能被引用，那么就会生成该变量的多个实例。以下是被认可的链接类型
+  
+  无链接 (No Linkage)
+  定义：只能从其所在的作用域指代该变量或函数，即该标识符在其所在的块内是唯一的，外部无法访问
+  适用对象：所有未声明为 extern 的块作用域变量。所有函数形参。所有并非函数或变量的标识符（例如 typedef、enum 常量等）
+
+  内部链接 (Internal Linkage)
+  定义：能从当前翻译单元（即源文件）中的所有作用域指代该函数或变量，但不能被其他翻译单元访问
+  适用对象：所有声明为 static 的文件作用域变量和函数。从 C23 起，所有声明为 constexpr 的文件作用域变量
+
+  外部链接 (External Linkage)
+  定义：能从整个程序的任何翻译单元（即不同的源文件）指代该变量或函数
+  适用对象：所有未声明为 static 或 constexpr 的文件作用域变量。所有未声明为 static 的文件作用域函数。所有块作用域函数声明。所有声明为 extern 的变量或函数，如果在该位置没有某个之前的带有内部链接的声明可见
+
+  试探性定义 (Tentative Definition)
+  定义：当声明一个变量而不定义其值时，如果该变量在同一翻译单元中有多个不同的链接声明（例如一个声明为 extern，另一个不带 extern），则行为未定义
+  int x;                // 外部链接（试探性定义）
+  static int x = 5;     // 内部链接
+  // 行为未定义，因为同一标识符 x 具有内部和外部链接
+
+  无链接：变量或函数只能在其定义的块内访问。典型对象包括块作用域的非 extern 变量和函数形参
+  内部链接：变量或函数只能在定义它们的翻译单元内访问。典型对象包括 static 文件作用域变量和函数
+  外部链接：变量或函数可以在整个程序的任何翻译单元内访问。典型对象包括未声明为 static 或 constexpr 的文件作用域变量和函数、所有声明为 extern 的变量或函数
+  理解链接的不同类型有助于正确地管理变量和函数的作用范围，从而避免命名冲突和意外的行为
+
+  链接与库
+  6、在 C 语言中，链接（linkage）与库的使用紧密相关，特别是当我们在多个源文件之间共享变量和函数时。理解如何在头文件和源文件中声明和定义带有不同链接类型的对象，对模块化和库的开发至关重要
+
+  具有外部链接的声明通常在头文件中提供，以便所有包含该头文件的翻译单元可以引用在其他地方定义的相同标识符
+  在头文件中出现的任何具有内部链接的声明都会在每个包含该文件的翻译单元中产生一个单独且不同的对象
+
+  带外部链接的声明
+  定义：带外部链接的声明允许在多个翻译单元（源文件）之间共享同一变量或函数。这种声明通常放在头文件中，以便所有包含该头文件的源文件都能访问这些声明
+  头文件作用：头文件（.h 文件）通常包含变量和函数的声明，而不包含它们的定义。这确保了变量和函数的实际定义只出现一次（通常在一个源文件中），但可以在多个源文件中引用
+  头文件 example.h：
+  // 声明具有外部链接的变量和函数
+  extern int globalVar;
+  void globalFunction();
+
+  源文件 example.c：
+  #include "example.h"
+  // 定义具有外部链接的变量和函数
+  int globalVar = 42;
+  void globalFunction() {
+    // 函数实现
+  }
+  另一个源文件 main.c：
+  #include "example.h"
+  int main() {
+    globalVar = 100;   // 访问具有外部链接的变量
+    globalFunction();  // 调用具有外部链接的函数
+    return 0;
+  }
+  在上面的例子中，globalVar 和 globalFunction 在 example.h 中声明，具有外部链接。这使得任何包含 example.h 的源文件都可以访问和使用它们的定义
+
+  带内部链接的声明
+  定义：带内部链接的声明使得变量或函数只能在单个翻译单元（源文件）内访问。如果将内部链接的声明放在头文件中，每个包含该头文件的源文件都会创建一个独立的对象或函数副本
+  头文件作用：在头文件中声明具有内部链接的变量或函数意味着每个包含该头文件的源文件都会生成独立的实例，这在许多情况下是不期望的
+  头文件 example_internal.h：
+  // 声明具有内部链接的变量和函数
+  static int internalVar;
+  static void internalFunction();
+
+  源文件 example1.c：
+  #include "example_internal.h"
+  static int internalVar = 1;  // 定义内部链接变量
+  static void internalFunction() {
+    // 函数实现
+  }
+  void example1Function() {
+    internalFunction();  // 访问内部链接的函数
+  }
+  源文件 example2.c：
+  #include "example_internal.h"
+  static int internalVar = 2;  // 每个源文件产生一个独立的变量
+  static void internalFunction() {
+    // 函数实现
+  }
+  void example2Function() {
+    internalFunction();  // 访问内部链接的函数
+  }
+  在这个例子中，example_internal.h 中的 internalVar 和 internalFunction 都具有内部链接。每个包含该头文件的源文件都会生成自己的 internalVar 和 internalFunction 的副本，因此 example1.c 和 example2.c 中的 internalVar 和 internalFunction 是独立的，不会互相干扰  
+
+  注解
+  7、一般通过定义于头文件 <threads.h> 的便利宏 thread_local 使用关键词 _Thread_local (C23前)
+  C 语言文法中，typedef 和 constexpr(C23 起) 说明符在形式上列作存储类说明符，但并不指定存储
+  auto 说明符还用于类型推断(C23起)
+  在文件作用域的 const 且非 extern 的名称在 C 中拥有外部链接（同所有文件作用域的默认情况），但在 C++ 中拥有内部链接
+  */  
+  auto int xvar = 10;                   // 1、x 是一个自动存储期的局部变量
+  register int yvar = 20;               // y 是一个建议存储在寄存器中的局部变量
+  static int zvar = 30;                 // z 是一个静态存储期的局部变量，生命周期为整个程序期间
+  extern int sharedVar;                 // 告诉编译器 sharedVar 是一个在其他文件中定义的全局变量
+  // _Thread_local int threadVar1 = 300; // C23 前
+  // thread_local int threadVar2 = 300;  // C23 起
+  static int xst = 10;                  // 内部链接
+  extern int xet;                       // 仍为内部链接，因为前一个声明是内部链接
+  // extern int zet = 20;               // 外部链接和定义
+  extern int zet;                       // 外部链接声明
+  extern void fooet();                  // 函数声明
+  static _Thread_local int threadVar1;  // C11，static 和 _Thread_local/thread_local：当 static 和 _Thread_local（C23 前）或 thread_local（C23 起）组合使用时，变量具有线程存储期而不是静态存储期。每个线程有独立的存储空间
+  static thread_local int threadVar2;   // C23
+  extern _Thread_local int threadVare1; // C11，extern 和 _Thread_local/thread_local：当 extern 和 _Thread_local（C23 前）或 thread_local（C23 起）组合使用时，变量仍然具有线程存储期。extern 的作用是在其他文件中声明该线程局部变量
+  extern thread_local int threadVare2;  // C23
+  struct Examplese { int a; float b; }; // 3、seex1 是一个静态存储期的结构体变量，其成员 a 和 b 也具有静态存储期。同样，如果 seex2 在其他文件中定义，其成员 a 和 b 也将具有外部链接的存储期
+  static struct Examplese seex1 = {1, 2.0f};  
+  extern struct Examplese seex2;
+  // void function() {
+  //   int a;                           // 4、自动存储期
+  //   {
+  //     int b;                         // 自动存储期
+  //   }                                // 退出块，b 的存储被释放
+  // }
+  // static int x;                      // 静态存储期
+  // void function() {
+  //   static int y;                    // 静态存储期
+  // }
+  // _Thread_local int threadVar;       // C11 标准，线程存储期
+  // thread_local int anotherThreadVar; // C23 标准，线程存储期
+  // int *ptr = (int*)malloc(sizeof(int)); // 分配存储期
+  // if (ptr != NULL) {
+  //   *ptr = 42;  
+  //   free(ptr);                          // 释放存储
+  // }
+  int localVar;                         // 5、无链接
+  void anotherFunction(int param);      // param 无链接
+  static int fileScopeVar;              // 内部链接
+  // static void fileScopeFunction() {  // 内部链接
+  //   // code
+  // }
+  extern int externalVar;               // 外部链接
+  // 库接口，头文件“flib.h”：      // 7、链接与库
+  // #ifndef FLIB_H
+  // #define FLIB_H
+  // void f(void);              // 带外部链接的函数声明
+  // extern int state;          // 带外部链接的变量声明
+  // static const int size = 5; // 带内部链接的只读对象定义
+  // enum { MAX = 10 };         // 常量定义
+  // inline int sum (int a, int b) { return a + b; } // inline 函数定义
+  // #endif // FLIB_H
+  //
+  // 库实现，源文件“flib.c”：
+  // #include "flib.h"
+  // static void local_f(int s) {} // 带内部链接的定义（只用于此文件）
+  // static int local_state;       // 带内部链接的定义（只用于此文件） 
+  // int state;                       // 带外部链接的定义（main.c 使用）
+  // void f(void) { local_f(state); } // 带外部链接的定义（main.c 使用）  
+  // 
+  // 应用代码，源文件“main.c”：
+  // #include "flib.h"
+  // int main(void)
+  // {
+  //   int x[MAX] = {size}; // 使用常量和只读变量
+  //   state = 7;           // 修改 flib.c 中的 state
+  //   f();                 // 调用 flib.c 中的 f()
+  // }
+  int As = 1;                         // 自动存储期，隐藏全局 A 
+  int* ptr_1 = malloc(sizeof(int));   // 开始分配存储期
+  print_purple("address of int in allocated memory = %p\n", (void*)ptr_1);
+  free(ptr_1);                        // 停止分配存储期
+
+  /*
   外部及试探性定义
-  
+  */
+
+  /*
   typedef
-  
+
   静态断言(C11)
+
+  constexpr(C23)
   
   属性(C23)  
   */
