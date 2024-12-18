@@ -44,10 +44,11 @@
 
 // 对齐说明符(C11)
 
-// 存储期与链接
-// 外部及试探性定义
+// 存储期与链接外部及试探性定义
 
 // typedef
+
+// constexpr
 
 // 静态断言(C11)
 
@@ -2382,8 +2383,76 @@ int declarations_fn(void) {
   _Static_assert(MIN_BUFFER_SIZE >= 128, "Buffer size is too small");  
 
   /*
-  属性(C23)  
+  属性说明符序列(C23起)
+  引入了针对类型、对象、表达式等的实现定义属性
+
+  1、语法 [[attr]] [[attr1, attr2, attr3(args)]] [[属性前缀::attr(arg)]]
+  [[gnu::hot]] [[gnu::const]] [[nodiscard]]
+  int f(void);                                    // 以三个属性声明 f
+  
+  形式上，语法是 [[ 属性列表 ]]	(C23起)
+  [[gnu::const, gnu::hot, nodiscard]]
+  int f(void);                                    // 同上，但使用了包含三个属性的单个属性说明符
+  
+  其中，属性列表是由零个或多个属性标记组成的逗号分隔序列
+  标准属性	                           (1)	
+  属性前缀 :: 标识符	                  (2)	
+  标准属性 ( 实参列表 (可选) )	         (3)	
+  属性前缀 :: 标识符 ( 实参列表 (可选) )	(4)	
+  其中，属性前缀（attribute-prefix）是一个标识符，参数列表（argument-list）是一个由括号、方括号和花括号平衡的令牌序列（balanced-token-sequence）
+  1) 标准属性，例如 [[fallthrough]]
+  2) 有命名空间的属性，例如 [[gnu::unused]]
+  3) 有实参的标准属性，例如 [[deprecated("reason")]]
+  4) 有命名空间和实参列表的属性，例如 [[gnu::nonnull(1)]]
+
+  2、解释
+  属性为实现定义的语言扩展（例如 GNU 和 IBM 的语言扩展__attribute__((...))、Microsoft 扩展__declspec()等）提供了统一的标准语法
+  
+  __attribute__是 GNU C/C++ 编译器的一个特性，它主要用于在声明函数、变量或类型时指定特殊的属性。这些属性可以影响编译器的行为，比如函数调用约定、变量的对齐方式等诸多方面
+  函数属性
+  noreturn属性：用于告知编译器被修饰的函数不会返回。例如，一个函数会调用exit()系统调用而终止程序，就可以使用这个属性
+  constructor和destructor属性：constructor属性的函数会在main()函数之前自动执行，destructor属性的函数会在main()函数结束之后自动执行。这在进行一些初始化和清理工作时非常有用
+  变量属性
+  aligned属性：用于指定变量的对齐方式。例如，在某些硬件平台上，为了提高内存访问效率，需要对数据进行特定字节对齐
+  类型属性
+  packed属性：用于告诉编译器取消结构或联合的默认对齐，按照紧凑的方式进行存储  
+
+  在 C 语言的发展过程中，不同的编译器厂商（如 GNU、IBM、Microsoft 等）为了满足一些特定的需求（如优化、与操作系统或硬件的特定交互等），开发了各自的语言扩展。这些扩展在语法和功能上都有所不同，这就导致了代码的可移植性问题。C23 标准尝试解决这个问题，为这些实现定义的语言扩展提供统一的标准语法
+  C23 标准的作用 
+  提高可移植性：之前，使用了特定编译器扩展（如__attribute__((...))或__declspec()）的代码在不同编译器之间移植时，往往需要大量的修改。C23 提供统一语法后，开发人员可以在一定程度上使用标准的方式来表示这些扩展，使得代码更容易在不同的 C 编译器环境下进行移植
+  统一编译器行为：对于编译器开发者来说，C23 标准提供了一个指导框架。编译器厂商可以根据这个标准来调整自己的语言扩展实现，使得它们在遵循标准的同时，还能保留自己的特色功能。例如，当涉及到函数属性的指定时，编译器可以按照 C23 标准的统一语法来解析和处理这些属性，而不是各自为政
+
+  旧的扩展方式
+  在 GNU 中使用__attribute__((...))来指定函数属性，如noreturn
+  在 Microsoft 中使用__declspec()来指定类似的属性（假设存在这样的功能等价情况）可能是完全不同的语法
+  
+  C23 标准下的可能情况（假设）
+  C23 可能会定义一种统一的语法，如[[noreturn]]来表示函数不会返回。那么代码可能会变成这样
+  [[noreturn]] void my_exit_function()
+
+  不管是在 GNU 还是 Microsoft（假设它们都遵循 C23 的这个标准语法）编译器环境下，代码的表示方式更加统一，便于开发人员理解和使用
+
+  3、属性可用在 C 程序中的几乎所有位置，而且可应用于几乎所有事物：类型、变量、函数、名字、代码块、整个翻译单元，不过每个特定的属性都仅在实现所容许之处有效：[[expect_true]] 可能是只能与 if，而非与类声明一同使用的属性，[[omp::parallel()]] 可能是应用到代码块或 for 循环，而非到类型 int 等的属性。（请注意这两个属性只是虚构的例子，有关标准与一些非标准属性，见下文）
+  
+
   */
+  // [[gnu::hot]] [[gnu::const]] [[nodiscard]]
+  // int f(void);                                     // 1、以三个属性声明 f
+  // [[gnu::const, gnu::hot, nodiscard]]
+  // int f(void);                                     // 同上，但使用了包含三个属性的单个属性说明符
+  void my_exit_function() __attribute__((noreturn));  // 2、用于告知编译器被修饰的函数不会返回。例如，一个函数会调用exit()系统调用而终止程序，就可以使用这个属性
+  // void my_exit_function() {
+  //   // 做一些清理工作
+  //   exit(0);
+  // }
+  void init_function() __attribute__((constructor));  // 初始化代码，比如初始化全局变量等
+  void fini_function() __attribute__((destructor));   // 清理代码，比如释放资源等
+  int my_variable __attribute__((aligned(16)));       // 表示my_variable这个变量的存储地址将按照 16 字节对齐
+  struct my_struct {                                  // 这个my_struct结构体将不会进行默认的对齐填充，节省内存空间，但可能会影响访问效率
+    char a;
+    int b;
+  } __attribute__((packed));
+
 
 #endif // DECLARATIONS declarations 声明
 
