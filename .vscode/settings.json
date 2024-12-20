@@ -209,4 +209,5 @@
     "cSpell.words": [
         "Alignas"
     ],
+    "remote.downloadExtensionsLocally": true,
 }
