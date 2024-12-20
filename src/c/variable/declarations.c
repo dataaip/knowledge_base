@@ -2434,6 +2434,243 @@ int declarations_fn(void) {
 
   3、属性可用在 C 程序中的几乎所有位置，而且可应用于几乎所有事物：类型、变量、函数、名字、代码块、整个翻译单元，不过每个特定的属性都仅在实现所容许之处有效：[[expect_true]] 可能是只能与 if，而非与类声明一同使用的属性，[[omp::parallel()]] 可能是应用到代码块或 for 循环，而非到类型 int 等的属性。（请注意这两个属性只是虚构的例子，有关标准与一些非标准属性，见下文）
   
+  4、在声明中，属性既可以出现在整个声明之前，也可以紧跟在被声明的实体名称之后，在这种情况下它们会被合并。在大多数其他情况下，属性适用于紧接在前的实体
+  C23 标准引入了属性（attributes）的概念，提供了一种标准化的方法来向编译器传达特定的信息或指示。这些属性可以应用于各种编程元素，如变量、函数、类型等，以控制编译器行为或优化代码
+  属性的语法使用 [[...]] 双方括号的形式包围属性列表。属性可以出现在声明的不同位置，具体如下
+  整个声明之前：属性适用于整个声明 属性适用于整个声明中的所有实体
+  实体名称之后：属性适用于紧接在前的实体名称 属性仅适用于该实体
+  [[attribute1, attribute2]]
+  int variable [[attribute3]];    // 属性1、属性2应用于整个声明，属性3应用于variable
+  [[attribute4]]
+  int function() [[attribute5]];  // 属性4应用于整个声明，属性5应用于返回类型
+  
+  属性应用于整个声明
+  [[nodiscard]]                   // 属性应用于整个声明，在这个例子中，[[nodiscard]] 属性指示编译器，返回值不应被忽略。如果调用者忽略了返回值，编译器可能会生成警告
+  int compute_value() {
+    return 42;
+  }
+  int main() {
+    compute_value();              // 编译器可能会警告未使用返回值
+    return 0;
+  }
+  属性应用于特定实体
+  int variable [[deprecated]];    // 属性应用于变量，在这个例子中，[[deprecated]] 属性应用于 variable 变量，指示编译器该变量已过时。如果使用了该变量，编译器可能会生成警告
+  int main() {
+    variable = 5;                 // 编译器可能会生成警告，因为variable已过时
+    return 0;
+  }
+  多个属性的示例
+  [[nodiscard]]
+  int compute_value() [[deprecated]];  // 属性1应用于整个声明，属性2应用于返回类型，在这个例子中，[[nodiscard]] 属性应用于整个 compute_value 函数声明，[[deprecated]] 属性应用于返回类型。如果调用了该函数，编译器可能会生成警告
+  int main() {
+    int value = compute_value();       // 编译器可能会生成警告，因为compute_value已过时
+    return 0;
+  }  
+
+  5、在 C23 中，引入了属性（attributes）这一概念，以标准化的方法向编译器传达特定的信息或指示。属性的语法使用双左方括号 [[]] 来包围属性列表。这种语法结构有一些特定的规则和限制
+  两个连续的左方括号记号 [[ 只能在以下两种情况下出现 
+  引入属性说明符：用于声明属性
+  在属性实参之内：用于嵌套属性
+  
+  引入属性说明符 这是指属性的声明位置，属性说明符使用 [[ 开头和 ]] 结尾
+  [[nodiscard]]
+  int compute_value() {
+    return 42;
+  }
+  在属性实参之内，属性可以包含参数，这些参数本身可以是其他属性。这时嵌套的属性也需要使用 [[ 和 ]] 来表示
+  [[deprecated("Use new_function instead"), maybe_unused]]
+  void old_function() { }
+  双左方括号 [[ 在 C23 中有其特定的使用场景和规则，只能用于引入属性说明符或在属性实参内使用
+
+  6、除了下面列出的标准属性之外，实现可能支持具有实现定义行为的任意非标准属性。实现未知的所有属性都会被忽略，而不会导致错误
+  在 C23 标准中，属性（attributes）为编译器提供了更多的信息，以便进行优化或传达特定的指令。虽然 C23 标准定义了一些标准属性，但实现（编译器）也可以支持自定义的非标准属性。此外，任何编译器未知的属性将被忽略，不会导致编译错误
+  
+  标准属性：这是 C23 标准中预定义的属性，所有符合 C23 标准的编译器都应该支持这些属性。例如，[[nodiscard]] 和 [[deprecated]] 是标准属性
+  非标准属性：这些是由编译器实现定义的属性，不在 C23 标准中预定义。不同的编译器可能会支持不同的非标准属性，用来提供特定编译器的优化或功能。例如，特定编译器可能会支持 [[gnu::always_inline]] 这样的非标准属性
+  未知属性的处理：对于编译器未知的属性，编译器将忽略它们，并且不会产生编译错误。这使得代码在不同编译器之间具有更好的兼容性
+
+  [[nodiscard]] 和 [[deprecated]] 是标准属性，所有符合 C23 标准的编译器都应该支持它们
+  [[gnu::always_inline]] 是一个非标准属性，特定于 GCC 编译器。这种属性可能提供特定编译器的优化功能
+  如果编译器不认识 [[unknown_attribute]]，它会忽略这个属性，并且不会产生编译错误
+
+  7、每个标准属性都预留给标准化使用。也就是说，每个非标准属性都由实现提供的属性前缀进行前缀修饰，例如[[gnu::may_alias]]和[[clang::no_sanitize]]
+  非标准属性是由编译器实现提供的额外属性，这些属性需要冠以前缀以避免与标准属性冲突
+  
+  避免名称冲突：属性前缀确保非标准属性的名称不会与标准属性发生冲突。这意味着即使未来标准定义了新的属性，现有代码使用的非标准属性也不会受到影响
+  明确属性来源：属性前缀清楚地表明了属性是由哪个编译器或实现提供的。这有助于开发者了解和选择特定编译器的优化和特性
+  提高代码可移植性：使用属性前缀可以使代码更具可移植性。即使某些属性是特定编译器提供的，其他编译器可以忽略这些前缀属性，而不会引发错误
+
+  在 C23 标准中，标准属性是保留的，所有符合标准的编译器都应该支持这些属性。为了避免与标准属性冲突，非标准属性必须使用属性前缀。例如，GCC 编译器使用 [[gnu::]] 前缀，Clang 编译器使用 [[clang::]] 前缀。这种设计确保了命名的一致性和代码的可移植性，提高了代码在不同编译环境中的兼容性和灵活性
+
+  8、标准属性
+  标准属性的拼写
+  C 标准仅定义下列属性。每个名字形如 attr 的标准属性亦能拼写成 __attr__ 而其含义不变
+  每个标准属性除了标准的 [[attr]] 形式，也可以拼写成 __attr__ 形式。例如，[[deprecated]] 可以写成 __deprecated__，这些不同的拼写方式在意义上是相同的。这种设计允许编写在某些老旧环境或特殊情况下依旧适用的代码
+  __deprecated__
+  void old_function_deprecated();
+  __deprecated__("Use new_function instead")
+  void another_old_function_deprecated();
+
+  标准属性列表及其解释
+
+  [[deprecated]] 和 [[deprecated("原因")]]
+  说明：指示声明有此属性的名字或实体被弃用，即允许但因故不鼓励使用，即指示某个名字或实体已经过时，不建议使用。可以选择性地提供一个字符串参数，说明不建议使用的原因
+  语法：[[ deprecated ]]、[[ __deprecated__ ]]、[[ deprecated ( 字符串字面量 ) ]]、[[ __deprecated__ ( 字符串字面量 ) ]]，字符串字面量 能用于解释弃用的理由并/或提议代替用实体的文本
+  解释：指示允许使用以此属性声明的名字或实体，但因某种原因不鼓励使用。编译器通常会对这些使用情况发出警告。若指定 字符串字面量，则通常将它包含于警告中
+  下列名字或实体的声明中允许使用这个属性：
+  - typedef 名：[[deprecated]] typedef S* PS;
+  - 对象：[[deprecated]] int x;
+  - 结构体/联合体：struct [[deprecated]] S;
+  - 结构体/联合体成员：union U { [[deprecated]] int n; };
+  - 枚举：enum [[deprecated]] E {};
+  - 枚举项：enum { A [[deprecated]], B [[deprecated]] = 42 };
+  - 函数：[[deprecated]] void f(void); 
+  注解：声明时未标记为弃用的名字或实体，可以在后续声明中添加 [[deprecated]] 属性，从而将其标记为弃用
+  注解：声明为弃用的名字不能通过不带此属性的重声明变为未弃用，一旦某个名字或实体被声明为弃用，就不能通过后续的声明移除 [[deprecated]] 属性。即不能将一个已标记为弃用的名字或实体重声明为未弃用 
+  举例：
+  [[deprecated]]
+  void old_function();
+  [[deprecated("Use new_function instead")]]
+  void another_old_function(); 
+
+  [[fallthrough]] 
+  说明：表明从前一个 case 标签的贯穿是有意的，并且不应该被对贯穿发出警告的编译器诊断，即用在 switch 语句中，指示从一个 case 标号到下一个 case 标号的落空是有意的，不应被编译器诊断为警告
+  语法：[[ fallthrough ]]、[[ __fallthrough__ ]]，[[fallthrough]] 属性只能用于 switch 语句中的 case 或 default 分支，且必须作为独立的一行声明，紧跟在需要“直落”的 case 分支的最后一条语句之后
+  解释：[[fallthrough]] 是 C23 标准引入的一种属性，用于明确指示 switch 语句中的某个 case 分支有意地“直落”到下一个 case 分支。这在避免编译器发出未明确意图的警告时非常有用，在很多编程语言中，switch 语句的 case 分支如果没有使用 break、return 等语句明确结束，会“直落”到下一个 case 分支。这种行为有时是有意的，但如果没有明确指示，编译器通常会发出警告，提示开发者可能是无意的遗漏。通过使用 [[fallthrough]] 属性，可以明确告诉编译器这是有意的行为，并避免警告
+  举例：
+  switch (value) {
+    case 1:
+      printf("Case 1\n");
+      [[fallthrough]];
+    case 2:
+      printf("Case 2\n");
+      [[fallthrough]];
+    case 3:
+      printf("Case 3\n");
+      break;
+    default:
+      printf("Default case\n");
+      break;
+  }
+  在这个例子中，对于输入 1，程序会连续打印 "Case 1", "Case 2" 和 "Case 3"，因为每个 case 分支都使用了 [[fallthrough]] 属性。对于输入 2，程序打印 "Case 2" 和 "Case 3"；对于输入 3，只打印 "Case 3"；对于输入 4，则进入默认分支，打印 "Default case"
+  switch (value) {
+    case 1:
+      // some code
+      [[fallthrough]];
+    case 2:
+      // falling through intentionally
+      break;
+  }
+
+  [[nodiscard]] 和 [[nodiscard("原因")]]
+  说明：建议编译器在函数的返回值被忽略时发出警告。可以选择性地提供一个字符串参数，说明忽略返回值的原因
+  [[nodiscard]]
+  int compute_value();
+  [[nodiscard("Check the return value for errors")]]
+  int compute_value_with_warning();
+
+  [[maybe_unused]]
+  说明：抑制编译器对未使用的变量、参数、或函数的警告
+  [[maybe_unused]]
+  void unused_function() {
+    // This function might not be used
+  }
+  void function_with_unused_parameter([[maybe_unused]] int unused_param) {
+    // ...
+  }
+
+  [[noreturn]] 和 [[_Noreturn]]
+  说明：指示某个函数不会返回。这有助于编译器进行优化和错误检查
+  [[noreturn]]
+  void exit_program() {
+    // This function does not return
+    exit(1);
+  }
+  // [[_Noreturn]] 是 [[noreturn]] 的弃用拼写
+  _Noreturn void exit_program_deprecated() {
+    exit(1);
+  } 
+
+  [[unsequenced]]
+  说明：指示某个函数无状态、无副作用、幂等且无依赖
+  [[unsequenced]]
+  int pure_function() {
+    return 42; // No side effects, idempotent
+  } 
+
+  [[reproducible]]
+  说明：指示某个函数无副作用且为幂等，即在相同输入下总是产生相同输出
+  [[reproducible]]
+  int reproducible_function(int x) {
+    return x * 2;                       // No side effects, produces the same result for the same input
+  } 
+  C23 标准属性为编译器提供了更多的控制和优化可能性，同时增强了代码的可读性和可靠性。理解和正确使用这些属性，有助于编写更高效、更安全的 C 代码
+
+  9、属性测试
+  __has_c_attribute( 属性记号 )	检查 属性记号 所指名的属性记号的存在
+  __has_c_attribute 是一个预处理器宏，用于检查某个特定属性是否存在。这个宏非常有用，可以用于条件编译，确保代码的兼容性和移植性。它可以用于检测标准属性和特定于厂商的属性，但它们的检测结果有所不同
+
+  使用方法
+  __has_c_attribute(属性记号) 在预处理阶段展开为一个整数，用于指示某个属性是否存在。对于标准属性，它将展开为该属性被添加到工作草案中的年份和月份。对于特定于厂商的属性，它将展开为一个非零的整数常量
+
+  标准属性的检测结果
+  对于标准属性，__has_c_attribute 将展开为属性被标准化时的年份和月份。例如，如果某个属性是在 2023 年 10 月被添加到标准中的，那么 __has_c_attribute 将展开为 202310
+  #if __has_c_attribute(deprecated)
+    [[deprecated]]
+    void old_function() {
+      // Implementation
+    }
+  #else
+    void old_function() {
+      // Implementation without deprecation
+    }
+  #endif
+  在这个例子中，__has_c_attribute(deprecated) 检查 [[deprecated]] 属性是否存在。如果存在（假设展开值为 202310），则使用 [[deprecated]] 属性声明函数，否则提供一个没有 deprecated 属性的版本  
+
+  特定于厂商的属性的检测结果
+  对于特定于厂商的属性，__has_c_attribute 将展开为一个非零的整数常量，这个常量的具体值由编译器实现决定，只要它是非零整数即可
+  #if __has_c_attribute(gnu::always_inline)
+    [[gnu::always_inline]]
+    void inline_function() {
+      // Implementation
+    }
+  #else
+    inline void inline_function() {
+      // Implementation without always_inline attribute
+    }
+  #endif
+  在这个例子中，__has_c_attribute(gnu::always_inline) 用于检查 [[gnu::always_inline]] 属性是否存在。如果存在（展开为一个非零整数），则使用 [[gnu::always_inline]] 属性声明函数，否则提供一个没有 always_inline 属性的版本  
+  
+  条件编译中的使用 __has_c_attribute 可以在 #if 和 #elif 表达式中使用，这使得它非常适合条件编译
+  #if __has_c_attribute(nodiscard)
+    [[nodiscard]]
+    int compute_value() {
+      return 42;
+    }
+  #else
+    int compute_value() {
+      return 42;
+    }
+  #endif
+  在这个例子中，__has_c_attribute(nodiscard) 检查 [[nodiscard]] 属性是否存在。如果存在，则使用 [[nodiscard]] 属性声明函数，否则提供一个没有 nodiscard 属性的版本
+
+  其他限制
+  需要注意的是，__has_c_attribute 不能在 #ifdef、#ifndef 和 defined 中使用。只能在 #if 和 #elif 表达式中使用。因此，下面的代码是无效的
+  #ifdef __has_c_attribute(nodiscard) // 错误
+    // Code
+  #endif
+
+  __has_c_attribute 是一个非常有用的预处理器宏，用于检查特定属性的存在。它可以帮助开发者编写更具兼容性和移植性的代码，通过条件编译来适应不同的编译器和标准版本。对于标准属性，它展开为属性添加到标准中的年份和月份；对于特定于厂商的属性，它展开为一个非零的整数常量。在使用时要注意其适用范围，只能在 #if 和 #elif 中使用，不能在 #ifdef、#ifndef 和 defined 中使用
+
+  属性记号	          属性	              值	           标准
+  deprecated	      [[deprecated]]	    201904L	      (C23)
+  fallthrough	      [[fallthrough]]	    201904L	      (C23)
+  maybe_unused	    [[maybe_unused]]    201904L	      (C23)
+  nodiscard	        [[nodiscard]]	      202003L	      (C23)
+  noreturn          [[noreturn]]
+  _Noreturn	        [[_Noreturn]]	      202202L	      (C23)
+  unsequenced	      [[unsequenced]]	    202207L	      (C23)
+  reproducible	    [[reproducible]]	  202207L	      (C23)
 
   */
   // [[gnu::hot]] [[gnu::const]] [[nodiscard]]
@@ -2452,7 +2689,51 @@ int declarations_fn(void) {
     char a;
     int b;
   } __attribute__((packed));
+  // [[attribute1, attribute2]]
+  // int variable [[attribute3]];    // 5、属性1、属性2应用于整个声明，属性3应用于variable
+  // [[attribute4]]
+  // int function() [[attribute5]];  // 属性4应用于整个声明，属性5应用于返回类型
 
+  // [[deprecated]]                  // 8、标准属性
+  // void old_function();
+  // [[deprecated("Use new_function instead")]]
+  // void another_old_function();
+  // switch (value) {
+  //   case 1:
+  //     // some code
+  //     [[fallthrough]];
+  //   case 2:
+  //     // falling through intentionally
+  //     break;
+  // }
+  // [[nodiscard]]
+  // int compute_value();
+  // [[nodiscard("Check the return value for errors")]]
+  // int compute_value_with_warning();
+  // [[maybe_unused]]
+  // void unused_function() {
+  //   // This function might not be used
+  // }
+  // void function_with_unused_parameter([[maybe_unused]] int unused_param) {
+  //   // ...
+  // }
+  // [[noreturn]]
+  // void exit_program() {
+  //   // This function does not return
+  //   exit(1);
+  // }
+  // // [[_Noreturn]] 是 [[noreturn]] 的弃用拼写
+  // _Noreturn void exit_program_deprecated() {
+  //   exit(1);
+  // }
+  // [[unsequenced]]
+  // int pure_function() {
+  //   return 42; // No side effects, idempotent
+  // } 
+  // [[reproducible]]
+  // int reproducible_function(int x) {
+  //   return x * 2; // No side effects, produces the same result for the same input
+  // }  
 
 #endif // DECLARATIONS declarations 声明
 
