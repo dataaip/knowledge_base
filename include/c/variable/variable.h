@@ -15,6 +15,92 @@
 
 #include "colorfmt.h"
 
+/***********************************************************************/
+
+// 定义 调用 declarations_fn 函数
+#define DECLARATIONS_FN
+/**
+* @brief             声明变量 头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int declarations_fn(void);
+
+// 定义 调用 initialization_fn 函数
+#define INITIALIZATION_FN
+/**
+* @brief             初始化变量 头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int initialization_fn(void);
+
+// 定义 调用 keywords_fn 函数
+#define KEYWORDS_FN
+/**
+* @brief             关键词列表 头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int keywords_fn(void);
+
+// 定义 调用 staticassertion_fn 函数
+#define STATICASSERTION_FN
+/**
+* @brief             静态断言 头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int staticassertion_fn(void);
+
+/***********************************************************************/
+
+// 定义 调用 atomics_fn 函数
+#define ATOMICS_FN
+/**
+* @brief             原子类型变量头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int atomics_fn(void);
+
+// 定义 调用 const_fn 函数
+#define CONST_FN
+/**
+* @brief             const 关键词 头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int const_fn(void);
+
+// 定义 调用 restrict_fn 函数
+#define RESTRICT_FN
+/**
+* @brief             restrict 关键词 头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int restrict_fn(void);
+
+// 定义 调用 volatile_fn 函数
+#define VOLATILE_FN
+/**
+* @brief             volatile 关键词 头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int volatile_fn(void);
+
+/***********************************************************************/
+
 // 定义 调用 integer_fn 函数
 #define INTEGER_FN
 /**
@@ -135,36 +221,6 @@ int functions_fn(void);
 */
 int voidtypes_fn(void);
 
-// 定义 调用 atomics_fn 函数
-#define ATOMICS_FN
-/**
-* @brief             原子类型变量头文件函数
-* @return  int       Return Description
-*
-* @note              Revision History
-*/
-int atomics_fn(void);
-
-// 定义 调用 initialization_fn 函数
-#define INITIALIZATION_FN
-/**
-* @brief             初始化变量 头文件函数
-* @return  int       Return Description
-*
-* @note              Revision History
-*/
-int initialization_fn(void);
-
-// 定义 调用 declarations_fn 函数
-#define DECLARATIONS_FN
-/**
-* @brief             声明变量 头文件函数
-* @return  int       Return Description
-*
-* @note              Revision History
-*/
-int declarations_fn(void);
-
 // 定义 调用 bitfields_fn 函数
 #define BITFIELDS_FN
 /**
@@ -175,12 +231,126 @@ int declarations_fn(void);
 */
 int bitfields_fn(void);
 
-// 定义 调用 keywords_fn 函数
-#define KEYWORDS_FN
+/***********************************************************************/
+
+// 定义 调用 alignas_fn 函数
+#define ALIGNAS_FN
 /**
-* @brief             关键词列表 头文件函数
+* @brief             alignas 关键词 头文件函数
 * @return  int       Return Description
 *
 * @note              Revision History
 */
-int keywords_fn(void);
+int alignas_fn(void);
+
+// 定义 调用 attribute_fn 函数
+#define ATTRIBUTE_FN
+/**
+* @brief             attribute 关键词 头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int attribute_fn(void);
+
+// 定义 调用 constexpr_fn 函数
+#define CONSTEXPR_FN
+/**
+* @brief             constexpr 关键词 头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int constexpr_fn(void);
+
+// 定义 调用 inline_fn 函数
+#define INLINE_FN
+/**
+* @brief             inline 关键词 头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int inline_fn(void);
+
+// 定义 调用 noreturn_fn 函数
+#define NORETURN_FN
+/**
+* @brief             noreturn 关键词 头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int noreturn_fn(void);
+
+// 定义 调用 auto_fn 函数
+#define AUTO_FN
+/**
+* @brief             auto 关键词 头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int auto_fn(void);
+
+// 定义 调用 register_fn 函数
+#define REGISTER_FN
+/**
+* @brief             register 关键词 头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int register_fn(void);
+
+// 定义 调用 extern_fn 函数
+#define EXTERN_FN
+/**
+* @brief             extern 关键词 头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int extern_fn(void);
+
+// 定义 调用 static_fn 函数
+#define STATIC_FN
+/**
+* @brief             static 关键词 头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int static_fn(void);
+
+// 定义 调用 threadlocal_fn 函数
+#define THREADLOCAL_FN
+/**
+* @brief             threadlocal 关键词 头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int threadlocal_fn(void);
+
+// 定义 调用 typedef_fn 函数
+#define TYPEDEF_FN
+/**
+* @brief             typedef 关键词 头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int typedef_fn(void);
+
+// 定义 调用 typeof_fn 函数
+#define TYPEOF_FN
+/**
+* @brief             typeof 关键词 头文件函数
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
+int typeof_fn(void);
+
+/***********************************************************************/

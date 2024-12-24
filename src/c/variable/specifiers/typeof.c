@@ -1,5 +1,5 @@
 /**
-* @file              attribute.c
+* @file              typeof.c
 * @brief             brief
 * @version           0.1
 * @author            brightl birigtl3016@outlook.com
@@ -21,7 +21,7 @@
 *
 * @note              Revision History
 */
-#define ATTRIBUTE_WORDS
+#define TYPEOF_WORDS
 
 /**
 * @brief             brief
@@ -29,13 +29,13 @@
 *
 * @note              Revision History
 */
-int attribute_fn(void) {
-#ifdef ATTRIBUTE_WORDS
+int typeof_fn(void) {
+#ifdef TYPEOF_WORDS
   /*
   
   */
 
-#endif // ATTRIBUTE_WORDS  attribute 关键词  
+#endif // TYPEOF_WORDS  typeof 关键词  
 
   return 0;
 }
