@@ -209,7 +209,8 @@
     "doxdocgen.generic.commandSuggestionAddPrefix": true,
     "makefile.configureOnOpen": false,
     "cSpell.words": [
-        "Alignas"
+        "Alignas",
+        "brightl"
     ],
     "remote.downloadExtensionsLocally": true,
 }
