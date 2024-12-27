@@ -210,7 +210,9 @@
     "makefile.configureOnOpen": false,
     "cSpell.words": [
         "Alignas",
-        "brightl"
+        "brightl",
+        "constexpr",
+        "Noreturn"
     ],
     "remote.downloadExtensionsLocally": true,
 }
