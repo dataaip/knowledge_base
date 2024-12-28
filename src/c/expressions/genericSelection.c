@@ -1,5 +1,5 @@
 /**
-* @file              expressions.c
+* @file              genericSelection.c
 * @brief             brief
 * @version           0.1
 * @author            brightl birigtl3016@outlook.com
@@ -22,7 +22,7 @@
 *
 * @note              Revision History
 */
-#define EXPRESSIONS
+#define GENERIC_SELECTION
 
 /**
 * @brief             brief
@@ -30,16 +30,16 @@
 *
 * @note              Revision History
 */
-int expressions_fn(void) {
-#ifdef EXPRESSIONS
+int genericSelection_fn(void) {
+#ifdef GENERIC_SELECTION
   /*
 
   */
-  print_purple("expression start...\n");
+  print_purple("genericSelection start...\n");
 
-  print_purple("expression end...\n");
+  print_purple("genericSelection end...\n");
 
-#endif // EXPRESSIONS  expressions 表达式  
+#endif // GENERIC_SELECTION  genericSelection 表达式  
 
   return 0;
 }

@@ -1,5 +1,5 @@
 /**
-* @file              expressions.c
+* @file              implicitConversions.c
 * @brief             brief
 * @version           0.1
 * @author            brightl birigtl3016@outlook.com
@@ -22,7 +22,7 @@
 *
 * @note              Revision History
 */
-#define EXPRESSIONS
+#define IMPLICIT_CONVERSIONS
 
 /**
 * @brief             brief
@@ -30,16 +30,16 @@
 *
 * @note              Revision History
 */
-int expressions_fn(void) {
-#ifdef EXPRESSIONS
+int implicitConversions_fn(void) {
+#ifdef IMPLICIT_CONVERSIONS
   /*
 
   */
-  print_purple("expression start...\n");
+  print_purple("implicitConversions start...\n");
 
-  print_purple("expression end...\n");
+  print_purple("implicitConversions end...\n");
 
-#endif // EXPRESSIONS  expressions 表达式  
+#endif // IMPLICIT_CONVERSIONS  implicitConversions 表达式  
 
   return 0;
 }

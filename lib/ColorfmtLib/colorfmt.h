@@ -1,3 +1,6 @@
+#ifndef COLORFMT_H
+#define COLORFMT_H
+
 #include <stdarg.h>
 
 enum {
@@ -17,3 +20,5 @@ enum {
 #define print_pink(...) printcolor(COLOR_PINK, __VA_ARGS__)
 
 void printcolor(int color_i, const char *fmt, ...);
+
+#endif // DEBUG

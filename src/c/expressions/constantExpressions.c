@@ -1,5 +1,5 @@
 /**
-* @file              expressions.c
+* @file              constantExpressions.c
 * @brief             brief
 * @version           0.1
 * @author            brightl birigtl3016@outlook.com
@@ -22,7 +22,7 @@
 *
 * @note              Revision History
 */
-#define EXPRESSIONS
+#define CONSTANT_EXPRESSIONS
 
 /**
 * @brief             brief
@@ -30,16 +30,16 @@
 *
 * @note              Revision History
 */
-int expressions_fn(void) {
-#ifdef EXPRESSIONS
+int constantExpressions_fn(void) {
+#ifdef CONSTANT_EXPRESSIONS
   /*
 
   */
-  print_purple("expression start...\n");
+  print_purple("constantExpressions start...\n");
 
-  print_purple("expression end...\n");
+  print_purple("constantExpressions end...\n");
 
-#endif // EXPRESSIONS  expressions 表达式  
+#endif // CONSTANT_EXPRESSIONS  constantExpressions 表达式  
 
   return 0;
 }

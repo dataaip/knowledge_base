@@ -1,5 +1,5 @@
 /**
-* @file              expressions.c
+* @file              evaluationOrder.c
 * @brief             brief
 * @version           0.1
 * @author            brightl birigtl3016@outlook.com
@@ -22,7 +22,7 @@
 *
 * @note              Revision History
 */
-#define EXPRESSIONS
+#define EVALUATION_ORDER
 
 /**
 * @brief             brief
@@ -30,16 +30,16 @@
 *
 * @note              Revision History
 */
-int expressions_fn(void) {
-#ifdef EXPRESSIONS
+int evaluationOrder_fn(void) {
+#ifdef EVALUATION_ORDER
   /*
 
   */
-  print_purple("expression start...\n");
+  print_purple("evaluationOrder start...\n");
 
-  print_purple("expression end...\n");
+  print_purple("evaluationOrder end...\n");
 
-#endif // EXPRESSIONS  expressions 表达式  
+#endif // EVALUATION_ORDER  evaluationOrder 表达式  
 
   return 0;
 }

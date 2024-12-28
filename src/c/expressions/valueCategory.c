@@ -1,5 +1,5 @@
 /**
-* @file              expressions.c
+* @file              valueCategory.c
 * @brief             brief
 * @version           0.1
 * @author            brightl birigtl3016@outlook.com
@@ -22,7 +22,7 @@
 *
 * @note              Revision History
 */
-#define EXPRESSIONS
+#define VALUE_CATEGORY
 
 /**
 * @brief             brief
@@ -30,16 +30,16 @@
 *
 * @note              Revision History
 */
-int expressions_fn(void) {
-#ifdef EXPRESSIONS
+int valueCategory_fn(void) {
+#ifdef VALUE_CATEGORY
   /*
 
   */
-  print_purple("expression start...\n");
+  print_purple("valueCategory start...\n");
 
-  print_purple("expression end...\n");
+  print_purple("valueCategory end...\n");
 
-#endif // EXPRESSIONS  expressions 表达式  
+#endif // VALUE_CATEGORY  valueCategory 表达式  
 
   return 0;
 }

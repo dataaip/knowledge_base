@@ -153,6 +153,32 @@ int main(void) {
 
 /***********************************************************************/
 
+#ifdef EXPRESSIONS_FN
+  expressions_fn();
+#endif // EXPRESSIONS_FN
+
+#ifdef VALUE_CATEGORY
+  valueCategory_fn();
+#endif // VALUE_CATEGORY
+
+#ifdef EVALUATION_ORDER
+  evaluationOrder_fn();
+#endif // EVALUATION_ORDER
+
+#ifdef CONSTANT_EXPRESSIONS
+  constantExpressions_fn();
+#endif // CONSTANT_EXPRESSIONS
+
+#ifdef IMPLICIT_CONVERSIONS
+  implicitConversions_fn();
+#endif // IMPLICIT_CONVERSIONS
+
+#ifdef GENERIC_SELECTION
+  genericSelection_fn();
+#endif // GENERIC_SELECTION
+
+/***********************************************************************/
+
 #ifdef ASC_PRINT
   asc_print_fn();
 #endif // DEBUG
