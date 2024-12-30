@@ -121,6 +121,7 @@ int expressions_fn(void) {
   PRINT(42);
   PRINT(3.14f);                        // 隐式选择：在这个例子中，PRINT宏利用_Generic关键字检查传入参数的类型，并调用相应的打印函数。这样就可以针对不同类型的数据提供不同的处理逻辑，从而实现了某种程度上的泛型编程能力
 
+
   print_purple("expression end...\n");
 
 #endif // EXPRESSIONS  expressions 表达式  
