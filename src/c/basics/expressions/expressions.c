@@ -16,6 +16,12 @@
 #include "c/basics/expressions/expressions.h"
 #include "colorfmt.h"
 #include <stdio.h>
+#include <math.h>
+#include <fenv.h>
+#include <errno.h>
+#include  <stdalign.h> 
+
+#pragma STDC FENV_ACCESS ON // 启用浮点环境访问
 
 /**
 * @brief             表达式是运算符及其操作数的序列，它指定一个运算
@@ -66,15 +72,32 @@ int expressions_fn(void) {
 
   浮点数算术：可能会引发浮点数异常，并报告 math_errhandling 中指定的错误
   标准 #pragma：FENV_ACCESS、FP_CONTRACT 及 CX_LIMITED_RANGE 还有浮点数求值精度和舍入方向控制浮点数算术求值方式
+  在C语言中，浮点数算术运算可能会引发浮点异常，并且这些异常可以通过math_errhandling宏来确定是如何被报告的。此外，编译器提供了几个预处理指令（如FENV_ACCESS、FP_CONTRACT和CX_LIMITED_RANGE），用于控制浮点数求值精度和舍入方向，从而影响浮点数算术的求值方式
+  - 浮点异常与错误处理：当执行某些特定类型的浮点运算时，可能会发生异常情况，例如除以零、无效操作或溢出等。根据C标准库的规定，可以使用fenv.h头文件中的函数来检测和处理这些异常。math_errhandling宏定义了数学函数如何报告错误，它可能是通过设置全局变量errno或通过引发浮点异常
+  MATH_ERRNO：如果设置了这个标志，则表示错误是通过errno来报告的
+  MATH_ERREXCEPT：如果设置了这个标志，则表示错误是通过浮点异常来报告的
+  标准 #pragma 指令
+  - FENV_ACCESS pragma指示编译器是否应该考虑浮点环境的变化，比如浮点异常的发生或者舍入模式的改变。当启用FENV_ACCESS时，编译器会生成能够正确响应浮点异常并允许程序修改浮点状态寄存器的代码。这通常是为确保数值计算的准确性而付出性能代价的选择
+  - FP_CONTRACT pragma允许或禁止浮点收缩（contraction），即组合多个浮点运算成单个指令，如混合乘加运算（FMA）。这类指令可以在不牺牲过多精度的情况下提高计算速度。然而，默认情况下，在/fp:precise下不会生成浮点收缩；而在/fp:fast模式下则会默认启用它们
+  - CX_LIMITED_RANGE 对于复数运算，CX_LIMITED_RANGE pragma可以用来告知编译器有关于复数表达式的范围限制信息。这可以帮助优化编译器生成更高效的代码
+  浮点数求值精度和舍入方向：浮点数的求值精度和舍入方向可以通过编译器选项或特定的编译器命令行参数来控制。例如，Visual Studio提供了/fp编译器选项，它可以指定不同的浮点行为策略，包括但不限于，这些设置不仅影响到最终生成的二进制代码的行为，也会影响到程序中浮点运算的结果。因此，在编写依赖高精度数值计算的应用程序时，选择合适的编译器选项是非常重要的
+  /fp:strict：严格遵守IEEE-754标准，保证源代码级别的表达式排序和舍入属性
+  /fp:precise：保留大部分浮点代码的源表达式排序和舍入属性，但在某些情况下允许优化
+  /fp:fast：优先考虑性能，允许重新排序浮点表达式以获得更快的执行速度，但可能失去一些精度
 
   初等表达式：运算符的操作数可为其他表达式，或初等表达式（例如 1 + 2 * 3 中，运算符 + 的操作数是子表达式 2 * 3 和初等表达式 1）
   初等表达式可以是下列之一：
   - 常量及字面量（例如 2 或 "Hello, world"）
   - 适合的已声明标识符（例如 n 或 printf）
   - 泛型选择(C11起)
+  在C语言中，初等表达式（也称为基本表达式）是指那些不能再进一步分解为更简单表达式的最小单位。它们是构建复杂表达式的基石。根据提供的信息，初等表达式可以分为三类：常量及字面量、已声明的标识符以及从C11开始引入的泛型选择表达式
+  - 常量及字面量 常量及字面量是直接出现在代码中的固定值，它们不能被改变。这类表达式包括整数常量、浮点数常量、字符常量和字符串常量等，例如：整数常量：42、浮点数常量：3.14、字符常量：'A'、字符串常量："Hello, world"
+  - 已声明的标识符 标识符是用来命名变量、函数、数组和其他用户定义的对象的名字。当一个标识符被声明后，它可以作为一个初等表达式出现，表示该对象的值或地址 例如：int n = 5; printf("%d\n", n); // 这里的n是一个已声明的标识符，它构成了一个初等表达式，printf("The value of n is %d.\n", n); 函数名也可以被视为一种特殊的标识符。当调用函数时，函数名加上圆括号及其内的参数列表共同构成了一条表达式。例如，printf就是这样一个标识符，printf是一个标准库函数的名称，而整个printf("The value of n is %d.\n", n)则是一个完整的函数调用表达式
+  - 泛型选择表达式 (C11起) 自C11标准以来，C语言引入了泛型选择表达式（generic selection expression），允许根据表达式的类型来选择不同的值或行为。这种特性使得编写更加灵活和通用的代码成为可能。泛型选择表达式的语法形式如下：_Generic(controlling-expression, type1: result1, type2: result2, ...) ：其中，controlling-expression是要检查类型的表达式，typeN是预期匹配的类型，而resultN是在类型匹配成功时返回的结果。如果没有任何类型匹配，则会返回default:标签后面的结果
   
   任何在括号中的表达式亦被分类为基础表达式：这保证括号拥有高于任何运算符的优先级
-
+  在C语言中，括号（()）不仅仅用于函数调用或定义参数列表，它们还被用来改变表达式中的运算顺序。根据运算符优先级规则，括号内的表达式总是最先计算，这意味着括号具有最高的优先级。当一个表达式被括号包围时，它被视为一个基础表达式，即该表达式的求值会在所有其他运算之前完成。这确保了程序员可以通过添加括号来明确指定他们希望的计算顺序，而不必完全依赖于默认的运算符优先级
+  
   常量及字面量：某些类型的常量值可用称为字面量（对于左值表达式）和常量（对于右值表达式）的特殊表达式嵌入到 C 程序源代码中
   - 整数常量是十进制、八进制或十六进制的整数类型数字
   - 字符常量是 int 类型的单个字符，适合转换为字符类型或char8_t类型（自C23起）、char16_t、char32_t 或者（自C11起）wchar_t类型
@@ -83,8 +106,16 @@ int expressions_fn(void) {
   - 预定义常量 nullptr 是 nullptr_t 类型的值(C23起)
   - 字符串字面量是类型为 char[]、char8_t[](C23起)、char16_t[]、char32_t[] (C11起)或 wchar_t[] 的一系列字符，它们表示以空字符结尾的字符串
   - 复合字面量是直接嵌入程序代码的结构体、联合体或数组类型的值(C99起)
-
-  运算符：赋值、自增自减、算术、逻辑、比较、成员访问、其他
+  3、在C语言中，常量及字面量是直接嵌入到程序源代码中的固定值，它们可以在编译时确定，并且在程序运行期间不会改变。根据提供的信息，我们可以详细探讨不同类型的常量和字面量，以及它们如何作为左值表达式或右值表达式出现在代码中
+  - 整数常量 整数常量可以采用十进制、八进制或十六进制的形式表示 十进制：42、八进制（以数字0开头）：052、十六进制（以0x或0X开头）：0x2A 这些整数常量可以直接用作右值表达式，如赋值给变量或参与算术运算
+  - 字符常量 字符常量是由单引号括起来的单个字符，实际上是一个整数值，对应于该字符的ASCII码或其他字符编码标准中的值。字符常量可以转换为char类型或者从C23开始支持的char8_t类型，此外还有char16_t、char32_t和自C11起的wchar_t类型，char ch = 'A'; // ASCII 码 65，这里，'A'是一个字符常量，它被赋值给了一个char类型的变量ch。字符常量也可以作为右值表达式使用
+  - 浮点数常量 浮点数常量可以是float、double或long double类型的值。它们可以用小数形式或科学计数法表示。例如 3.14 是一个double类型的浮点数常量，3.14f 或 3.14F 表示float类型的浮点数，3.14L 或 3.14l 表示long double类型的浮点数，浮点数常量同样作为右值表达式出现，在需要的时候可以被赋予变量或用于数学计算
+  - 预定义常量 true 和 false 从C23标准开始，true和false成为预定义的布尔常量，属于bool类型。在此之前，C语言并没有内置的布尔类型，开发者通常会通过包含头文件<stdbool.h>来定义布尔类型和这两个特殊的值，bool flag = true; 在这个例子中，true是一个布尔常量，用来初始化一个bool类型的变量flag
+  - 预定义常量 nullptr 从C23标准引入，nullptr是一个特殊类型的空指针常量，其类型为nullptr_t。这提供了比传统的NULL宏更安全的方式处理空指针，void* ptr = nullptr;
+  - 字符串字面量 字符串字面量是由双引号括起来的一系列字符，它们自动以空字符（\0）结尾。根据字符集的不同，字符串字面量可以是char[]、char8_t[]（自C23起）、char16_t[]、char32_t[]（自C11起）或wchar_t[]，例如：const char* greeting = "Hello, World!"; 这里的"Hello, World!"是一个字符串字面量，它被赋予了一个指向常量字符数组的指针变量greeting
+  - 复合字面量 允许直接在代码中创建结构体、联合体或数组类型的对象。这种特性是从C99标准开始支持的，struct point { int x, y; }; struct point origin = (struct point){ .x = 0, .y = 0 }; 这里，(struct point){ .x = 0, .y = 0 }是一个复合字面量，用来初始化一个名为origin的struct point类型的变量
+  
+  4、运算符：赋值、自增自减、算术、逻辑、比较、成员访问、其他
   - 运算符优先级定义运算符绑定到其实参的顺序
   - 代用表示是一些运算符的代用写法
   - | 类别       | 运算符                                                                                         |
@@ -99,8 +130,12 @@ int expressions_fn(void) {
   - | 其他   | a(...) (函数调用), a, b (逗号表达式), (type) a (类型转换), a ? b : c (条件运算符), sizeof (大小), _Alignof (对齐)[ty-reference](24) |
   - 注：对于C11标准引入的_Alignof和C23标准中的alignof，它们用于查询数据类型的内存对齐要求
 
-  sizeof 运算符的操作数是不求值的表达式（除非它们是 VLA）(C99起)。故而 size_t n = sizeof(printf("%d", 4)); 不会进行控制台输出
+  5、sizeof 运算符的操作数是不求值的表达式（除非它们是 VLA）(C99起)。故而 size_t n = sizeof(printf("%d", 4)); 不会进行控制台输出
   _Alignof(C23前)alignof(C23起) 运算符的操作数、泛型选择的控制表达式及作为 _Alignof(C23前)alignof(C23起) 的操作数的 VLA 的大小表达式亦为不求值的表达式
+  在C语言中，sizeof 和 _Alignof（或 C23 标准中的 alignof）运算符的操作数通常被视为不求值的表达式。这意味着这些运算符只关心其操作数的类型信息，并不会实际执行操作数所代表的操作。这种行为对于理解某些复杂表达式的处理非常重要，尤其是在涉及到函数调用或变量长度数组（VLA）的情况下
+  - sizeof 运算符用于确定一个类型或对象占用的字节数1。从C99标准开始，如果 sizeof 的操作数是一个非常量表达式（例如，涉及变量或函数调用），则该表达式不会被求值，除非它是一个变长数组（VLA）
+  - _Alignof/alignof 运算符 与 sizeof 类似，_Alignof 或者自C23起的 alignof 运算符用来查询类型的对齐需求。它们同样接受一个类型作为参数，并返回该类型的对齐值（以字节为单位）
+  - 泛型选择（如 C11 引入的 _Generic 关键字）的控制表达式也是不求值的表达式之一。这意味着在决定哪个分支应该被选中时，编译器只会检查表达式的类型，而不会对其内容进行求值
   */
   print_purple("expression start...\n");
   int result = 3 + 4;                   // 1、计算数值，在这个例子中，3 + 4 是一个表达式，它指定了两个整数相加的操作，并且最终会得到一个值 7。这个结果随后被赋给名为 result 的变量
@@ -121,7 +156,29 @@ int expressions_fn(void) {
   PRINT(42);
   PRINT(3.14f);                        // 隐式选择：在这个例子中，PRINT宏利用_Generic关键字检查传入参数的类型，并调用相应的打印函数。这样就可以针对不同类型的数据提供不同的处理逻辑，从而实现了某种程度上的泛型编程能力
 
+  feclearexcept(FE_ALL_EXCEPT);        // 清除所有浮点异常标志
+  errno = 0;                                    // 清除任何先前的错误条件
+  printf("log(0) = %f\n", log(0));    // 如何检查一个可能导致极点错误的日志函数调用
+  if (errno == ERANGE) perror("errno == ERANGE");
+  if (fetestexcept(FE_DIVBYZERO)) puts("FE_DIVBYZERO (pole error) reported");
 
+  #define PRINT_TYPE(X) _Generic((X), \         
+    int: "integer",                   \
+    float: "floating point",          \
+    double: "double precision",       \
+    default: "unknown type"           \
+  )
+  int ii = 42;                                          // PRINT_TYPE宏定义了一个泛型选择表达式，用于确定传入参数的类型，并输出相应的描述性文本。通过这种方式，我们可以创建出能够适应多种数据类型的代码片段，从而增强了程序的灵活性和可读性
+  float f = 3.14f;
+  printf("Type of ii is %s\n", PRINT_TYPE(ii)); // 输出 "Type of ii is integer"
+  printf("Type of f is %s\n", PRINT_TYPE(f));   // 输出 "Type of f is floating point"
+
+  size_t n = sizeof(printf("%d", 4));           // 5、虽然看起来像是会调用 printf 函数并打印数字 4 到控制台，但实际上 printf 并不会被执行，因为 sizeof 只需要知道 printf 返回值的类型大小，而不需要真正调用这个函数。在这个例子中，printf 返回的是一个 int 类型的值，所以 n 将会被赋予 sizeof(int) 的结果，即通常是4个字节（取决于平台）
+  typedef struct {
+    int a;
+    double b;
+  } S;
+  size_t alignment = alignof(S);                        // 对应于结构体S的最大成员b的对齐需求，这里是8字节，这里，alignof(S) 返回的是结构体 S 内部最大元素（本例中是 double b）所需的最小对齐边界。值得注意的是，当使用 _Alignof 或 alignof 时，即使操作数是 VLA，也不会对该 VLA 进行求值；它只是用来获取类型的对齐属性
   print_purple("expression end...\n");
 
 #endif // EXPRESSIONS  expressions 表达式  
