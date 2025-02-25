@@ -153,10 +153,10 @@
 #### 4. 文件与异常处理
 
 - 文件I/O操作：
-  - 文件操作函数`fopen`、`fread`、`fwrite`、`fseek`、文本模式 vs 二进制模式
+  - 文件操作函数fopen、fread、fwrite、fseek、文本模式 vs 二进制模式
 
 - 标准输入输出流（
-  - `stdin`、`stdout`、`stderr`
+  - stdin、stdout、stderr
 
 - 错误处理：
   - errno、perror 
@@ -238,7 +238,7 @@
 - 并行算法 OpenMP基础、MapReduce思想  
 - 链表（单向链表、双向链表）/栈/队列手动实现
 - 树结构（二叉搜索树、AVL树、红黑树、B/B+树）
-- 图结构：邻接矩阵/链表、图的遍历（DFS/BFS）  
+- 图结构 邻接矩阵/链表、图的遍历（DFS/BFS）  
 - 哈希表与散列算法（开放寻址法、链地址法）、冲突解决策略 
 - AI相关算法实现  最近邻搜索（KD-Tree）、并查集（用于聚类）、优先队列（用于Dijkstra算法）
 
