@@ -211,8 +211,11 @@
     "cSpell.words": [
         "Alignas",
         "brightl",
+        "codegen",
         "constexpr",
-        "Noreturn"
+        "LPAREN",
+        "Noreturn",
+        "RPAREN"
     ],
     "remote.downloadExtensionsLocally": true,
 }
