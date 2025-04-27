@@ -1,5 +1,5 @@
-#include "ToolsMathLib/toolsmathlib.h"
-#include "UtilsLib/utilslib.h"
+#include "toolsMathLib/toolsmathlib.h"
+#include "utilsLib/utilslib.h"
 #include "fmt/base.h"
 #include <iostream>
 #define FMT_HEADER_ONLY
