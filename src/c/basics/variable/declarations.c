@@ -14,6 +14,7 @@
 */
 
 #include "c/basics/variable/variable.h"
+#include "colorfmt.h"
 #include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -24,75 +25,118 @@
 #include <threads.h>
 
 /**
-* @brief             声明是一种 C 语言结构，它将一个或多个标识符引入程序并指定它们的含义和属性
+* @brief             完整的声明 由 属性说明符序列(C23起) + 说明符[类型说明符、存储类说明符、对齐说明符、函数说明符] + 限定符[类型限定符] + 声明符 + 初始化器组成
 *
 * @note              声明可以出现在任何范围内。每个声明都以分号结尾（就像一个语句一样），由两个 （直到C23） 三个 （自C23起） 不同的部分组成
 */
+
+/*
+本页目录：
+
+一、声明含义- 声明定义、范围组成、说明符和限定符、声明符与初始化器、属性说明符序列、auto自动推断
+
+*/
 #define DECLARATIONS
 
-// 声明含义
-
-// 类型说明符
-// - void
-// - 算术类型 
-// - 指针
-// - 数组
-// - enum
-// - struct
-// - union
-// - 原子类型(C11)
-// - 位域
-// - typeof
-
-// const
-// volatile
-// restrict(C99)
-
-// 对齐说明符(C11)
-
-// 存储期与链接外部及试探性定义
-
-// typedef
-
-// constexpr
-
-// 静态断言(C11)
-
-// 属性(C23)
-
 /**
-* @brief             声明是一种引入一个或多个标识符到程序中，并指定其含义及属性的 C 语言构造
+* @brief             c 声明示例代码函数
 * @return  int       Return Description
 *
-* @note              声明可以出现在任何作用域中。每个声明以分号结束（类似语句），并由两 (C23前)三 (C23起)个独立部分组成
+* @note              Revision History
 */
 int declarations_fn(void) {
 #ifdef DECLARATIONS
   print_purple("declaration start...\n");
+
+/*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+
   /*
-  声明
-  在 C 语言中，声明是一种构造，将一个或多个标识符引入程序中，并指定它们的含义和属性
-  声明可以出现在任何作用域中。每个声明都以分号结尾（就像一条语句一样），并且由两部分（C23前）或三部分（C23起）不同的部分组成
-  说明符与限定符 声明符与初始化器(可选);        (1)	
-  属性说明符序列 说明符与限定符 声明符与初始化器;	(2)	(C23起)
-  属性说明符序列;	                           (3) (C23起)
+  一、声明含义
+  声明定义：声明是一种 C 语言结构，它将一个或多个标识符引入程序并指定它们的含义和属性
+  范围组成：声明可以出现在任何范围内。每个声明都以分号结尾（就像一个语句一样），由两个（直到C23）三个（自C23起）不同的部分组成
+  （1）说明符 限定符 声明符 初始化器(可选); -（简单声明：引入一个或多个表示对象、函数、结构体/联合体/枚举标签、类型定义或枚举常量的标识符）
+  （2）属性说明符序列 说明符 限定符 声明符 初始化器;(C23起) -（简单声明：引入一个或多个表示对象、函数、结构体/联合体/枚举标签、类型定义或枚举常量的标识符）
+  （3）属性说明符序列;(C23起) -（属性声明：不声明任何标识符，如果标准未指定含义，则具有实现[即具体编译器]定义的含义）
   
-  说明符和限定符— 下列以任意顺序排列的由空格分隔的列表
-  类型说明符：void、算术类型名、原子类型名、由 typedef 声明在前面引入的名称、struct、union 或 enum 说明符、typeof 说明符 (C23起)
-  零或一个存储类说明符：typedef、constexpr、auto、register、static、extern、_Thread_local
-  零或多个类型限定符：const、volatile、restrict、_Atomic
-  (只在声明函数时）零或多个函数说明符：inline、_Noreturn
-  零或多个对齐说明符： _Alignas
-  声明符与初始化器- 由声明符组成的以逗号分隔的列表（每个声明符提供额外的类型信息和 / 或要声明的标识符）。声明符可以伴有初始化器。枚举、结构体和联合体声明可以省略声明符，在这种情况下，它们仅引入枚举常量和 / 或标签
-  属性说明符序列-	(C23)可选的属性列表，应用到被声明的实体，或若单独出现则构成属性声明
-
-  1-2) 简单声明 引入一个或多个表示对象、函数、结构体 / 联合体 / 枚举标签、类型定义或枚举常量的标识符
-  3) 属性声明 不声明任何标识符，如果标准未指定其含义，则具有实现定义的含义
-  一个声明引入的每个标识符类型是通过 类型说明符 所指定的类型及其 声明符 所应用的类型修饰决定的
-
-  1、如果使用 auto 说明符，变量的类型也可能被推断出来（C23起）
-  2、属性(C23起)可在 说明符与限定符 中出现，在这种情况下，它们适用于由前面的说明符确定的类型
+  说明符和限定符-下列以任意顺序排列的由空格分隔的列表（如 const volatile int ≡ volatile const int）：
+  （1）类型说明符：void、算术类型名、原子类型名、由 typedef 声明在之前引入的名称、struct、union 或 enum 说明符、typeof 说明符(C23起)
+  （2）零或一个存储类说明符：typedef、constexpr、auto、register、static、extern、_Thread_local
+  （3）零或多个函数说明符(只在声明函数时）：inline、_Noreturn
+  （4）零或多个对齐说明符： _Alignas、alignas（自C23起）
+  （5）零或多个类型限定符：const、volatile、restrict、_Atomic
   
+  声明符与初始化器：
+  （1）由声明符组成的以逗号分隔的列表（每个声明符提供额外的类型信息或要声明的标识符，如：int a, *b, c[3] 声明符：a, *b, c[3]）
+  （2）声明符可以伴有初始化器（如：= 42; = {1,2,3}; 初始化器）
+  （3）枚举、结构体和联合体声明可以省略声明符，在这种情况下，它们仅引入枚举常量或标签（如：enum Color { RED, GREEN, BLUE }; // 省略声明符，仅定义枚举常量，struct Student { char name[20]; }; // 省略声明符，定义结构体标签"Student"）
+  
+  属性说明符序列(C23)可选的属性列表：
+  （1）应用于声明的实体，或者如果单独出现，则形成属性声明（如：[[gnu::weak]]; // 后续符号默认为弱引用 extern void weak_function();）
+
+  一个声明引入的每个标识符类型是通过 类型说明符 所指定的类型及其 声明符 所应用的类型修饰决定的（即：声明一个标识符（如变量、函数等）的最终类型由 类型说明符 和 声明符 共同决定）
+  （1）如果使用 auto 说明符，变量的类型也可能被推断出来（C23起）
+  （2）属性(C23起)可在 说明符与限定符 中出现，在这种情况下，它们适用于由前面的说明符确定的类型
+  */
+  static const volatile _Alignas(8) int declarator_all = 10;                       // 声明 由 说明符[类型说明符、存储类说明符、对齐说明符、函数说明符] + 限定符[类型限定符] + 声明符 + 初始化器组成
+  // [[maybe_unused]] static const volatile _Alignas(8) int declarator_all23 = 10; // 声明 由 属性说明符序列(C23起) + 说明符[类型说明符、存储类说明符、对齐说明符、函数说明符] + 限定符[类型限定符] + 声明符 + 初始化器组成
+  
+  int type_specifier_num = 42;                                       // 类型说明符（定义基础类型）：算术类型（int）
+  struct TS_Point { int x, y; };                                     // 类型说明符（定义基础类型）：结构体类型说明符（struct）
+  typedef int type_specifier_Int;                                    // 类型说明符（定义基础类型）：通过 typedef 引入的类型名（MyInt）
+  enum TS_Color { TS_RED, TS_GREEN, TS_BLUE };                       // 类型说明符（定义基础类型）：枚举类型说明符（enum）
+  // typeof(type_specifier_num) type_specifier_value = 10;           // 类型说明符（定义基础类型）：C23 的 typeof（推断 value 为 int 类型）
+  static int storage_specifier_counter = 0;                          // 存储类说明符（控制存储位置/生命周期）：static：静态变量（程序生命周期）
+  extern int storage_specifier_global_var;                           // 存储类说明符（控制存储位置/生命周期）：extern：声明外部链接变量
+  auto storage_specifier_x = 3.14;                                   // 存储类说明符（控制存储位置/生命周期）：C23 起：auto 推断 x 为 double 类型
+  // inline int function_specifier_add(int a, int b) { return a + b; } // 函数说明符（修饰函数行为）：inline：建议内联展开函数
+  // _Noreturn void function_specifier_exit_program() { exit(0); }     // 函数说明符（修饰函数行为）：_Noreturn：函数不会返回（如终止程序）
+  alignas(16) int alignment_specifier_buffer[4];                      // 对齐说明符（C23 起，控制内存对齐）：alignas(16)：强制按 16 字节对齐
+  _Alignas(double) char alignment_specifier_data[32];                 // 对齐说明符（C23 起，控制内存对齐）：对齐到 double 类型的对齐要求
+  const int Type_Qualifier_MAX = 100;                                 // 类型限定符（修饰类型特性）：const：值不可修改
+  volatile int type_qualifier_sensor_value;                           // 类型限定符（修饰类型特性）：volatile：可能被外部修改（禁用编译器优化）
+  int* restrict type_qualifier_ptr = &type_specifier_num;             // 类型限定符（修饰类型特性）：restrict：指针是唯一访问路径（优化提示）
+  _Atomic int type_qualifier_atomic_counter;                          // 类型限定符（修饰类型特性）：_Atomic：原子操作（线程安全）
+
+  int declarator;                                                    // 声明符是声明语句中 标识变量名 并 提供类型信息 的部分。它可以是简单的变量名，也可以包含复杂的类型修饰（如指针、数组、函数等）
+  int simple_declarator_x;                                           // 简单声明符：声明符是 "x"
+  int *complex_declarator_p;                                         // 复杂声明符：声明符是 "*p"（指针）
+  int complex_declarator_arr[5];                                     // 复杂声明符：声明符是 "arr[5]"（数组）
+  int complex_declarator_func();                                     // 复杂声明符：声明符是 "func()"（函数）
+  int (*complex_declarator_fp)(int) = NULL;                          // 复杂声明符：声明符是 "(*fp)(int)"，表示函数指针，初始化器 "= NULL" 初始化指针
+  int list_declarator_a, *list_declarator_b, list_declarator_c[3];   // 逗号分隔的声明符列表：可以在一条声明语句中声明多个变量，用逗号分隔不同的声明符
+  int initializer;                                                   // 初始化器：声明符可以伴随初始化器，用于在声明时为变量赋初值
+  int simple_initializer_x = 42;                                     // 简单初始化：初始化器 = 42
+  int simple_initializer_arr[] = {1,2,3};                            // 数组初始化：初始化器 = {1,2,3}
+  struct SI_Point { int x, y; } simple_initializer_p = { .x=1, .y=2 };  // 结构体初始化：初始化器 = { .x=1, .y=2 }
+  enum SI_Color { SI_RED, SI_GREEN, SI_BLUE };                          // 省略声明符：仅定义枚举常量，省略声明符的特殊情况，在 枚举、结构体、联合体 声明中，可以省略声明符，此时仅引入常量或标签
+  struct SI_Student { char name[20]; };                                 // 省略声明符：定义结构体标签"Student"
+
+#ifdef C23_OK  
+  [[attribute1, attribute2]] int attribute_specifiers_x;             // 属性说明符：是 C23 引入的语法，用于为声明的实体（变量、函数、类型等）附加额外信息（如编译器优化提示、静态分析标记等）
+  [[gnu::visibility("default")]];                                    // 独立属性声明：设置后续声明的默认可见性，属性可以单独出现，形成 "属性声明"，通常用于全局作用域
+  [[deprecated]] struct OldStruct { int data; };                     // 属性说明符：标记结构体 OldStruct 为废弃
+  [[gnu::weak]]; extern void weak_function();                        // 独立属性声明：后续符号默认为弱引用
+#endif // 是否支持 C23 
+
+  const int *type_specifier_declarator[5];                           // 类型说明符与声明符的协作：类型说明符（如 int, double, struct S）确定基础类型、声明符（如 *p, arr[5], func()）修饰基础类型，最终确定标识符的类型、最终类型 = 基础类型 + 声明符修饰
+  const int *declarator_p[5];                                        // 类型说明符：const int（基础类型是 int，附加 const 限定符），声明符：*p[5]：[5] → 数组修饰符 → 数组类型、* → 指针修饰符 → 指向数组元素的指针，最终类型：p 是一个长度为 5 的数组，每个元素是 const int*（指向常整型的指针）
+  auto automatic_inference_x = 42;                                   // 若使用 auto 作为类型说明符，编译器根据 初始化器 推断变量类型。声明符的修饰（如指针、数组）会参与类型推断，推断为 int
+  auto *automatic_inference_p = &automatic_inference_x;              // 推断为 int*
+  auto automatic_inference_arr[] = {1,2};                            // 推断为 int[2]
+#ifdef C23_OK
+  auto automatic_inference_func() { return 3.14; }                   // 推断返回类型（C23允许）返回 double
+  auto (*automatic_inference_fp)(int) = some_func;                   // 与声明符修饰的互动，推断 automatic_inference_fp 为函数指针类型，指向 int → 返回类型的函数
+  [[nodiscard]] int attribute_x = 10;                                // 属性应用于整个声明（变量 x），属性可以出现在 类型说明符、限定符 或 声明符 的位置，影响不同类型的实体
+  int [[gnu::aligned(16)]] attribute_y;                              // 属性应用于基础类型 int（类型本身）
+  int* [[gnu::nonnull]] attribute_p;                                 // 属性应用于声明符修饰的指针（变量 p）
+  [[deprecated]] void attribute_func() [[noreturn]];                 // 属性应用于函数声明符（函数 func）
+  [[gnu::weak]] int [[gnu::vector_size(16)]] *attribute_ptr;         // 复杂组合：- gnu::weak → 应用于变量 ptr（弱符号），- gnu::vector_size(16) → 应用于基础类型 int（向量化类型），- * → 声明符修饰符（指针）。位置决定应用对象：若在 类型说明符前 → 应用于整个声明。若在 类型说明符或限定符中 → 应用于基础类型。若在 声明符后 → 应用于声明的标识符
+  [[gnu::aligned(8)]] const int* [[gnu::nonnull]] attribute_ptrs[3]; // 类型说明符：const int，声明符：*ptrs[3] → 数组 ptrs 包含 3 个指向常整型的指针，属性：gnu::aligned(8) → 应用于基础类型 const int，要求对齐到 8 字节，gnu::nonnull → 应用于声明符修饰的指针，标记指针不可为 NULL  
+#endif // 是否支持 C23 
+
+/*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+
+/*  
   3、声明符 每个声明符是下列之一
   标识符 属性说明符序列(可选)	                                                    (1)	
   ( 声明符 )	                                                                 (2) 
