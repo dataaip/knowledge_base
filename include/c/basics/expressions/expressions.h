@@ -1,6 +1,6 @@
 /**
 * @file              expressions.h
-* @brief             brief
+* @brief             表达式头文件
 * @version           0.1
 * @author            brightl birigtl3016@outlook.com
 * @date              2024.12.28
@@ -13,6 +13,7 @@
 * </table>
 */
 
+// 打印具有颜色的输出
 #include "colorfmt.h"
 
 /***********************************************************************/
