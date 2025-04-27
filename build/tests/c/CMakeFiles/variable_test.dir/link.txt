@@ -1,1 +1,0 @@
-/usr/bin/gcc  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g CMakeFiles/variable_test.dir/variable.c.o -o variable_test  -lm 

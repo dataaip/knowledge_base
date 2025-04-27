@@ -1,1 +1,0 @@
-/usr/bin/g++ -g CMakeFiles/progcpp.dir/progcc.cpp.o -o progcpp  ../../lib/toolsMathLib/libtoolsMathLib.a ../../lib/utilsLib/libutilsLib.a 
