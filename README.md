@@ -29,11 +29,11 @@ brightl-pl/             项目目录结构
 ├── .clang-format       存放项目自动格式化 C++ 代码配置文件   
 ├── .clang-tidy         存放项目静态分析 C++ 代码的质量和风格配置文件   
 ├── .gitgnore           存放项目 git 忽略版本控制配置文件 
-├── .gitattributes		存放项目 gitattributes 配置文件，定义特定路径目录子目录或文件类型的属性和行为
+├── .gitattributes      存放项目 gitattributes 配置文件，定义特定路径目录子目录或文件类型的属性和行为
 ├── .gitmodules         存放项目 git modules 配置文件   
 ├── BUILD.md            存放项目构建文档文件，包含如何构建项目、运行项目
-├── configure			存放项目 configure 脚本，基于 Autotools 项目，用于配置和生成适合当前系统环境的 Makefile
-├── Makefile			存放项目 Make 构建的配置文件
+├── configure           存放项目 configure 脚本，基于 Autotools 项目，用于配置和生成适合当前系统环境的 Makefile
+├── Makefile            存放项目 Make 构建的配置文件
 ├── CMakeLists.txt      存放项目 CMake 构建的配置文件，包含了如何构建项目的指南   
 ├── CMakePresets.json   存放项目 CMake 预设的配置文件   
 ├── LICENSE             存放项目的许可证信息   
