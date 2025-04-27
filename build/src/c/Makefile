@@ -195,6 +195,198 @@ progc/fast:
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/build
 .PHONY : progc/fast
 
+advanced/advanced.o: advanced/advanced.c.o
+.PHONY : advanced/advanced.o
+
+# target to build an object file
+advanced/advanced.c.o:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/advanced/advanced.c.o
+.PHONY : advanced/advanced.c.o
+
+advanced/advanced.i: advanced/advanced.c.i
+.PHONY : advanced/advanced.i
+
+# target to preprocess a source file
+advanced/advanced.c.i:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/advanced/advanced.c.i
+.PHONY : advanced/advanced.c.i
+
+advanced/advanced.s: advanced/advanced.c.s
+.PHONY : advanced/advanced.s
+
+# target to generate assembly for a file
+advanced/advanced.c.s:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/advanced/advanced.c.s
+.PHONY : advanced/advanced.c.s
+
+advanced/errno/errno.o: advanced/errno/errno.c.o
+.PHONY : advanced/errno/errno.o
+
+# target to build an object file
+advanced/errno/errno.c.o:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/advanced/errno/errno.c.o
+.PHONY : advanced/errno/errno.c.o
+
+advanced/errno/errno.i: advanced/errno/errno.c.i
+.PHONY : advanced/errno/errno.i
+
+# target to preprocess a source file
+advanced/errno/errno.c.i:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/advanced/errno/errno.c.i
+.PHONY : advanced/errno/errno.c.i
+
+advanced/errno/errno.s: advanced/errno/errno.c.s
+.PHONY : advanced/errno/errno.s
+
+# target to generate assembly for a file
+advanced/errno/errno.c.s:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/advanced/errno/errno.c.s
+.PHONY : advanced/errno/errno.c.s
+
+advanced/headers/headers.o: advanced/headers/headers.c.o
+.PHONY : advanced/headers/headers.o
+
+# target to build an object file
+advanced/headers/headers.c.o:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/advanced/headers/headers.c.o
+.PHONY : advanced/headers/headers.c.o
+
+advanced/headers/headers.i: advanced/headers/headers.c.i
+.PHONY : advanced/headers/headers.i
+
+# target to preprocess a source file
+advanced/headers/headers.c.i:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/advanced/headers/headers.c.i
+.PHONY : advanced/headers/headers.c.i
+
+advanced/headers/headers.s: advanced/headers/headers.c.s
+.PHONY : advanced/headers/headers.s
+
+# target to generate assembly for a file
+advanced/headers/headers.c.s:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/advanced/headers/headers.c.s
+.PHONY : advanced/headers/headers.c.s
+
+advanced/iostream/iostream.o: advanced/iostream/iostream.c.o
+.PHONY : advanced/iostream/iostream.o
+
+# target to build an object file
+advanced/iostream/iostream.c.o:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/advanced/iostream/iostream.c.o
+.PHONY : advanced/iostream/iostream.c.o
+
+advanced/iostream/iostream.i: advanced/iostream/iostream.c.i
+.PHONY : advanced/iostream/iostream.i
+
+# target to preprocess a source file
+advanced/iostream/iostream.c.i:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/advanced/iostream/iostream.c.i
+.PHONY : advanced/iostream/iostream.c.i
+
+advanced/iostream/iostream.s: advanced/iostream/iostream.c.s
+.PHONY : advanced/iostream/iostream.s
+
+# target to generate assembly for a file
+advanced/iostream/iostream.c.s:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/advanced/iostream/iostream.c.s
+.PHONY : advanced/iostream/iostream.c.s
+
+advanced/memory/memory.o: advanced/memory/memory.c.o
+.PHONY : advanced/memory/memory.o
+
+# target to build an object file
+advanced/memory/memory.c.o:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/advanced/memory/memory.c.o
+.PHONY : advanced/memory/memory.c.o
+
+advanced/memory/memory.i: advanced/memory/memory.c.i
+.PHONY : advanced/memory/memory.i
+
+# target to preprocess a source file
+advanced/memory/memory.c.i:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/advanced/memory/memory.c.i
+.PHONY : advanced/memory/memory.c.i
+
+advanced/memory/memory.s: advanced/memory/memory.c.s
+.PHONY : advanced/memory/memory.s
+
+# target to generate assembly for a file
+advanced/memory/memory.c.s:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/advanced/memory/memory.c.s
+.PHONY : advanced/memory/memory.c.s
+
+advanced/miscellaneous/miscellaneous.o: advanced/miscellaneous/miscellaneous.c.o
+.PHONY : advanced/miscellaneous/miscellaneous.o
+
+# target to build an object file
+advanced/miscellaneous/miscellaneous.c.o:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/advanced/miscellaneous/miscellaneous.c.o
+.PHONY : advanced/miscellaneous/miscellaneous.c.o
+
+advanced/miscellaneous/miscellaneous.i: advanced/miscellaneous/miscellaneous.c.i
+.PHONY : advanced/miscellaneous/miscellaneous.i
+
+# target to preprocess a source file
+advanced/miscellaneous/miscellaneous.c.i:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/advanced/miscellaneous/miscellaneous.c.i
+.PHONY : advanced/miscellaneous/miscellaneous.c.i
+
+advanced/miscellaneous/miscellaneous.s: advanced/miscellaneous/miscellaneous.c.s
+.PHONY : advanced/miscellaneous/miscellaneous.s
+
+# target to generate assembly for a file
+advanced/miscellaneous/miscellaneous.c.s:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/advanced/miscellaneous/miscellaneous.c.s
+.PHONY : advanced/miscellaneous/miscellaneous.c.s
+
+advanced/thread/thread.o: advanced/thread/thread.c.o
+.PHONY : advanced/thread/thread.o
+
+# target to build an object file
+advanced/thread/thread.c.o:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/advanced/thread/thread.c.o
+.PHONY : advanced/thread/thread.c.o
+
+advanced/thread/thread.i: advanced/thread/thread.c.i
+.PHONY : advanced/thread/thread.i
+
+# target to preprocess a source file
+advanced/thread/thread.c.i:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/advanced/thread/thread.c.i
+.PHONY : advanced/thread/thread.c.i
+
+advanced/thread/thread.s: advanced/thread/thread.c.s
+.PHONY : advanced/thread/thread.s
+
+# target to generate assembly for a file
+advanced/thread/thread.c.s:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/advanced/thread/thread.c.s
+.PHONY : advanced/thread/thread.c.s
+
+basics/basics.o: basics/basics.c.o
+.PHONY : basics/basics.o
+
+# target to build an object file
+basics/basics.c.o:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/basics/basics.c.o
+.PHONY : basics/basics.c.o
+
+basics/basics.i: basics/basics.c.i
+.PHONY : basics/basics.i
+
+# target to preprocess a source file
+basics/basics.c.i:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/basics/basics.c.i
+.PHONY : basics/basics.c.i
+
+basics/basics.s: basics/basics.c.s
+.PHONY : basics/basics.s
+
+# target to generate assembly for a file
+basics/basics.c.s:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/basics/basics.c.s
+.PHONY : basics/basics.c.s
+
 basics/datalife/datalife.o: basics/datalife/datalife.c.o
 .PHONY : basics/datalife/datalife.o
 
@@ -242,6 +434,54 @@ basics/expressions/constantExpressions.s: basics/expressions/constantExpressions
 basics/expressions/constantExpressions.c.s:
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/basics/expressions/constantExpressions.c.s
 .PHONY : basics/expressions/constantExpressions.c.s
+
+basics/expressions/constats&literals/constats.o: basics/expressions/constats&literals/constats.c.o
+.PHONY : basics/expressions/constats&literals/constats.o
+
+# target to build an object file
+basics/expressions/constats&literals/constats.c.o:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make "src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/constats.c.o"
+.PHONY : basics/expressions/constats&literals/constats.c.o
+
+basics/expressions/constats&literals/constats.i: basics/expressions/constats&literals/constats.c.i
+.PHONY : basics/expressions/constats&literals/constats.i
+
+# target to preprocess a source file
+basics/expressions/constats&literals/constats.c.i:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make "src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/constats.c.i"
+.PHONY : basics/expressions/constats&literals/constats.c.i
+
+basics/expressions/constats&literals/constats.s: basics/expressions/constats&literals/constats.c.s
+.PHONY : basics/expressions/constats&literals/constats.s
+
+# target to generate assembly for a file
+basics/expressions/constats&literals/constats.c.s:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make "src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/constats.c.s"
+.PHONY : basics/expressions/constats&literals/constats.c.s
+
+basics/expressions/constats&literals/literals.o: basics/expressions/constats&literals/literals.c.o
+.PHONY : basics/expressions/constats&literals/literals.o
+
+# target to build an object file
+basics/expressions/constats&literals/literals.c.o:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make "src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/literals.c.o"
+.PHONY : basics/expressions/constats&literals/literals.c.o
+
+basics/expressions/constats&literals/literals.i: basics/expressions/constats&literals/literals.c.i
+.PHONY : basics/expressions/constats&literals/literals.i
+
+# target to preprocess a source file
+basics/expressions/constats&literals/literals.c.i:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make "src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/literals.c.i"
+.PHONY : basics/expressions/constats&literals/literals.c.i
+
+basics/expressions/constats&literals/literals.s: basics/expressions/constats&literals/literals.c.s
+.PHONY : basics/expressions/constats&literals/literals.s
+
+# target to generate assembly for a file
+basics/expressions/constats&literals/literals.c.s:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make "src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/literals.c.s"
+.PHONY : basics/expressions/constats&literals/literals.c.s
 
 basics/expressions/evaluationOrder.o: basics/expressions/evaluationOrder.c.o
 .PHONY : basics/expressions/evaluationOrder.o
@@ -338,6 +578,30 @@ basics/expressions/implicitConversions.s: basics/expressions/implicitConversions
 basics/expressions/implicitConversions.c.s:
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/basics/expressions/implicitConversions.c.s
 .PHONY : basics/expressions/implicitConversions.c.s
+
+basics/expressions/operators/operators.o: basics/expressions/operators/operators.c.o
+.PHONY : basics/expressions/operators/operators.o
+
+# target to build an object file
+basics/expressions/operators/operators.c.o:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/basics/expressions/operators/operators.c.o
+.PHONY : basics/expressions/operators/operators.c.o
+
+basics/expressions/operators/operators.i: basics/expressions/operators/operators.c.i
+.PHONY : basics/expressions/operators/operators.i
+
+# target to preprocess a source file
+basics/expressions/operators/operators.c.i:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/basics/expressions/operators/operators.c.i
+.PHONY : basics/expressions/operators/operators.c.i
+
+basics/expressions/operators/operators.s: basics/expressions/operators/operators.c.s
+.PHONY : basics/expressions/operators/operators.s
+
+# target to generate assembly for a file
+basics/expressions/operators/operators.c.s:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/basics/expressions/operators/operators.c.s
+.PHONY : basics/expressions/operators/operators.c.s
 
 basics/expressions/valueCategory.o: basics/expressions/valueCategory.c.o
 .PHONY : basics/expressions/valueCategory.o
@@ -1203,6 +1467,78 @@ basics/variable/staticassertion.c.s:
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/basics/variable/staticassertion.c.s
 .PHONY : basics/variable/staticassertion.c.s
 
+library/algorithms/algorithms.o: library/algorithms/algorithms.c.o
+.PHONY : library/algorithms/algorithms.o
+
+# target to build an object file
+library/algorithms/algorithms.c.o:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/library/algorithms/algorithms.c.o
+.PHONY : library/algorithms/algorithms.c.o
+
+library/algorithms/algorithms.i: library/algorithms/algorithms.c.i
+.PHONY : library/algorithms/algorithms.i
+
+# target to preprocess a source file
+library/algorithms/algorithms.c.i:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/library/algorithms/algorithms.c.i
+.PHONY : library/algorithms/algorithms.c.i
+
+library/algorithms/algorithms.s: library/algorithms/algorithms.c.s
+.PHONY : library/algorithms/algorithms.s
+
+# target to generate assembly for a file
+library/algorithms/algorithms.c.s:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/library/algorithms/algorithms.c.s
+.PHONY : library/algorithms/algorithms.c.s
+
+library/containers/containers.o: library/containers/containers.c.o
+.PHONY : library/containers/containers.o
+
+# target to build an object file
+library/containers/containers.c.o:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/library/containers/containers.c.o
+.PHONY : library/containers/containers.c.o
+
+library/containers/containers.i: library/containers/containers.c.i
+.PHONY : library/containers/containers.i
+
+# target to preprocess a source file
+library/containers/containers.c.i:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/library/containers/containers.c.i
+.PHONY : library/containers/containers.c.i
+
+library/containers/containers.s: library/containers/containers.c.s
+.PHONY : library/containers/containers.s
+
+# target to generate assembly for a file
+library/containers/containers.c.s:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/library/containers/containers.c.s
+.PHONY : library/containers/containers.c.s
+
+library/library.o: library/library.c.o
+.PHONY : library/library.o
+
+# target to build an object file
+library/library.c.o:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/library/library.c.o
+.PHONY : library/library.c.o
+
+library/library.i: library/library.c.i
+.PHONY : library/library.i
+
+# target to preprocess a source file
+library/library.c.i:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/library/library.c.i
+.PHONY : library/library.c.i
+
+library/library.s: library/library.c.s
+.PHONY : library/library.s
+
+# target to generate assembly for a file
+library/library.c.s:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/library/library.c.s
+.PHONY : library/library.c.s
+
 progc.o: progc.c.o
 .PHONY : progc.o
 
@@ -1611,6 +1947,30 @@ tools/standard/styleguide.c.s:
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/tools/standard/styleguide.c.s
 .PHONY : tools/standard/styleguide.c.s
 
+tools/tools.o: tools/tools.c.o
+.PHONY : tools/tools.o
+
+# target to build an object file
+tools/tools.c.o:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/tools/tools.c.o
+.PHONY : tools/tools.c.o
+
+tools/tools.i: tools/tools.c.i
+.PHONY : tools/tools.i
+
+# target to preprocess a source file
+tools/tools.c.i:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/tools/tools.c.i
+.PHONY : tools/tools.c.i
+
+tools/tools.s: tools/tools.c.s
+.PHONY : tools/tools.s
+
+# target to generate assembly for a file
+tools/tools.c.s:
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build && $(MAKE) $(MAKESILENT) -f src/c/CMakeFiles/progc.dir/build.make src/c/CMakeFiles/progc.dir/tools/tools.c.s
+.PHONY : tools/tools.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -1626,12 +1986,42 @@ help:
 	@echo "... package_source"
 	@echo "... rebuild_cache"
 	@echo "... progc"
+	@echo "... advanced/advanced.o"
+	@echo "... advanced/advanced.i"
+	@echo "... advanced/advanced.s"
+	@echo "... advanced/errno/errno.o"
+	@echo "... advanced/errno/errno.i"
+	@echo "... advanced/errno/errno.s"
+	@echo "... advanced/headers/headers.o"
+	@echo "... advanced/headers/headers.i"
+	@echo "... advanced/headers/headers.s"
+	@echo "... advanced/iostream/iostream.o"
+	@echo "... advanced/iostream/iostream.i"
+	@echo "... advanced/iostream/iostream.s"
+	@echo "... advanced/memory/memory.o"
+	@echo "... advanced/memory/memory.i"
+	@echo "... advanced/memory/memory.s"
+	@echo "... advanced/miscellaneous/miscellaneous.o"
+	@echo "... advanced/miscellaneous/miscellaneous.i"
+	@echo "... advanced/miscellaneous/miscellaneous.s"
+	@echo "... advanced/thread/thread.o"
+	@echo "... advanced/thread/thread.i"
+	@echo "... advanced/thread/thread.s"
+	@echo "... basics/basics.o"
+	@echo "... basics/basics.i"
+	@echo "... basics/basics.s"
 	@echo "... basics/datalife/datalife.o"
 	@echo "... basics/datalife/datalife.i"
 	@echo "... basics/datalife/datalife.s"
 	@echo "... basics/expressions/constantExpressions.o"
 	@echo "... basics/expressions/constantExpressions.i"
 	@echo "... basics/expressions/constantExpressions.s"
+	@echo "... basics/expressions/constats&literals/constats.o"
+	@echo "... basics/expressions/constats&literals/constats.i"
+	@echo "... basics/expressions/constats&literals/constats.s"
+	@echo "... basics/expressions/constats&literals/literals.o"
+	@echo "... basics/expressions/constats&literals/literals.i"
+	@echo "... basics/expressions/constats&literals/literals.s"
 	@echo "... basics/expressions/evaluationOrder.o"
 	@echo "... basics/expressions/evaluationOrder.i"
 	@echo "... basics/expressions/evaluationOrder.s"
@@ -1644,6 +2034,9 @@ help:
 	@echo "... basics/expressions/implicitConversions.o"
 	@echo "... basics/expressions/implicitConversions.i"
 	@echo "... basics/expressions/implicitConversions.s"
+	@echo "... basics/expressions/operators/operators.o"
+	@echo "... basics/expressions/operators/operators.i"
+	@echo "... basics/expressions/operators/operators.s"
 	@echo "... basics/expressions/valueCategory.o"
 	@echo "... basics/expressions/valueCategory.i"
 	@echo "... basics/expressions/valueCategory.s"
@@ -1752,6 +2145,15 @@ help:
 	@echo "... basics/variable/staticassertion.o"
 	@echo "... basics/variable/staticassertion.i"
 	@echo "... basics/variable/staticassertion.s"
+	@echo "... library/algorithms/algorithms.o"
+	@echo "... library/algorithms/algorithms.i"
+	@echo "... library/algorithms/algorithms.s"
+	@echo "... library/containers/containers.o"
+	@echo "... library/containers/containers.i"
+	@echo "... library/containers/containers.s"
+	@echo "... library/library.o"
+	@echo "... library/library.i"
+	@echo "... library/library.s"
 	@echo "... progc.o"
 	@echo "... progc.i"
 	@echo "... progc.s"
@@ -1803,6 +2205,9 @@ help:
 	@echo "... tools/standard/styleguide.o"
 	@echo "... tools/standard/styleguide.i"
 	@echo "... tools/standard/styleguide.s"
+	@echo "... tools/tools.o"
+	@echo "... tools/tools.i"
+	@echo "... tools/tools.s"
 .PHONY : help
 
 

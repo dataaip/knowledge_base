@@ -69,10 +69,122 @@ include src/c/CMakeFiles/progc.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/c/CMakeFiles/progc.dir/flags.make
 
+src/c/CMakeFiles/progc.dir/advanced/advanced.c.o: src/c/CMakeFiles/progc.dir/flags.make
+src/c/CMakeFiles/progc.dir/advanced/advanced.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/advanced.c
+src/c/CMakeFiles/progc.dir/advanced/advanced.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object src/c/CMakeFiles/progc.dir/advanced/advanced.c.o"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/advanced/advanced.c.o -MF CMakeFiles/progc.dir/advanced/advanced.c.o.d -o CMakeFiles/progc.dir/advanced/advanced.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/advanced.c
+
+src/c/CMakeFiles/progc.dir/advanced/advanced.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/progc.dir/advanced/advanced.c.i"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/advanced.c > CMakeFiles/progc.dir/advanced/advanced.c.i
+
+src/c/CMakeFiles/progc.dir/advanced/advanced.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/progc.dir/advanced/advanced.c.s"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/advanced.c -o CMakeFiles/progc.dir/advanced/advanced.c.s
+
+src/c/CMakeFiles/progc.dir/advanced/errno/errno.c.o: src/c/CMakeFiles/progc.dir/flags.make
+src/c/CMakeFiles/progc.dir/advanced/errno/errno.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/errno/errno.c
+src/c/CMakeFiles/progc.dir/advanced/errno/errno.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object src/c/CMakeFiles/progc.dir/advanced/errno/errno.c.o"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/advanced/errno/errno.c.o -MF CMakeFiles/progc.dir/advanced/errno/errno.c.o.d -o CMakeFiles/progc.dir/advanced/errno/errno.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/errno/errno.c
+
+src/c/CMakeFiles/progc.dir/advanced/errno/errno.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/progc.dir/advanced/errno/errno.c.i"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/errno/errno.c > CMakeFiles/progc.dir/advanced/errno/errno.c.i
+
+src/c/CMakeFiles/progc.dir/advanced/errno/errno.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/progc.dir/advanced/errno/errno.c.s"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/errno/errno.c -o CMakeFiles/progc.dir/advanced/errno/errno.c.s
+
+src/c/CMakeFiles/progc.dir/advanced/headers/headers.c.o: src/c/CMakeFiles/progc.dir/flags.make
+src/c/CMakeFiles/progc.dir/advanced/headers/headers.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/headers/headers.c
+src/c/CMakeFiles/progc.dir/advanced/headers/headers.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object src/c/CMakeFiles/progc.dir/advanced/headers/headers.c.o"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/advanced/headers/headers.c.o -MF CMakeFiles/progc.dir/advanced/headers/headers.c.o.d -o CMakeFiles/progc.dir/advanced/headers/headers.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/headers/headers.c
+
+src/c/CMakeFiles/progc.dir/advanced/headers/headers.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/progc.dir/advanced/headers/headers.c.i"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/headers/headers.c > CMakeFiles/progc.dir/advanced/headers/headers.c.i
+
+src/c/CMakeFiles/progc.dir/advanced/headers/headers.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/progc.dir/advanced/headers/headers.c.s"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/headers/headers.c -o CMakeFiles/progc.dir/advanced/headers/headers.c.s
+
+src/c/CMakeFiles/progc.dir/advanced/iostream/iostream.c.o: src/c/CMakeFiles/progc.dir/flags.make
+src/c/CMakeFiles/progc.dir/advanced/iostream/iostream.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/iostream/iostream.c
+src/c/CMakeFiles/progc.dir/advanced/iostream/iostream.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object src/c/CMakeFiles/progc.dir/advanced/iostream/iostream.c.o"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/advanced/iostream/iostream.c.o -MF CMakeFiles/progc.dir/advanced/iostream/iostream.c.o.d -o CMakeFiles/progc.dir/advanced/iostream/iostream.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/iostream/iostream.c
+
+src/c/CMakeFiles/progc.dir/advanced/iostream/iostream.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/progc.dir/advanced/iostream/iostream.c.i"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/iostream/iostream.c > CMakeFiles/progc.dir/advanced/iostream/iostream.c.i
+
+src/c/CMakeFiles/progc.dir/advanced/iostream/iostream.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/progc.dir/advanced/iostream/iostream.c.s"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/iostream/iostream.c -o CMakeFiles/progc.dir/advanced/iostream/iostream.c.s
+
+src/c/CMakeFiles/progc.dir/advanced/memory/memory.c.o: src/c/CMakeFiles/progc.dir/flags.make
+src/c/CMakeFiles/progc.dir/advanced/memory/memory.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/memory/memory.c
+src/c/CMakeFiles/progc.dir/advanced/memory/memory.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object src/c/CMakeFiles/progc.dir/advanced/memory/memory.c.o"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/advanced/memory/memory.c.o -MF CMakeFiles/progc.dir/advanced/memory/memory.c.o.d -o CMakeFiles/progc.dir/advanced/memory/memory.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/memory/memory.c
+
+src/c/CMakeFiles/progc.dir/advanced/memory/memory.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/progc.dir/advanced/memory/memory.c.i"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/memory/memory.c > CMakeFiles/progc.dir/advanced/memory/memory.c.i
+
+src/c/CMakeFiles/progc.dir/advanced/memory/memory.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/progc.dir/advanced/memory/memory.c.s"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/memory/memory.c -o CMakeFiles/progc.dir/advanced/memory/memory.c.s
+
+src/c/CMakeFiles/progc.dir/advanced/miscellaneous/miscellaneous.c.o: src/c/CMakeFiles/progc.dir/flags.make
+src/c/CMakeFiles/progc.dir/advanced/miscellaneous/miscellaneous.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/miscellaneous/miscellaneous.c
+src/c/CMakeFiles/progc.dir/advanced/miscellaneous/miscellaneous.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object src/c/CMakeFiles/progc.dir/advanced/miscellaneous/miscellaneous.c.o"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/advanced/miscellaneous/miscellaneous.c.o -MF CMakeFiles/progc.dir/advanced/miscellaneous/miscellaneous.c.o.d -o CMakeFiles/progc.dir/advanced/miscellaneous/miscellaneous.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/miscellaneous/miscellaneous.c
+
+src/c/CMakeFiles/progc.dir/advanced/miscellaneous/miscellaneous.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/progc.dir/advanced/miscellaneous/miscellaneous.c.i"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/miscellaneous/miscellaneous.c > CMakeFiles/progc.dir/advanced/miscellaneous/miscellaneous.c.i
+
+src/c/CMakeFiles/progc.dir/advanced/miscellaneous/miscellaneous.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/progc.dir/advanced/miscellaneous/miscellaneous.c.s"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/miscellaneous/miscellaneous.c -o CMakeFiles/progc.dir/advanced/miscellaneous/miscellaneous.c.s
+
+src/c/CMakeFiles/progc.dir/advanced/thread/thread.c.o: src/c/CMakeFiles/progc.dir/flags.make
+src/c/CMakeFiles/progc.dir/advanced/thread/thread.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/thread/thread.c
+src/c/CMakeFiles/progc.dir/advanced/thread/thread.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object src/c/CMakeFiles/progc.dir/advanced/thread/thread.c.o"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/advanced/thread/thread.c.o -MF CMakeFiles/progc.dir/advanced/thread/thread.c.o.d -o CMakeFiles/progc.dir/advanced/thread/thread.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/thread/thread.c
+
+src/c/CMakeFiles/progc.dir/advanced/thread/thread.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/progc.dir/advanced/thread/thread.c.i"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/thread/thread.c > CMakeFiles/progc.dir/advanced/thread/thread.c.i
+
+src/c/CMakeFiles/progc.dir/advanced/thread/thread.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/progc.dir/advanced/thread/thread.c.s"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/thread/thread.c -o CMakeFiles/progc.dir/advanced/thread/thread.c.s
+
+src/c/CMakeFiles/progc.dir/basics/basics.c.o: src/c/CMakeFiles/progc.dir/flags.make
+src/c/CMakeFiles/progc.dir/basics/basics.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/basics.c
+src/c/CMakeFiles/progc.dir/basics/basics.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object src/c/CMakeFiles/progc.dir/basics/basics.c.o"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/basics.c.o -MF CMakeFiles/progc.dir/basics/basics.c.o.d -o CMakeFiles/progc.dir/basics/basics.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/basics.c
+
+src/c/CMakeFiles/progc.dir/basics/basics.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/progc.dir/basics/basics.c.i"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/basics.c > CMakeFiles/progc.dir/basics/basics.c.i
+
+src/c/CMakeFiles/progc.dir/basics/basics.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/progc.dir/basics/basics.c.s"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/basics.c -o CMakeFiles/progc.dir/basics/basics.c.s
+
 src/c/CMakeFiles/progc.dir/basics/datalife/datalife.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/datalife/datalife.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/datalife/datalife.c
 src/c/CMakeFiles/progc.dir/basics/datalife/datalife.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object src/c/CMakeFiles/progc.dir/basics/datalife/datalife.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object src/c/CMakeFiles/progc.dir/basics/datalife/datalife.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/datalife/datalife.c.o -MF CMakeFiles/progc.dir/basics/datalife/datalife.c.o.d -o CMakeFiles/progc.dir/basics/datalife/datalife.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/datalife/datalife.c
 
 src/c/CMakeFiles/progc.dir/basics/datalife/datalife.c.i: cmake_force
@@ -86,7 +198,7 @@ src/c/CMakeFiles/progc.dir/basics/datalife/datalife.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/expressions/constantExpressions.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/expressions/constantExpressions.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/constantExpressions.c
 src/c/CMakeFiles/progc.dir/basics/expressions/constantExpressions.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object src/c/CMakeFiles/progc.dir/basics/expressions/constantExpressions.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object src/c/CMakeFiles/progc.dir/basics/expressions/constantExpressions.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/expressions/constantExpressions.c.o -MF CMakeFiles/progc.dir/basics/expressions/constantExpressions.c.o.d -o CMakeFiles/progc.dir/basics/expressions/constantExpressions.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/constantExpressions.c
 
 src/c/CMakeFiles/progc.dir/basics/expressions/constantExpressions.c.i: cmake_force
@@ -97,10 +209,38 @@ src/c/CMakeFiles/progc.dir/basics/expressions/constantExpressions.c.s: cmake_for
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/progc.dir/basics/expressions/constantExpressions.c.s"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/constantExpressions.c -o CMakeFiles/progc.dir/basics/expressions/constantExpressions.c.s
 
+src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/constats.c.o: src/c/CMakeFiles/progc.dir/flags.make
+src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/constats.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/constats&literals/constats.c
+src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/constats.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/constats.c.o"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT "src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/constats.c.o" -MF "CMakeFiles/progc.dir/basics/expressions/constats&literals/constats.c.o.d" -o "CMakeFiles/progc.dir/basics/expressions/constats&literals/constats.c.o" -c "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/constats&literals/constats.c"
+
+src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/constats.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/progc.dir/basics/expressions/constats&literals/constats.c.i"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/constats&literals/constats.c" > "CMakeFiles/progc.dir/basics/expressions/constats&literals/constats.c.i"
+
+src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/constats.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/progc.dir/basics/expressions/constats&literals/constats.c.s"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/constats&literals/constats.c" -o "CMakeFiles/progc.dir/basics/expressions/constats&literals/constats.c.s"
+
+src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/literals.c.o: src/c/CMakeFiles/progc.dir/flags.make
+src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/literals.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/constats&literals/literals.c
+src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/literals.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/literals.c.o"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT "src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/literals.c.o" -MF "CMakeFiles/progc.dir/basics/expressions/constats&literals/literals.c.o.d" -o "CMakeFiles/progc.dir/basics/expressions/constats&literals/literals.c.o" -c "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/constats&literals/literals.c"
+
+src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/literals.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/progc.dir/basics/expressions/constats&literals/literals.c.i"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/constats&literals/literals.c" > "CMakeFiles/progc.dir/basics/expressions/constats&literals/literals.c.i"
+
+src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/literals.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/progc.dir/basics/expressions/constats&literals/literals.c.s"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/constats&literals/literals.c" -o "CMakeFiles/progc.dir/basics/expressions/constats&literals/literals.c.s"
+
 src/c/CMakeFiles/progc.dir/basics/expressions/evaluationOrder.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/expressions/evaluationOrder.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/evaluationOrder.c
 src/c/CMakeFiles/progc.dir/basics/expressions/evaluationOrder.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object src/c/CMakeFiles/progc.dir/basics/expressions/evaluationOrder.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object src/c/CMakeFiles/progc.dir/basics/expressions/evaluationOrder.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/expressions/evaluationOrder.c.o -MF CMakeFiles/progc.dir/basics/expressions/evaluationOrder.c.o.d -o CMakeFiles/progc.dir/basics/expressions/evaluationOrder.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/evaluationOrder.c
 
 src/c/CMakeFiles/progc.dir/basics/expressions/evaluationOrder.c.i: cmake_force
@@ -114,7 +254,7 @@ src/c/CMakeFiles/progc.dir/basics/expressions/evaluationOrder.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/expressions/expressions.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/expressions/expressions.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/expressions.c
 src/c/CMakeFiles/progc.dir/basics/expressions/expressions.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object src/c/CMakeFiles/progc.dir/basics/expressions/expressions.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object src/c/CMakeFiles/progc.dir/basics/expressions/expressions.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/expressions/expressions.c.o -MF CMakeFiles/progc.dir/basics/expressions/expressions.c.o.d -o CMakeFiles/progc.dir/basics/expressions/expressions.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/expressions.c
 
 src/c/CMakeFiles/progc.dir/basics/expressions/expressions.c.i: cmake_force
@@ -128,7 +268,7 @@ src/c/CMakeFiles/progc.dir/basics/expressions/expressions.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/expressions/genericSelection.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/expressions/genericSelection.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/genericSelection.c
 src/c/CMakeFiles/progc.dir/basics/expressions/genericSelection.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object src/c/CMakeFiles/progc.dir/basics/expressions/genericSelection.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object src/c/CMakeFiles/progc.dir/basics/expressions/genericSelection.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/expressions/genericSelection.c.o -MF CMakeFiles/progc.dir/basics/expressions/genericSelection.c.o.d -o CMakeFiles/progc.dir/basics/expressions/genericSelection.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/genericSelection.c
 
 src/c/CMakeFiles/progc.dir/basics/expressions/genericSelection.c.i: cmake_force
@@ -142,7 +282,7 @@ src/c/CMakeFiles/progc.dir/basics/expressions/genericSelection.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/expressions/implicitConversions.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/expressions/implicitConversions.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/implicitConversions.c
 src/c/CMakeFiles/progc.dir/basics/expressions/implicitConversions.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object src/c/CMakeFiles/progc.dir/basics/expressions/implicitConversions.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object src/c/CMakeFiles/progc.dir/basics/expressions/implicitConversions.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/expressions/implicitConversions.c.o -MF CMakeFiles/progc.dir/basics/expressions/implicitConversions.c.o.d -o CMakeFiles/progc.dir/basics/expressions/implicitConversions.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/implicitConversions.c
 
 src/c/CMakeFiles/progc.dir/basics/expressions/implicitConversions.c.i: cmake_force
@@ -153,10 +293,24 @@ src/c/CMakeFiles/progc.dir/basics/expressions/implicitConversions.c.s: cmake_for
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/progc.dir/basics/expressions/implicitConversions.c.s"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/implicitConversions.c -o CMakeFiles/progc.dir/basics/expressions/implicitConversions.c.s
 
+src/c/CMakeFiles/progc.dir/basics/expressions/operators/operators.c.o: src/c/CMakeFiles/progc.dir/flags.make
+src/c/CMakeFiles/progc.dir/basics/expressions/operators/operators.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/operators/operators.c
+src/c/CMakeFiles/progc.dir/basics/expressions/operators/operators.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building C object src/c/CMakeFiles/progc.dir/basics/expressions/operators/operators.c.o"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/expressions/operators/operators.c.o -MF CMakeFiles/progc.dir/basics/expressions/operators/operators.c.o.d -o CMakeFiles/progc.dir/basics/expressions/operators/operators.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/operators/operators.c
+
+src/c/CMakeFiles/progc.dir/basics/expressions/operators/operators.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/progc.dir/basics/expressions/operators/operators.c.i"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/operators/operators.c > CMakeFiles/progc.dir/basics/expressions/operators/operators.c.i
+
+src/c/CMakeFiles/progc.dir/basics/expressions/operators/operators.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/progc.dir/basics/expressions/operators/operators.c.s"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/operators/operators.c -o CMakeFiles/progc.dir/basics/expressions/operators/operators.c.s
+
 src/c/CMakeFiles/progc.dir/basics/expressions/valueCategory.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/expressions/valueCategory.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/valueCategory.c
 src/c/CMakeFiles/progc.dir/basics/expressions/valueCategory.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object src/c/CMakeFiles/progc.dir/basics/expressions/valueCategory.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building C object src/c/CMakeFiles/progc.dir/basics/expressions/valueCategory.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/expressions/valueCategory.c.o -MF CMakeFiles/progc.dir/basics/expressions/valueCategory.c.o.d -o CMakeFiles/progc.dir/basics/expressions/valueCategory.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/valueCategory.c
 
 src/c/CMakeFiles/progc.dir/basics/expressions/valueCategory.c.i: cmake_force
@@ -170,7 +324,7 @@ src/c/CMakeFiles/progc.dir/basics/expressions/valueCategory.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/preprocessor/preprocessor.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/preprocessor/preprocessor.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/preprocessor/preprocessor.c
 src/c/CMakeFiles/progc.dir/basics/preprocessor/preprocessor.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object src/c/CMakeFiles/progc.dir/basics/preprocessor/preprocessor.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building C object src/c/CMakeFiles/progc.dir/basics/preprocessor/preprocessor.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/preprocessor/preprocessor.c.o -MF CMakeFiles/progc.dir/basics/preprocessor/preprocessor.c.o.d -o CMakeFiles/progc.dir/basics/preprocessor/preprocessor.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/preprocessor/preprocessor.c
 
 src/c/CMakeFiles/progc.dir/basics/preprocessor/preprocessor.c.i: cmake_force
@@ -184,7 +338,7 @@ src/c/CMakeFiles/progc.dir/basics/preprocessor/preprocessor.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/statements/statements.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/statements/statements.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/statements/statements.c
 src/c/CMakeFiles/progc.dir/basics/statements/statements.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object src/c/CMakeFiles/progc.dir/basics/statements/statements.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building C object src/c/CMakeFiles/progc.dir/basics/statements/statements.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/statements/statements.c.o -MF CMakeFiles/progc.dir/basics/statements/statements.c.o.d -o CMakeFiles/progc.dir/basics/statements/statements.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/statements/statements.c
 
 src/c/CMakeFiles/progc.dir/basics/statements/statements.c.i: cmake_force
@@ -198,7 +352,7 @@ src/c/CMakeFiles/progc.dir/basics/statements/statements.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/variable/declarations.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/declarations.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/declarations.c
 src/c/CMakeFiles/progc.dir/basics/variable/declarations.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/declarations.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/declarations.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/declarations.c.o -MF CMakeFiles/progc.dir/basics/variable/declarations.c.o.d -o CMakeFiles/progc.dir/basics/variable/declarations.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/declarations.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/declarations.c.i: cmake_force
@@ -212,7 +366,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/declarations.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/variable/initialization.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/initialization.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/initialization.c
 src/c/CMakeFiles/progc.dir/basics/variable/initialization.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/initialization.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/initialization.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/initialization.c.o -MF CMakeFiles/progc.dir/basics/variable/initialization.c.o.d -o CMakeFiles/progc.dir/basics/variable/initialization.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/initialization.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/initialization.c.i: cmake_force
@@ -226,7 +380,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/initialization.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/variable/keywords.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/keywords.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/keywords.c
 src/c/CMakeFiles/progc.dir/basics/variable/keywords.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/keywords.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/keywords.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/keywords.c.o -MF CMakeFiles/progc.dir/basics/variable/keywords.c.o.d -o CMakeFiles/progc.dir/basics/variable/keywords.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/keywords.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/keywords.c.i: cmake_force
@@ -240,7 +394,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/keywords.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/atomic.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/atomic.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/qualifiers/atomic.c
 src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/atomic.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/atomic.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/atomic.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/atomic.c.o -MF CMakeFiles/progc.dir/basics/variable/qualifiers/atomic.c.o.d -o CMakeFiles/progc.dir/basics/variable/qualifiers/atomic.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/qualifiers/atomic.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/atomic.c.i: cmake_force
@@ -254,7 +408,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/atomic.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/const.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/const.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/qualifiers/const.c
 src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/const.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/const.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/const.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/const.c.o -MF CMakeFiles/progc.dir/basics/variable/qualifiers/const.c.o.d -o CMakeFiles/progc.dir/basics/variable/qualifiers/const.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/qualifiers/const.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/const.c.i: cmake_force
@@ -268,7 +422,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/const.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/restrict.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/restrict.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/qualifiers/restrict.c
 src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/restrict.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/restrict.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/restrict.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/restrict.c.o -MF CMakeFiles/progc.dir/basics/variable/qualifiers/restrict.c.o.d -o CMakeFiles/progc.dir/basics/variable/qualifiers/restrict.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/qualifiers/restrict.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/restrict.c.i: cmake_force
@@ -282,7 +436,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/restrict.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/volatile.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/volatile.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/qualifiers/volatile.c
 src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/volatile.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/volatile.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/volatile.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/volatile.c.o -MF CMakeFiles/progc.dir/basics/variable/qualifiers/volatile.c.o.d -o CMakeFiles/progc.dir/basics/variable/qualifiers/volatile.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/qualifiers/volatile.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/volatile.c.i: cmake_force
@@ -296,7 +450,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/volatile.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/alignas.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/alignas.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/alignas.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/alignas.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/alignas.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/alignas.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/alignas.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/alignas.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/alignas.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/alignas.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/alignas.c.i: cmake_force
@@ -310,7 +464,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/alignas.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/attribute.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/attribute.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/attribute.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/attribute.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/attribute.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/attribute.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/attribute.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/attribute.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/attribute.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/attribute.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/attribute.c.i: cmake_force
@@ -324,7 +478,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/attribute.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/auto.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/auto.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/auto.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/auto.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/auto.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/auto.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/auto.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/auto.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/auto.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/auto.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/auto.c.i: cmake_force
@@ -338,7 +492,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/auto.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/constexpr.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/constexpr.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/constexpr.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/constexpr.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/constexpr.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/constexpr.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/constexpr.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/constexpr.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/constexpr.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/constexpr.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/constexpr.c.i: cmake_force
@@ -352,7 +506,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/constexpr.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/extern.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/extern.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/extern.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/extern.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/extern.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/extern.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/extern.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/extern.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/extern.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/extern.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/extern.c.i: cmake_force
@@ -366,7 +520,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/extern.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/inline.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/inline.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/inline.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/inline.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/inline.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/inline.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/inline.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/inline.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/inline.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/inline.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/inline.c.i: cmake_force
@@ -380,7 +534,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/inline.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/noreturn.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/noreturn.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/noreturn.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/noreturn.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/noreturn.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/noreturn.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/noreturn.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/noreturn.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/noreturn.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/noreturn.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/noreturn.c.i: cmake_force
@@ -394,7 +548,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/noreturn.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/register.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/register.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/register.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/register.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/register.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/register.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/register.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/register.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/register.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/register.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/register.c.i: cmake_force
@@ -408,7 +562,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/register.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/static.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/static.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/static.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/static.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/static.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/static.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/static.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/static.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/static.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/static.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/static.c.i: cmake_force
@@ -422,7 +576,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/static.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/threadlocal.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/threadlocal.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/threadlocal.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/threadlocal.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/threadlocal.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/threadlocal.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/threadlocal.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/threadlocal.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/threadlocal.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/threadlocal.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/threadlocal.c.i: cmake_force
@@ -436,7 +590,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/threadlocal.c.s: cmake_for
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/typedef.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/typedef.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/typedef.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/typedef.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/typedef.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/typedef.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/typedef.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/typedef.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/typedef.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/typedef.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/typedef.c.i: cmake_force
@@ -450,7 +604,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/typedef.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/typeof.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/typeof.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/typeof.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/typeof.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/typeof.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/typeof.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/typeof.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/typeof.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/typeof.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/typeof.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/typeof.c.i: cmake_force
@@ -464,7 +618,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/typeof.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/arrays.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/arrays.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/arrays.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/arrays.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/arrays.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/arrays.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/arrays.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/types/arrays.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/types/arrays.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/arrays.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/arrays.c.i: cmake_force
@@ -478,7 +632,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/arrays.c.s: cmake_fo
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/bitfields.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/bitfields.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/bitfields.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/bitfields.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/bitfields.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/bitfields.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/bitfields.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/types/bitfields.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/types/bitfields.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/bitfields.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/bitfields.c.i: cmake_force
@@ -492,7 +646,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/bitfields.c.s: cmake
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/boolean.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/boolean.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/boolean.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/boolean.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/boolean.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/boolean.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/boolean.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/types/boolean.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/types/boolean.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/boolean.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/boolean.c.i: cmake_force
@@ -506,7 +660,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/boolean.c.s: cmake_f
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/character.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/character.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/character.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/character.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/character.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/character.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/character.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/types/character.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/types/character.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/character.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/character.c.i: cmake_force
@@ -520,7 +674,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/character.c.s: cmake
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/enumerated.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/enumerated.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/enumerated.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/enumerated.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/enumerated.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/enumerated.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/enumerated.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/types/enumerated.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/types/enumerated.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/enumerated.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/enumerated.c.i: cmake_force
@@ -534,7 +688,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/enumerated.c.s: cmak
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/floating.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/floating.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/floating.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/floating.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/floating.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/floating.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/floating.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/types/floating.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/types/floating.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/floating.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/floating.c.i: cmake_force
@@ -548,7 +702,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/floating.c.s: cmake_
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/functions.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/functions.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/functions.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/functions.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/functions.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/functions.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/functions.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/types/functions.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/types/functions.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/functions.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/functions.c.i: cmake_force
@@ -562,7 +716,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/functions.c.s: cmake
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/integer.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/integer.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/integer.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/integer.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/integer.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_47) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/integer.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/integer.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/types/integer.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/types/integer.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/integer.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/integer.c.i: cmake_force
@@ -576,7 +730,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/integer.c.s: cmake_f
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/pointers.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/pointers.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/pointers.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/pointers.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/pointers.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_48) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/pointers.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/pointers.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/types/pointers.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/types/pointers.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/pointers.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/pointers.c.i: cmake_force
@@ -590,7 +744,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/pointers.c.s: cmake_
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/string.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/string.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/string.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/string.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/string.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_49) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/string.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/string.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/types/string.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/types/string.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/string.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/string.c.i: cmake_force
@@ -604,7 +758,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/string.c.s: cmake_fo
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/structure.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/structure.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/structure.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/structure.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/structure.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_50) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/structure.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/structure.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/types/structure.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/types/structure.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/structure.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/structure.c.i: cmake_force
@@ -618,7 +772,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/structure.c.s: cmake
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/unions.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/unions.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/unions.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/unions.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/unions.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_51) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/unions.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/unions.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/types/unions.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/types/unions.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/unions.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/unions.c.i: cmake_force
@@ -632,7 +786,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/unions.c.s: cmake_fo
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/voidtypes.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/voidtypes.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/voidtypes.c
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/voidtypes.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/voidtypes.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_52) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/voidtypes.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/voidtypes.c.o -MF CMakeFiles/progc.dir/basics/variable/specifiers/types/voidtypes.c.o.d -o CMakeFiles/progc.dir/basics/variable/specifiers/types/voidtypes.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/voidtypes.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/voidtypes.c.i: cmake_force
@@ -646,7 +800,7 @@ src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/voidtypes.c.s: cmake
 src/c/CMakeFiles/progc.dir/basics/variable/staticassertion.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/basics/variable/staticassertion.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/staticassertion.c
 src/c/CMakeFiles/progc.dir/basics/variable/staticassertion.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/staticassertion.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_53) "Building C object src/c/CMakeFiles/progc.dir/basics/variable/staticassertion.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/basics/variable/staticassertion.c.o -MF CMakeFiles/progc.dir/basics/variable/staticassertion.c.o.d -o CMakeFiles/progc.dir/basics/variable/staticassertion.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/staticassertion.c
 
 src/c/CMakeFiles/progc.dir/basics/variable/staticassertion.c.i: cmake_force
@@ -657,10 +811,52 @@ src/c/CMakeFiles/progc.dir/basics/variable/staticassertion.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/progc.dir/basics/variable/staticassertion.c.s"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/staticassertion.c -o CMakeFiles/progc.dir/basics/variable/staticassertion.c.s
 
+src/c/CMakeFiles/progc.dir/library/algorithms/algorithms.c.o: src/c/CMakeFiles/progc.dir/flags.make
+src/c/CMakeFiles/progc.dir/library/algorithms/algorithms.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/library/algorithms/algorithms.c
+src/c/CMakeFiles/progc.dir/library/algorithms/algorithms.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_54) "Building C object src/c/CMakeFiles/progc.dir/library/algorithms/algorithms.c.o"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/library/algorithms/algorithms.c.o -MF CMakeFiles/progc.dir/library/algorithms/algorithms.c.o.d -o CMakeFiles/progc.dir/library/algorithms/algorithms.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/library/algorithms/algorithms.c
+
+src/c/CMakeFiles/progc.dir/library/algorithms/algorithms.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/progc.dir/library/algorithms/algorithms.c.i"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/library/algorithms/algorithms.c > CMakeFiles/progc.dir/library/algorithms/algorithms.c.i
+
+src/c/CMakeFiles/progc.dir/library/algorithms/algorithms.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/progc.dir/library/algorithms/algorithms.c.s"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/library/algorithms/algorithms.c -o CMakeFiles/progc.dir/library/algorithms/algorithms.c.s
+
+src/c/CMakeFiles/progc.dir/library/containers/containers.c.o: src/c/CMakeFiles/progc.dir/flags.make
+src/c/CMakeFiles/progc.dir/library/containers/containers.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/library/containers/containers.c
+src/c/CMakeFiles/progc.dir/library/containers/containers.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_55) "Building C object src/c/CMakeFiles/progc.dir/library/containers/containers.c.o"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/library/containers/containers.c.o -MF CMakeFiles/progc.dir/library/containers/containers.c.o.d -o CMakeFiles/progc.dir/library/containers/containers.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/library/containers/containers.c
+
+src/c/CMakeFiles/progc.dir/library/containers/containers.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/progc.dir/library/containers/containers.c.i"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/library/containers/containers.c > CMakeFiles/progc.dir/library/containers/containers.c.i
+
+src/c/CMakeFiles/progc.dir/library/containers/containers.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/progc.dir/library/containers/containers.c.s"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/library/containers/containers.c -o CMakeFiles/progc.dir/library/containers/containers.c.s
+
+src/c/CMakeFiles/progc.dir/library/library.c.o: src/c/CMakeFiles/progc.dir/flags.make
+src/c/CMakeFiles/progc.dir/library/library.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/library/library.c
+src/c/CMakeFiles/progc.dir/library/library.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_56) "Building C object src/c/CMakeFiles/progc.dir/library/library.c.o"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/library/library.c.o -MF CMakeFiles/progc.dir/library/library.c.o.d -o CMakeFiles/progc.dir/library/library.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/library/library.c
+
+src/c/CMakeFiles/progc.dir/library/library.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/progc.dir/library/library.c.i"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/library/library.c > CMakeFiles/progc.dir/library/library.c.i
+
+src/c/CMakeFiles/progc.dir/library/library.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/progc.dir/library/library.c.s"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/library/library.c -o CMakeFiles/progc.dir/library/library.c.s
+
 src/c/CMakeFiles/progc.dir/progc.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/progc.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/progc.c
 src/c/CMakeFiles/progc.dir/progc.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building C object src/c/CMakeFiles/progc.dir/progc.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_57) "Building C object src/c/CMakeFiles/progc.dir/progc.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/progc.c.o -MF CMakeFiles/progc.dir/progc.c.o.d -o CMakeFiles/progc.dir/progc.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/progc.c
 
 src/c/CMakeFiles/progc.dir/progc.c.i: cmake_force
@@ -674,7 +870,7 @@ src/c/CMakeFiles/progc.dir/progc.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/tools/build/cmake.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/tools/build/cmake.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/build/cmake.c
 src/c/CMakeFiles/progc.dir/tools/build/cmake.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building C object src/c/CMakeFiles/progc.dir/tools/build/cmake.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_58) "Building C object src/c/CMakeFiles/progc.dir/tools/build/cmake.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/tools/build/cmake.c.o -MF CMakeFiles/progc.dir/tools/build/cmake.c.o.d -o CMakeFiles/progc.dir/tools/build/cmake.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/build/cmake.c
 
 src/c/CMakeFiles/progc.dir/tools/build/cmake.c.i: cmake_force
@@ -688,7 +884,7 @@ src/c/CMakeFiles/progc.dir/tools/build/cmake.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/tools/build/make.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/tools/build/make.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/build/make.c
 src/c/CMakeFiles/progc.dir/tools/build/make.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building C object src/c/CMakeFiles/progc.dir/tools/build/make.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_59) "Building C object src/c/CMakeFiles/progc.dir/tools/build/make.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/tools/build/make.c.o -MF CMakeFiles/progc.dir/tools/build/make.c.o.d -o CMakeFiles/progc.dir/tools/build/make.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/build/make.c
 
 src/c/CMakeFiles/progc.dir/tools/build/make.c.i: cmake_force
@@ -702,7 +898,7 @@ src/c/CMakeFiles/progc.dir/tools/build/make.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/tools/build/vcpkg.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/tools/build/vcpkg.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/build/vcpkg.c
 src/c/CMakeFiles/progc.dir/tools/build/vcpkg.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Building C object src/c/CMakeFiles/progc.dir/tools/build/vcpkg.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_60) "Building C object src/c/CMakeFiles/progc.dir/tools/build/vcpkg.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/tools/build/vcpkg.c.o -MF CMakeFiles/progc.dir/tools/build/vcpkg.c.o.d -o CMakeFiles/progc.dir/tools/build/vcpkg.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/build/vcpkg.c
 
 src/c/CMakeFiles/progc.dir/tools/build/vcpkg.c.i: cmake_force
@@ -716,7 +912,7 @@ src/c/CMakeFiles/progc.dir/tools/build/vcpkg.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/tools/compiler/clang.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/tools/compiler/clang.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/compiler/clang.c
 src/c/CMakeFiles/progc.dir/tools/compiler/clang.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_47) "Building C object src/c/CMakeFiles/progc.dir/tools/compiler/clang.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_61) "Building C object src/c/CMakeFiles/progc.dir/tools/compiler/clang.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/tools/compiler/clang.c.o -MF CMakeFiles/progc.dir/tools/compiler/clang.c.o.d -o CMakeFiles/progc.dir/tools/compiler/clang.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/compiler/clang.c
 
 src/c/CMakeFiles/progc.dir/tools/compiler/clang.c.i: cmake_force
@@ -730,7 +926,7 @@ src/c/CMakeFiles/progc.dir/tools/compiler/clang.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/tools/compiler/gcc.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/tools/compiler/gcc.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/compiler/gcc.c
 src/c/CMakeFiles/progc.dir/tools/compiler/gcc.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_48) "Building C object src/c/CMakeFiles/progc.dir/tools/compiler/gcc.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_62) "Building C object src/c/CMakeFiles/progc.dir/tools/compiler/gcc.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/tools/compiler/gcc.c.o -MF CMakeFiles/progc.dir/tools/compiler/gcc.c.o.d -o CMakeFiles/progc.dir/tools/compiler/gcc.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/compiler/gcc.c
 
 src/c/CMakeFiles/progc.dir/tools/compiler/gcc.c.i: cmake_force
@@ -744,7 +940,7 @@ src/c/CMakeFiles/progc.dir/tools/compiler/gcc.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/tools/debug/gdb.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/tools/debug/gdb.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/debug/gdb.c
 src/c/CMakeFiles/progc.dir/tools/debug/gdb.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_49) "Building C object src/c/CMakeFiles/progc.dir/tools/debug/gdb.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_63) "Building C object src/c/CMakeFiles/progc.dir/tools/debug/gdb.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/tools/debug/gdb.c.o -MF CMakeFiles/progc.dir/tools/debug/gdb.c.o.d -o CMakeFiles/progc.dir/tools/debug/gdb.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/debug/gdb.c
 
 src/c/CMakeFiles/progc.dir/tools/debug/gdb.c.i: cmake_force
@@ -758,7 +954,7 @@ src/c/CMakeFiles/progc.dir/tools/debug/gdb.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/tools/profiling/clang-tidy.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/tools/profiling/clang-tidy.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/clang-tidy.c
 src/c/CMakeFiles/progc.dir/tools/profiling/clang-tidy.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_50) "Building C object src/c/CMakeFiles/progc.dir/tools/profiling/clang-tidy.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_64) "Building C object src/c/CMakeFiles/progc.dir/tools/profiling/clang-tidy.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/tools/profiling/clang-tidy.c.o -MF CMakeFiles/progc.dir/tools/profiling/clang-tidy.c.o.d -o CMakeFiles/progc.dir/tools/profiling/clang-tidy.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/clang-tidy.c
 
 src/c/CMakeFiles/progc.dir/tools/profiling/clang-tidy.c.i: cmake_force
@@ -772,7 +968,7 @@ src/c/CMakeFiles/progc.dir/tools/profiling/clang-tidy.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/tools/profiling/cppcheck.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/tools/profiling/cppcheck.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/cppcheck.c
 src/c/CMakeFiles/progc.dir/tools/profiling/cppcheck.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_51) "Building C object src/c/CMakeFiles/progc.dir/tools/profiling/cppcheck.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_65) "Building C object src/c/CMakeFiles/progc.dir/tools/profiling/cppcheck.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/tools/profiling/cppcheck.c.o -MF CMakeFiles/progc.dir/tools/profiling/cppcheck.c.o.d -o CMakeFiles/progc.dir/tools/profiling/cppcheck.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/cppcheck.c
 
 src/c/CMakeFiles/progc.dir/tools/profiling/cppcheck.c.i: cmake_force
@@ -786,7 +982,7 @@ src/c/CMakeFiles/progc.dir/tools/profiling/cppcheck.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/tools/profiling/gperftools.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/tools/profiling/gperftools.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/gperftools.c
 src/c/CMakeFiles/progc.dir/tools/profiling/gperftools.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_52) "Building C object src/c/CMakeFiles/progc.dir/tools/profiling/gperftools.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_66) "Building C object src/c/CMakeFiles/progc.dir/tools/profiling/gperftools.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/tools/profiling/gperftools.c.o -MF CMakeFiles/progc.dir/tools/profiling/gperftools.c.o.d -o CMakeFiles/progc.dir/tools/profiling/gperftools.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/gperftools.c
 
 src/c/CMakeFiles/progc.dir/tools/profiling/gperftools.c.i: cmake_force
@@ -800,7 +996,7 @@ src/c/CMakeFiles/progc.dir/tools/profiling/gperftools.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/tools/profiling/gprof.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/tools/profiling/gprof.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/gprof.c
 src/c/CMakeFiles/progc.dir/tools/profiling/gprof.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_53) "Building C object src/c/CMakeFiles/progc.dir/tools/profiling/gprof.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_67) "Building C object src/c/CMakeFiles/progc.dir/tools/profiling/gprof.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/tools/profiling/gprof.c.o -MF CMakeFiles/progc.dir/tools/profiling/gprof.c.o.d -o CMakeFiles/progc.dir/tools/profiling/gprof.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/gprof.c
 
 src/c/CMakeFiles/progc.dir/tools/profiling/gprof.c.i: cmake_force
@@ -814,7 +1010,7 @@ src/c/CMakeFiles/progc.dir/tools/profiling/gprof.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/tools/profiling/perf.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/tools/profiling/perf.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/perf.c
 src/c/CMakeFiles/progc.dir/tools/profiling/perf.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_54) "Building C object src/c/CMakeFiles/progc.dir/tools/profiling/perf.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_68) "Building C object src/c/CMakeFiles/progc.dir/tools/profiling/perf.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/tools/profiling/perf.c.o -MF CMakeFiles/progc.dir/tools/profiling/perf.c.o.d -o CMakeFiles/progc.dir/tools/profiling/perf.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/perf.c
 
 src/c/CMakeFiles/progc.dir/tools/profiling/perf.c.i: cmake_force
@@ -828,7 +1024,7 @@ src/c/CMakeFiles/progc.dir/tools/profiling/perf.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/tools/profiling/sanitizers.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/tools/profiling/sanitizers.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/sanitizers.c
 src/c/CMakeFiles/progc.dir/tools/profiling/sanitizers.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_55) "Building C object src/c/CMakeFiles/progc.dir/tools/profiling/sanitizers.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_69) "Building C object src/c/CMakeFiles/progc.dir/tools/profiling/sanitizers.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/tools/profiling/sanitizers.c.o -MF CMakeFiles/progc.dir/tools/profiling/sanitizers.c.o.d -o CMakeFiles/progc.dir/tools/profiling/sanitizers.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/sanitizers.c
 
 src/c/CMakeFiles/progc.dir/tools/profiling/sanitizers.c.i: cmake_force
@@ -842,7 +1038,7 @@ src/c/CMakeFiles/progc.dir/tools/profiling/sanitizers.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/tools/profiling/valgrind.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/tools/profiling/valgrind.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/valgrind.c
 src/c/CMakeFiles/progc.dir/tools/profiling/valgrind.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_56) "Building C object src/c/CMakeFiles/progc.dir/tools/profiling/valgrind.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_70) "Building C object src/c/CMakeFiles/progc.dir/tools/profiling/valgrind.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/tools/profiling/valgrind.c.o -MF CMakeFiles/progc.dir/tools/profiling/valgrind.c.o.d -o CMakeFiles/progc.dir/tools/profiling/valgrind.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/valgrind.c
 
 src/c/CMakeFiles/progc.dir/tools/profiling/valgrind.c.i: cmake_force
@@ -856,7 +1052,7 @@ src/c/CMakeFiles/progc.dir/tools/profiling/valgrind.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/tools/standard/c-standard.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/tools/standard/c-standard.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/standard/c-standard.c
 src/c/CMakeFiles/progc.dir/tools/standard/c-standard.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_57) "Building C object src/c/CMakeFiles/progc.dir/tools/standard/c-standard.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_71) "Building C object src/c/CMakeFiles/progc.dir/tools/standard/c-standard.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/tools/standard/c-standard.c.o -MF CMakeFiles/progc.dir/tools/standard/c-standard.c.o.d -o CMakeFiles/progc.dir/tools/standard/c-standard.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/standard/c-standard.c
 
 src/c/CMakeFiles/progc.dir/tools/standard/c-standard.c.i: cmake_force
@@ -870,7 +1066,7 @@ src/c/CMakeFiles/progc.dir/tools/standard/c-standard.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/tools/standard/clang-format.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/tools/standard/clang-format.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/standard/clang-format.c
 src/c/CMakeFiles/progc.dir/tools/standard/clang-format.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_58) "Building C object src/c/CMakeFiles/progc.dir/tools/standard/clang-format.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_72) "Building C object src/c/CMakeFiles/progc.dir/tools/standard/clang-format.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/tools/standard/clang-format.c.o -MF CMakeFiles/progc.dir/tools/standard/clang-format.c.o.d -o CMakeFiles/progc.dir/tools/standard/clang-format.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/standard/clang-format.c
 
 src/c/CMakeFiles/progc.dir/tools/standard/clang-format.c.i: cmake_force
@@ -884,7 +1080,7 @@ src/c/CMakeFiles/progc.dir/tools/standard/clang-format.c.s: cmake_force
 src/c/CMakeFiles/progc.dir/tools/standard/styleguide.c.o: src/c/CMakeFiles/progc.dir/flags.make
 src/c/CMakeFiles/progc.dir/tools/standard/styleguide.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/standard/styleguide.c
 src/c/CMakeFiles/progc.dir/tools/standard/styleguide.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_59) "Building C object src/c/CMakeFiles/progc.dir/tools/standard/styleguide.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_73) "Building C object src/c/CMakeFiles/progc.dir/tools/standard/styleguide.c.o"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/tools/standard/styleguide.c.o -MF CMakeFiles/progc.dir/tools/standard/styleguide.c.o.d -o CMakeFiles/progc.dir/tools/standard/styleguide.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/standard/styleguide.c
 
 src/c/CMakeFiles/progc.dir/tools/standard/styleguide.c.i: cmake_force
@@ -895,14 +1091,39 @@ src/c/CMakeFiles/progc.dir/tools/standard/styleguide.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/progc.dir/tools/standard/styleguide.c.s"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/standard/styleguide.c -o CMakeFiles/progc.dir/tools/standard/styleguide.c.s
 
+src/c/CMakeFiles/progc.dir/tools/tools.c.o: src/c/CMakeFiles/progc.dir/flags.make
+src/c/CMakeFiles/progc.dir/tools/tools.c.o: /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/tools.c
+src/c/CMakeFiles/progc.dir/tools/tools.c.o: src/c/CMakeFiles/progc.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_74) "Building C object src/c/CMakeFiles/progc.dir/tools/tools.c.o"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/c/CMakeFiles/progc.dir/tools/tools.c.o -MF CMakeFiles/progc.dir/tools/tools.c.o.d -o CMakeFiles/progc.dir/tools/tools.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/tools.c
+
+src/c/CMakeFiles/progc.dir/tools/tools.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/progc.dir/tools/tools.c.i"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/tools.c > CMakeFiles/progc.dir/tools/tools.c.i
+
+src/c/CMakeFiles/progc.dir/tools/tools.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/progc.dir/tools/tools.c.s"
+	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/tools.c -o CMakeFiles/progc.dir/tools/tools.c.s
+
 # Object files for target progc
 progc_OBJECTS = \
+"CMakeFiles/progc.dir/advanced/advanced.c.o" \
+"CMakeFiles/progc.dir/advanced/errno/errno.c.o" \
+"CMakeFiles/progc.dir/advanced/headers/headers.c.o" \
+"CMakeFiles/progc.dir/advanced/iostream/iostream.c.o" \
+"CMakeFiles/progc.dir/advanced/memory/memory.c.o" \
+"CMakeFiles/progc.dir/advanced/miscellaneous/miscellaneous.c.o" \
+"CMakeFiles/progc.dir/advanced/thread/thread.c.o" \
+"CMakeFiles/progc.dir/basics/basics.c.o" \
 "CMakeFiles/progc.dir/basics/datalife/datalife.c.o" \
 "CMakeFiles/progc.dir/basics/expressions/constantExpressions.c.o" \
+"CMakeFiles/progc.dir/basics/expressions/constats&literals/constats.c.o" \
+"CMakeFiles/progc.dir/basics/expressions/constats&literals/literals.c.o" \
 "CMakeFiles/progc.dir/basics/expressions/evaluationOrder.c.o" \
 "CMakeFiles/progc.dir/basics/expressions/expressions.c.o" \
 "CMakeFiles/progc.dir/basics/expressions/genericSelection.c.o" \
 "CMakeFiles/progc.dir/basics/expressions/implicitConversions.c.o" \
+"CMakeFiles/progc.dir/basics/expressions/operators/operators.c.o" \
 "CMakeFiles/progc.dir/basics/expressions/valueCategory.c.o" \
 "CMakeFiles/progc.dir/basics/preprocessor/preprocessor.c.o" \
 "CMakeFiles/progc.dir/basics/statements/statements.c.o" \
@@ -939,6 +1160,9 @@ progc_OBJECTS = \
 "CMakeFiles/progc.dir/basics/variable/specifiers/types/unions.c.o" \
 "CMakeFiles/progc.dir/basics/variable/specifiers/types/voidtypes.c.o" \
 "CMakeFiles/progc.dir/basics/variable/staticassertion.c.o" \
+"CMakeFiles/progc.dir/library/algorithms/algorithms.c.o" \
+"CMakeFiles/progc.dir/library/containers/containers.c.o" \
+"CMakeFiles/progc.dir/library/library.c.o" \
 "CMakeFiles/progc.dir/progc.c.o" \
 "CMakeFiles/progc.dir/tools/build/cmake.c.o" \
 "CMakeFiles/progc.dir/tools/build/make.c.o" \
@@ -955,17 +1179,29 @@ progc_OBJECTS = \
 "CMakeFiles/progc.dir/tools/profiling/valgrind.c.o" \
 "CMakeFiles/progc.dir/tools/standard/c-standard.c.o" \
 "CMakeFiles/progc.dir/tools/standard/clang-format.c.o" \
-"CMakeFiles/progc.dir/tools/standard/styleguide.c.o"
+"CMakeFiles/progc.dir/tools/standard/styleguide.c.o" \
+"CMakeFiles/progc.dir/tools/tools.c.o"
 
 # External object files for target progc
 progc_EXTERNAL_OBJECTS =
 
+src/c/progc: src/c/CMakeFiles/progc.dir/advanced/advanced.c.o
+src/c/progc: src/c/CMakeFiles/progc.dir/advanced/errno/errno.c.o
+src/c/progc: src/c/CMakeFiles/progc.dir/advanced/headers/headers.c.o
+src/c/progc: src/c/CMakeFiles/progc.dir/advanced/iostream/iostream.c.o
+src/c/progc: src/c/CMakeFiles/progc.dir/advanced/memory/memory.c.o
+src/c/progc: src/c/CMakeFiles/progc.dir/advanced/miscellaneous/miscellaneous.c.o
+src/c/progc: src/c/CMakeFiles/progc.dir/advanced/thread/thread.c.o
+src/c/progc: src/c/CMakeFiles/progc.dir/basics/basics.c.o
 src/c/progc: src/c/CMakeFiles/progc.dir/basics/datalife/datalife.c.o
 src/c/progc: src/c/CMakeFiles/progc.dir/basics/expressions/constantExpressions.c.o
+src/c/progc: src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/constats.c.o
+src/c/progc: src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/literals.c.o
 src/c/progc: src/c/CMakeFiles/progc.dir/basics/expressions/evaluationOrder.c.o
 src/c/progc: src/c/CMakeFiles/progc.dir/basics/expressions/expressions.c.o
 src/c/progc: src/c/CMakeFiles/progc.dir/basics/expressions/genericSelection.c.o
 src/c/progc: src/c/CMakeFiles/progc.dir/basics/expressions/implicitConversions.c.o
+src/c/progc: src/c/CMakeFiles/progc.dir/basics/expressions/operators/operators.c.o
 src/c/progc: src/c/CMakeFiles/progc.dir/basics/expressions/valueCategory.c.o
 src/c/progc: src/c/CMakeFiles/progc.dir/basics/preprocessor/preprocessor.c.o
 src/c/progc: src/c/CMakeFiles/progc.dir/basics/statements/statements.c.o
@@ -1002,6 +1238,9 @@ src/c/progc: src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/structu
 src/c/progc: src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/unions.c.o
 src/c/progc: src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/voidtypes.c.o
 src/c/progc: src/c/CMakeFiles/progc.dir/basics/variable/staticassertion.c.o
+src/c/progc: src/c/CMakeFiles/progc.dir/library/algorithms/algorithms.c.o
+src/c/progc: src/c/CMakeFiles/progc.dir/library/containers/containers.c.o
+src/c/progc: src/c/CMakeFiles/progc.dir/library/library.c.o
 src/c/progc: src/c/CMakeFiles/progc.dir/progc.c.o
 src/c/progc: src/c/CMakeFiles/progc.dir/tools/build/cmake.c.o
 src/c/progc: src/c/CMakeFiles/progc.dir/tools/build/make.c.o
@@ -1019,12 +1258,13 @@ src/c/progc: src/c/CMakeFiles/progc.dir/tools/profiling/valgrind.c.o
 src/c/progc: src/c/CMakeFiles/progc.dir/tools/standard/c-standard.c.o
 src/c/progc: src/c/CMakeFiles/progc.dir/tools/standard/clang-format.c.o
 src/c/progc: src/c/CMakeFiles/progc.dir/tools/standard/styleguide.c.o
+src/c/progc: src/c/CMakeFiles/progc.dir/tools/tools.c.o
 src/c/progc: src/c/CMakeFiles/progc.dir/build.make
 src/c/progc: src/asm/libmathAsmLib.a
 src/c/progc: lib/colorfmtLib/libcolorfmt.a
 src/c/progc: thridparty/log.c/liblogc.a
 src/c/progc: src/c/CMakeFiles/progc.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_60) "Linking C executable progc"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/minghui.liu/vscode/brightl/brightl-pl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_75) "Linking C executable progc"
 	cd /Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/progc.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
