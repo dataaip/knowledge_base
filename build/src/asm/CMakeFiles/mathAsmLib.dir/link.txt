@@ -1,2 +1,2 @@
-/Library/Developer/CommandLineTools/usr/bin/ar cr libmathAsmLib.a CMakeFiles/mathAsmLib.dir/math.s.o
-/Library/Developer/CommandLineTools/usr/bin/ranlib libmathAsmLib.a
+/usr/bin/ar cr libmathAsmLib.a CMakeFiles/mathAsmLib.dir/math.s.o 
+/usr/bin/ranlib libmathAsmLib.a

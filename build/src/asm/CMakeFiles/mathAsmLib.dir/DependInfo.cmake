@@ -8,9 +8,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_ASM
-  "/Users/minghui.liu/vscode/brightl/brightl-pl/src/asm/math.s" "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/asm/CMakeFiles/mathAsmLib.dir/math.s.o"
+  "/home/brightl/brightl_code/brightl-pl/src/asm/math.s" "/home/brightl/brightl_code/brightl-pl/build/src/asm/CMakeFiles/mathAsmLib.dir/math.s.o"
   )
-set(CMAKE_ASM_COMPILER_ID "AppleClang")
+set(CMAKE_ASM_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_ASM_TARGET_INCLUDE_PATH
@@ -20,12 +20,8 @@ set(CMAKE_ASM_TARGET_INCLUDE_PATH
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   )
 
-# Targets to which this target links which contain Fortran sources.
-set(CMAKE_Fortran_TARGET_LINKED_INFO_FILES
-  )
-
-# Targets to which this target links which contain Fortran sources.
-set(CMAKE_Fortran_TARGET_FORWARD_LINKED_INFO_FILES
+# Targets to which this target links.
+set(CMAKE_TARGET_LINKED_INFO_FILES
   )
 
 # Fortran module output directory.

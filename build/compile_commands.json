@@ -1,488 +1,407 @@
 [
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/lib/toolsMathLib",
-  "command": "/usr/bin/g++  -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/toolsMathLib -g -std=c++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/toolsMathLib.dir/toolsmathlib.cpp.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/lib/toolsMathLib/toolsmathlib.cpp",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/lib/toolsMathLib/toolsmathlib.cpp",
-  "output": "lib/toolsMathLib/CMakeFiles/toolsMathLib.dir/toolsmathlib.cpp.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/lib/toolsMathLib",
+  "command": "/usr/bin/g++  -I/home/brightl/brightl_code/brightl-pl/lib/toolsMathLib -g -std=c++14 -o CMakeFiles/toolsMathLib.dir/toolsmathlib.cpp.o -c /home/brightl/brightl_code/brightl-pl/lib/toolsMathLib/toolsmathlib.cpp",
+  "file": "/home/brightl/brightl_code/brightl-pl/lib/toolsMathLib/toolsmathlib.cpp"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/lib/utilsLib",
-  "command": "/usr/bin/g++  -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/utilsLib -g -std=c++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/utilsLib.dir/utilslib.cpp.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/lib/utilsLib/utilslib.cpp",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/lib/utilsLib/utilslib.cpp",
-  "output": "lib/utilsLib/CMakeFiles/utilsLib.dir/utilslib.cpp.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/lib/utilsLib",
+  "command": "/usr/bin/g++  -I/home/brightl/brightl_code/brightl-pl/lib/utilsLib -g -std=c++14 -o CMakeFiles/utilsLib.dir/utilslib.cpp.o -c /home/brightl/brightl_code/brightl-pl/lib/utilsLib/utilslib.cpp",
+  "file": "/home/brightl/brightl_code/brightl-pl/lib/utilsLib/utilslib.cpp"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/lib/colorfmtLib",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/colorfmt.dir/colorfmt.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib/colorfmt.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib/colorfmt.c",
-  "output": "lib/colorfmtLib/CMakeFiles/colorfmt.dir/colorfmt.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/lib/colorfmtLib",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/colorfmt.dir/colorfmt.c.o -c /home/brightl/brightl_code/brightl-pl/lib/colorfmtLib/colorfmt.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib/colorfmt.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/thridparty/log.c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/logc.dir/src/log.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c/src/log.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c/src/log.c",
-  "output": "thridparty/log.c/CMakeFiles/logc.dir/src/log.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/thridparty/log.c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/logc.dir/src/log.c.o -c /home/brightl/brightl_code/brightl-pl/thridparty/log.c/src/log.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/thridparty/log.c/src/log.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/advanced/advanced.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/advanced.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/advanced.c",
-  "output": "src/c/CMakeFiles/progc.dir/advanced/advanced.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/advanced/advanced.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/advanced/advanced.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/advanced/advanced.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/advanced/errno/errno.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/errno/errno.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/errno/errno.c",
-  "output": "src/c/CMakeFiles/progc.dir/advanced/errno/errno.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/advanced/errno/errno.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/advanced/errno/errno.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/advanced/errno/errno.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/advanced/headers/headers.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/headers/headers.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/headers/headers.c",
-  "output": "src/c/CMakeFiles/progc.dir/advanced/headers/headers.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/advanced/headers/headers.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/advanced/headers/headers.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/advanced/headers/headers.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/advanced/iostream/iostream.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/iostream/iostream.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/iostream/iostream.c",
-  "output": "src/c/CMakeFiles/progc.dir/advanced/iostream/iostream.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/advanced/iostream/iostream.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/advanced/iostream/iostream.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/advanced/iostream/iostream.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/advanced/memory/memory.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/memory/memory.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/memory/memory.c",
-  "output": "src/c/CMakeFiles/progc.dir/advanced/memory/memory.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/advanced/memory/memory.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/advanced/memory/memory.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/advanced/memory/memory.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/advanced/miscellaneous/miscellaneous.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/miscellaneous/miscellaneous.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/miscellaneous/miscellaneous.c",
-  "output": "src/c/CMakeFiles/progc.dir/advanced/miscellaneous/miscellaneous.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/advanced/miscellaneous/miscellaneous.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/advanced/miscellaneous/miscellaneous.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/advanced/miscellaneous/miscellaneous.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/advanced/thread/thread.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/thread/thread.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/advanced/thread/thread.c",
-  "output": "src/c/CMakeFiles/progc.dir/advanced/thread/thread.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/advanced/thread/thread.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/advanced/thread/thread.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/advanced/thread/thread.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/basics.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/basics.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/basics.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/basics.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/basics.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/basics.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/basics.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/datalife/datalife.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/datalife/datalife.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/datalife/datalife.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/datalife/datalife.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/datalife/datalife.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/datalife/datalife.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/datalife/datalife.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/expressions/constantExpressions.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/constantExpressions.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/constantExpressions.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/expressions/constantExpressions.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/expressions/constantExpressions.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/expressions/constantExpressions.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/expressions/constantExpressions.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o \"CMakeFiles/progc.dir/basics/expressions/constats&literals/constats.c.o\" -c \"/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/constats&literals/constats.c\"",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/constats&literals/constats.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/constats.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o \"CMakeFiles/progc.dir/basics/expressions/constats&literals/constats.c.o\" -c \"/home/brightl/brightl_code/brightl-pl/src/c/basics/expressions/constats&literals/constats.c\"",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/expressions/constats&literals/constats.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o \"CMakeFiles/progc.dir/basics/expressions/constats&literals/literals.c.o\" -c \"/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/constats&literals/literals.c\"",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/constats&literals/literals.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/expressions/constats&literals/literals.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o \"CMakeFiles/progc.dir/basics/expressions/constats&literals/literals.c.o\" -c \"/home/brightl/brightl_code/brightl-pl/src/c/basics/expressions/constats&literals/literals.c\"",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/expressions/constats&literals/literals.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/expressions/evaluationOrder.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/evaluationOrder.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/evaluationOrder.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/expressions/evaluationOrder.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/expressions/evaluationOrder.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/expressions/evaluationOrder.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/expressions/evaluationOrder.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/expressions/expressions.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/expressions.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/expressions.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/expressions/expressions.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/expressions/expressions.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/expressions/expressions.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/expressions/expressions.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/expressions/genericSelection.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/genericSelection.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/genericSelection.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/expressions/genericSelection.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/expressions/genericSelection.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/expressions/genericSelection.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/expressions/genericSelection.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/expressions/implicitConversions.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/implicitConversions.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/implicitConversions.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/expressions/implicitConversions.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/expressions/implicitConversions.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/expressions/implicitConversions.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/expressions/implicitConversions.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/expressions/operators/operators.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/operators/operators.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/operators/operators.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/expressions/operators/operators.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/expressions/operators/operators.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/expressions/operators/operators.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/expressions/operators/operators.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/expressions/valueCategory.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/valueCategory.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/expressions/valueCategory.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/expressions/valueCategory.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/expressions/valueCategory.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/expressions/valueCategory.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/expressions/valueCategory.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/preprocessor/preprocessor.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/preprocessor/preprocessor.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/preprocessor/preprocessor.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/preprocessor/preprocessor.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/preprocessor/preprocessor.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/preprocessor/preprocessor.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/preprocessor/preprocessor.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/statements/statements.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/statements/statements.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/statements/statements.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/statements/statements.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/statements/statements.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/statements/statements.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/statements/statements.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/declarations.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/declarations.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/declarations.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/declarations.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/declarations.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/declarations.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/declarations.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/initialization.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/initialization.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/initialization.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/initialization.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/initialization.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/initialization.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/initialization.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/keywords.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/keywords.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/keywords.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/keywords.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/keywords.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/keywords.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/keywords.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/qualifiers/atomic.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/qualifiers/atomic.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/qualifiers/atomic.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/atomic.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/qualifiers/atomic.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/qualifiers/atomic.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/qualifiers/atomic.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/qualifiers/const.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/qualifiers/const.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/qualifiers/const.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/const.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/qualifiers/const.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/qualifiers/const.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/qualifiers/const.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/qualifiers/restrict.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/qualifiers/restrict.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/qualifiers/restrict.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/restrict.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/qualifiers/restrict.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/qualifiers/restrict.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/qualifiers/restrict.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/qualifiers/volatile.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/qualifiers/volatile.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/qualifiers/volatile.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/qualifiers/volatile.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/qualifiers/volatile.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/qualifiers/volatile.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/qualifiers/volatile.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/alignas.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/alignas.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/alignas.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/alignas.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/alignas.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/alignas.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/alignas.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/attribute.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/attribute.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/attribute.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/attribute.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/attribute.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/attribute.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/attribute.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/auto.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/auto.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/auto.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/auto.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/auto.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/auto.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/auto.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/constexpr.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/constexpr.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/constexpr.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/constexpr.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/constexpr.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/constexpr.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/constexpr.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/extern.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/extern.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/extern.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/extern.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/extern.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/extern.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/extern.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/inline.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/inline.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/inline.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/inline.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/inline.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/inline.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/inline.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/noreturn.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/noreturn.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/noreturn.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/noreturn.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/noreturn.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/noreturn.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/noreturn.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/register.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/register.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/register.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/register.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/register.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/register.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/register.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/static.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/static.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/static.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/static.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/static.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/static.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/static.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/threadlocal.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/threadlocal.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/threadlocal.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/threadlocal.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/threadlocal.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/threadlocal.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/threadlocal.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/typedef.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/typedef.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/typedef.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/typedef.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/typedef.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/typedef.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/typedef.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/typeof.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/typeof.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/typeof.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/typeof.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/typeof.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/typeof.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/typeof.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/types/arrays.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/arrays.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/arrays.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/arrays.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/types/arrays.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/arrays.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/arrays.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/types/bitfields.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/bitfields.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/bitfields.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/bitfields.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/types/bitfields.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/bitfields.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/bitfields.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/types/boolean.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/boolean.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/boolean.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/boolean.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/types/boolean.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/boolean.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/boolean.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/types/character.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/character.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/character.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/character.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/types/character.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/character.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/character.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/types/enumerated.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/enumerated.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/enumerated.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/enumerated.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/types/enumerated.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/enumerated.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/enumerated.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/types/floating.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/floating.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/floating.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/floating.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/types/floating.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/floating.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/floating.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/types/functions.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/functions.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/functions.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/functions.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/types/functions.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/functions.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/functions.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/types/integer.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/integer.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/integer.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/integer.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/types/integer.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/integer.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/integer.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/types/pointers.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/pointers.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/pointers.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/pointers.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/types/pointers.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/pointers.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/pointers.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/types/string.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/string.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/string.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/string.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/types/string.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/string.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/string.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/types/structure.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/structure.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/structure.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/structure.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/types/structure.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/structure.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/structure.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/types/unions.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/unions.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/unions.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/unions.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/types/unions.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/unions.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/unions.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/specifiers/types/voidtypes.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/voidtypes.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/specifiers/types/voidtypes.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/specifiers/types/voidtypes.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/specifiers/types/voidtypes.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/voidtypes.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/specifiers/types/voidtypes.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/basics/variable/staticassertion.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/staticassertion.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/basics/variable/staticassertion.c",
-  "output": "src/c/CMakeFiles/progc.dir/basics/variable/staticassertion.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/basics/variable/staticassertion.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/basics/variable/staticassertion.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/basics/variable/staticassertion.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/library/algorithms/algorithms.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/library/algorithms/algorithms.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/library/algorithms/algorithms.c",
-  "output": "src/c/CMakeFiles/progc.dir/library/algorithms/algorithms.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/library/algorithms/algorithms.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/library/algorithms/algorithms.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/library/algorithms/algorithms.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/library/containers/containers.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/library/containers/containers.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/library/containers/containers.c",
-  "output": "src/c/CMakeFiles/progc.dir/library/containers/containers.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/library/containers/containers.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/library/containers/containers.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/library/containers/containers.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/library/library.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/library/library.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/library/library.c",
-  "output": "src/c/CMakeFiles/progc.dir/library/library.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/library/library.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/library/library.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/library/library.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/progc.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/progc.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/progc.c",
-  "output": "src/c/CMakeFiles/progc.dir/progc.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/progc.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/progc.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/progc.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/tools/build/cmake.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/build/cmake.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/build/cmake.c",
-  "output": "src/c/CMakeFiles/progc.dir/tools/build/cmake.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/tools/build/cmake.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/tools/build/cmake.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/tools/build/cmake.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/tools/build/make.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/build/make.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/build/make.c",
-  "output": "src/c/CMakeFiles/progc.dir/tools/build/make.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/tools/build/make.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/tools/build/make.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/tools/build/make.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/tools/build/vcpkg.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/build/vcpkg.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/build/vcpkg.c",
-  "output": "src/c/CMakeFiles/progc.dir/tools/build/vcpkg.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/tools/build/vcpkg.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/tools/build/vcpkg.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/tools/build/vcpkg.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/tools/compiler/clang.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/compiler/clang.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/compiler/clang.c",
-  "output": "src/c/CMakeFiles/progc.dir/tools/compiler/clang.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/tools/compiler/clang.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/tools/compiler/clang.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/tools/compiler/clang.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/tools/compiler/gcc.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/compiler/gcc.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/compiler/gcc.c",
-  "output": "src/c/CMakeFiles/progc.dir/tools/compiler/gcc.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/tools/compiler/gcc.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/tools/compiler/gcc.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/tools/compiler/gcc.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/tools/debug/gdb.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/debug/gdb.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/debug/gdb.c",
-  "output": "src/c/CMakeFiles/progc.dir/tools/debug/gdb.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/tools/debug/gdb.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/tools/debug/gdb.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/tools/debug/gdb.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/tools/profiling/clang-tidy.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/clang-tidy.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/clang-tidy.c",
-  "output": "src/c/CMakeFiles/progc.dir/tools/profiling/clang-tidy.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/tools/profiling/clang-tidy.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/tools/profiling/clang-tidy.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/tools/profiling/clang-tidy.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/tools/profiling/cppcheck.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/cppcheck.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/cppcheck.c",
-  "output": "src/c/CMakeFiles/progc.dir/tools/profiling/cppcheck.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/tools/profiling/cppcheck.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/tools/profiling/cppcheck.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/tools/profiling/cppcheck.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/tools/profiling/gperftools.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/gperftools.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/gperftools.c",
-  "output": "src/c/CMakeFiles/progc.dir/tools/profiling/gperftools.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/tools/profiling/gperftools.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/tools/profiling/gperftools.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/tools/profiling/gperftools.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/tools/profiling/gprof.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/gprof.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/gprof.c",
-  "output": "src/c/CMakeFiles/progc.dir/tools/profiling/gprof.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/tools/profiling/gprof.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/tools/profiling/gprof.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/tools/profiling/gprof.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/tools/profiling/perf.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/perf.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/perf.c",
-  "output": "src/c/CMakeFiles/progc.dir/tools/profiling/perf.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/tools/profiling/perf.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/tools/profiling/perf.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/tools/profiling/perf.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/tools/profiling/sanitizers.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/sanitizers.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/sanitizers.c",
-  "output": "src/c/CMakeFiles/progc.dir/tools/profiling/sanitizers.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/tools/profiling/sanitizers.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/tools/profiling/sanitizers.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/tools/profiling/sanitizers.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/tools/profiling/valgrind.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/valgrind.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/profiling/valgrind.c",
-  "output": "src/c/CMakeFiles/progc.dir/tools/profiling/valgrind.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/tools/profiling/valgrind.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/tools/profiling/valgrind.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/tools/profiling/valgrind.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/tools/standard/c-standard.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/standard/c-standard.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/standard/c-standard.c",
-  "output": "src/c/CMakeFiles/progc.dir/tools/standard/c-standard.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/tools/standard/c-standard.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/tools/standard/c-standard.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/tools/standard/c-standard.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/tools/standard/clang-format.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/standard/clang-format.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/standard/clang-format.c",
-  "output": "src/c/CMakeFiles/progc.dir/tools/standard/clang-format.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/tools/standard/clang-format.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/tools/standard/clang-format.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/tools/standard/clang-format.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/tools/standard/styleguide.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/standard/styleguide.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/standard/styleguide.c",
-  "output": "src/c/CMakeFiles/progc.dir/tools/standard/styleguide.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/tools/standard/styleguide.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/tools/standard/styleguide.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/tools/standard/styleguide.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/c",
-  "command": "/usr/bin/gcc  -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/colorfmtLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progc.dir/tools/tools.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/tools.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/c/tools/tools.c",
-  "output": "src/c/CMakeFiles/progc.dir/tools/tools.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/c",
+  "command": "/usr/bin/gcc  -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/lib/colorfmtLib -I/home/brightl/brightl_code/brightl-pl/thridparty/log.c  -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/progc.dir/tools/tools.c.o -c /home/brightl/brightl_code/brightl-pl/src/c/tools/tools.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/c/tools/tools.c"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/asm",
-  "command": "/Library/Developer/CommandLineTools/usr/bin/gcc   -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/mathAsmLib.dir/math.s.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/asm/math.s",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/asm/math.s",
-  "output": "src/asm/CMakeFiles/mathAsmLib.dir/math.s.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/asm",
+  "command": "/usr/bin/gcc   -g -o CMakeFiles/mathAsmLib.dir/math.s.o -c /home/brightl/brightl_code/brightl-pl/src/asm/math.s",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/asm/math.s"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/src/cpp",
-  "command": "/usr/bin/g++  -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib -I/Users/minghui.liu/vscode/brightl/brightl-pl/thridparty -I/Users/minghui.liu/vscode/brightl/brightl-pl/include -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/toolsMathLib -I/Users/minghui.liu/vscode/brightl/brightl-pl/lib/utilsLib -g -std=c++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/progcpp.dir/progcc.cpp.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/src/cpp/progcc.cpp",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/src/cpp/progcc.cpp",
-  "output": "src/cpp/CMakeFiles/progcpp.dir/progcc.cpp.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/src/cpp",
+  "command": "/usr/bin/g++  -I/home/brightl/brightl_code/brightl-pl/lib -I/home/brightl/brightl_code/brightl-pl/thridparty -I/home/brightl/brightl_code/brightl-pl/include -I/home/brightl/brightl_code/brightl-pl/lib/toolsMathLib -I/home/brightl/brightl_code/brightl-pl/lib/utilsLib -g -std=c++14 -o CMakeFiles/progcpp.dir/progcc.cpp.o -c /home/brightl/brightl_code/brightl-pl/src/cpp/progcc.cpp",
+  "file": "/home/brightl/brightl_code/brightl-pl/src/cpp/progcc.cpp"
 },
 {
-  "directory": "/Users/minghui.liu/vscode/brightl/brightl-pl/build/tests/c",
-  "command": "/usr/bin/gcc    -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk -o CMakeFiles/variable_test.dir/variable.c.o -c /Users/minghui.liu/vscode/brightl/brightl-pl/tests/c/variable.c",
-  "file": "/Users/minghui.liu/vscode/brightl/brightl-pl/tests/c/variable.c",
-  "output": "tests/c/CMakeFiles/variable_test.dir/variable.c.o"
+  "directory": "/home/brightl/brightl_code/brightl-pl/build/tests/c",
+  "command": "/usr/bin/gcc    -O1 -Wall -Wextra -finput-charset=UTF-8 -fexec-charset=UTF-8 -g -std=gnu11 -o CMakeFiles/variable_test.dir/variable.c.o -c /home/brightl/brightl_code/brightl-pl/tests/c/variable.c",
+  "file": "/home/brightl/brightl_code/brightl-pl/tests/c/variable.c"
 }
 ]
