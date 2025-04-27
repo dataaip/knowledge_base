@@ -27,10 +27,13 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wextra")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -finput-charset=UTF-8 -fexec-charset=UTF-8")
 
 # 包含子目录
-add_subdirectory(lib/ToolsMathLib)        # 添加MathLib库的子目录
-add_subdirectory(lib/UtilsLib)       # 添加UtilsLib库的子目录
-add_subdirectory(lib/ColorfmtLib)       # 添加UtilsLib库的子目录
+# 本项目库代码
+add_subdirectory(lib/toolsMathLib)        # 添加MathLib库的子目录
+add_subdirectory(lib/utilsLib)       # 添加UtilsLib库的子目录
+add_subdirectory(lib/colorfmtLib)       # 添加UtilsLib库的子目录
+# 三方库代码
 add_subdirectory(thridparty/log.c)       # 添加logc库的子目录
+# 本项目源代码
 add_subdirectory(src/c)                # 添加源代码的子目录
 add_subdirectory(src/asm)                # 添加源代码的子目录
 add_subdirectory(src/cpp)                # 添加源代码的子目录
@@ -41,16 +44,14 @@ add_subdirectory(tests/c)                # 添加测试代码的子目录
 # 设置安装目录，以下表示安装在当前目录的myapp_install目录下，没有目录会自动创建
 set(CMAKE_INSTALL_PREFIX "progc")
 # 安装可执行文件：
-# install(TARGETS App
-#         RUNTIME DESTINATION bin)
 install(TARGETS progc
         DESTINATION bin PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE WORLD_EXECUTE WORLD_READ)
 # 安装库文件：
-install(TARGETS ToolsMathLib UtilsLib
+install(TARGETS toolsMathLib utilsLib
         ARCHIVE DESTINATION lib
         LIBRARY DESTINATION lib)
 # 安装头文件：
-        install(FILES "lib/ToolsMathLib/mathlib.h" "lib/UtilsLib/utilslib.h"
+        install(FILES "lib/toolsMathLib/mathlib.h" "lib/utilsLib/utilslib.h"
         DESTINATION include)
 # 安装其他文件，暂时没有
 # install(DIRECTORY "path/to/data"

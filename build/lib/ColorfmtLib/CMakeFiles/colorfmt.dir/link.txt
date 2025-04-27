@@ -1,0 +1,2 @@
+/Library/Developer/CommandLineTools/usr/bin/ar qc libcolorfmt.a CMakeFiles/colorfmt.dir/colorfmt.c.o
+/Library/Developer/CommandLineTools/usr/bin/ranlib libcolorfmt.a
