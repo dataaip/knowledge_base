@@ -24,7 +24,8 @@ set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O1")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wunused-variable")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wextra")
+# 启用编译器警告，捕获潜在的内存问题
+# set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -finput-charset=UTF-8 -fexec-charset=UTF-8")
 
 # 包含子目录
