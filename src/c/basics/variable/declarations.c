@@ -505,59 +505,8 @@ C89 标准规则：
   ;                                                                          // 空语句
 #endif // C23 支持
 
-  /*7.*/
-  int a, *b=NULL;                             // “int”是类型说明符，“a”是声明符，“*b”是声明符， NULL 是初始化器
-  const int *f(void);                         // “const”是类型限定符，“int”是类型说明符，“*f(void)”是声明符
-  static const _Alignas(8) long long scai;
-  inline const long long scaif(void);
-  const _Alignas(8) auto int scaai  = 1;      // 1、在 C23 之前，auto关键字主要用于函数内局部变量的声明，它隐含表示变量具有自动存储期（即变量在进入其所在的函数块时创建，函数块执行结束时销毁），但变量的类型需要明确指定
-  const _Alignas(8) auto scaa  = 1;           // 2、如果使用 auto 说明符，变量的类型也可能被推断出来（C23起），从 C23 起，auto获得了新的用途，它可以像在 C++ 中那样用于类型推断。这意味着编译器会根据变量的初始化表达式自动推断出变量的类型
+/*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 
-  _Alignas(8) double value;                   // 3、标识符 属性说明符序列(可选)，普通声明	
-  int (*ptr_to_array)[5];                     // ( 声明符 )，指向数组的指针  
-  int (*ptr_to_function)(int, double);        // ( 声明符 )，指向函数的指针	   
-  _Alignas(8) char * restrict ptr3;           // * 属性说明符序列(可选) 限定符(可选) 声明符，指针
-  int arr[5];                                 // 无指针声明符 [ static(可选) 限定符(可选) 表达式 ] 或 无指针声明符 [ 限定符(可选) * ]
-  // int arr2[static 3];                      // 无指针声明符 [ static(可选) 限定符(可选) 表达式 ] 或 无指针声明符 [ 限定符(可选) * ]
-  // double * arr3[const 2];                  // 无指针声明符 [ static(可选) 限定符(可选) 表达式 ] 或 无指针声明符 [ 限定符(可选) * ]，'double *' 是无指针声明符（因为这里不是未被括号包围的指针声明符形式）
-  double multiply(double num1, double num2);  // 无指针声明符 ( 形参或标识符 )
-  int* add(int a, int b);                     // 无指针声明符 ( 形参或标识符 )，'int*' 是无指针声明符（因为这里不是未被括号包围的指针声明符形式）
-  
-  struct C { int member; } obj, *pObj = &obj;         // “int”是类型说明符，“member”是声明符，“struct C { int member; }”是类型说明符，声明符“obj”定义 struct C 类型的对象，声明符“*pObj”声明指向 struct C 的指针，初始化器“= &obj”提供该指针的初值 
-  int ai = 1, *pi = NULL, fi(void), (*pfi)(double);   // 类型说明符是“int”，声明符“ai”定义一个 int 类型对象 初始化器“=1”提供其初值，声明符“*pi”定义一个指向 int 指针类型的对象 初始化器“=NULL”提供其初值，声明符“fi(void)”声明接受 void 并返回 int 的函数，声明符“(*pfi)(double)”定义一个指向接受 double 并返回 int 的函数的指针类型对象
-  int (*(*foo)(double))[3] = NULL;                    // foo是一个指向函数的指针，接受double类型参数，返回值是指向3个int元素数组的指针
-  // 类型说明符是“int”
-  // 1. 声明符“(*(*foo)(double))[3]”是数组声明符：所声明类型是“3 个 int 的数组的 /嵌套声明符/”
-  // 2. 嵌套声明符是“（*(*foo)(double)）”，是指针声明符 所声明类型是“/嵌套声明符/ 指向 3 个 int 的数组的指针”
-  // 3. 嵌套声明符是“(*foo)(double)”，是一个函数声明符 所声明类型是“/嵌套声明符/ 接受 double 并返回指向 3 个 int 的数组的指针的函数”
-  // 4. 嵌套声明符是“(*foo)”，是一个（有括号，函数声明符所要求）指针声明符 所声明类型是“/嵌套声明符/ 指向接受 double 并返回指向 3 个 int 的数组的指针的函数的指针”
-  // 5. 嵌套声明符是“foo”，是一个标识符 该声明引入一个标识符“foo”，以指代一个对象，其类型为 “指向接受 double 并返回指向 3 个 int 的数组的指针的函数的指针”
-  // 初始化器“= NULL”提供此指针的初值
-  // int x = (*(*foo)(1.2))[0];                      // 如果 “foo” 在声明符形式的表达式中被使用，它的类型将是整型 int
-
-  int ax = 1, bx= ax + 1;                            // 4、每个不是另一个声明符一部分的声明符末尾都是一个 “序列点”
-
-  // int foo5(double);                               // 5、声明：函数声明
-  // int foo5(double x) { return x; }                // 定义：函数定义：包含函数体
-  enum { ONE = 1, TWO } e;                           // 每个 enum 或 typedef 的声明都是一个定义
-  typedef int int_t;
-  extern int ne;                                     // 声明，对于对象而言，分配存储（自动存储或静态存储，但不是外部存储）的声明是定义，而不分配存储（外部声明）的声明不是定义
-  int nel = 10;                                      // 定义 
-  struct X;                                          // 声明
-  struct X { int n; };                               // 定义，对于结构体和联合体，指定其成员列表的声明是定义
-
-  extern int xl;                                     // 6、有链接对象（外部或内部）的声明可以重复
-  extern int xl;                                     // OK
-  typedef int int_t; 
-  typedef int int_t;                                 // OK，非 VLA typedef 可以任意重复，只要它指名同一类型
-  struct X;
-  struct X;                                          // OK，struct 和 union 声明可以重复
-
-  int n7;                                            // 7、定义注解
-  int arr7[n7];                                      // 这里假设n7是一个在运行时才能确定值的变量，所以arr7是一个可变长度数组（VLA）声明符
-  int (*ptr7)[n7];                                   // 因为声明符的一部分（即所指向的类型是可变长度数组int arr7[n7]）是VLA声明符，所以整个声明符（*ptr7）的类型就是可变修改类型
-  _Static_assert(2 + 2 * 2 == 6, "Lucky guess!?");   // 静态断言 从 C 语法的角度来看被视为声明（因此它们可以出现在任何声明可以出现的地方），但它们不会引入任何标识符，也不遵循声明语法
-  
   /*
   指针，详细移至 pointers.c 文档
   指针是一种对象类型，它引用函数或另一种类型的对象，可以添加限定符。指针亦可以不引用任何内容，这通过一个特定的空指针值指示
@@ -742,7 +691,7 @@ C89 标准规则：
   int arrvla[n1];                   // arr 是一个 VLA，具有自动存储期
   int *arrn = malloc(n1 * sizeof(int)); // arrn 是一个 VLA，由 molloc 分配，动态分配内存
   // static int arr[n1];                // 这是不合法的，VLA 不能具有静态存储期，尝试声明一个静态VLA
-  int *static_pointer = arr;            // 静态指针指向 VLA，指针具有静态存储期，VLA具有自动存储期
+  int *static_pointer = arrn;            // 静态指针指向 VLA，指针具有静态存储期，VLA具有自动存储期
   // struct tag {                       // 可变修改的类型不能是结构体或联合体的成员
   //   int z[n1];                       // 错误： VLA 结构体成员
   //   int (*y)[n1];                    // 错误： VM 结构体成员
@@ -900,8 +849,8 @@ C89 标准规则：
   typedef enum color2 color_t;                        // typedef 到通常命名空间
   color_t x1 = GREEN;                                 // OK
   enum { ONE1 = 1, TWO1 } Example6;                   // 枚举类型是整数类型，从而可以用于任何其他整数类型能用之处
-  long n2 = ONE;                                      // 提升
-  double d = ONE;                                     // 转换
+  // long n2 = ONE;                                      // 提升
+  // double d = ONE;                                     // 转换
   Example6 = 1.2;                                     // 转换，Example6 现在是 ONE
   Example6 = Example6 + 1;                            // 转换，Example6 现在是 TWO 
 
@@ -1209,7 +1158,7 @@ C89 标准规则：
   char *punc = (char *)pex;
   ex.i = 42;
   int *pxi = &ex.i;
-  union Exampleun *pexi = (union Exampleun *)pi;    // 2、指向联合体成员的指针转换为指向联合体的指针，指向联合体成员的指针也可以转换为指向整个联合体的指针   
+  // union Exampleun *pexi = (union Exampleun *)pi;    // 2、指向联合体成员的指针转换为指向联合体的指针，指向联合体成员的指针也可以转换为指向整个联合体的指针   
   union Exampleun1 {
     unsigned int field1 : 3;   // 一个3位的无符号整数
     unsigned int field2 : 5;   // 一个5位的无符号整数
