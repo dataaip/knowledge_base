@@ -76,7 +76,6 @@
  - O(1)	    冒泡排序、暴力枚举两数之和	   只使用常数个变量
  - O(N)	    归并排序、哈希表优化的两数之和	需要额外数组或哈希表存储数据
  - O(N^2)	  动态规划（某些场景）	        二维数组存储中间结果
-
 */ 
 int *twoSum(int *nums, int numSize, int target, int* ret_size) {
   for (int i = 0; i < numSize; i++) {
@@ -92,6 +91,23 @@ int *twoSum(int *nums, int numSize, int target, int* ret_size) {
     }
   }
   *ret_size = 0;
+  return NULL;
+}
+
+/**
+* @brief             方法二：哈希表
+* @param   nums      给定整数数组 nums
+* @param   numSize   给定整数数组的长度 size
+* @param   target    目标值 target
+* @param   ret_size  返回值的数组的长度 ret size 
+* @return  int*      返回一个指向数组的指针 ret，数组和指针可以无缝切换
+*
+* @note              Revision History
+*/
+/*
+方法二：哈希表
+*/
+int *twoSumHash(int *nums, int numSize, int target, int* ret_size) {
   return NULL;
 }
 
