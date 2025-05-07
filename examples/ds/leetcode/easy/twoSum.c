@@ -124,7 +124,7 @@ int *twoSum(int *nums, int numSize, int target, int* ret_size) {
 typedef struct nums {
   int key; // nums 元素 作为 key
   int idx; // nums 下标 作为 value
-  UT_hash_handle hh;
+  UT_hash_handle hh; // uthash 的宏实现中硬编码了 hh 字段名，若用户结构体的句柄字段不叫 hh，宏将无法找到该字段，导致编译错误
 } hashTable;
 
 /**
