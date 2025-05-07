@@ -215,6 +215,8 @@
         "constexpr",
         "LPAREN",
         "Noreturn",
+        "numshtable",
+        "retht",
         "RPAREN"
     ],
     "remote.downloadExtensionsLocally": true,
