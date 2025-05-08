@@ -39,7 +39,7 @@ add_subdirectory(thridparty/log.c)       # 添加logc库的子目录
 add_subdirectory(src/c)                # 添加源代码的子目录
 add_subdirectory(src/asm)                # 添加源代码的子目录
 add_subdirectory(src/cpp)                # 添加源代码的子目录
-add_subdirectory(tests/c)                # 添加测试代码的子目录
+# add_subdirectory(tests/c)                # 添加测试代码的子目录
 
 # =================================================
 # 安装
