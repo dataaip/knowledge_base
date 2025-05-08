@@ -214,6 +214,8 @@
         "codegen",
         "constexpr",
         "Damgård",
+        "fnvhash",
+        "fnvstr",
         "hashv",
         "Keccak",
         "LPAREN",
@@ -223,7 +225,9 @@
         "Noreturn",
         "numshtable",
         "retht",
-        "RPAREN"
+        "RPAREN",
+        "saxhash",
+        "saxstr"
     ],
     "remote.downloadExtensionsLocally": true,
 }

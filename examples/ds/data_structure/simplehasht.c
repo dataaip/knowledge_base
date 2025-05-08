@@ -1,72 +1,55 @@
+#include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 /*
-哈希算法种类繁多，根据用途和特性可以分为以下几类，以下是常见哈希算法的分类及典型代表：
-
-一、**加密型哈希算法（Cryptographic Hash Functions）**
-用于数据完整性校验、数字签名、密码存储等安全场景，特点是 **抗碰撞性强** 且 **不可逆**。  
-**常见算法**：
-1. **SHA 系列**（安全哈希算法）：
-   - **SHA-1**：160 位输出，已不推荐使用（存在碰撞漏洞）。
-   - **SHA-2**：包括 SHA-224、SHA-256、SHA-384、SHA-512，广泛用于 TLS/SSL、数字证书等。
-   - **SHA-3**：基于 Keccak 算法（海绵结构），抗量子计算攻击，如 SHA3-256。
-2. **MD5**：128 位输出，曾广泛用于文件校验，但因碰撞漏洞被弃用。
-3. **BLAKE2**：比 SHA-3 更快，适用于高性能场景（如区块链）。
-4. **RIPEMD**：如 RIPEMD-160（比特币地址生成中曾使用）。
-
-二、**非加密型哈希算法（Non-Cryptographic Hash Functions）**
-用于数据结构（如哈希表）、快速查找、负载均衡等，**速度优先**，不强调安全性。  
-**常见算法**：
-1. **MurmurHash**：高性能，低碰撞率，如 MurmurHash3（分布式系统常用）。
-2. **xxHash**：极速哈希，适用于实时数据处理（如游戏、流媒体）。
-3. **FNV（Fowler–Noll–Vo）**：简单易实现，用于哈希表、DNS 缓存。
-4. **CityHash / FarmHash**：Google 开发，针对长字符串优化。
-5. **Jenkins Hash**：如 `lookup3`，用于数据库索引。
-
-### 三、**一致性哈希（Consistent Hashing）**
-专为分布式系统设计，解决节点动态增删时的数据迁移问题。  
-**特点**：  
-- 哈希环结构，数据分布均匀。  
-- 减少节点变化时的数据迁移量。  
-**应用**：Redis 集群、CDN、分布式缓存（如 Memcached）。
-
-### 四、**特殊用途哈希**
-1. **CRC（循环冗余校验）**：  
-   - 如 CRC32、CRC64，用于网络传输、存储设备的数据校验。
-2. **GeoHash**：  
-   - 将地理坐标编码为字符串，用于地理位置索引（如地图搜索）。
-3. **SimHash**：  
-   - 生成文本指纹，用于相似内容检测（如网页去重）。
-4. **MinHash**：  
-   - 估算数据相似性，适用于大规模数据集去重（如推荐系统）。
-
-### 五、**哈希算法选择指南**
-| **场景需求**               | **推荐算法**                          |
-|---------------------------|---------------------------------------|
-| 密码存储/数字签名          | SHA-256、SHA-3、BLAKE2、Argon2（KDF）|
-| 文件完整性校验             | SHA-256、SHA3-256                    |
-| 哈希表、缓存键计算         | MurmurHash3、xxHash、FNV             |
-| 分布式系统负载均衡         | 一致性哈希（如 Ketama 算法）          |
-| 实时数据流处理             | xxHash、CityHash                     |
-| 地理位置编码               | GeoHash、S2 Geometry                 |
-
-### 六、**注意事项**
-1. **避免已破解算法**：如 MD5、SHA-1 不再用于安全场景。
-2. **盐值（Salt）**：密码存储需结合随机盐值（如 PBKDF2、bcrypt）。
-3. **性能权衡**：加密型哈希慢但安全，非加密型快但易碰撞。
-4. **标准化**：优先选择行业标准算法（如 NIST 推荐的 SHA-2/SHA-3）。
-
-掌握不同哈希算法的特性，能帮助你在开发中做出更优的技术选型！
-
-
-
-hash 算法函数
-
-哈希函数的作用：
+一、哈希函数的作用：
 （1）核心功能：将任意长度的输入数据（如字符串、二进制流）映射为一个固定长度的整数值
 （2）关键特性：确定性：相同输入始终得到相同哈希值、雪崩效应：输入微小变化导致输出剧烈变化、均匀分布：理想情况下，哈希值应均匀分布在值域内
 
+二、哈希算法种类：哈希算法种类繁多，根据用途和特性可以分为以下几类，以下是常见哈希算法的分类及典型代表：
+加密型哈希算法：用于数据完整性校验、数字签名、密码存储等安全场景，特点是 抗碰撞性强 且 不可逆
+（1）SHA 系列（安全哈希算法）：
+   - SHA-1：160 位输出，已不推荐使用（存在碰撞漏洞）
+   - SHA-2：包括 SHA-224、SHA-256、SHA-384、SHA-512，广泛用于 TLS/SSL、数字证书等
+   - SHA-3：基于 Keccak 算法（海绵结构），抗量子计算攻击，如 SHA3-256
+（2）MD5：128 位输出，曾广泛用于文件校验，但因碰撞漏洞被弃用
+（3）BLAKE2：比 SHA-3 更快，适用于高性能场景（如区块链）
+（4）RIPEMD：如 RIPEMD-160（比特币地址生成中曾使用）
+
+非加密型哈希算法：用于数据结构（如哈希表）、快速查找、负载均衡等，**速度优先**，不强调安全性
+（1）MurmurHash：高性能，低碰撞率，如 MurmurHash3（分布式系统常用）
+（2）xxHash：极速哈希，适用于实时数据处理（如游戏、流媒体）
+（3）FNV（Fowler–Noll–Vo）：简单易实现，用于哈希表、DNS 缓存
+（4）CityHash / FarmHash：Google 开发，针对长字符串优化
+（5）Jenkins Hash：如 `lookup3`，用于数据库索引
+
+一致性哈希（Consistent Hashing）专为分布式系统设计，解决节点动态增删时的数据迁移问题  
+（1）特点：哈希环结构，数据分布均匀，减少节点变化时的数据迁移量  
+（2）应用：Redis 集群、CDN、分布式缓存（如 Memcached）
+
+特殊用途哈希
+（1）CRC（循环冗余校验）：如 CRC32、CRC64，用于网络传输、存储设备的数据校验
+（2）GeoHash：将地理坐标编码为字符串，用于地理位置索引（如地图搜索）
+（3）SimHash：生成文本指纹，用于相似内容检测（如网页去重）
+（4）MinHash：估算数据相似性，适用于大规模数据集去重（如推荐系统）
+
+哈希算法选择指南
+（1）密码存储/数字签名：SHA-256、SHA-3、BLAKE2、Argon2（KDF）
+（2）文件完整性校验：SHA-256、SHA3-256
+（3）哈希表、缓存键计算：MurmurHash3、xxHash、FNV
+（4）分布式系统负载均衡：一致性哈希（如 Ketama 算法）
+（5）实时数据流处理：xxHash、CityHash
+（6）地理位置编码：GeoHash、S2 Geometry
+
+注意事项
+（1）避免已破解算法：如 MD5、SHA-1 不再用于安全场景
+（2）盐值（Salt）：密码存储需结合随机盐值（如 PBKDF2、bcrypt）
+（3）性能权衡：加密型哈希慢但安全，非加密型快但易碰撞
+（4）标准化：优先选择行业标准算法（如 NIST 推荐的 SHA-2/SHA-3）
+*/
+
+/*
 （1）Times33：Times33哈希算法是一种高效且简单的非加密哈希函数，特别适用于字符串哈希表和缓存键。其核心思想是通过迭代计算，将每个字符的ASCII值累加到哈希值中
  算法特点
  - 效率高：乘法和位运算速度快，适合高频使用场景
@@ -131,10 +114,44 @@ hash 算法函数
  算法实现：
  - SHA-3：基于轻量级开源库实现，适合研究和新协议开发 https://github.com/mjosaarinen/tiny_sha3.git
  
-（1）SAX
-（2）FNV
-（3）OAT
-（4）JEN
+（5）SAX
+ 算法特点：
+ - 简单性：通过位移（Shift）、加法（Add）、异或（XOR）组合操作实现
+ - 快速性：无复杂运算，适合高频次简单哈希场景
+ - 低碰撞率（小数据）：对短字符串或小数据有较好的分布性
+ - 非加密性：不适用于安全场景，仅用于数据结构优化
+ - 局限性：高碰撞率：输入数据量大时，碰撞概率显著增加、非均匀分布：哈希值分布依赖输入模式，可能不均匀、安全性差：易通过反向工程或碰撞攻击破解、长度敏感：长字符串可能导致哈希值溢出，需额外取模控制范围
+ 核心步骤：
+ - 初始化哈希值：通常为一个非零初始值（如 0 或 5381）
+ - 遍历输入字符：逐个处理每个字符
+ - 组合操作：Shift（位移）：将当前哈希值左移若干位、Add（加法）：将字符的 ASCII 值加到哈希值、XOR（异或）：将哈希值与位移后的值异或
+ - 返回哈希值：最终结果取模或直接输出
+ 使用场景：
+ - 小型哈希表：用于快速键值查找（如内存缓存）
+ - 数据分片：将数据按哈希值分配到不同存储块
+ - 简单校验：检测数据是否被意外修改（非安全性场景）
+
+（6）FNV
+ 算法特点：
+ - 简单性：仅需乘法和异或操作，代码实现简洁
+ - 高效性：单次遍历数据，时间复杂度为 O(n)，适合高频次计算
+ - 低碰撞率：对短字符串和小型数据有良好的分布性
+ - 非加密性：不适用于安全场景，易被逆向或碰撞攻击
+ - 可调参数：支持自定义初始哈希值（offset_basis）和质数（FNV_prime）
+ FNV-1a 核心步骤：
+ - 初始化哈希值：根据位宽选择初始值（如 32 位初始值为 0x811C9DC5）
+ - 遍历输入字节：逐个处理输入数据的每个字节（uint8_t）
+ - 异或与乘法：对当前哈希值和字节值进行异或，再乘以质数（如 32 位质数为 0x01000193）
+ - 返回结果：最终哈希值为 32 位无符号整数
+ 使用场景：
+ - 哈希表键值：快速生成键的哈希值（如 Python 字典内部优化）
+ - 数据分片：将数据按哈希值分配到不同存储节点（如分布式系统）
+ - 校验和：轻量级数据完整性校验（非安全性场景）
+ - 网络协议：快速生成报文哈希标识（如 HTTP 请求去重）
+
+（7）OAT
+
+（8）JEN
 */
 
 /**
@@ -252,7 +269,6 @@ uint32_t murmurHash3_32(const void *key, size_t len, uint32_t seed) {
     return hash;
 } 
 
-#include <openssl/sha.h>
 /**
 * @brief             计算输入数据的 SHA-256 哈希值
 * @param   data      data：输入数据的指针（const void*），支持任意二进制数据（字符串、字节流等）
@@ -261,11 +277,13 @@ uint32_t murmurHash3_32(const void *key, size_t len, uint32_t seed) {
 *
 * @note              调用 OpenSSL 的 SHA256 函数，将输入数据转换为 const unsigned char* 类型，确保二进制兼容性，计算结果直接写入 hash 数组
 */
-void sha256_hash(const void* data, size_t len, unsigned char hash[SHA256_DIGEST_LENGTH]) {
+#ifdef OPENSSL
+#include <openssl/sha.h>
+void sha256Hash(const void* data, size_t len, unsigned char hash[SHA256_DIGEST_LENGTH]) {
     SHA256((const unsigned char*)data, len, hash);
 }
+#endif
 
-#include "../../tiny_sha3/sha3.h"
 /**
 * @brief             计算输入数据的 SHA3-256 哈希值
 * @param   input     input：输入数据的指针（const void*），支持任意二进制数据
@@ -274,8 +292,62 @@ void sha256_hash(const void* data, size_t len, unsigned char hash[SHA256_DIGEST_
 *
 * @note              调用第三方库 tiny_sha3 的 sha3 函数，参数 256 表示生成 256 位（32 字节）的哈希值
 */
-void sha3_256_hash(const void* input, size_t len, uint8_t output[32]) {
+#ifdef SHA3
+#include "../../tiny_sha3/sha3.h"
+void sha3_256Hash(const void* input, size_t len, void* output) {
     sha3(input, len, output, 256); 
+}
+#endif
+
+/**
+* @brief             SAX 哈希算法
+* @param   key       Param Description
+* @return  uint32_t  Return Description
+*
+* @note              SAX 哈希并非标准哈希算法的通用名称，可能为某种自定义的简化哈希算法。以下内容基于常见的 Shift-Add-XOR 哈希逻辑进行假设性解析
+*/
+uint32_t saxHash(const char* key) {
+    // hash 初始值
+    uint32_t hash = 0;
+
+    // 逐个处理每个字符
+    while (*key) {
+        // Shift-Add-XOR 组合操作 （类似 Times33）
+        hash = (hash << 5) + hash + (uint8_t)(*key);
+        // XOR 右移后的值
+        hash ^= (hash >> 3);
+        key++;
+    }
+
+    return hash;
+} 
+
+/**
+* @brief             FNV 哈希算法：FNV-1a 32位哈希函数
+* @param   key       Param Description
+* @return  uint32_t  Return Description
+*
+* @note              FNV (Fowler-Noll-Vo) 是一种简单高效的非加密哈希算法，广泛应用于快速哈希计算场景，如哈希表、数据分片和校验和生成。其核心思想是通过质数乘法和异或操作实现数据混合
+*/
+uint32_t fnvHash(const char* key, size_t len) {
+    // 初始值
+    const uint32_t FNV_offset_basis = 0x811C9DC5; 
+    // 质数 
+    const uint32_t FNV_prime = 0x01000193;
+    // 初始值 hash
+    uint32_t hash = FNV_offset_basis;
+
+    // 转换为字节流        
+    const uint8_t* bytes = (const uint8_t*)key;
+    // 逐个处理每个字节
+    for(size_t i = 0; i < len; i++) {
+        // 异或当前字节
+        hash ^= bytes[i]; 
+        // 乘以质数  
+        hash *= FNV_prime;  
+    }
+
+    return hash;
 }
 
 int main(void) {
@@ -283,26 +355,35 @@ int main(void) {
     // 示例1：计算字符串 "abcd" 的哈希值
     const char* str = "abcd";
     unsigned int hash1 = times33Hash(str);
-    printf("str %s times33hash is %u\n", str, hash1);
+    printf("times33 Hash of \"%s\": %u\n", str, hash1);
     // 示例2：验证碰撞案例（理论上可能）
     const char* str2 = "A";
     const char* str3 = "\0A";                            // 包含空字符的字符串
     unsigned int hash2 = times33Hash(str2);
     unsigned int hash3 = times33Hash(str3);
-    printf("Hash of \"%s\": %u\n", str2, hash2);  // 输出 65
-    printf("Hash of \"\\0A\": %u\n", hash3);      // 输出 65
+    printf("times33 Hash of \"%s\": %u\n", str2, hash2);  // 输出 65
+    printf("times33 Hash of \"\\0A\": %u\n", hash3);      // 输出 65
 
     // 示例1：计算字符串 "hello" 的哈希值
     const char* murstr1 = "hello";
     uint32_t murhash1 = murmurHash3_32((const void*)murstr1, strlen(murstr1), 0);
-    printf("Hash of \"%s\": 0x%08x\n", murstr1, murhash1); // 输出 0x248bfa47
+    printf("murmur Hash of \"%s\": 0x%08x\n", murstr1, murhash1); // 输出 0x248bfa47
     // 示例2：验证相同输入不同种子结果不同
     uint32_t murhash2 = murmurHash3_32((const void*)murstr1, strlen(murstr1), 42);
-    printf("Hash of \"%s\" (seed=42): 0x%08x\n", murstr1, murhash2); // 输出 0x5e928f0f
+    printf("murmur Hash of \"%s\" (seed=42): 0x%08x\n", murstr1, murhash2); // 输出 0x5e928f0f
     // 示例3：验证不同输入结果不同
     const char* murstr2 = "world";
     uint32_t murhash3 = murmurHash3_32((const void*)murstr2, strlen(murstr2), 0);
-    printf("Hash of \"%s\": 0x%08x\n", murstr2, murhash3); // 输出 0x5ba3c492
+    printf("murmur Hash of \"%s\": 0x%08x\n", murstr2, murhash3); // 输出 0x5ba3c492
+
+    // 示例1：计算字符串 "hello" 的哈希值
+    const char* saxstr = "hello";
+    uint32_t saxhash = saxHash(saxstr);
+    printf("sax hash of \"%s\": 0x%08x\n", saxstr, saxhash);
+
+    const char* fnvstr = "hello";
+    uint32_t fnvhash = fnvHash(fnvstr, strlen(fnvstr));
+    printf("FNV-1a hash of \"%s\": 0x%08x\n", fnvstr, fnvhash);
 
     return 0;
 }
