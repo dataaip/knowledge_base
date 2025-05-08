@@ -138,6 +138,9 @@
  - 低碰撞率：对短字符串和小型数据有良好的分布性
  - 非加密性：不适用于安全场景，易被逆向或碰撞攻击
  - 可调参数：支持自定义初始哈希值（offset_basis）和质数（FNV_prime）
+ - 字节序处理：FNV 按字节处理数据，天然兼容大端序和小端序系统
+ - 长数据碰撞：长数据可能导致碰撞率上升，建议结合其他算法（如 MurmurHash）混合使用
+ - 避免安全场景：不可用于密码存储或数字签名（需使用 SHA 系列等加密哈希）
  FNV-1a 核心步骤：
  - 初始化哈希值：根据位宽选择初始值（如 32 位初始值为 0x811C9DC5）
  - 遍历输入字节：逐个处理输入数据的每个字节（uint8_t）
@@ -381,6 +384,7 @@ int main(void) {
     uint32_t saxhash = saxHash(saxstr);
     printf("sax hash of \"%s\": 0x%08x\n", saxstr, saxhash);
 
+    // 示例1：计算字符串 "hello" 的哈希值
     const char* fnvstr = "hello";
     uint32_t fnvhash = fnvHash(fnvstr, strlen(fnvstr));
     printf("FNV-1a hash of \"%s\": 0x%08x\n", fnvstr, fnvhash);
