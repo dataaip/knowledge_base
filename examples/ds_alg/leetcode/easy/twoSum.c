@@ -114,7 +114,7 @@ int *twoSum(int *nums, int numSize, int target, int* ret_size) {
 （1）一级指针的情况：如果传递的是一个一级指针（如 struct hashTable* hashtable），那么函数内部只能操作该指针所指向的内容（即哈希表中的节点）。但在 freeHashTable 的逻辑中，我们不仅需要释放所有节点的内存，还需要将哈希表指针本身置为 NULL，以表示哈希表已经被清空
 （2）二级指针的作用：使用二级指针可以让函数直接修改调用者传递的指针变量本身。这样，在函数内部释放完所有节点后，可以将调用者的指针置为 NULL，从而确保调用者不会误用已经被释放的哈希表
 */
-#include "../../../uthash/include/uthash.h"
+#include "../../../tiny_lib/uthash/include/uthash.h"
 
 /**
 * @brief             定义 struct 结构体 hash 表

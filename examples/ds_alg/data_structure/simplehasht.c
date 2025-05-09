@@ -296,7 +296,7 @@ void sha256Hash(const void* data, size_t len, unsigned char hash[SHA256_DIGEST_L
 * @note              调用第三方库 tiny_sha3 的 sha3 函数，参数 256 表示生成 256 位（32 字节）的哈希值
 */
 #ifdef SHA3
-#include "../../tiny_sha3/sha3.h"
+#include "../../tiny_lib/tiny_sha3/sha3.h"
 void sha3_256Hash(const void* input, size_t len, void* output) {
     sha3(input, len, output, 256); 
 }
