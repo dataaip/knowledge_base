@@ -152,9 +152,47 @@
  - 校验和：轻量级数据完整性校验（非安全性场景）
  - 网络协议：快速生成报文哈希标识（如 HTTP 请求去重）
 
-（7）OAT
+（7）OAT（OAAT）
+ 算法特点：
+ - 简单性：仅需加法、位移和异或操作，代码简短
+ - 快速性：单次遍历数据，时间复杂度 O(n)，适合高频计算
+ - 低碰撞率：对短字符串和小数据有良好的分布性
+ - 非加密性：不适用于安全场景，仅用于数据结构优化
+ - 可逆性：无加密强度，不可用于密码学
+ - 字节序处理：OAT 按字节处理数据，天然兼容大端序和小端序系统
+ - 长数据碰撞：长数据可能导致碰撞率上升，建议结合其他算法（如 MurmurHash）混合使用
+ - 避免安全场景：不可用于密码存储或数字签名（需使用 SHA 系列等加密哈希） 
+ 核心步骤：以 32位版本 为例
+ - 初始化哈希值：初始值为 0
+ - 逐字节处理：遍历输入数据的每个字节（uint8_t），依次进行以下操作 加法：将当前字节值加到哈希值、左移：哈希值左移 10 位（hash += hash << 10）、异或：哈希值右移 6 位后异或原值（hash ^= hash >> 6）
+ - 最终混合：循环结束后，对哈希值进行额外处理以消除尾部残留规律 hash += hash << 3; hash ^= hash >> 11; hash += hash << 15;
+ - 返回结果：输出 32 位无符号整数
+ 使用场景：
+ - 哈希表键值：快速生成键的哈希值（如内存数据库索引）
+ - 数据分片：将数据按哈希值分布到不同存储节点
+ - 缓存键生成：高频次字符串的快速哈希计算（如 URL 缓存）
+ - 轻量级校验：数据完整性校验（非安全性场景）
 
-（8）JEN
+（8）JEN（Jenkins Lookup3）
+ 算法特点：
+ - 高效性：针对现代 CPU 优化，单次处理 12 字节（分块处理）
+ - 低碰撞率：严格测试验证，适用于大规模数据集
+ - 可逆混合：通过多轮位移、加减、异或操作实现数据充分混合
+ - 非加密性：设计目标为快速哈希表键值计算，不适用于安全场景
+ - 种子支持：允许自定义种子（seed），生成不同哈希序列
+ - 安全性：不适用于密码学场景，需选择 SHA-3 或 BLAKE3 等加密哈希
+ 核心步骤：
+ - 初始化：初始化三个 32 位变量（a, b, c），其中 c 作为种子（或混合结果）
+ - 分块处理（每 12 字节）：将输入数据按 12 字节 分块，每块转换为三个 uint32_t 值（小端序），并进行混合
+ - 混合函数（mix）：通过多轮位操作打乱数据
+ - 处理尾部数据：对剩余不足 12 字节的数据逐个处理
+ - 最终哈希值：返回 c 作为主哈希值（可根据需求组合 a, b, c）
+ 使用场景：
+ - 哈希表：快速生成键的哈希值（如 Linux 内核中的 jhash）
+ - 数据库索引：为大规模数据生成唯一标识
+ - 数据分片：分布式系统中按哈希值分配数据
+ - 网络协议：快速生成报文摘要（如去重检测）
+
 */
 
 /**
@@ -201,7 +239,6 @@ MurmurHash3 的含义：
 * @note              Revision History
 */
 uint32_t murmurHash3_32(const void *key, size_t len, uint32_t seed) {
-    
     // 初始化与常量定义: 设计目的：通过乘法、位移和异或操作，确保输入数据的每一位都能影响最终哈希值
     // 混合常数1（增强随机性），0xcc9e2d51 和 0x1b873593 是精心选择的质数，通过乘法将数据扩散到整个 32 位空间
     const uint32_t c1 = 0xcc9e2d51;
@@ -353,6 +390,108 @@ uint32_t fnvHash(const char* key, size_t len) {
     return hash;
 }
 
+/**
+* @brief             OAT 哈希算法
+* @param   key       Param Description
+* @param   len       Param Description
+* @return  uint32_t  Return Description
+*
+* @note              OAT（OAAT）哈希是一种高效、简洁的非加密哈希算法，适用于需要快速计算哈希值的场景（如内存数据库、缓存系统）。其实现简单且对短数据表现良好，但在长数据或安全敏感场景中需谨慎使用。实际开发中，可根据需求选择更优化的算法（如 MurmurHash3）或加密哈希（如 SHA-256）
+*/
+uint32_t oatHash(const char* key, size_t len) {
+    // 初始值 hash
+    uint32_t hash = 0;
+    
+    // 转换为字节流处理
+    const uint8_t* bytes = (const uint8_t*)key;
+    // 逐个处理每个字节
+    for(size_t i = 0; i < len; i++){
+        // 加法
+        hash += bytes[i];
+        // 左移 10 位并累加
+        hash += hash << 10;
+        // 右移 6 位异或
+        hash ^= hash >> 6;
+    }
+    
+    // 最终混合
+    hash += hash << 3;
+    hash ^= hash >> 11;
+    hash += hash << 15;
+
+    return hash;
+}
+
+/**
+* @brief             Jenkins Lookup3 哈希算法
+* @param   key       Param Description
+* @param   len       Param Description
+* @param   seed      Param Description
+* @return  uint32_t  Return Description
+*
+* @note              Jenkins 哈希算法（"jen" 指 Bob Jenkins 设计的 Lookup3 或类似算法）Bob Jenkins 是著名哈希算法设计者，其开发的 Lookup3 和 SpookyHash 等算法以高效和低碰撞率著称
+*/
+// 32位循环位移
+#define rol32(val, shift) (((val) << (shift)) | ((val) >> (32 - (shift))))
+// mix 混合函数
+#define mix(a, b, c) do {               \
+    (a) -= (c); (a) ^= rol32(c, 4); (c) += (b);   \
+    (b) -= (a); (b) ^= rol32(a, 6); (a) += (c);   \
+    (c) -= (b); (c) ^= rol32(b, 8); (b) += (a);   \
+    (a) -= (c); (a) ^= rol32(c, 16); (c) += (b);  \
+    (b) -= (a); (b) ^= rol32(a, 19); (a) += (c);  \
+    (c) -= (b); (c) ^= rol32(b, 4); (b) += (a);   \
+} while(0)
+
+uint32_t jenHash(const char* key, size_t len, uint32_t seed) {
+    // 初始值
+    uint32_t a, b, c;
+    a = b = 0xdeadbeef;  
+    c = seed;
+
+    // 转为 二进制字节流 1字节 8位
+    const uint8_t* data = (const uint8_t*)(key);
+    // 12 字节 一次循环
+    while(len >= 12) {
+        // 每块转换为三个 uint32_t 值（小端序），并进行混合
+        uint32_t k1, k2, k3;
+        // 数据拷贝到 k1, k2, k3，使用 memcpy 代替直接类型转换（*(uint32_t*)data）以避免未对齐访问
+        memcpy(&k1, data, 4);
+        memcpy(&k2, data + 4, 4);
+        memcpy(&k3, data + 8, 4);
+        // 累加到 a, b, c上
+        a += k1; b += k2; c += k3;
+        // 调用混合函数
+        mix(a, b, c);
+        // 指针偏移 12 个字节
+        data += 12;
+        // 已处理长度减少 12 个字节
+        len -= 12;
+    }
+
+    // 处理尾部字节
+    // 记录剩余长度
+    c += len;
+    switch (len) {
+        case 11: c += ((uint32_t)data[10]) << 24;
+        case 10: c += ((uint32_t)data[9]) << 16;   
+        case 9:  c += ((uint32_t)data[8]) << 8;    
+        case 8:  b += ((uint32_t)data[7]) << 24;   
+        case 7:  b += ((uint32_t)data[6]) << 16;   
+        case 6:  b += ((uint32_t)data[5]) << 8;    
+        case 5:  b += data[4];                     
+        case 4:  a += ((uint32_t)data[3]) << 24;   
+        case 3:  a += ((uint32_t)data[2]) << 16;   
+        case 2:  a += ((uint32_t)data[1]) << 8;    
+        case 1:  a += data[0];                     
+        case 0:  break;         
+    }
+    // 再次调用混合函数
+    mix(a, b, c);
+
+    return c;
+}
+
 int main(void) {
 
     // 示例1：计算字符串 "abcd" 的哈希值
@@ -387,7 +526,17 @@ int main(void) {
     // 示例1：计算字符串 "hello" 的哈希值
     const char* fnvstr = "hello";
     uint32_t fnvhash = fnvHash(fnvstr, strlen(fnvstr));
-    printf("FNV-1a hash of \"%s\": 0x%08x\n", fnvstr, fnvhash);
+    printf("fnv-1a hash of \"%s\": 0x%08x\n", fnvstr, fnvhash);
+
+    // 示例1：计算字符串 "hello" 的哈希值
+    const char* oatstr = "hello";
+    uint32_t oathash = oatHash(oatstr, strlen(oatstr));
+    printf("oat hash of \"%s\": 0x%08x\n", oatstr, oathash);
+
+    // 示例1：计算字符串 "hello" 的哈希值
+    const char* jenstr = "hello";
+    uint32_t jenhash = jenHash(jenstr, strlen(jenstr), 0);
+    printf("jenkins hash of \"%s\": 0x%08x\n", jenstr, jenhash);
 
     return 0;
 }
