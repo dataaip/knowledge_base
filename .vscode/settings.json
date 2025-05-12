@@ -217,6 +217,7 @@
         "fnvhash",
         "fnvstr",
         "hashv",
+        "jemalloc",
         "jenhash",
         "jenstr",
         "Keccak",
@@ -232,7 +233,8 @@
         "retht",
         "RPAREN",
         "saxhash",
-        "saxstr"
+        "saxstr",
+        "UTHASH"
     ],
     "remote.downloadExtensionsLocally": true,
 }

@@ -21,15 +21,39 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+/*
+头文件保护（Header Guard）的预处理指令，主要作用是防止头文件被重复包含，避免编译错误，等价 #pragma once
+
+// uthash.h 文件
+#ifndef UTHASH_H // 如果 UTHASH_H 未定义
+#define UTHASH_H // 定义 UTHASH_H
+// 这里是头文件的实际内容（结构体、函数声明等）
+#endif // 结束条件编译
+
+扩展：#pragma once 现代编译器支持更简洁的指令 #pragma once，作用相同，但 #ifndef 是标准C支持的，而 #pragma once 是编译器扩展，兼容性稍差。因此开源项目更常用 #ifndef 方式
+*/
 #ifndef UTHASH_H
 #define UTHASH_H
 
+/*
+定义 uthash 版本
+*/
 #define UTHASH_VERSION 2.3.0
 
+/*
+头文件包含
+*/
 #include <string.h>   /* memcmp, memset, strlen */
 #include <stddef.h>   /* ptrdiff_t */
 #include <stdlib.h>   /* exit */
 
+/*
+头文件包含的跨平台兼容性：
+在支持 C99 标准的环境下（多数现代系统），默认使用 <stdint.h>
+在不支持 <stdint.h> 的旧系统（如某些嵌入式设备）中，用户可定义 HASH_NO_STDINT 并自行实现类型
+
+这段代码是用于条件性包含 <stdint.h> 头文件的预处理指令，目的是根据用户配置灵活处理固定宽度整数类型（如 uint8_t、uint32_t）的定义，增强代码的可移植性
+*/
 #if defined(HASH_NO_STDINT) && HASH_NO_STDINT
 /* The user doesn't have <stdint.h>, and must figure out their own way
    to provide definitions for uint8_t and uint32_t. */
@@ -37,6 +61,39 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stdint.h>   /* uint8_t, uint32_t */
 #endif
 
+/*
+类型推断的兼容性：
+这段代码主要用于跨编译器兼容性处理，通过条件编译实现两种功能：
+自动选择类型推断方式（decltype 或 __typeof），适配不同编译器
+定义安全的赋值宏 DECLTYPE_ASSIGN，确保类型匹配或绕过类型检查（针对不支持类型推断的旧编译器）
+
+条件定义 DECLTYPE
+MSVC 编译器：
+  VS2010+ 且 C++模式：支持 decltype，直接使用
+  旧版本或 C 模式：定义 NO_DECLTYPE，禁用类型推断
+Elbrus 编译器：使用 __typeof（GNU 扩展）
+其他明确列出的编译器（Borland、IAR ARM 等）：禁用类型推断
+默认情况（GCC、Clang、SunPro 等）：使用 __typeof
+
+处理 NO_DECLTYPE 情况：
+NO_DECLTYPE 不支持类型推断分支：
+  DECLTYPE(x)：定义为空，编译时直接移除类型信息
+  DECLTYPE_ASSIGN：
+  通过 双指针强制转换 实现赋值，绕过类型检查
+  原理：将目标变量地址转为 char**，再解引用并赋值为 src 的地址（强制为 char*）
+  风险：可能引发未定义行为（类型不匹配时崩溃或数据损坏）
+
+支持类型推断的分支：
+DECLTYPE_ASSIGN：
+  使用 DECLTYPE(dst) 获取 dst 的类型，并将 src 强制转换为此类型后赋值，确保类型安全
+
+哈希表实现：
+在泛型数据结构中，需将不同类型的数据插入哈希表。通过 DECLTYPE_ASSIGN 确保赋值操作类型安全或绕过类型检查（旧编译器）
+
+扩展：do { ... } while (0) 的作用
+将多行代码包裹为单语句：确保宏展开后无论是否在 if/else 等代码块中，都能正确解析
+避免宏展开后的副作用：提供独立的作用域，防止变量名冲突
+*/
 /* These macros use decltype or the earlier __typeof GNU extension.
    As decltype is only available in newer compilers (VS2010 or gcc 4.3+
    when compiling c++ source) this code uses whatever method is needed
@@ -71,6 +128,16 @@ do {                                                                            
 } while (0)
 #endif
 
+/*
+自定义内存管理和字符串操作函数的宏定义：
+这段代码是 UTHash 库中用于自定义内存管理和字符串操作函数的宏定义，目的是允许用户替换默认的库行为，增强代码的灵活性和可移植性
+
+设计目的：
+解耦依赖：允许用户替换标准库函数，避免库与特定内存管理实现强绑定
+调试与追踪：用户可插入日志、统计内存使用量或检测内存泄漏
+嵌入式系统适配：在资源受限环境中，可使用静态内存池或硬件加速操作
+性能优化：替换为更高效的内存管理实现（如 tcmalloc、jemalloc）
+*/
 #ifndef uthash_malloc
 #define uthash_malloc(sz) malloc(sz)      /* malloc fcn                      */
 #endif
@@ -84,6 +151,24 @@ do {                                                                            
 #define uthash_strlen(s) strlen(s)
 #endif
 
+/*
+可自定义哈希表函数宏定义：
+这段代码是 UTHash 库中用于自定义哈希表行为的宏定义，主要涉及哈希函数、键比较函数和哈希表扩容回调的配置
+
+哈希函数 HASH_FUNCTION 定义哈希值的生成方式，默认行为：使用 Jenkins 哈希算法 (HASH_JEN)，这是 UTHash 的默认哈希函数，自定义场景：替换为其他哈希算法（如 MurmurHash、CityHash 等），需保证函数签名匹配
+
+键比较函数 HASH_KEYCMP 定义键的比较逻辑（用于处理哈希冲突），使用 memcmp 逐字节比较内存内容，自定义场景：当键为复杂结构或需要特殊比较逻辑时（如字符串忽略大小写、结构体部分字段比较等）
+
+哈希表扩容回调 
+uthash_noexpand_fyi 作用：当哈希表未触发扩容时的回调通知、自定义场景：调试或监控哈希表负载状态
+uthash_expand_fyi 作用：当哈希表触发扩容时的回调通知、自定义场景：统计扩容次数或记录性能指标
+
+设计目的与使用规则
+灵活性：用户可通过自定义宏替换默认行为，适应不同场景需求（如性能优化、调试、特殊键类型）
+性能调优：选择更高效的哈希函数（如对抗哈希碰撞攻击）、优化键比较逻辑（如减少 memcmp 的冗余计算）
+调试与监控：通过回调监控哈希表扩容行为、记录内存使用或负载状态
+使用规则：自定义宏需在包含 uthash.h 前定义、确保自定义函数与默认接口参数兼容
+*/
 #ifndef HASH_FUNCTION
 #define HASH_FUNCTION(keyptr,keylen,hashv) HASH_JEN(keyptr, keylen, hashv)
 #endif
@@ -99,6 +184,47 @@ do {                                                                            
 #define uthash_expand_fyi(tbl)            /* can be defined to log expands   */
 #endif
 
+/*
+自定义内存分配失败处理逻辑：
+这段代码是 UTHash 库中用于控制内存分配失败（OOM，Out Of Memory）处理策略的条件编译逻辑，允许用户选择优雅恢复或直接终止程序
+
+默认行为：内存分配失败时，强制终止程序（exit(-1)），避免使用无效哈希表
+可选配置：通过定义 HASH_NONFATAL_OOM 为非零值，允许程序尝试从 OOM 中恢复，继续运行、HASH_NONFATAL_OOM：默认值为 0，即内存分配失败时直接终止程序。若需启用恢复能力，需手动定义为 1
+
+#if HASH_NONFATAL_OOM
+// 非致命 OOM 分支
+// uthash_nonfatal_oom(obj)：OOM 发生时的回调函数，默认无操作。用户可扩展为记录日志、释放备用资源等
+// HASH_RECORD_OOM(oomed)：标记 OOM 状态，将变量 oomed 设为 1，供后续代码检查
+// IF_HASH_NONFATAL_OOM(x)：条件编译开关，仅在非致命模式下保留代码 x。用于包裹恢复逻辑
+
+#else
+// 致命 OOM 分支（默认）
+// uthash_fatal(msg)：OOM 发生时的终止函数，默认调用 exit(-1)。用户可重定义为抛出异常或记录错误
+// HASH_RECORD_OOM(oomed)：直接触发终止操作，忽略 oomed 参数
+// IF_HASH_NONFATAL_OOM(x)：定义为空，编译时移除 x 代码，确保恢复逻辑不会在致命模式下存在
+
+#endif
+
+使用场景对比：
+非致命模式 (HASH_NONFATAL_OOM=1)：
+  内存分配失败行为：标记 oomed 变量，程序可继续运行
+  用户责任：需检查 oomed 并处理错误（如回滚操作）
+  自定义扩展：通过 uthash_nonfatal_oom 添加日志或恢复逻辑
+  适用场景：高可用服务、嵌入式系统、需优雅降级的场景
+致命模式（默认）：
+  内存分配失败行为：立即终止程序
+  用户责任：无需额外处理
+  自定义扩展：通过 uthash_fatal 自定义终止行为
+  适用场景：简单应用、调试环境、内存错误不可接受的场景
+
+设计目的：
+  灵活性：允许用户根据场景选择内存错误处理策略
+  安全性：默认终止程序避免未定义行为，适合大多数简单应用
+  可扩展性：通过回调函数集成到现有错误处理框架（如日志、异常）
+注意事项：
+  状态一致性：非致命模式下，哈希表可能处于无效状态，需避免继续操作
+  性能影响：非致命模式需额外分支检查 oomed，轻微增加运行时开销
+*/
 #ifndef HASH_NONFATAL_OOM
 #define HASH_NONFATAL_OOM 0
 #endif
@@ -125,6 +251,35 @@ do {                                                                            
 
 #endif
 
+/*
+初始化桶和扩容：
+这段代码定义了 UTHash 库中哈希表的初始容量和扩容触发条件的关键参数，直接影响哈希表的内存占用和性能表现
+
+初始桶数量 HASH_INITIAL_NUM_BUCKETS // 初始桶数为 32
+作用：哈希表创建时分配的初始桶数组长度。桶是哈希表中存储键值对的容器
+设计考量：
+内存与性能平衡：32 是一个折中值，避免过小（导致频繁扩容）或过大（浪费内存）
+二次幂选择：32 是 2 的 5 次方，便于通过位运算（而非取模）计算索引，提升效率
+自定义场景：
+若预期存储大量元素（如百万级），可增大初始值（如 256U），减少扩容次数
+
+初始桶数的对数 HASH_INITIAL_NUM_BUCKETS_LOG2 // 因为 2^5 = 32
+作用：用于快速计算哈希值到桶索引的映射（替代取模运算）bucket_idx = hashv & ((1 << HASH_INITIAL_NUM_BUCKETS_LOG2) - 1);  // 等价于 hashv % 32
+优化意义：位运算 (&) 比取模运算 (%) 更快，尤其在高频操作中显著提升性能
+
+桶容量扩容阈值 HASH_BKT_CAPACITY_THRESH // 当桶中元素数达到此值时触发扩容
+作用：控制哈希表的扩容时机。当任何桶中的元素数量超过此阈值时，哈希表会触发扩容（桶数组长度翻倍）
+设计逻辑：
+减少哈希冲突：链表过长会降低查找效率（从 O(1) 退化为 O(n)）
+平衡空间与时间：阈值越低，扩容越频繁（内存占用高，但查询快）；反之，内存节省但查询可能变慢
+调优建议：
+高查询性能需求：降低阈值（如 8U），确保桶链表更短
+内存敏感场景：提高阈值（如 16U），减少扩容次数
+
+参数关系与扩容机制：
+扩容规则：当哈希表中存在至少一个桶的元素数超过 HASH_BKT_CAPACITY_THRESH 时，桶数组长度翻倍（如 32 → 64）
+负载因子间接控制：UTHash 通过桶链表长度阈值间接控制负载因子。例如，初始桶数 32，阈值 10，理论最大容纳元素数为 32 * 10 = 320，但实际扩容可能在更早触发
+*/
 /* initial number of buckets */
 #define HASH_INITIAL_NUM_BUCKETS 32U     /* initial number of buckets        */
 #define HASH_INITIAL_NUM_BUCKETS_LOG2 5U /* lg2 of initial number of buckets */
