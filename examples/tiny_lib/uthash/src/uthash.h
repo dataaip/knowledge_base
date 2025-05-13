@@ -299,7 +299,7 @@ uthash_expand_fyi 作用：当哈希表触发扩容时的回调通知、自定�
 #define HASH_BKT_CAPACITY_THRESH 10U     /* expand when bucket count reaches */
 
 /*
-偏移量加减计算elp元素和hash结构体的地址
+偏移量加减计算 elp 元素和 hash 结构体的地址：元素和结构体灵活切换
 这两个宏用于 在哈希表元素结构体与其内部的 UT_hash_handle 结构体之间进行地址转换，是 UTHash 库实现泛型哈希表的核心机制。它们通过指针偏移计算，实现了从哈希句柄（UT_hash_handle）到外层元素结构体的反向定位，以及从元素结构体到哈希句柄的正向定位
 这两个宏是 UTHash 实现类型安全与高效内存操作的核心，通过编译时已知的偏移量，在元素结构体与哈希句柄之间无缝转换，使哈希表库既能泛化适配任意用户类型，又无需牺牲 C 语言的性能优势
 
@@ -344,6 +344,7 @@ hho 的初始化：需在哈希表初始化时正确计算，通常通过 HASH_A
 #define HH_FROM_ELMT(tbl,elp) ((UT_hash_handle*)(void*)(((char*)(elp)) + ((tbl)->hho)))
 
 /*
+hash表 回滚操作
 这个宏HASH_ROLLBACK_BKT用于在哈希表操作中回滚（撤销）某个元素的变更，主要恢复元素所属桶的计数器并重置元素的链表指针
 hh：哈希句柄字段名（通常为 hh，用户定义的 UT_hash_handle 成员名称）
 head：哈希表头指针（UT_hash_table* 类型）
@@ -388,6 +389,47 @@ do {                                                                            
   HASH_FUNCTION(keyptr, keylen, hashv);                                          \
 } while (0)
 
+/*
+hash 表查找元素
+这两个宏 HASH_FIND_BYHASHVALUE 和 HASH_FIND 是 UT 哈希表库中用于查找元素的核心接口，分别用于 已知哈希值 和 需计算哈希值 的场景
+
+HASH_FIND_BYHASHVALUE
+功能：在哈希表中通过 已知的哈希值 查找指定键对应的元素，并将结果通过 out 返回。若未找到，out 设为 NULL
+实现逻辑：
+初始化输出： (out) = NULL; 确保未找到时返回 NULL
+哈希表非空检查：if (head) 若哈希表为空，直接跳过查找
+计算桶索引：HASH_TO_BKT 通过哈希值 hashval 和当前桶数量 num_buckets，计算键应属的桶索引 _hf_bkt
+布隆过滤器快速过滤：if (HASH_BLOOM_TEST((head)->hh.tbl, hashval)) 使用布隆过滤器检查哈希值是否可能存在。若测试失败，直接跳过桶内查找，减少无效遍历
+桶内链表遍历：HASH_FIND_IN_BKT 在目标桶的链表中遍历，通过 keyptr 和 keylen 比较键值，找到匹配的元素
+
+HASH_FIND
+功能：在哈希表中通过 键的原始数据 查找元素，内部自动计算哈希值后调用 HASH_FIND_BYHASHVALUE
+实现逻辑：
+初始化输出：(out) = NULL
+哈希表非空检查：if (head) 
+计算哈希值：HASH_VALUE(keyptr, keylen, _hf_hashv); 调用 HASH_VALUE 宏，根据键的原始数据计算哈希值 _hf_hashv
+调用 HASH_FIND_BYHASHVALUE：委托给 HASH_FIND_BYHASHVALUE 完成实际查找
+
+关键设计思想：
+分层抽象
+HASH_FIND 是对 HASH_FIND_BYHASHVALUE 的封装，隐藏哈希值计算的细节
+HASH_FIND_BYHASHVALUE 实现核心逻辑，允许复用哈希值（如插入/删除时已计算过）
+性能优化
+布隆过滤器：快速排除不可能存在的哈希值，减少桶内遍历
+桶定位：直接通过哈希值映射到目标桶，缩小搜索范围
+安全性
+使用 do { ... } while (0) 包裹宏，避免宏展开导致的语法错误
+强制初始化 out 为 NULL，防止野指针
+
+使用场景对比：
+HASH_FIND	常规查找，键的哈希值未知	简化调用，自动计算哈希值
+HASH_FIND_BYHASHVALUE	已缓存哈希值（如插入/删除后需回查）	避免重复计算哈希值，性能更高
+
+注意事项：
+键的唯一性：哈希表假设键唯一，若存在重复键，HASH_FIND 返回第一个匹配项
+键比较方式：实际键比较由 HASH_FIND_IN_BKT 实现，需确保与哈希计算时使用的键数据完全一致
+布隆过滤器误判：布隆过滤器可能产生假阳性（判断存在但实际不存在），但不会产生假阴性（若返回不存在则一定不存在）
+*/
 #define HASH_FIND_BYHASHVALUE(hh,head,keyptr,keylen,hashval,out)                 \
 do {                                                                             \
   (out) = NULL;                                                                  \
@@ -410,6 +452,46 @@ do {                                                                            
   }                                                                              \
 } while (0)
 
+/*
+布隆过滤器的加速查询
+这段代码是 UT 哈希表库中实现 布隆过滤器（Bloom Filter） 的核心逻辑，用于加速哈希表查询。布隆过滤器通过预判键是否 绝对不存在 于表中，避免无效的链表遍历，从而提升查找效率
+这段代码通过条件编译实现了 可选的布隆过滤器支持，核心目标是 加速哈希表查询。其设计平衡了空间与时间的效率，适合对查询性能要求较高且能接受一定误判率的场景。开发者可通过调整 HASH_BLOOM 的值，灵活控制内存占用与误判率的平衡
+
+宏定义与内存管理
+HASH_BLOOM：定义 HASH_BLOOM 用于移位 定义布隆过滤器移位的位数，HASH_BLOOM 的值必须小于 unsigned long 类型的位数（如 32 位系统需小于 32），否则可能导致未定义行为（UB）
+HASH_BLOOM_BITLEN：布隆过滤器的总位数，定义为 1UL << HASH_BLOOM。例如，若 HASH_BLOOM 设为 16，则位数为 65536 位
+HASH_BLOOM_BYTELEN：计算布隆过滤器占用的字节数，公式为 总位数 / 8，并向上取整（不足一字节的部分补一字节）
+
+初始化
+HASH_BLOOM_MAKE
+初始化布隆过滤器：设置布隆过滤器位数 bloom_nbits
+分配内存 bloom_bv，大小为 HASH_BLOOM_BYTELEN
+内存分配失败时记录 OOM（Out-Of-Memory）错误
+成功分配后，将内存清零，并设置签名 bloom_sig（用于验证结构有效性）
+
+释放
+HASH_BLOOM_FREE(tbl) 释放布隆过滤器的内存空间
+
+位操作宏：设置与测试位
+HASH_BLOOM_BITSET(bv, idx) 将位数组 bv 的第 idx 位设为 1 ：idx / 8 定位到字节、1U << (idx % 8) 生成位掩码、按位或操作设置对应位
+HASH_BLOOM_BITTEST(bv, idx)：测试位数组 bv 的第 idx 位是否为 1、返回 1 表示可能存在，0 表示绝对不存在
+
+哈希值映射：
+HASH_BLOOM_ADD(tbl, hashv)：将哈希值 hashv 映射到布隆过滤器的某一位并置位 (hashv) & ((1UL << tbl->bloom_nbits) - 1) 取哈希值的低 bloom_nbits 位作为布隆过滤器的索引
+HASH_BLOOM_TEST(tbl, hashv)：测试哈希值 hashv 对应的位是否为 1。若为 0，说明键 绝对不存在 于表中，直接跳过链表遍历
+
+条件编译控制
+启用布隆过滤器（#ifdef HASH_BLOOM）：当定义 HASH_BLOOM 时，启用所有布隆过滤器逻辑，包括初始化、内存管理、位操作等
+禁用布隆过滤器（#else）：未定义 HASH_BLOOM 时：HASH_BLOOM_MAKE、HASH_BLOOM_FREE、HASH_BLOOM_ADD 为空操作、HASH_BLOOM_TEST 返回 1（即总认为键可能存在，退化为普通哈希表查找）、HASH_BLOOM_BYTELEN 设为 0，不占用额外内存
+
+设计意图与性能影响
+优势
+快速排除无效查询：布隆过滤器通过位测试，可立即确定键是否 绝对不存在，避免不必要的链表遍历，尤其对大型哈希表效果显著
+空间效率：布隆过滤器以极小的内存代价（如 HASH_BLOOM=16 时仅 8KB）换取查询性能提升
+权衡
+误判率：布隆过滤器可能返回 假阳性（判断键存在但实际不存在），但不会产生 假阴性（若返回不存在则一定不存在）。误判率由位数和哈希函数数量决定，UT 哈希表此处使用单哈希函数，误判率较高，但仍能过滤大部分无效查询。
+内存开销：需权衡 HASH_BLOOM 的值：较大的值减少误判率但增加内存占用，较小的值反之
+*/
 #ifdef HASH_BLOOM
 #define HASH_BLOOM_BITLEN (1UL << HASH_BLOOM)
 #define HASH_BLOOM_BYTELEN (HASH_BLOOM_BITLEN/8UL) + (((HASH_BLOOM_BITLEN%8UL)!=0UL) ? 1UL : 0UL)
@@ -447,6 +529,8 @@ do {                                                                            
 #define HASH_BLOOM_BYTELEN 0U
 #endif
 
+/*
+*/
 #define HASH_MAKE_TABLE(hh,head,oomed)                                           \
 do {                                                                             \
   (head)->hh.tbl = (UT_hash_table*)uthash_malloc(sizeof(UT_hash_table));         \
