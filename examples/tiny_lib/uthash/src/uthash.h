@@ -298,11 +298,61 @@ uthash_expand_fyi 作用：当哈希表触发扩容时的回调通知、自定�
 #define HASH_INITIAL_NUM_BUCKETS_LOG2 5U /* lg2 of initial number of buckets */
 #define HASH_BKT_CAPACITY_THRESH 10U     /* expand when bucket count reaches */
 
+/*
+偏移量加减计算elp元素和hash结构体的地址
+这两个宏用于 在哈希表元素结构体与其内部的 UT_hash_handle 结构体之间进行地址转换，是 UTHash 库实现泛型哈希表的核心机制。它们通过指针偏移计算，实现了从哈希句柄（UT_hash_handle）到外层元素结构体的反向定位，以及从元素结构体到哈希句柄的正向定位
+这两个宏是 UTHash 实现类型安全与高效内存操作的核心，通过编译时已知的偏移量，在元素结构体与哈希句柄之间无缝转换，使哈希表库既能泛化适配任意用户类型，又无需牺牲 C 语言的性能优势
+
+ELMT_FROM_HH(tbl, hhp)：
+作用：通过哈希句柄 hhp 的地址，计算出外层元素结构体的地址
+参数：tbl：哈希表对象（UT_hash_table），存储哈希表元信息。hhp：指向 UT_hash_handle 的指针（哈希句柄的地址）
+计算逻辑：
+(char*)(hhp)：将 UT_hash_handle 指针转换为 char* 类型，以便按字节计算偏移
+(tbl)->hho：哈希句柄成员在元素结构体中的字节偏移量（通过 offsetof 计算）
+减去偏移量：从哈希句柄地址回退 hho 字节，得到外层元素结构体的起始地址，（地址加减获取偏移后的指针）
+
+HH_FROM_ELMT(tbl, elp)：
+作用：通过元素结构体地址 elp，计算出其内部 UT_hash_handle 的地址
+参数：tbl：哈希表对象。elp：指向外层元素结构体的指针
+计算逻辑：
+(char*)(elp)：将元素结构体指针转换为 char* 类型
+加上偏移量：从元素结构体起始地址前进 hho 字节，得到 UT_hash_handle 成员的地址
+
+关键设计思想
+(1) 泛型编程的实现
+UTHash 需要支持任意用户定义的结构体作为哈希表元素。通过要求用户在元素结构体中嵌入 UT_hash_handle 成员，并记录该成员的偏移量（hho），库代码可以：
+统一操作接口：无论元素结构体如何定义，均通过 UT_hash_handle 进行哈希表操作
+类型无关性：无需依赖 C++ 模板或 void 指针强转，保持 C 语言的兼容性
+(2) 内存布局与偏移计算
+offsetof 的底层依赖：偏移量 hho 通过 offsetof 宏计算
+指针运算的安全性：使用 char* 进行指针运算，确保按字节精确偏移（char 类型大小为 1 字节）
+
+应用场景
+(1) 遍历哈希表元素
+当通过哈希表内部链表遍历时，库代码只能直接访问 UT_hash_handle。需要通过 ELMT_FROM_HH 获取外层元素结构体，才能访问用户数据
+(2) 插入/删除元素
+用户操作元素时，库需要访问内部的 UT_hash_handle 以维护哈希表结构
+
+注意事项
+hho 的初始化：需在哈希表初始化时正确计算，通常通过 HASH_ADD 等宏自动处理
+不可滥用指针运算：用户不应手动修改 UT_hash_handle 或偏移量，否则会破坏哈希表结构
+多哈希句柄支持：若单个元素需要加入多个哈希表，需定义多个 UT_hash_handle 成员，并分别记录偏移量
+*/
 /* calculate the element whose hash handle address is hhp */
 #define ELMT_FROM_HH(tbl,hhp) ((void*)(((char*)(hhp)) - ((tbl)->hho)))
 /* calculate the hash handle from element address elp */
 #define HH_FROM_ELMT(tbl,elp) ((UT_hash_handle*)(void*)(((char*)(elp)) + ((tbl)->hho)))
 
+/*
+这个宏HASH_ROLLBACK_BKT用于在哈希表操作中回滚（撤销）某个元素的变更，主要恢复元素所属桶的计数器并重置元素的链表指针
+hh：哈希句柄字段名（通常为 hh，用户定义的 UT_hash_handle 成员名称）
+head：哈希表头指针（UT_hash_table* 类型）
+itemptrhh：待回滚元素的哈希句柄指针（UT_hash_handle* 类型）
+
+？
+恢复桶的计数器：通过元素的哈希值计算其所属的桶（HASH_TO_BKT），然后将该桶的计数器（count）加1。这通常用于回滚删除操作，或在哈希表扩容/缩容失败时恢复原桶的计数
+重置元素的链表指针：将元素的hh_next和hh_prev指针设为NULL，使其从当前链表中脱离。这可能是因为元素在之前的操作中被移出链表（如删除或迁移），回滚时需要清除残留的指针状态，为后续操作（如重新插入）做准备
+*/
 #define HASH_ROLLBACK_BKT(hh, head, itemptrhh)                                   \
 do {                                                                             \
   struct UT_hash_handle *_hd_hh_item = (itemptrhh);                              \
@@ -313,6 +363,26 @@ do {                                                                            
   _hd_hh_item->hh_prev = NULL;                                                   \
 } while (0)
 
+/*
+这个宏 HASH_VALUE 是用于计算给定键（key）的哈希值的封装接口
+
+哈希值计算
+调用底层的 HASH_FUNCTION，根据键的指针 keyptr 和键的长度 keylen 计算哈希值，并将结果写入 hashv 变量
+接口封装
+将具体的哈希函数实现（HASH_FUNCTION）包装在 HASH_VALUE 中，提供统一的调用方式。这种分层设计使得更换哈希算法时无需修改上层代码，只需替换 HASH_FUNCTION 的实现
+
+设计意图
+可移植性：通过抽象 HASH_FUNCTION，允许在不同平台或场景下灵活切换哈希算法（如 MurmurHash、FNV、CRC 等），而调用方无需感知具体实现
+代码复用与维护：统一哈希值计算的调用接口，减少重复代码。当需要优化或修复哈希算法时，只需修改 HASH_FUNCTION 一处
+参数标准化：规范化参数顺序（键指针、键长度、输出变量），确保调用的一致性，降低误用风险
+
+注意事项
+参数有效性：需确保 keyptr 指向有效数据且 keylen 正确，否则哈希值可能不准确或引发内存问题（如越界访问）
+哈希冲突：此宏仅计算哈希值，不处理冲突。实际使用需结合哈希表的冲突解决机制（如链地址法、开放寻址法等）
+线程安全：若 HASH_FUNCTION 的实现依赖全局状态（如种子值），需确保多线程环境下的安全性
+
+HASH_VALUE 是哈希表实现中的关键基础设施，通过封装哈希计算过程，实现了算法与接口的解耦，提升了代码的灵活性和可维护性
+*/
 #define HASH_VALUE(keyptr,keylen,hashv)                                          \
 do {                                                                             \
   HASH_FUNCTION(keyptr, keylen, hashv);                                          \
