@@ -533,7 +533,25 @@ do {                                                                            
 #endif
 
 /*
+初始化 hash 表：
+这个宏 HASH_MAKE_TABLE 是 uthash 库中用于初始化哈希表的核心逻辑，其目的是为哈希表分配内存并初始化关键数据结构
 
+关键设计思想
+（1）内存安全与回滚
+ - 分配顺序：先分配哈希表结构体，再分配桶，最后布隆过滤器
+ - 回滚机制：若后续步骤失败，立即释放已分配的内存，避免泄漏。例如：
+ - 若桶分配失败 → 释放哈希表结构体
+ - 若布隆过滤器分配失败 → 释放桶和哈希表结构体
+
+（2）性能优化
+ 预计算字段：
+ - log2_num_buckets：将桶数量转换为对数，用位运算 hashv & (num_buckets-1) 代替取模运算
+ - hho：通过偏移量快速定位用户数据，避免重复计算
+ - 布隆过滤器：通过概率判断减少不必要的链表遍历
+
+（3）数据一致性
+ - 签名校验：signature 字段帮助识别内存是否被意外篡改
+ - 双向链表：维护 prev/next（应用顺序）和 hh_prev/hh_next（桶内顺序），确保遍历正确性
 */
 #define HASH_MAKE_TABLE(hh,head,oomed)                                           \
 do {                                                                             \
@@ -567,6 +585,9 @@ do {                                                                            
   }                                                                              \
 } while (0)
 
+/*
+
+*/
 #define HASH_REPLACE_BYHASHVALUE_INORDER(hh,head,fieldname,keylen_in,hashval,add,replaced,cmpfcn) \
 do {                                                                             \
   (replaced) = NULL;                                                             \
