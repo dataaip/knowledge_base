@@ -1399,6 +1399,53 @@ do {                                                                            
            sizeof(UT_hash_table)                                   +             \
            (HASH_BLOOM_BYTELEN))) : 0U)
 
+/*
+遍历：
+该宏用于遍历 uthash 哈希表中的所有元素，支持不同编译环境下的类型安全处理
+
+（1）宏功能：
+ - HASH_ITER 用于按应用顺序（插入顺序）遍历哈希表中的所有元素。其核心逻辑是通过 for 循环逐个访问链表中的元素，直到结束
+
+（2）参数：
+ - hh：哈希句柄字段名（如 UT_hash_handle hh）
+ - head：哈希表头指针（指向第一个元素）
+ - el：当前元素指针
+ - tmp：临时变量，用于保存下一个元素的指针
+
+（3）宏实现解析：HASH_ITER 的实现分为两种场景，通过 NO_DECLTYPE 条件编译选择
+ - 支持 DECLTYPE 的版本
+ DECLTYPE 的作用：自动推断 el 的类型，确保 tmp 的类型与 el 一致（如 struct User*）
+ 遍历逻辑：
+ 初始化：el 设为 head，tmp 设为 head->hh.next（下一个元素）
+ 条件检查：当 el 不为 NULL 时执行循环体
+ 迭代更新：将 el 更新为 tmp，tmp 更新为下一个元素的 hh.next
+ - 不支持 DECLTYPE 的版本
+ 绕过类型检查：
+ 将 tmp 的地址强制转换为 char**，再通过 char* 赋值
+ 通过指针操作绕过编译器类型检查，确保 tmp 能接收 void* 类型的 hh.next
+ 适用场景：
+ 编译器不支持类型推断时，手动处理指针类型转换
+
+（4）关键设计思想
+ - 类型安全与兼容性
+ DECLTYPE 版本：通过类型推断确保 tmp 的类型与 el 一致，避免类型错误
+ NO_DECLTYPE 版本：使用底层指针操作强制赋值，兼容不支持类型推断的旧编译器
+ - 遍历机制
+ 应用顺序链表：hh.next 字段直接指向下一个用户结构体的指针（而非句柄地址），无需计算偏移量
+ 字段定义：UT_hash_handle 中的 next 字段类型为 void*，实际存储用户结构体的指针
+ - 空指针保护
+ 条件检查：(head != NULL) 和 (tmp != NULL) 确保空指针不会导致崩溃
+
+（5）底层依赖
+ - UT_hash_handle 结构体：next 字段：直接指向下一个用户结构体，而非句柄或中间结构
+ - HASH_ADD 的隐含逻辑：当调用 HASH_ADD 插入元素时，uthash 自动维护 prev 和 next 指针，形成应用顺序的双向链表
+
+（6）总结
+ HASH_ITER 宏通过灵活的指针操作和条件编译，实现了对哈希表元素的安全遍历：
+ - 类型安全：利用 DECLTYPE 或底层指针转换确保类型正确
+ - 高效性：直接访问链表字段，复杂度为 O(n)
+ - 兼容性：支持新旧编译器环境
+*/
 #ifdef NO_DECLTYPE
 #define HASH_ITER(hh,head,el,tmp)                                                \
 for(((el)=(head)), ((*(char**)(&(tmp)))=(char*)((head!=NULL)?(head)->hh.next:NULL)); \
@@ -1410,6 +1457,29 @@ for(((el)=(head)), ((tmp)=DECLTYPE(el)((head!=NULL)?(head)->hh.next:NULL));     
 #endif
 
 /* obtain a count of items in the hash */
+/*
+获取 hash 表元素数
+这两个宏 HASH_COUNT 和 HASH_CNT 是 uthash 库中用于获取哈希表中元素数量的工具，其核心作用是安全地读取哈希表当前存储的元素总数
+
+（1）宏定义解析：
+ - HASH_COUNT(head)：用户直接调用的宏，内部转发到 HASH_CNT，默认哈希句柄字段名为 hh（用户结构体中必须包含 UT_hash_handle hh;）
+ - HASH_CNT(hh, head)：实际执行逻辑的宏，参数 hh：用户结构体中哈希句柄的字段名（可自定义，但通常为 hh）。参数 head：指向哈希表头节点的指针
+
+（2）设计思想：
+ 安全性：
+ - 空指针保护：直接检查 head 是否为 NULL，避免访问非法内存
+ - 类型安全：返回 0U（无符号整型），与 num_items 的无符号类型一致，防止隐式类型转换问题
+ 高效性
+ - O(1) 时间复杂度：直接访问 num_items 字段，无需遍历链表或桶
+ - 无副作用：宏展开为简单表达式，不涉及函数调用开销
+ 灵活性
+ - 支持自定义句柄名：通过 HASH_CNT 的 hh 参数，允许用户结构体中的哈希句柄字段使用其他名称（如 my_hh），此时需显式调用
+
+（3）注意事项
+ - 哈希表未初始化：若未调用 HASH_MAKE_TABLE 初始化哈希表，head->hh.tbl 可能为 NULL，此时访问 num_items 会导致崩溃。但 HASH_CNT 的 head != NULL 检查已隐含此情况（未初始化的 head 通常为 NULL）
+ - 线程安全：多线程环境中需确保对哈希表的操作（如插入、删除）是原子的，否则 num_items 可能不准确
+ - 返回值类型：宏返回 unsigned int 类型（0U），需根据使用场景决定是否强制转换为 size_t 或其他类型
+*/
 #define HASH_COUNT(head) HASH_CNT(hh,head)
 #define HASH_CNT(hh,head) ((head != NULL)?((head)->hh.tbl->num_items):0U)
 
