@@ -475,6 +475,9 @@ HASH_BLOOM_FREE(tbl) 释放布隆过滤器的内存空间
 位操作宏：设置与测试位
 HASH_BLOOM_BITSET(bv, idx) 将位数组 bv 的第 idx 位设为 1 ：idx / 8 定位到字节、1U << (idx % 8) 生成位掩码、按位或操作设置对应位
 HASH_BLOOM_BITTEST(bv, idx)：测试位数组 bv 的第 idx 位是否为 1、返回 1 表示可能存在，0 表示绝对不存在
+0b0000 0000 0000 1000 0100 0000 0000 0000
+假设布尔总共 32 位，hashv值 15(必须小于32位)：15/8 = 1、15%8=7
+假设布尔总共 32 位，hashv值 20(必须小于32位)：20/8 = 2、20%8=4
 
 哈希值映射：
 HASH_BLOOM_ADD(tbl, hashv)：将哈希值 hashv 映射到布隆过滤器的某一位并置位 (hashv) & ((1UL << tbl->bloom_nbits) - 1) 取哈希值的低 bloom_nbits 位作为布隆过滤器的索引
@@ -1389,8 +1392,16 @@ for(((el)=(head)), ((tmp)=DECLTYPE(el)((head!=NULL)?(head)->hh.next:NULL));     
 #define HASH_COUNT(head) HASH_CNT(hh,head)
 #define HASH_CNT(hh,head) ((head != NULL)?((head)->hh.tbl->num_items):0U)
 
+/*
+UT_hash_bucket 是 uthash 库中管理哈希冲突的核心结构，其设计特点包括：
+ - 高效冲突处理：通过链表管理相同哈希值的元素
+ - 动态扩展控制：利用 expand_mult 灵活调整扩展阈值
+ - 性能权衡：平衡查询与插入操作的开销
+*/
 typedef struct UT_hash_bucket {
+   // 作用：指向哈希冲突链表的头节点（UT_hash_handle 类型）说明：哈希表使用链地址法解决冲突，每个桶对应一个链表，链表中存储哈希值相同的元素。新元素通常插入链表头部（时间复杂度 O(1)）
    struct UT_hash_handle *hh_head;
+   // 作用：当前桶中元素的数量（链表长度）说明：用于监控哈希表的负载均衡性。触发扩容的阈值判断：当 count > HASH_BKT_CAPACITY_THRESH * (expand_mult + 1) 时，可能触发桶扩展
    unsigned count;
 
    /* expand_mult is normally set to 0. In this situation, the max chain length
@@ -1405,28 +1416,80 @@ typedef struct UT_hash_bucket {
     * It is better to let its chain length grow to a longer yet-still-bounded
     * value, than to do an O(n) bucket expansion too often.
     */
+   // 作用：桶扩展的倍数控制，用于延迟桶扩展，减少频繁扩容的开销。
+   // 说明：
+   // 默认行为：expand_mult = 0 时，当 count > HASH_BKT_CAPACITY_THRESH（如 10）时触发扩展 
+   // 自定义行为：若 expand_mult > 0，扩展阈值变为 HASH_BKT_CAPACITY_THRESH * (expand_mult + 1)
+   // 设计动机：某些桶可能因哈希函数特性被频繁使用，通过提高其扩展阈值，减少扩容次数，牺牲少量查询性能换取更高的插入效率
    unsigned expand_mult;
 
 } UT_hash_bucket;
 
 /* random signature used only to find hash tables in external analysis */
+/*
+唯一签名：
+这两个宏定义是 uthash 库中用于标识哈希表和布隆过滤器（Bloom Filter）的唯一签名，目的是在调试或内存分析时快速识别数据结构
+
+HASH_SIGNATURE：
+作用：
+- 哈希表的唯一标识符，存储在 UT_hash_table 结构体的 signature 字段中
+用途：
+- 调试：在内存转储（如 GDB 或 Valgrind）中，通过搜索此魔数（Magic Number）快速定位哈希表结构
+- 数据校验：在运行时验证指针是否指向合法的哈希表（避免野指针或内存损坏）
+- 外部工具：供内存分析工具（如调试器、泄漏检测工具）识别哈希表结构
+
+HASH_BLOOM_SIGNATURE：
+作用：
+- 布隆过滤器的唯一标识符，存储在 UT_hash_table 的 bloom_sig 字段中（仅在启用布隆过滤器时存在）
+用途：
+-布隆过滤器校验：确认布隆过滤器是否已正确初始化
+-内存分析：帮助工具定位哈希表中布隆过滤器的内存位置
+
+设计意图
+唯一性：选用的值（如 0xa0111fe1u 和 0xb12220f2u）是人为设计的 32 位无符号整数，确保在内存中不易与其他数据冲突
+防御性编程：在关键操作前校验签名，防止因内存越界、重复释放或野指针导致的未定义行为
+调试友好性：开发人员或工具可通过内存扫描快速定位哈希表，分析其状态（如桶数量、元素数量）
+
+实际应用场景
+调试崩溃问题：当程序崩溃时，若怀疑哈希表损坏，可在内存中搜索 0xa0111fe1u 找到所有哈希表实例，检查其内部状态
+检测内存泄漏：内存分析工具可通过签名识别未释放的哈希表，统计泄漏数量
+安全校验：库函数在操作哈希表前检查 signature，若不符则立即终止，避免操作非法内存
+
+注意事项
+非功能性字段：签名不影响哈希表的核心逻辑，仅用于调试和校验
+编译条件：HASH_BLOOM_SIGNATURE 仅在启用布隆过滤器（通过 HASH_BLOOM 宏）时生效
+释放内存时的处理：某些实现可能在释放哈希表时将签名置零，明确标记内存无效
+*/
 #define HASH_SIGNATURE 0xa0111fe1u
 #define HASH_BLOOM_SIGNATURE 0xb12220f2u
 
+/*
+UT_hash_table 是 uthash 库的核心结构，负责管理哈希表的内存、扩容策略和性能优化。其设计体现了以下特点：
+ - 高效性：通过位运算、布隆过滤器和负载监控提升操作速度
+ - 鲁棒性：处理内存分配失败、无效扩容等边界情况
+ - 灵活性：支持用户自定义结构体，通过 hho 偏移量实现泛型操作
+*/
 typedef struct UT_hash_table {
+   // 作用：指向哈希桶数组的指针，哈希表通过哈希函数将键映射到桶的索引。每个桶（UT_hash_bucket）是一个链表的头节点，用于处理哈希冲突（链地址法）
    UT_hash_bucket *buckets;
+   // 作用：哈希表的桶数量和它的对数，num_buckets：当前哈希桶的总数（如 32、64）。log2_num_buckets：以2为底的桶数量的对数（如 log2(32) = 5）。优化计算：哈希值取模时，可用位运算 hash_value & (num_buckets - 1) 代替 % 运算（需 num_buckets 是2的幂）
    unsigned num_buckets, log2_num_buckets;
+   // 作用：哈希表中当前存储的元素总数。说明：用于触发扩容：当元素数量超过 num_buckets * 理想链长度 时，哈希表可能扩容
    unsigned num_items;
+   // 作用：指向哈希表中最后一个元素的句柄（UT_hash_handle），说明：维护插入顺序：支持快速在尾部追加元素（如 HASH_ADD 的 APPEND 模式），初始化为头节点的句柄，随着元素插入逐步更新
    struct UT_hash_handle *tail; /* tail hh in app order, for fast append    */
+   // 作用：哈希句柄 UT_hash_handle 在用户结构体中的字节偏移量，说明：通过元素指针计算哈希句柄的位置，用于从元素指针快速定位哈希句柄，支持链表操作
    ptrdiff_t hho; /* hash handle offset (byte pos of hash handle in element */
 
    /* in an ideal situation (all buckets used equally), no bucket would have
     * more than ceil(#items/#buckets) items. that's the ideal chain length. */
+   // 作用：理想情况下，单个桶的最大链长度，说明：计算公式：ceil(num_items / num_buckets)。用于衡量哈希表的负载均衡性。若实际链长度超过此值，说明哈希分布不均匀  
    unsigned ideal_chain_maxlen;
 
    /* nonideal_items is the number of items in the hash whose chain position
     * exceeds the ideal chain maxlen. these items pay the penalty for an uneven
     * hash distribution; reaching them in a chain traversal takes >ideal steps */
+   // 作用：当前哈希表中链长度超过 ideal_chain_maxlen 的元素数量。说明：非理想元素越多，哈希表的查找效率越低（需要遍历更长的链表）
    unsigned nonideal_items;
 
    /* ineffective expands occur when a bucket doubling was performed, but
@@ -1435,25 +1498,51 @@ typedef struct UT_hash_table {
     * further expansion, as it's not helping; this happens when the hash
     * function isn't a good fit for the key domain. When expansion is inhibited
     * the hash will still work, albeit no longer in constant time. */
+   // 作用：记录无效扩容次数和禁止扩容标志。说明：ineff_expands：连续扩容后，若超过半数元素仍处于非理想链中，此值递增。noexpand：当 ineff_expands >= 2 时，禁止进一步扩容，避免因哈希函数不匹配导致性能恶化 
    unsigned ineff_expands, noexpand;
 
+   // 作用：哈希表的唯一签名标识。说明：用于调试或外部工具校验哈希表结构的合法性（如检测内存损坏）
    uint32_t signature; /* used only to find hash tables in external analysis */
+
+   /*
+   布隆过滤器相关字段（HASH_BLOOM）
+   作用：
+   - 加速键的存在性检查
+   说明：
+   - 布隆过滤器：一种概率型数据结构，通过多个哈希函数将键映射到位向量中
+   - 查询优化：若布隆过滤器报告键不存在，则无需遍历桶链表
+   - 内存开销：bloom_nbits 越大，误判率越低，但内存占用越高
+   */ 
 #ifdef HASH_BLOOM
+   // 布隆过滤器签名
    uint32_t bloom_sig; /* used only to test bloom exists in external analysis */
+   // 布隆过滤器位向量
    uint8_t *bloom_bv;
+   // 布隆过滤器的位数（如10表示2^10位)
    uint8_t bloom_nbits;
 #endif
 
 } UT_hash_table;
 
+/*
+UT_hash_handle 是 uthash 库的核心纽带，负责：
+ - 将用户数据绑定到哈希表
+ - 维护元素在应用顺序和哈希冲突链表中的位置
+ - 存储键信息和哈希值，支持快速查找和动态扩容
+*/
 typedef struct UT_hash_handle {
+   // 作用：指向该元素所属的哈希表（UT_hash_table），说明：每个元素通过此字段关联到哈希表，支持多哈希表场景（如一个元素可同时加入多个哈希表）。在删除或移动元素时，用于验证操作的正确性
    struct UT_hash_table *tbl;
+   // 作用：按应用顺序（插入顺序或用户定义的顺序）维护元素的双向链表，说明：prev：指向按应用顺序排列的前一个元素的用户结构体指针，next：指向按应用顺序排列的下一个元素的用户结构体指针，应用场景：按插入顺序遍历元素（如实现 LRU 缓存），快速在尾部追加元素（HASH_ADD 的 APPEND 模式）
    void *prev;                       /* prev element in app order      */
    void *next;                       /* next element in app order      */
+   // 作用：按桶内顺序维护哈希冲突链表的双向链表，说明：hh_prev：指向同一哈希桶中前一个元素的 UT_hash_handle，hh_next：指向同一哈希桶中下一个元素的 UT_hash_handle，应用场景：处理哈希冲突时，遍历桶内链表查找元素，在桶内快速插入或删除元素
    struct UT_hash_handle *hh_prev;   /* previous hh in bucket order    */
    struct UT_hash_handle *hh_next;   /* next hh in bucket order        */
+   // 作用：存储用户定义的键及其长度，说明：key：指向用户结构体中键的指针（如 &entry->id），keylen：键的长度（字节数），用于哈希计算和键比较，设计动机：支持任意类型的键（整数、字符串、结构体等），避免键值拷贝，直接引用用户结构体中的键
    const void *key;                  /* ptr to enclosing struct's key  */
    unsigned keylen;                  /* enclosing struct's key len     */
+   // 作用：缓存键的哈希值（Hash Value），说明：在元素插入时，通过哈希函数（如 HASH_FUNCTION）计算并存储此值，避免重复计算哈希值，提升扩容、查找等操作的效率
    unsigned hashv;                   /* result of hash-fcn(key)        */
 } UT_hash_handle;
 
