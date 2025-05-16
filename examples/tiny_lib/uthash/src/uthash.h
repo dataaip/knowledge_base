@@ -1381,6 +1381,27 @@ do {                                                                            
   HASH_FSCK(hh_dst, dst, "HASH_SELECT");                                         \
 } while (0)
 
+/*
+HASH_CLEAR 宏用于安全释放哈希表的管理结构内存，并将头指针置空
+
+HASH_CLEAR 宏释放哈希表内部结构占用的内存，包括：
+- 布隆过滤器（若启用）：通过 HASH_BLOOM_FREE 释放位数组内存
+- 哈希桶数组：释放所有桶的内存
+- 哈希表管理结构（UT_hash_table）：释放元数据内存
+- 置空头指针：将 head 设为 NULL，避免悬空指针，悬空指针（Dangling Pointer）是指向已被释放或无效内存的指针。访问悬空指针会导致未定义行为（程序崩溃、数据损坏、安全漏洞等），是 C/C++ 中常见的内存管理错误之一
+
+注意事项
+- 仅释放管理结构：不会自动释放用户元素的内存，需先遍历删除元素并手动释放，否则导致内存泄漏
+- 头指针有效性：调用后 head 被设为 NULL，避免后续误操作
+- 依赖自定义内存管理：若使用自定义的 uthash_malloc 和 uthash_free，需确保其正确性（如线程安全、内存池管理）
+- 布隆过滤器兼容性：若未启用 HASH_BLOOM，HASH_BLOOM_FREE 可能为空操作
+- 重复调用安全：多次调用 HASH_CLEAR 是安全的（因 head 被置空后不再执行操作）
+
+HASH_CLEAR 是释放哈希表管理资源的关键操作，需与元素内存释放配合使用，确保：
+- 正确顺序：先释放元素，再清除表结构
+- 内存安全：避免悬空指针和内存泄漏
+- 适配场景：结合自定义内存管理和布隆过滤器配置
+*/
 #define HASH_CLEAR(hh,head)                                                      \
 do {                                                                             \
   if ((head) != NULL) {                                                          \
@@ -1392,6 +1413,36 @@ do {                                                                            
   }                                                                              \
 } while (0)
 
+/*
+HASH_OVERHEAD 用于计算哈希表自身管理结构（非用户数据）的内存开销，帮助开发者量化哈希表的内存占用情况
+
+HASH_OVERHEAD 用于计算哈希表内部管理结构的内存开销总和，包括：
+- 所有元素的哈希句柄（UT_hash_handle）
+- 哈希桶数组（UT_hash_bucket 数组）
+- 哈希表管理结构（UT_hash_table）
+- 布隆过滤器（Bloom Filter，若启用）
+- 返回值：总开销（单位：字节），类型为 size_t
+
+关键设计思想
+- 量化内存开销：目的帮助开发者评估哈希表自身的管理成本，尤其在内存敏感场景（如嵌入式系统）中优化内存使用
+- 条件编译支持：布隆过滤器若未启用 HASH_BLOOM，HASH_BLOOM_BYTELEN 被定义为 0，不增加开销
+- 空指针安全：若 head 为 NULL（哈希表未初始化或为空），直接返回 0，避免访问非法内存
+
+使用场景
+- 场景 1：内存优化分析
+- 场景 2：动态扩容监控
+
+注意事项
+不包含用户数据：此宏仅计算管理结构的内存，用户结构体的内存需单独统计（如 num_items * sizeof(UserEntry)）
+布隆过滤器开销：若启用 HASH_BLOOM，HASH_BLOOM_BYTELEN 通常为 (1 << bloom_nbits) / 8 字节，默认 bloom_nbits 可能为 10（占用 128 字节）
+动态变化：哈希表扩容或元素增减时，num_buckets 和 num_items 会变化，总开销随之改变
+
+总结
+HASH_OVERHEAD 宏是 uthash 库中重要的内存分析工具，通过量化哈希表内部管理结构的开销，帮助开发者：
+- 优化内存使用，尤其是在资源受限的环境中
+- 监控哈希表扩容/缩容时的内存变化
+- 对比不同哈希表实现的效率（如负载因子、布隆过滤器的影响）
+*/
 #define HASH_OVERHEAD(hh,head)                                                   \
  (((head) != NULL) ? (                                                           \
  (size_t)(((head)->hh.tbl->num_items   * sizeof(UT_hash_handle))   +             \

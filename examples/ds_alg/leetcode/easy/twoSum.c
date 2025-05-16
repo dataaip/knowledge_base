@@ -215,6 +215,7 @@ int *twoSumHash(int *nums, int numSize, int target, int* ret_size) {
   }
   *ret_size = 0;
   freeHashTable(&numshtable);
+  numshtable = NULL; // free 释放后立即置空指针，避免悬空指针
   return NULL;
 }
 
