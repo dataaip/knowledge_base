@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stddef.h>
 
 int main(void) {
 
@@ -85,6 +86,22 @@ int main(void) {
     // 跨类型转换（显式允许）
     void *p = &a;
     set_ptr(dst_int, p);    // dst_int = (int*)p
+
+    /*
+    ptrdiff_t
+    - C 标准库中定义的类型（<stddef.h>），用于表示两个指针之间的差值（有符号整数）确保计算结果能正确存储所有可能的偏移量（即使结构体非常大）
+    应用场景
+    - 此偏移量通常用于通过成员反向定位外层结构体地址，常见于侵入式数据结构（如 Linux 内核链表、UT Hash 库）
+    */
+    typedef struct {
+        int key;
+        int value;
+        int hh_dst;  // 目标
+        int hh_src;  // 源
+    } MyStruct;
+    MyStruct* pdst = malloc(sizeof(MyStruct)); // 假设已初始化
+    // hh_dst 成员相对于结构体起始地址的字节偏移量（byte offset）
+    ptrdiff_t _pdst_hho = ((char*)(&(pdst)->hh_dst) - (char*)(pdst));
 
     return 0;
 }

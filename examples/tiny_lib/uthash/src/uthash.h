@@ -1323,6 +1323,55 @@ do {                                                                            
  * in both hashes. There is no copy of the items made; rather
  * they are added into the new hash through a secondary hash
  * hash handle that must be present in the structure. */
+/*
+元素位于多个 hash 表
+HASH_SELECT 宏是 uthash 中实现多哈希表索引的核心工具，其设计体现了高效的内存管理和灵活的数据结构操作，适用于需要元素同时存在于多个集合的场景。开发者需注意元素生命周期和错误处理，以确保程序健壮性
+
+核心逻辑：
+- 该宏用于将源哈希表中符合条件的元素同时插入到目标哈希表中，使元素在两个哈希表中同时存在，而无需复制数据。其核心逻辑是通过遍历源哈希表，筛选符合条件的元素，并将其以另一个哈希句柄添加到目标哈希表
+typedef struct {
+    int key;
+    int value;
+    UT_hash_handle hh_dst;  // 目标哈希表的句柄
+    UT_hash_handle hh_src;  // 源哈希表的句柄
+} HashStruct;
+
+宏功能：
+输入：
+- hh_dst：目标哈希表的哈希句柄字段名（如 UT_hash_handle hh2）
+- dst：目标哈希表的头指针（可能为空，首次插入时自动初始化）
+- hh_src：源哈希表的哈希句柄字段名（如 UT_hash_handle hh1）
+- src：源哈希表的头指针
+- cond：条件函数，返回 true 的元素会被选中
+输出：
+- 目标哈希表 dst 包含所有满足 cond 的元素，且这些元素仍保留在源哈希表中
+
+代码逻辑解析：
+（1）初始化：
+ - _src_bkt, _dst_bkt：遍历源和目标哈希表的桶索引
+ - _last_elt, _last_elt_hh：维护目标哈希表应用顺序链表的尾元素
+ - _dst_hho：计算目标哈希句柄在用户结构体中的偏移量
+（2）遍历源哈希表：
+ - 双重循环：外层遍历所有桶，内层遍历每个桶中的元素
+ - ELMT_FROM_HH：通过源哈希句柄获取用户结构体指针
+ - 条件检查：调用 cond(_elt) 判断元素是否需要添加到目标表
+（3）处理目标哈希表：
+ - 链接元素到目标表：句柄操作：直接使用源元素的键和哈希值，避免重新计算。链表维护：按插入顺序维护目标表的 prev/next 指针
+ - 初始化目标表（首次插入时）：DECLTYPE_ASSIGN：确保 dst 类型与元素类型一致。HASH_MAKE_TABLE：分配并初始化目标哈希表的管理结构
+ - 插入到目标哈希桶：哈希桶定位：根据哈希值计算目标桶索引。桶链表插入：将元素句柄添加到目标桶的链表头部
+ - 错误回滚：OOM 处理：若添加元素到桶时内存不足，回滚操作并跳过当前元素
+
+关键设计思想
+- 双重存在机制：同一元素，多哈希表：通过不同哈希句柄（如 hh1 和 hh2）让元素同时存在于多个哈希表，适用于多索引场景。无数据拷贝：直接引用源元素，节省内存和复制开销
+- 内存安全：OOM 回滚：在内存分配失败时，回滚桶操作并清理句柄，避免数据结构损坏。布隆过滤器更新：HASH_BLOOM_ADD 确保新元素能被快速查找
+- 性能优化：哈希值复用：直接使用源哈希表的 hashv，避免重复计算。链表维护：按插入顺序维护目标表，支持顺序遍历
+
+注意事项
+- 元素生命周期：元素必须在其所属的所有哈希表中被正确删除，否则会导致内存泄漏或悬空指针
+- 线程安全：遍历过程中若其他线程修改源哈希表，可能导致未定义行为
+- 键一致性：源表和目标表的键（key/keylen）必须一致，否则查找会失败
+- 错误处理：若启用了 HASH_NONFATAL_OOM，需实现 uthash_nonfatal_oom 函数处理内存不足
+*/
 #define HASH_SELECT(hh_dst, dst, hh_src, src, cond)                              \
 do {                                                                             \
   unsigned _src_bkt, _dst_bkt;                                                   \
