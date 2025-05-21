@@ -53,7 +53,7 @@ install(TARGETS toolsMathLib utilsLib
         ARCHIVE DESTINATION lib
         LIBRARY DESTINATION lib)
 # 安装头文件：
-        install(FILES "lib/toolsMathLib/mathlib.h" "lib/utilsLib/utilslib.h"
+        install(FILES "library/toolsMathLib/mathlib.h" "library/utilsLib/utilslib.h"
         DESTINATION include)
 # 安装其他文件，暂时没有
 # install(DIRECTORY "path/to/data"
