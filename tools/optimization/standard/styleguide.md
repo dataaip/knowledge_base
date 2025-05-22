@@ -1,3 +1,6 @@
+### 代码风格规范 
+- google-styleguide
+
 # 代码风格 code styleguide 优雅的代码规范，提升代码质量 
 
 在软件开发中，优雅的代码规范可以帮助我们写出既美观又实用的代码。以下是提升代码质量的建议性规范：
@@ -212,3 +215,217 @@ cursor.execute("SELECT * FROM users WHERE username = %s AND password = %s", (use
 cursor.execute("SELECT * FROM users WHERE username = " + username + " AND password = " + password)
 
 
+
+
+以下是更加详细的 C/C++ 项目目录命名规范，结合 **Google、LLVM、Chromium 等大型开源项目**的实践和工业级开发标准，整理出的权威指南：
+
+---
+
+### **一、基础目录结构规范**
+#### **1. 核心目录（所有项目必备）**
+| 目录名              | 用途                                                                 | 业界参考案例                                                                 |
+|---------------------|----------------------------------------------------------------------|------------------------------------------------------------------------------|
+| **`src/`**          | 所有项目源码（`.c`, `.cpp`），按模块划分子目录                       | LLVM 项目：`llvm-project/llvm/lib/Transforms/`                               |
+| **`include/`**      | 公开头文件（`.h`, `.hpp`），与 `src/` 结构镜像                       | Boost 库：`boost/asio.hpp`                                                   |
+| **`tests/`**        | 单元测试/集成测试代码，子目录与 `src/` 对应                         | Google Test 规范：`tests/core/vector_test.cpp`                               |
+| **`third_party/`**  | 第三方依赖库（源码或二进制），通过 `git submodule` 管理             | Chromium 项目：`third_party/abseil-cpp/`                                     |
+| **`build/`**        | 构建生成文件（临时文件、二进制），**禁止提交到版本控制**             | CMake 默认生成目录：`build/Release/`                                         |
+| **`docs/`**         | 技术文档，按类型分 `api/`, `design/`, `tutorial/`                   | Redis 项目：`docs/README.md`                                                 |
+| **`scripts/`**      | 构建/部署脚本（Shell、Python），命名带操作目标                       | Linux 内核：`scripts/checkpatch.pl`                                          |
+| **`examples/`**     | 示例代码，每个示例独立子目录                                        | OpenCV 示例：`examples/cpp/tutorial_code/`                                   |
+
+---
+
+#### **2. 扩展目录（中大型项目专用）**
+| 目录名              | 用途                                                                 | 典型案例                                                                     |
+|---------------------|----------------------------------------------------------------------|------------------------------------------------------------------------------|
+| **`benchmarks/`**   | 性能测试代码                                                        | Google Benchmark 规范：`benchmarks/memory_bench.cpp`                         |
+| **`tools/`**        | 辅助工具（代码生成器、格式转换工具）                                | LLVM 工具链：`tools/clang/`                                                  |
+| **`data/`**         | 测试数据/资源文件                                                   | 游戏开发项目：`data/textures/character.png`                                  |
+| **`platform/`**     | 平台相关代码（按 OS 或架构划分子目录）                              | Chromium 平台层：`platform/win/`, `platform/linux/`                          |
+| **`api/`**          | 对外接口定义（如头文件 + 绑定代码）                                 | TensorFlow C API：`api/c/`                                                   |
+
+---
+
+### **二、命名规则细节**
+#### **1. 文件和目录命名**
+- **全小写 + 下划线**  
+  ✅ `network_utils.h` ❌ `NetworkUtils.h` 或 `network-utils.h`  
+  *理由：Unix 传统，避免大小写敏感系统的问题*
+
+- **模块前缀**  
+  大型项目中为防冲突，添加命名空间前缀：  
+  ✅ `google_cloud_spanner_client.h`  
+  ❌ `spanner_client.h`
+
+- **平台标识符**  
+  平台相关代码目录/文件名需包含明确标识：  
+  ✅ `file_io_win32.cpp`, `thread_posix.h`  
+  ❌ `file_io_windows.cpp`（冗余）
+
+#### **2. 禁止使用的名称**
+- **保留名称**：`windows/`, `con/`, `aux/`（Windows 系统保留字）
+- **泛型名称**：`inc/`, `common/`, `misc/`（无法明确职责）
+- **缩写争议**：`util`（有人认为是 "utility" 也有人认为 "utilization"）
+
+---
+
+### **三、业界参考案例**
+#### **案例 1：LLVM 编译器项目**
+```bash
+llvm-project/
+├── llvm/
+│   ├── include/llvm/IR/          # 公共头文件（带命名空间）
+│   ├── lib/Transforms/Utils/      # 源码模块
+│   ├── tools/clang/              # 子项目工具
+│   └── unittests/IR/             # 单元测试
+├── clang/                        # 子项目
+└── lldb/                         # 子项目
+```
+*特点：严格分层，每个工具独立目录，测试与源码镜像结构*
+
+#### **案例 2：Chromium 浏览器**
+```bash
+chromium/
+├── base/                         # 基础库
+│   ├── files/                    # 文件系统
+│   │   ├── file_path.cc
+│   │   └── file_util_win.cc      # 平台实现
+│   └── test/                     # 测试代码
+├── net/                          # 网络模块
+├── third_party/                  # 第三方依赖
+│   ├── abseil-cpp/
+│   └── zlib/
+└── build/                        # 构建配置
+```
+*特点：平台代码与通用代码分离，第三方依赖集中管理*
+
+#### **案例 3：Redis 数据库**
+```bash
+redis/
+├── src/                          # 所有源码
+│   ├── adlist.c                  # 数据结构实现
+│   └── ae.c                      # 事件循环
+├── tests/                        # 测试套件
+│   ├── unit/                     # 单元测试
+│   └── integration/              # 集成测试
+└── deps/                         # 依赖库
+    ├── jemalloc/                 # 内存分配器
+    └── lua/                      # 脚本引擎
+```
+*特点：扁平化结构适合核心服务，依赖与源码分离*
+
+---
+
+### **四、不同规模项目的结构示例**
+#### **1. 小型项目（单开发者）**
+```bash
+myapp/
+├── src/
+│   ├── main.cpp
+│   └── utils.cpp
+├── include/
+│   └── utils.h
+├── CMakeLists.txt
+└── tests/
+    └── test_utils.cpp
+```
+
+#### **2. 中型库项目**
+```bash
+mylib/
+├── include/mylib/                # 公共头文件带命名空间
+│   ├── algorithm.h
+│   └── data_structures/
+├── src/
+│   ├── algorithm.cpp
+│   └── data_structures/hash_map.cpp
+├── tests/
+│   ├── algorithm_test.cpp
+│   └── benchmark/               # 性能测试
+├── examples/
+│   └── demo.cpp
+└── third_party/
+    └── googletest/              # 测试框架
+```
+
+#### **3. 大型跨平台应用**
+```bash
+bigapp/
+├── core/                         # 核心业务逻辑
+│   ├── src/
+│   └── include/
+├── gui/                         # 界面模块
+│   ├── src/
+│   │   ├── linux/               # 平台实现
+│   │   └── win32/
+│   └── include/
+├── drivers/                     # 硬件驱动
+│   ├── src/
+│   └── include/
+├── third_party/
+│   ├── openssl/                 # 加密库
+│   └── protobuf/                # 序列化库
+└── build_scripts/               # 多平台构建配置
+    ├── cmake/
+    └── bazel/
+```
+
+---
+
+### **五、构建系统集成规范**
+#### **1. CMake 项目标准**
+```cmake
+# 项目根 CMakeLists.txt
+cmake_minimum_required(VERSION 3.20)
+project(MyProject LANGUAGES CXX C)
+
+# 全局配置
+set(CMAKE_CXX_STANDARD 17)
+add_subdirectory(src)       # 主源码
+add_subdirectory(tests)     # 测试代码
+add_subdirectory(examples)  # 示例代码
+```
+
+#### **2. 模块级 CMakeLists.txt**
+```cmake
+# src/CMakeLists.txt
+add_library(core STATIC
+  algorithm.cpp
+  data_structures/hash_map.cpp
+)
+target_include_directories(core PUBLIC
+  ${CMAKE_SOURCE_DIR}/include
+)
+```
+
+---
+
+### **六、反模式与常见错误**
+#### **1. 错误案例**
+- **头文件污染**  
+  ❌ 将私有头文件放入 `include/` 目录  
+  ✅ 私有头文件放在 `src/internal/`
+
+- **平台条件编译混乱**  
+  ❌ 在通用代码中大量使用 `#ifdef _WIN32`  
+  ✅ 隔离到 `platform/win32/` 目录
+
+- **无意义目录层级**  
+  ❌ `src/module1/submoduleA/componentX/impl/`（5 层嵌套）  
+  ✅ 使用扁平化结构：`src/module1/component_x/`
+
+#### **2. 版本控制禁忌**
+- **提交生成文件**：`build/`, `.o`, `.exe`
+- **巨型文件**：超过 10MB 的二进制资源
+- **环境相关路径**：绝对路径如 `/home/user/config.h`
+
+---
+
+通过遵循这些工业级规范，您的 C/C++ 项目将具备以下优势：  
+1. **可维护性**：任何开发者都能快速定位代码位置  
+2. **可扩展性**：轻松添加新模块而不破坏现有结构  
+3. **跨平台友好**：清晰隔离平台相关代码  
+4. **构建高效**：与 CMake/Bazel 等工具无缝集成  
+
+如需更深入的工具链配置建议（如 CLion/VSCode 工程设置），可进一步补充问题细节

@@ -14,14 +14,11 @@ brightl-pl/             项目目录结构
 ├── docker/             存放项目 docker 环境配置文件，包含 Dockerfile 和与 docker 相关的脚本   
 ├── env/                存放与环境配置相关的文件  
 ├── examples/           存放项目示例相关代码 
-└── include/            存放项目公共的、对外头文件目录，包含 C/C++ 的 .h、.hpp 文件     
+├── include/            存放项目公共的、对外头文件目录，包含 C/C++ 的 .h、.hpp 文件     
 ├── lib/                存放项目依赖的库文件，或静态库、动态链接库          
 ├── resource/           存放项目使用的资源文件，如图像、音频
 ├── install/            存放项目安装目录，存放bin、lib、include文件目录   
-└── src/                存放项目的源代码文件              
-    ├── asm/
-    ├── c/             
-    └── cpp/      
+├── src/                存放项目的源代码文件      
 ├── test/               存放项目的测试代码文件     
 ├── thirdparty/         存放项目依赖的第三方库文件      
 ├── todo/               存放项目 TODO 清单   
