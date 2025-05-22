@@ -36,10 +36,10 @@ add_subdirectory(library/colorfmtLib)       # 添加UtilsLib库的子目录
 # 三方库代码
 add_subdirectory(thridparty/log.c)       # 添加logc库的子目录
 # 本项目源代码
-add_subdirectory(src/c)                # 添加源代码的子目录
-add_subdirectory(src/asm)                # 添加源代码的子目录
-add_subdirectory(src/cpp)                # 添加源代码的子目录
-# add_subdirectory(tests/c)                # 添加测试代码的子目录
+add_subdirectory(src/code_tour/c)                # 添加源代码的子目录
+add_subdirectory(src/code_tour/asm)                # 添加源代码的子目录
+add_subdirectory(src/code_tour/cpp)                # 添加源代码的子目录
+# add_subdirectory(tests/code_tour/c)                # 添加测试代码的子目录
 
 # =================================================
 # 安装
