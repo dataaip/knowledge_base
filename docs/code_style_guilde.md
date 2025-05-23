@@ -149,16 +149,16 @@ project_root/
 
 - **案例 1：LLVM 编译器项目**
 
-```bash
-llvm-project/
-├── llvm/
-│   ├── include/llvm/IR/          # 公共头文件（带命名空间）
-│   ├── lib/Transforms/Utils/     # 源码模块
-│   ├── tools/clang/              # 子项目工具
-│   └── unittests/IR/             # 单元测试
-├── clang/                        # 子项目
-└── lldb/                         # 子项目
-```
+  ```bash
+  llvm-project/
+  ├── llvm/
+  │   ├── include/llvm/IR/          # 公共头文件（带命名空间）
+  │   ├── lib/Transforms/Utils/     # 源码模块
+  │   ├── tools/clang/              # 子项目工具
+  │   └── unittests/IR/             # 单元测试
+  ├── clang/                        # 子项目
+  └── lldb/                         # 子项目
+  ```
 - 核心优势：
 
   模块化分层架构
@@ -181,19 +181,19 @@ llvm-project/
 
 - **案例 2：Chromium 浏览器**
 
-```bash
-chromium/
-├── base/                         # 基础库
-│   ├── files/                    # 文件系统
-│   │   ├── file_path.cc
-│   │   └── file_util_win.cc      # 平台实现
-│   └── test/                     # 测试代码
-├── net/                          # 网络模块
-├── third_party/                  # 第三方依赖
-│   ├── abseil-cpp/
-│   └── zlib/
-└── build/                        # 构建配置
-```
+  ```bash
+  chromium/
+  ├── base/                         # 基础库
+  │   ├── files/                    # 文件系统
+  │   │   ├── file_path.cc
+  │   │   └── file_util_win.cc      # 平台实现
+  │   └── test/                     # 测试代码
+  ├── net/                          # 网络模块
+  ├── third_party/                  # 第三方依赖
+  │   ├── abseil-cpp/
+  │   └── zlib/
+  └── build/                        # 构建配置
+  ```
 - 核心优势：
 
   跨平台工程典范
@@ -218,18 +218,18 @@ chromium/
 
 - **案例 3：Redis 数据库**
 
-```bash
-redis/
-├── src/                          # 所有源码
-│   ├── adlist.c                  # 数据结构实现
-│   └── ae.c                      # 事件循环
-├── tests/                        # 测试套件
-│   ├── unit/                     # 单元测试
-│   └── integration/              # 集成测试
-└── deps/                         # 依赖库
-    ├── jemalloc/                 # 内存分配器
-    └── lua/                      # 脚本引擎
-```
+  ```bash
+  redis/
+  ├── src/                          # 所有源码
+  │   ├── adlist.c                  # 数据结构实现
+  │   └── ae.c                      # 事件循环
+  ├── tests/                        # 测试套件
+  │   ├── unit/                     # 单元测试
+  │   └── integration/              # 集成测试
+  └── deps/                         # 依赖库
+      ├── jemalloc/                 # 内存分配器
+      └── lua/                      # 脚本引擎
+  ```
 - 核心优势：
 
   高性能服务架构
@@ -277,17 +277,17 @@ redis/
 
 - **小型项目（单开发者）**
 
-```bash
-myapp/
-├── src/
-│   ├── main.cpp
-│   └── utils.cpp
-├── include/
-│   └── utils.h
-├── CMakeLists.txt
-└── tests/
-    └── test_utils.cpp
-```
+  ```bash
+  myapp/
+  ├── src/
+  │   ├── main.cpp
+  │   └── utils.cpp
+  ├── include/
+  │   └── utils.h
+  ├── CMakeLists.txt
+  └── tests/
+      └── test_utils.cpp
+  ```
 
 - **设计原则**
 
@@ -311,22 +311,22 @@ myapp/
 
 - **中型库项目**
 
-```bash
-mylib/
-├── include/mylib/                # 公共头文件带命名空间
-│   ├── algorithm.h
-│   └── data_structures/
-├── src/
-│   ├── algorithm.cpp
-│   └── data_structures/hash_map.cpp
-├── tests/
-│   ├── algorithm_test.cpp
-│   └── benchmark/               # 性能测试
-├── examples/
-│   └── demo.cpp
-└── third_party/
-    └── googletest/              # 测试框架
-```
+  ```bash
+  mylib/
+  ├── include/mylib/                # 公共头文件带命名空间
+  │   ├── algorithm.h
+  │   └── data_structures/
+  ├── src/
+  │   ├── algorithm.cpp
+  │   └── data_structures/hash_map.cpp
+  ├── tests/
+  │   ├── algorithm_test.cpp
+  │   └── benchmark/               # 性能测试
+  ├── examples/
+  │   └── demo.cpp
+  └── third_party/
+      └── googletest/              # 测试框架
+  ```
 
 - **设计原则**
 
@@ -350,26 +350,26 @@ mylib/
 
 - **大型跨平台应用**
 
-```bash
-bigapp/
-├── core/                         # 核心业务逻辑
-│   ├── src/
-│   └── include/
-├── gui/                         # 界面模块
-│   ├── src/
-│   │   ├── linux/               # 平台实现
-│   │   └── win32/
-│   └── include/
-├── drivers/                     # 硬件驱动
-│   ├── src/
-│   └── include/
-├── third_party/
-│   ├── openssl/                 # 加密库
-│   └── protobuf/                # 序列化库
-└── build_scripts/               # 多平台构建配置
-    ├── cmake/
-    └── bazel/
-```
+  ```bash
+  bigapp/
+  ├── core/                         # 核心业务逻辑
+  │   ├── src/
+  │   └── include/
+  ├── gui/                         # 界面模块
+  │   ├── src/
+  │   │   ├── linux/               # 平台实现
+  │   │   └── win32/
+  │   └── include/
+  ├── drivers/                     # 硬件驱动
+  │   ├── src/
+  │   └── include/
+  ├── third_party/
+  │   ├── openssl/                 # 加密库
+  │   └── protobuf/                # 序列化库
+  └── build_scripts/               # 多平台构建配置
+      ├── cmake/
+      └── bazel/
+  ```
 
 - **设计原则**
 
@@ -419,19 +419,19 @@ bigapp/
 
 - **项目级 CMake 标准**
 
-```cmake
-# 项目根 CMakeLists.txt
-cmake_minimum_required(VERSION 3.20)
-project(MyProject LANGUAGES CXX C)
-
-# 全局配置
-set(CMAKE_CXX_STANDARD 17)
-add_subdirectory(src)       # 主源码
-add_subdirectory(tests)     # 测试代码
-add_subdirectory(examples)  # 示例代码
-
-add_subdirectory(benchmarks OPTIONAL)  # 按需构建性能测试
-```
+  ```cmake
+  # 项目根 CMakeLists.txt
+  cmake_minimum_required(VERSION 3.20)
+  project(MyProject LANGUAGES CXX C)
+  
+  # 全局配置
+  set(CMAKE_CXX_STANDARD 17)
+  add_subdirectory(src)       # 主源码
+  add_subdirectory(tests)     # 测试代码
+  add_subdirectory(examples)  # 示例代码
+  
+  add_subdirectory(benchmarks OPTIONAL)  # 按需构建性能测试
+  ```
 
 - **项目级 CMakeLists.txt 设计原则**
 
@@ -451,19 +451,19 @@ add_subdirectory(benchmarks OPTIONAL)  # 按需构建性能测试
 
 - **模块级 CMakeLists.txt**
 
-```cmake
-# src/CMakeLists.txt
-add_library(core STATIC
-  algorithm.cpp
-  data_structures/hash_map.cpp
-)
-target_include_directories(core PUBLIC
-  ${CMAKE_SOURCE_DIR}/include
-)
-
-find_package(OpenSSL REQUIRED)
-target_link_libraries(core PUBLIC OpenSSL::SSL)
-```
+  ```cmake
+  # src/CMakeLists.txt
+  add_library(core STATIC
+    algorithm.cpp
+    data_structures/hash_map.cpp
+  )
+  target_include_directories(core PUBLIC
+    ${CMAKE_SOURCE_DIR}/include
+  )
+  
+  find_package(OpenSSL REQUIRED)
+  target_link_libraries(core PUBLIC OpenSSL::SSL)
+  ```
 
 - **模块级 CMakeLists.txt 设计原则**  
 
