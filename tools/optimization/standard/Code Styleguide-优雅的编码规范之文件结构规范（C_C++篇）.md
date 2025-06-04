@@ -13,7 +13,9 @@
 #### 1. 必要性
 
 法律护身符：明确代码所有权归属（企业法务部的刚需）
+
 技术档案袋：记录代码修改历史（比 Git 历史更直观）
+
 团队功劳簿：标识主要贡献者（程序员的名片）
 
 #### 2. 规范要点
@@ -207,7 +209,9 @@ using std::vector;  // ✅ 精准导入
 #### 4. 工具链推荐
 
 包含关系分析：使用 include-what-you-use 检查冗余包含`iwyu -Xiwyu --check_also=techblog/*.h your_file.cpp`
+
 头文件健康检查：检查头文件独立性 `g++ -H -E techblog/algorithm/sort.h 2>&1 | grep '^\.'`
+
 文档自动化：生成 Doxygen 文档 `doxygen Doxyfile && open html/index.html`
 
 #### 5. 头文件哲学
@@ -381,7 +385,9 @@ void simd_add(float* a, float* b) {
 #### 6. 工具链推荐
 
 内存检测仪：`valgrind --leak-check=full ./your_program`
+
 性能分析器：`perf record -g ./your_program && perf report`
+
 代码格式化：`clang-format -i --style=file src/*.cpp`
 
 #### 7. 结语：代码如手术
@@ -434,7 +440,9 @@ TEST(SortTest, LargeDataSet) {
 #### 2. 测试文件原则
 
 镜像结构： `tests/`目录与`src/`保持相同层级
-测试分类：Unit：单一功能点测试、Integration：跨模块交互测试、Benchmark：性能基准测试
+
+测试分类：Unit 单一功能点测试、Integration 跨模块交互测试、Benchmark 性能基准测试
+
 Mock 策略：使用 Google Mock 替换外部依赖、文件 I/O 等操作使用内存虚拟化
 
 #### 3. 测试工具百宝箱
