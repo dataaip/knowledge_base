@@ -40,6 +40,7 @@ add_subdirectory(library/utilsLib)       # 添加UtilsLib库的子目录
 # add_subdirectory(src/code_tour/asm)                # 添加源代码的子目录
 add_subdirectory(src/code_tour/cpp)                # 添加源代码的子目录
 # add_subdirectory(tests/code_tour/c)                # 添加测试代码的子目录
+add_subdirectory(src/guess_game)                # 添加源代码的子目录
 
 # =================================================
 # 安装
