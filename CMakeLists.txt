@@ -1,7 +1,7 @@
 # 设置cmake的最低版本
 cmake_minimum_required(VERSION 3.22.0)
 # 设置工程名称和版本
-project(brightl-pl VERSION 0.1.1 LANGUAGES ASM C CXX)
+project(dataaip VERSION 0.1.1 LANGUAGES ASM C CXX)
 # 设置指定的C++编译器版本是必须的，如果不设置，或者为OFF，则指定版本不可用时，会使用上一版本。
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # 不接受编译器提供的C++扩展（便于跨编译器使用）
@@ -30,14 +30,14 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -finput-charset=UTF-8 -fexec-charset=UTF-8")
 
 # 包含子目录
 # 本项目库代码
+# add_subdirectory(library/colorfmtLib)       # 添加UtilsLib库的子目录
 add_subdirectory(library/toolsMathLib)        # 添加MathLib库的子目录
 add_subdirectory(library/utilsLib)       # 添加UtilsLib库的子目录
-add_subdirectory(library/colorfmtLib)       # 添加UtilsLib库的子目录
 # 三方库代码
-add_subdirectory(thridparty/log.c)       # 添加logc库的子目录
+# add_subdirectory(thridparty/log.c)       # 添加logc库的子目录
 # 本项目源代码
-add_subdirectory(src/code_tour/c)                # 添加源代码的子目录
-add_subdirectory(src/code_tour/asm)                # 添加源代码的子目录
+# add_subdirectory(src/code_tour/c)                # 添加源代码的子目录
+# add_subdirectory(src/code_tour/asm)                # 添加源代码的子目录
 add_subdirectory(src/code_tour/cpp)                # 添加源代码的子目录
 # add_subdirectory(tests/code_tour/c)                # 添加测试代码的子目录
 
@@ -46,7 +46,7 @@ add_subdirectory(src/code_tour/cpp)                # 添加源代码的子目录
 # 设置安装目录，以下表示安装在当前目录的myapp_install目录下，没有目录会自动创建
 set(CMAKE_INSTALL_PREFIX "progc")
 # 安装可执行文件：
-install(TARGETS progc
+install(TARGETS progcpp
         DESTINATION bin PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE WORLD_EXECUTE WORLD_READ)
 # 安装库文件：
 install(TARGETS toolsMathLib utilsLib
