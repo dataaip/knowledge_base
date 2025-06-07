@@ -14,6 +14,6 @@ target_link_libraries(progc PRIVATE logc)
 target_link_libraries(progc PRIVATE m)  
 
 # 为目标添加头文件包含路径
-target_include_directories(progc PRIVATE ${CMAKE_SOURCE_DIR}/include/code_tour)
+target_include_directories(progc PRIVATE ${CMAKE_SOURCE_DIR}/include/tour_ccpp)
 target_include_directories(progc PRIVATE ${CMAKE_SOURCE_DIR}/library)
 target_include_directories(progc PRIVATE ${CMAKE_SOURCE_DIR}/thridparty)

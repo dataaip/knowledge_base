@@ -10,7 +10,7 @@ target_link_libraries(progcpp PRIVATE toolsMathLib utilsLib)
 # 为目标添加头文件包含路径
 target_include_directories(progcpp PRIVATE ${CMAKE_SOURCE_DIR}/library)
 target_include_directories(progcpp PRIVATE ${CMAKE_SOURCE_DIR}/thridparty)
-target_include_directories(progcpp PRIVATE ${CMAKE_SOURCE_DIR}/include/code_tour)
+target_include_directories(progcpp PRIVATE ${CMAKE_SOURCE_DIR}/include/tour_ccpp)
 
 add_custom_target(other_app_target
     COMMAND ${CMAKE_COMMAND} -E echo "Custom command executed."

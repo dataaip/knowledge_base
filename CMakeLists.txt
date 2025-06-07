@@ -30,16 +30,16 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -finput-charset=UTF-8 -fexec-charset=UTF-8")
 
 # 包含子目录
 # 本项目库代码
-# add_subdirectory(library/colorfmtLib)       # 添加UtilsLib库的子目录
+add_subdirectory(library/colorfmtLib)       # 添加UtilsLib库的子目录
 add_subdirectory(library/toolsMathLib)        # 添加MathLib库的子目录
 add_subdirectory(library/utilsLib)       # 添加UtilsLib库的子目录
 # 三方库代码
-# add_subdirectory(thridparty/log.c)       # 添加logc库的子目录
+add_subdirectory(thridparty/log.c)       # 添加logc库的子目录
 # 本项目源代码
-# add_subdirectory(src/code_tour/c)                # 添加源代码的子目录
-# add_subdirectory(src/code_tour/asm)                # 添加源代码的子目录
-add_subdirectory(src/code_tour/cpp)                # 添加源代码的子目录
-# add_subdirectory(tests/code_tour/c)                # 添加测试代码的子目录
+# add_subdirectory(src/tour_ccpp/c)                # 添加源代码的子目录
+# add_subdirectory(src/tour_ccpp/asm)                # 添加源代码的子目录
+add_subdirectory(src/tour_ccpp/cpp)                # 添加源代码的子目录
+# add_subdirectory(tests/tour_ccpp/c)                # 添加测试代码的子目录
 add_subdirectory(src/guess_game)                # 添加源代码的子目录
 
 # =================================================
