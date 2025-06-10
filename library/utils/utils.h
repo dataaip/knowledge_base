@@ -1,7 +1,7 @@
-#ifndef UTILSLIB_H
-#define UTILSLIB_H
+#ifndef UTILS_H
+#define UTILS_H
 
-class UtilsLib {
+class Utils {
 public:
     // 返回一个数的平方
     int square(int num);

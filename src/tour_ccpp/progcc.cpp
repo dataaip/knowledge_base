@@ -1,5 +1,5 @@
-#include "toolsMathLib/toolsmathlib.h"
-#include "utilsLib/utilslib.h"
+#include "toolsMath/toolsmath.h"
+#include "utils/utils.h"
 #include "fmt/base.h"
 #include <iostream>
 #include <string>
@@ -8,8 +8,8 @@
 #include "spdlog/spdlog.h"
 
 auto main() -> int {
-  ToolsMathLib math;
-  UtilsLib utils;
+  ToolsMath math;
+  Utils utils;
 
 #ifdef Debug
   std::cout << "This is a Debug version." << std::endl;

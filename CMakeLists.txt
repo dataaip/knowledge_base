@@ -30,9 +30,9 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -finput-charset=UTF-8 -fexec-charset=UTF-8")
 
 # 包含子目录
 # 本项目库代码
-add_subdirectory(library/colorfmtLib)       # 添加UtilsLib库的子目录
-add_subdirectory(library/toolsMathLib)        # 添加MathLib库的子目录
-add_subdirectory(library/utilsLib)       # 添加UtilsLib库的子目录
+add_subdirectory(library/colorfmt)          # 添加Utils库的子目录
+add_subdirectory(library/toolsMath)         # 添加Math库的子目录
+add_subdirectory(library/utils)             # 添加Utils库的子目录
 # 三方库代码
 add_subdirectory(thridparty/log.c)       # 添加logc库的子目录
 # 本项目源代码
@@ -50,11 +50,11 @@ set(CMAKE_INSTALL_PREFIX "progc")
 install(TARGETS progcpp
         DESTINATION bin PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE WORLD_EXECUTE WORLD_READ)
 # 安装库文件：
-install(TARGETS toolsMathLib utilsLib
+install(TARGETS toolsMath utils
         ARCHIVE DESTINATION lib
         LIBRARY DESTINATION lib)
 # 安装头文件：
-        install(FILES "library/toolsMathLib/mathlib.h" "library/utilsLib/utilslib.h"
+        install(FILES "library/toolsMath/toolsmath.h" "library/utils/utils.h"
         DESTINATION include)
 # 安装其他文件，暂时没有
 # install(DIRECTORY "path/to/data"
