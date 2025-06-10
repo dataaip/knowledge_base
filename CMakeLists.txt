@@ -36,11 +36,11 @@ add_subdirectory(library/utilsLib)       # 添加UtilsLib库的子目录
 # 三方库代码
 add_subdirectory(thridparty/log.c)       # 添加logc库的子目录
 # 本项目源代码
-# add_subdirectory(src/tour_ccpp/c)                # 添加源代码的子目录
+# add_subdirectory(src/tour_ccpp/c)                  # 添加源代码的子目录
 # add_subdirectory(src/tour_ccpp/asm)                # 添加源代码的子目录
-add_subdirectory(src/tour_ccpp/cpp)                # 添加源代码的子目录
+add_subdirectory(src/tour_ccpp)                      # 添加源代码的子目录
 # add_subdirectory(tests/tour_ccpp/c)                # 添加测试代码的子目录
-add_subdirectory(src/guess_game)                # 添加源代码的子目录
+add_subdirectory(src/guess_game)                     # 添加源代码的子目录
 
 # =================================================
 # 安装
