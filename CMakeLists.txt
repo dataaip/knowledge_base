@@ -50,11 +50,11 @@ set(CMAKE_INSTALL_PREFIX "progc")
 install(TARGETS progcpp
         DESTINATION bin PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE WORLD_EXECUTE WORLD_READ)
 # 安装库文件：
-install(TARGETS toolsMath utils
+install(TARGETS toolsmath utils
         ARCHIVE DESTINATION lib
         LIBRARY DESTINATION lib)
 # 安装头文件：
-        install(FILES "library/toolsMath/toolsmath.h" "library/utils/utils.h"
+        install(FILES "library/toolsmath/toolsmath.h" "library/utils/utils.h"
         DESTINATION include)
 # 安装其他文件，暂时没有
 # install(DIRECTORY "path/to/data"
