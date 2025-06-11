@@ -1,5 +1,8 @@
 #include <stdio.h>
-#include "c/library/asmlib/asmlib.h"
+
+extern int func(void);
+extern int add(int a, int b);
+extern int sub(int a, int b);
 
 /**
 * @brief             asm 汇编 和 内联汇编 函数库 打印函数定义
