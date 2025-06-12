@@ -46,12 +46,10 @@ int random_int(int min, int max) {
 }
 
 
-int main() {
-    printf("guess game for c beg!\n");
-
-    int secret_number = random_int(1, 100);
-    int guess = 0;
-    int guess_count = 0;
+/*
+获取输入
+*/
+int get_input_number() {
 
     char inputs[MAX_IN];
 
@@ -98,7 +96,19 @@ int main() {
             continue;             
         }
 
-        guess = (int)val;
+        return (int)val;
+    }
+}
+
+int main() {
+    printf("guess game for c beg!\n");
+
+    int secret_number = random_int(1, 100);
+    int guess = 0;
+    int guess_count = 0;
+
+    while (true) {
+        guess = get_input_number();
         guess_count ++;
 
         if (guess > secret_number) {
