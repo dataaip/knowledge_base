@@ -7,13 +7,25 @@
 #include <limits.h>
 
 /*
-知识点：
+
+关键知识点：
+1. 随机数：
+- 随机数生成原理及种子初始化 rand time
+
+2. 输入流：
+- 安全的用户输入处理（避免缓冲区溢出）scanf fgets
+- 输入缓冲区清除技巧 getchar
+- EOF(文件结束符)处理机制 feof
+- 错误处理 errno perror
+- 类型安全转换 strtol
+- 输入验证（空输入、超长输入、无效数字）
+
 */
 
 #define MAX_IN 50
 
 /*
-清楚缓冲区陷阱
+清除缓冲区陷阱
 */
 void clear_input_buffer() {
     int c = 0;
