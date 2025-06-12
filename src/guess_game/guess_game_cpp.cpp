@@ -2,5 +2,5 @@
 #include <ostream>
 
 auto main() -> int {
-    std::cout << "guess_game beg" << std::endl;
+    std::cout << "guess_game for cpp beg" << std::endl;
 }
