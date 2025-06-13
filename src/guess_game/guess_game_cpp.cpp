@@ -77,7 +77,7 @@ auto get_input_number() -> int {
 /*
 主游戏逻辑
 */
-auto main() -> int {
+auto guess_game_cpp() -> int {
     std::cout << "guess_game for cpp beg" << std::endl;
 
     // 生成随机数
