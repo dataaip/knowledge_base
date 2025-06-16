@@ -6,6 +6,7 @@
 #include <errno.h>
 #include <limits.h>
 
+#include "guess_game_c.h"
 /*
 
 关键知识点：
@@ -100,7 +101,7 @@ int get_input_number() {
     }
 }
 
-int main() {
+int play_guess() {
     printf("guess game for c beg!\n");
 
     int secret_number = random_int(1, 100);

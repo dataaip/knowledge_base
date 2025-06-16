@@ -1,0 +1,2 @@
+
+int play_guess();

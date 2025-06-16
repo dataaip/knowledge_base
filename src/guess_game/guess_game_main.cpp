@@ -1,5 +1,5 @@
-#include "guess_game_cpp.hpp"
-#include "guess_game_cpp_oop.hpp"
+#include "basic/guess_game_cpp.hpp"
+#include "basic/guess_game_cpp_oop.hpp"
 
 auto main() -> int {
     // guess_game_cpp();
