@@ -201,11 +201,11 @@ fn multiplayer() {
 ```
 
 #### 4. 网络功能扩展
-```toml
-# Cargo.toml
-[dependencies]
-tokio = { version = "1.0", features = ["full"] }
-serde = { version = "1.0", features = ["derive"] }
+```rust
+// # Cargo.toml
+// [dependencies]
+// tokio = { version = "1.0", features = ["full"] }
+// serde = { version = "1.0", features = ["derive"] }
 // 实现简单TCP游戏服务器
 async fn game_server() {
     let listener = TcpListener::bind("127.0.0.1:8080").await?;
@@ -219,17 +219,17 @@ async fn game_server() {
 ```
 
 #### 5. 图形界面 (使用egui)
-```toml
-# Cargo.toml
-[dependencies]
-eframe = "0.22"
-egui = "0.22"
-rand = "0.8"
-struct GuessApp {
-    secret: u32,
-    guess: String,
-    message: String,
-}
+```rust
+// # Cargo.toml
+// [dependencies]
+// eframe = "0.22"
+// egui = "0.22"
+// rand = "0.8"
+// struct GuessApp {
+//     secret: u32,
+//     guess: String,
+//     message: String,
+// }
 
 impl eframe::App for GuessApp {
     fn update(&mut self, ctx: &egui::Context, _: &mut eframe::Frame) {
