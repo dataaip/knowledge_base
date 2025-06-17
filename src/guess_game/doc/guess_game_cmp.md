@@ -2536,11 +2536,17 @@ Rust 的随机数系统通过以下设计实现安全性和易用性平衡：
 
 **并发模型对比**：
 
-|    **对比维度**    |     **C 语言**     |       **C++**       |         **Rust**         |
-| :----------------: | :----------------: | :-----------------: | :----------------------: |
-|    **并发模型**    |     `pthreads`     |    `std::thread`    |   所有权+`Send`/`Sync`   |
-| **游戏扩展可能性** |  复杂，需手动同步  | 中等，RAII 管理资源 | 简单，编译器保证线程安全 |
-|     **安全性**     | 低，易出现竞态条件 |   中等，需显式锁    |  高，编译时防止数据竞争  |
+|   **模型类型**   |    **核心概念**    |    **通信方式**    |     **同步机制**     |    **典型应用场景**    |      **代表语言/框架**       |        **优点**        |          **缺点**          |
+| :--------------: | :----------------: | :----------------: | :------------------: | :--------------------: | :--------------------------: | :--------------------: | :------------------------: |
+|     共享内存     |  线程共享内存空间  |    直接内存访问    | 锁、信号量、原子操作 |  高性能计算、游戏引擎  |      C/C++、Java、Rust       |      高性能、直观      | 易死锁/数据竞争、调试困难  |
+|    Actor模型     | 独立Actor处理消息  |    异步消息传递    |    消息队列、邮箱    | 分布式系统、高并发服务 |  Erlang、Akka (Scala/Java)   |    高容错性、易扩展    | 消息传递开销、状态管理复杂 |
+|     CSP模型      |    通过通道通信    |   通道(Channel)    |     通道阻塞机制     |   高并发IO、数据管道   | Go、Rust (`std::sync::mpsc`) | 清晰数据流、避免锁竞争 |      通道可能成为瓶颈      |
+|     数据并行     | 数据集分割并行处理 | 隐式(通过数据划分) |       屏障同步       |  科学计算、大数据处理  |  MPI、OpenMP、Rayon (Rust)   |   高吞吐量、负载均衡   |      数据依赖处理复杂      |
+|     事件循环     | 单线程处理异步事件 |   回调/事件队列    |     事件队列调度     |    GUI、网络服务器     |     JavaScript、Node.js      | 高IO效率、避免线程切换 |    CPU密集型任务性能低     |
+|    Fork-Join     |   任务分解与合并   |      共享内存      |       任务屏障       |   递归算法、分治问题   |   Java ForkJoinPool、C++17   | 负载均衡、自动任务窃取 |       任务划分需均匀       |
+|     GPU并行      |   大规模数据并行   |      显存共享      |  Warp同步、原子操作  |   图形渲染、深度学习   |      CUDA、OpenCL、SYCL      |       超高吞吐量       |       数据传输开销大       |
+|    协程/纤程     |   用户态轻量线程   |   共享内存/通道    |      协作式调度      |      高并发微服务      |    Go(goroutine)、Kotlin     |   低开销(微秒级切换)   |      无法利用多核CPU       |
+| Reactive Streams |  数据流响应式处理  |     异步流管道     |       背压机制       |      实时数据处理      | RxJS、Project Reactor (Java) |      弹性流量控制      |        学习曲线陡峭        |
 
 **并发示例**：
 
@@ -3282,31 +3288,48 @@ C++ 并发编程通过现代特性提供了比 C 更安全、更高效的并发�
 Rust：无惧并发的实现
 
 ```rust
-// 线程安全保证示例 1
+// 线程安全保证示例 1 线程安全计数器
 use std::sync::Arc;
 use std::sync::Mutex;
 
-let counter = Arc::new(Mutex::new(0));
-let mut handles = vec![];
+let counter = Arc::new(Mutex::new(0)); // 创建受互斥锁保护的共享计数器
+let mut handles = vec![]; // 存储线程句柄
 
 for _ in 0..10 {
-    let counter = Arc::clone(&counter);
-    handles.push(std::thread::spawn(move || {
-        let mut num = counter.lock().unwrap();
-        *num += 1;
+    let counter = Arc::clone(&counter); // 克隆原子引用计数指针
+    handles.push(std::thread::spawn(move || { // 创建新线程
+        let mut num = counter.lock().unwrap(); // 获取锁
+        *num += 1; // 安全修改值
     }));
 }
+// 等待所有线程完成
+for handle in handles {
+    handle.join().unwrap();
+}
 // 编译期保证线程安全
+// 安全机制解析：
+// - Arc<T> (Atomic Reference Counting)：Arc的克隆由引用计数管理
+// 线程安全的引用计数智能指针
+// 允许多个线程共享数据所有权
+// 当最后一个引用离开作用域时自动释放内存
+// 
+// - Mutex<T> (互斥锁)：Mutex确保独占访问
+// 提供内部可变性（interior mutability）
+// 通过 lock() 方法获取锁，返回 MutexGuard
+// MutexGuard 实现 Deref 和 Drop，自动管理锁的生命周期
+//
+// - 编译器保证：编译器阻止跨线程不安全访问
+// 所有权系统确保数据不会被多个线程同时修改
+// 类型系统强制要求正确的同步原语使用
+// 无法编译通过不安全的并发代码
 
-// 线程安全保证示例 2
+// 线程安全保证示例 2 猜数字游戏
 use std::sync::{Arc, Mutex};
 use std::thread;
-
 struct GameState {
     secret: u32,
-    winner: Option<u32>,
+    winner: Option<u32>, // 使用 Option 表示可能没有获胜者
 }
-
 fn main() {
     let game = Arc::new(Mutex::new(GameState {
         secret: rand::thread_rng().gen_range(1..101),
@@ -3319,33 +3342,143 @@ fn main() {
         let game = Arc::clone(&game);
         handles.push(thread::spawn(move || {
             loop {
-                let guess = get_player_guess(player_id);
+                let guess = get_player_guess(player_id); // 获取玩家猜测
                 
-                let mut state = game.lock().unwrap();
-                if state.winner.is_some() {
+                let mut state = game.lock().unwrap(); // 获取锁
+                if state.winner.is_some() { // 检查游戏是否已结束
                     break; // 游戏已结束
                 }
-                
+                // 检查猜测是否正确
                 if guess == state.secret {
                     state.winner = Some(player_id);
-                    println!("玩家{}获胜!", player_id);
+                    println!("玩家{}获胜!", player_id); // 设置获胜者
                     break;
                 }
             }
         }));
     }
-    
+  
     for handle in handles {
         handle.join().unwrap();
     }
 }
+// 关键安全特性：
+// - 共享状态管理：
+// Arc<Mutex<GameState>> 安全地共享游戏状态
+// 获胜者使用 Option<u32> 明确表示可能状态
+// - 提前终止优化
+// 减少不必要的锁竞争
+// 避免无效的猜测处理
+if state.winner.is_some() {
+    break; // 发现已有获胜者立即退出
+}
+// - 锁作用域最小化：
+// 锁仅在需要访问共享状态时持有
+// 获取玩家猜测等操作在锁外部执行
 
-// 编译器保证安全：
-// Arc的克隆由引用计数管理
-// Mutex确保独占访问
-// 编译器阻止跨线程不安全访问
-// 无数据竞争
+// Rust 的并发安全保证
+// - 所有权系统：
+// 单一所有权原则：数据只有一个所有者
+// 借用规则：多个不可变引用 或 单个可变引用在编译期防止数据竞争
+//
+// - Send 和 Sync trait：
+// Send	类型可以安全地跨线程转移所有权	i32, Mutex<T>
+// Sync	类型可以安全地跨线程共享引用	&i32, Arc<T>
+// 编译器自动检查这些 trait 的实现
+// 无法在线程间传递非 Send 类型
+// 
+// - 智能指针的并发安全：
+// Arc<T>：原子引用计数（线程安全）
+// Rc<T>：普通引用计数（非线程安全）
+// 编译器阻止在线程间使用 Rc<T>
+//
+// - 无数据竞争保证：
+// 不可能同时存在可变引用和不可变引用
+// 不可能同时存在多个可变引用
+// 在编译期消除所有数据竞争可能性
+
+// Rust 的并发模式
+// - 消息传递并发
+use std::sync::mpsc; // 多生产者单消费者
+let (tx, rx) = mpsc::channel();
+thread::spawn(move || {
+    tx.send("Hello from thread").unwrap();
+});
+println!("{}", rx.recv().unwrap());
+// - 无锁并发
+use std::sync::atomic::{AtomicU32, Ordering};
+let counter = AtomicU32::new(0);
+counter.fetch_add(1, Ordering::SeqCst);
+// - 高级抽象，使用 Rayon 库实现并行迭代
+use rayon::prelude::*;
+let sum: i32 = (0..1000)
+    .into_par_iter() // 转换为并行迭代器
+    .map(|i| i * i)
+    .sum();
+
+// 为什么 Rust 能做到"无惧并发"
+// - 编译期检查：
+// 所有权和借用规则在编译时强制执行
+// 无效的并发代码无法通过编译
+// 
+// - 零成本抽象：
+// 安全抽象不引入运行时开销
+// Mutex、Arc 等与手写不安全代码性能相当
+//
+// - 显式不安全标记：
+unsafe {
+    // 需要手动验证安全性的代码
+}
+// 隔离潜在不安全操作
+// 要求开发者明确标注并验证安全性
+//
+// 生态系统支持：
+// crossbeam：高级并发原语
+// rayon：数据并行库
+// tokio：异步运行时
 ```
+
+Rust 的并发模型通过以下方式实现"无惧并发"：
+
+- 所有权系统：在编译期防止数据竞争
+
+- 类型系统：通过 `Send` 和 `Sync` trait 保证线程安全
+
+- 智能指针：`Arc` 和 `Mutex` 安全组合管理共享状态
+
+- 模式匹配：`Option` 和 `Result` 强制处理所有可能状态
+
+- 零成本抽象：高性能的安全并发原语
+
+Rust 的并发安全不是通过运行时检查实现的，而是通过编译器在编译期验证代码的正确性。这使得 Rust 程序既能达到 C++ 级别的性能，又能避免大多数并发错误，真正实现了"无惧并发"的目标。
+
+**C、C++、Rust 线程模型深度全方位对比**
+
+|   **特性**   |        **C 语言 (pthread)**         |                 **C++ (std::thread)**                  |          **Rust (std::thread)**           |
+| :----------: | :---------------------------------: | :----------------------------------------------------: | :---------------------------------------: |
+|   线程创建   |     `pthread_create` + 手动管理     |             `std::thread` 类型安全构造函数             |        `std::thread::spawn` + 闭包        |
+| 线程安全保证 |            完全手动保证             |              RAII 部分保证，数据竞争可能               |     编译期保证（所有权 + Send/Sync）      |
+| 数据竞争风险 |               高风险                |                        中等风险                        |           零风险（编译期阻止）            |
+| 共享内存管理 |         原始指针 + 手动同步         |               `shared_ptr` + 锁/原子操作               |         `Arc<Mutex<T>>` 安全组合          |
+|   同步原语   |    `pthread_mutex_t`, `sem_t` 等    | `std::mutex`, `std::atomic`, `std::condition_variable` |    `Mutex<T>`, `RwLock<T>`, `Atomic*`     |
+|    锁管理    |            手动加锁/解锁            |           RAII (`lock_guard`, `unique_lock`)           |   RAII (`MutexGuard`) + 作用域自动释放    |
+|   内存模型   |       无标准模型（平台相关）        |              C++11 内存模型（6种内存序）               |     Rust 内存模型（类似 C++，更严格）     |
+|   错误处理   |             返回错误码              |                      异常或错误码                      |           `Result` 类型强制处理           |
+| 线程局部存储 |           `pthread_key_t`           |                 `thread_local` 关键字                  | `#[thread_local]` 或 `std::thread_local!` |
+|   消息传递   |             无内置支持              |                      无标准库支持                      |       标准库 `std::sync::mpsc` 通道       |
+| 高级并发模型 |             需第三方库              |                      需 TBB 等库                       |     原生支持 async/await + `tokio` 等     |
+|   死锁风险   |                极高                 |                           高                           |          中等（逻辑死锁仍可能）           |
+| 资源泄漏风险 |       高（忘记 join/detach）        |                中（RAII 但需手动 join）                |          低（`JoinHandle` 管理）          |
+|   原子操作   | `__atomic_*` 内置函数（编译器扩展） |                 `std::atomic<T>` 模板                  |       `std::sync::atomic::Atomic*`        |
+|   内存安全   |               无保证                |                  部分保证（智能指针）                  |                编译期保证                 |
+| 跨平台一致性 |           依赖 POSIX 实现           |                      标准库跨平台                      |               标准库跨平台                |
+|   线程取消   |      `pthread_cancel`（危险）       |                       无原生支持                       |      协作式取消（`Drop` + 标志检查）      |
+|   并发范式   |               命令式                |                   面向对象 + 函数式                    |              函数式 + 所有权              |
+|   学习曲线   |         中等（需理解底层）          |                陡峭（内存模型 + 模板）                 |         陡峭（所有权 + 生命周期）         |
+|     性能     |          最高（接近裸机）           |                    高（零成本抽象）                    |             高（零成本抽象）              |
+|   典型问题   |    忘记解锁、悬垂指针、数据竞争     |                异常安全、数据竞争、死锁                |      生命周期约束、死锁（逻辑错误）       |
+|   安全哲学   |            "信任程序员"             |                     "信任但有验证"                     |               "编译期验证"                |
+|   现代特性   |                 无                  |        C++20：`jthread`, `semaphore`, `barrier`        |         async/await, 无锁数据结构         |
 
 ### 代码抽象与可维护性
 
