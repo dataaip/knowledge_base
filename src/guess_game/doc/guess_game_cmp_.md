@@ -2,50 +2,6 @@
 
 下面我将从15个维度全面对比三种语言实现猜数游戏的设计差异，包含更多技术细节和具体示例。
 
-## 4. 并发安全实现对比
-
-**C的线程不安全示例**：
-```c
-int counter = 0;
-
-void* increment(void* arg) {
-    for (int i = 0; i < 10000; i++) {
-        counter++; // 数据竞争！
-    }
-    return NULL;
-}
-```
-
-**C++的原子操作**：
-
-```cpp
-std::atomic<int> counter{0};
-
-void increment() {
-    for (int i = 0; i < 10000; i++) {
-        counter.fetch_add(1, std::memory_order_relaxed);
-    }
-}
-```
-
-**Rust的线程安全保证**：
-```rust
-use std::sync::Arc;
-use std::sync::Mutex;
-
-let counter = Arc::new(Mutex::new(0));
-let mut handles = vec![];
-
-for _ in 0..10 {
-    let counter = Arc::clone(&counter);
-    handles.push(std::thread::spawn(move || {
-        let mut num = counter.lock().unwrap();
-        *num += 1;
-    }));
-}
-// 编译期保证线程安全
-```
-
 ## 5. 接口设计范式
 
 **C的函数指针**：
