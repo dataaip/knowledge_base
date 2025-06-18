@@ -1,8 +1,20 @@
 # 科学计算器的多种实现方法
 
+本文实现一个能解析复杂数学表达式的科学计算器，支持：
+
+- 基本运算（+, -, *, /）
+
+- 高级运算（乘方 ^, 阶乘 !）
+
+- 函数调用（sin(), cos()等）
+
+- 括号优先级
+
+- 嵌套表达式（如 (2+3)*sin(4^2)!）
+
 以下是实现完整科学计算器的几种主要方法，每种方法都有其独特的特点和适用场景：
 
-## 一、栈求值法- 基于调度场算法 (Shunting Yard Algorithm) 
+## 一、栈求值法- 基于调度场算法 (Shunting Yard Algorithm)
 
 ### 1. 核心目的
 
@@ -198,30 +210,401 @@
 
 通过调度场算法，计算机得以高效处理人类直观的数学表达式，架起了自然数学表示与机器高效执行之间的关键桥梁。其设计体现了迪杰斯特拉"分而治之"的思想精髓，是算法设计中栈结构应用的经典范例。
 
-## 2. 递归下降解析 (Recursive Descent Parsing)
+## 二、递归下降解析 (Recursive Descent Parsing)
 
-### 原理
-- 基于**上下文无关文法**
-- 使用一组相互递归的函数
-- 每个函数处理特定语法结构
+### 1. 核心目的
 
-### 文法示例
+构建一个自顶向下的语法分析器，将输入的符号序列（如源代码）转换为抽象语法树(AST)，用于编译器/解释器的前端处理。核心目标是直接映射文法规则到代码结构，实现语法验证和树形结构构建
+
+### 2. 核心原理
+
+- 基于上下文无关文法（CFG）设计解析器，CFG 是一种形式文法，用规则描述语言结构（如数学表达式），与上下文无关（规则不依赖周围符号）。
+
+- 递归函数映射：每个文法规则对应一个解析函数，`expression()` 函数处理 expression 规则，`term()` 函数处理 term 规则，以此类推。函数通过递归调用处理嵌套结构，函数内部可能调用其他规则函数（如 `expression()` 调用 `term()`），形成递归，处理嵌套结构（如 `(1+2)*3`）。
+
+- 自顶向下分析：从最高层表达式开始逐级分解，从最高层开始先尝试匹配 expression，逐步拆解到 term → factor → base。示例分析 `1 + 2 * 3`：调用 `expression()` → 匹配 `term（1）`，遇到 `+` → 继续匹配 `term（2*3）`，在 term 中递归匹配 `factor（2`）和 `* factor（3）`。
+
+- LL(1)解析：简单高效仅需预读一个 Token 即可决策，即单 Token 预读（Lookahead=1）根据当前 Token（如 +、*）决定使用哪条规则，无需回溯。
+
+CFG 设计解析器：表示一个 expression 由 term 组成，后跟零或多个 +/- 和 term
+
+```text
+expression → term { ('+' | '-') term }  // 加减运算（左结合）
+term → factor { ('*' | '/') factor }    // 乘除运算（左结合）
+factor → base [ '^' factor ] | '!' factor  // 幂（右结合）或阶乘
+base → number | '(' expression ')' | function '(' expression ')'  // 数字/子表达式/函数调用
+
+// 优先级控制：从低到高：expression（加减）→ term（乘除）→ factor（幂/阶乘）→ base。
+// 结合性：+ - * / 左结合`1+2+3 → (1+2)+3`。^ 右结合`2^3^2 → 2^(3^2)`。
 ```
-expression → term { ('+' | '-') term }
-term → factor { ('*' | '/') factor }
-factor → base { '^' factor } | '!' factor
-base → number | '(' expression ')' | function '(' expression ')'
+
+决策表：
+
+| 当前 Token |       动作        |
+| :--------: | :---------------: |
+|  `+`/`-`   |  继续匹配 `term`  |
+|  `*`/`/`   | 继续匹配 `factor` |
+|    `(`     |   进入子表达式    |
+
+### 3. 实现步骤（C语言）
+
+**词法分析器（Lexer）**
+
+```c
+typedef enum {
+    TOK_NUM, TOK_ADD, TOK_SUB, TOK_MUL, TOK_DIV,
+    TOK_POW, TOK_FACT, TOK_LPAREN, TOK_RPAREN,
+    TOK_FUNC, TOK_END, TOK_ERR
+} TokenType;
+
+typedef struct {
+    TokenType type;
+    double value;    // 数字值
+    char func[10];   // 函数名
+} Token;
+
+Token get_next_token(const char **input) {
+    while (isspace(**input)) (*input)++;  // 跳过空白
+    
+    if (**input == '\0') return (Token){TOK_END, 0};
+    
+    // 数字解析
+    if (isdigit(**input) || **input == '.') {
+        char *end;
+        double val = strtod(*input, &end);
+        *input = end;
+        return (Token){TOK_NUM, val};
+    }
+    
+    // 函数解析
+    if (isalpha(**input)) {
+        Token tok = {TOK_FUNC};
+        int i = 0;
+        while (isalpha(**input)) 
+            tok.func[i++] = *(*input)++;
+        tok.func[i] = '\0';
+        return tok;
+    }
+    
+    // 运算符解析
+    switch (*(*input)++) {
+        case '+': return (Token){TOK_ADD};
+        case '-': return (Token){TOK_SUB};
+        case '*': return (Token){TOK_MUL};
+        case '/': return (Token){TOK_DIV};
+        case '^': return (Token){TOK_POW};
+        case '!': return (Token){TOK_FACT};
+        case '(': return (Token){TOK_LPAREN};
+        case ')': return (Token){TOK_RPAREN};
+        default:  return (Token){TOK_ERR};
+    }
+}
 ```
 
-### 优点
-- 代码结构清晰
-- 易于扩展新语法
-- 自然支持嵌套表达式
+---
 
-### 缺点
-- 递归深度可能受限
-- 需要处理左递归问题
-- 错误处理较复杂
+**递归下降解析器**
+
+```c
+double parse_expression(const char **input);
+double parse_term(const char **input);
+double parse_factor(const char **input);
+double parse_base(const char **input);
+
+// expression → term { ('+' | '-') term }
+double parse_expression(const char **input) {
+    double left = parse_term(input);
+    Token tok;
+    
+    while ((tok = get_next_token(input)).type == TOK_ADD || 
+           tok.type == TOK_SUB) {
+        double right = parse_term(input);
+        left = (tok.type == TOK_ADD) ? left + right : left - right;
+    }
+    return left;
+}
+
+// term → factor { ('*' | '/') factor }
+double parse_term(const char **input) {
+    double left = parse_factor(input);
+    Token tok;
+    
+    while ((tok = get_next_token(input)).type == TOK_MUL || 
+           tok.type == TOK_DIV) {
+        double right = parse_factor(input);
+        if (tok.type == TOK_MUL) left *= right;
+        else if (right != 0) left /= right;
+        else { printf("Division by zero!"); exit(1); }
+    }
+    return left;
+}
+
+// factor → base [ '^' factor ] | '!' factor
+double parse_factor(const char **input) {
+    Token tok = get_next_token(input);
+    
+    // 处理阶乘（前缀形式）
+    if (tok.type == TOK_FACT) {
+        double val = parse_factor(input);
+        int n = (int)val;
+        if (n < 0 || n != val) {
+            printf("Invalid factorial operand!");
+            exit(1);
+        }
+        int fact = 1;
+        for (int i = 1; i <= n; i++) fact *= i;
+        return fact;
+    }
+    
+    // 回退并解析底数
+    *input -= (tok.type != TOK_END);  // 回退token
+    double base = parse_base(input);
+    
+    // 处理指数
+    tok = get_next_token(input);
+    if (tok.type == TOK_POW) {
+        double exp = parse_factor(input);
+        return pow(base, exp);
+    }
+    
+    *input -= (tok.type != TOK_END);  // 回退token
+    return base;
+}
+
+// base → number | '(' expression ')' | function '(' expression ')'
+double parse_base(const char **input) {
+    Token tok = get_next_token(input);
+    
+    if (tok.type == TOK_NUM) return tok.value;
+    
+    if (tok.type == TOK_LPAREN) {
+        double expr = parse_expression(input);
+        if (get_next_token(input).type != TOK_RPAREN) {
+            printf("Mismatched parentheses!");
+            exit(1);
+        }
+        return expr;
+    }
+    
+    if (tok.type == TOK_FUNC) {
+        if (get_next_token(input).type != TOK_LPAREN) {
+            printf("Expected '(' after function!");
+            exit(1);
+        }
+        double arg = parse_expression(input);
+        if (get_next_token(input).type != TOK_RPAREN) {
+            printf("Expected ')' after function argument!");
+            exit(1);
+        }
+        
+        // 函数实现
+        if (strcmp(tok.func, "sin") == 0) return sin(arg);
+        if (strcmp(tok.func, "cos") == 0) return cos(arg);
+        if (strcmp(tok.func, "exp") == 0) return exp(arg);
+        printf("Unknown function: %s", tok.func);
+        exit(1);
+    }
+    
+    printf("Unexpected token in expression");
+    exit(1);
+}
+
+double evaluate_expression(const char *expr) {
+    return parse_expression(&expr);
+}
+```
+
+### 4. 实例解析
+
+**例1. 输入表达式：3 * (1 + 2)!**
+
+按照 递归下降解析器 的工作流程，逐步拆解这个表达式的解析过程。以下是对每个步骤的详细说明
+
+- 初始状态：
+
+```text
+输入表达式：3 * (1 + 2)!
+
+当前 Token 流（假设已分词）：[number(3), '*', '(', number(1), '+', number(2), ')', '!']
+
+解析入口：从最高层规则 expression() 开始
+```
+
+- 解析步骤分解：
+
+```text
+(1) 进入 expression() 规则：expression → term { ('+' | '-') term }
+- 先尝试匹配一个 term，然后检查后续是否是 + 或 -，循环匹配。
+- 执行：调用 term() 解析第一个 term。
+
+(2) 进入 term() 规则：term → factor { ('*' | '/') factor }
+- 先匹配一个 factor，然后检查后续是否是 * 或 /，循环匹配。
+- 执行：调用 factor() 解析第一个 factor。
+
+(3) 进入 factor() 规则：factor → base [ '^' factor ] | '!' factor
+- 先匹配一个 base，然后检查后续是否是 ^（幂）或 !（阶乘）。
+- 执行：调用 base() 解析 base。
+
+(4) 进入 base() 规则：base → number | '(' expression ')' | function '(' expression ')' 可能是数字、括号表达式或函数调用。
+- 当前 Token：number(3)：匹配 number，消耗 number(3)，返回 3。
+- 返回到 factor()：base 返回 3，后续无 ^ 或 !，因此 factor() 返回 3。
+- 返回到 term()：factor 返回 3，检查下一个 Token 是 *，进入 * 分支。
+
+(5) 处理 *
+- 当前 Token：'*' 消耗 '*'，继续调用 factor() 解析右侧。
+
+(6) 再次进入 factor()
+- 当前 Token：'(' 匹配 base 的 '(' expression ')' 分支：
+- 消耗 '('。
+- 调用 expression() 解析括号内的内容。
+
+(7) 解析括号内 (1 + 2)
+- 进入 expression()：调用 term() → factor() → base() → number(1)，返回 1。
+- 下一个 Token '+'，进入 + 分支：消耗 '+'，调用 term() → factor() → base() → number(2)，返回 2。
+- 组合结果：1 + 2。
+- 消耗 ')'，括号表达式返回 3（因为 1 + 2 = 3）。
+
+(8) 处理 ! 阶乘
+- 返回到 factor()：base 返回 3，下一个 Token 是 '!'，进入 '!' factor 分支：
+- 消耗 '!'，调用 factor() 解析阶乘的右侧（但阶乘是单目运算符，无需右侧）。
+- 直接计算 3!（阶乘），结果为 6。
+
+(9) 完成 term()
+- 左侧 factor 是 3，右侧 * 和 factor 是 6，组合为 3 * 6。
+- term() 返回 18。
+
+(10) 完成 expression()
+- expression() 返回 term() 的结果 18。
+
+关键点总结：
+
+优先级与结合性
+- `*` 比 `+` 优先级高，但这里通过文法层级（`term` vs `expression`）隐式实现。
+- `!` 是后缀运算符，优先级最高（在 `factor` 层处理）。
+递归与回溯
+- 无回溯（LL(1) 特性），每一步仅需预读一个 Token 即可决策。
+括号处理
+- `(` 触发子表达式解析，递归调用 `expression()`，直到遇到 `)`。
+函数扩展性：
+- 如需支持函数（如 `sin(1+2)`），只需在 `base` 规则中添加 `function '(' expression ')'` 分支。
+```
+
+- 解析过程总结：
+
+| 步骤 |    当前规则    |    处理内容    |                        动作                         |   结果/返回值    |
+| :--: | :------------: | :------------: | :-------------------------------------------------: | :--------------: |
+|  1   | `expression()` | `3 * (1 + 2)!` |                    调用 `term()`                    |        -         |
+|  2   |    `term()`    |   `3 * ...`    |                   调用 `factor()`                   |        -         |
+|  3   |   `factor()`   |      `3`       |          调用 `base()` → 匹配 `number(3)`           |       `3`        |
+|  4   |    `term()`    |  `* (1 + 2)!`  |            遇到 `*`，继续调用 `factor()`            |        -         |
+|  5   |   `factor()`   |   `(1 + 2)!`   |   调用 `base()` → 匹配 `'('`，进入 `expression()`   |        -         |
+|  6   | `expression()` |    `1 + 2`     | 调用 `term()` → `factor()` → `base()` → `number(1)` |       `1`        |
+|  7   | `expression()` |     `+ 2`      |        遇到 `+`，调用 `term()` → `number(2)`        |   `1 + 2 = 3`    |
+|  8   |   `factor()`   |      `)!`      |      `base` 返回 `3`，遇到 `!`，计算阶乘 `3!`       |       `6`        |
+|  9   |    `term()`    |     `* 6`      |                    组合 `3 * 6`                     |       `18`       |
+|  10  | `expression()` |       -        |                返回 `term()` 的结果                 | 最终结果：18 |
+
+- 可视化解析树：
+
+```text
+expression
+│
+└── term (3 * ...)
+    │
+    ├── factor (3)
+    │   └── base (number 3)
+    │
+    └── * factor ((1 + 2)!)
+        │
+        ├── base ( (1 + 2) )
+        │   └── expression (1 + 2)
+        │       │
+        │       ├── term (1)
+        │       │   └── factor (1)
+        │       │       └── base (number 1)
+        │       │
+        │       └── + term (2)
+        │           └── factor (2)
+        │               └── base (number 2)
+        │
+        └── ! factor
+            └── (阶乘计算 3! = 6)
+```
+
+**例2. 输入表达式：3 + sin(4^2)!**
+
+- 初始化状态-词法分析：
+
+分解表达式 `3 + sin(4^2)!` 为 TOKEN `[3] [+] [sin] [(] [4] [^] [2] [)] [!]`
+
+- 解析过程：
+
+```text
+(1) parse_expression → parse_term → parse_factor
+
+(2) parse_factor：遇到!，解析后续因子得sin(4^2)
+
+(3) parse_base：识别函数sin(
+
+(4) 内部解析4^2：
+
+(5) parse_base → 4
+
+(6) parse_factor → parse_base → 2
+
+(7) 计算4^2=16
+
+(8) 计算sin(16)≈0.2879
+
+(9) 计算阶乘0.2879!（实际应校验为整数，此处简化）
+
+(10) 回到parse_expression：3 + 0.2879!
+```
+
+### 5. 优缺点
+
+**优点**：代码结构清晰易读、文法规则直接映射函数、易于扩展新语法（如新增运算符）、天然支持嵌套结构
+
+**缺点**：递归深度受限（栈溢出风险）、需手动处理左递归问题、错误恢复机制复杂、回溯效率低（非预测文法）
+
+### 6. 算法特性
+
+**优先级处理**：优先级从低到高：`+-` < `*/` < `^!` expression -> term +- -> factor */ -> base ^ !
+
+**结合性处理**：左结合如加减乘除（循环实现）、右结合如乘方（递归实现）
+
+**方向性**：自顶向下（Top-down）
+
+**错误检测**：括号不匹配、函数调用格式错误、除零操作、非法阶乘操作
+
+**文法类型**：严格LL(k)（通常k=1）文法规则直接转换为代码结构
+
+**空间复杂度**：O(d)（d=语法嵌套深度）
+
+**时间复杂度**：O(n)（无回溯时）O(n)时间复杂度处理表达式
+
+**灵活扩展**：新增运算符只需修改局部函数
+
+**关键优化策略**：
+
+- 尾递归优化：将递归转换为循环（如表达式/项解析）
+- 左递归消除：改写文法规则避免无限递归
+- 错误恢复：同步令牌集（Synchronization Tokens）、错误提示精确定位
+- 语法树生成（替代直接计算）
+
+### 7. 典型应用场景
+
+- 科学计算器：处理复杂数学表达式
+- 编译器前端：编程语言语法分析
+- 配置文件解析：JSON/XML解析器
+- 查询引擎：SQL查询解析
+- 数学公式解释器：MATLAB/Excel等表格软件
+- 领域特定语言：Jinja模板引擎
+- 网络协议：HTTP/DNS报文解码
+
+**经典案例**：SQLite的SQL解析器使用手工编写的递归下降解析器
+
+**实际应用建议**：对于超复杂表达式，可结合运算符优先级表（Operator-Precedence Parsing）或生成语法树进行多次求值，避免递归深度限制问题。
 
 ## 3. 抽象语法树 (Abstract Syntax Tree, AST)
 
