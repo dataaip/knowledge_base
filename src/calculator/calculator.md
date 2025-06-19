@@ -1082,6 +1082,8 @@ ASTNode* optimize_ast(ASTNode *node) {
 }
 ```
 
+---
+
 **性能优化技术**
 
 ```c
@@ -1252,73 +1254,536 @@ AST结构：
 
 ## 4. 表驱动解析 (Table-Driven Parsing)
 
-### 原理
-- 使用**有限状态机**(FSM)
-- 状态转换表驱动解析
-- 结合运算符优先级表
+表驱动解析（Table-Driven Parsing）是一种基于 状态机 和 查表机制 的解析方法，它通过预定义的数据表（如状态转换表、优先级表）来控制解析流程，而非硬编码语法规则。在科学计算器中，这种方法能高效处理复杂数学表达式，同时保持代码的模块化和可扩展性。
 
-### 组件
-- 状态表：定义状态转换
-- 优先级表：处理运算符优先级
-- 语义动作：执行计算
+### 1. 核心目的
 
-### 优点
-- 高效且可预测
-- 易于添加新运算符
-- 适合嵌入式系统
+**高性能求值**：通过状态机和双栈结构实现 O(n) 时间复杂度的表达式解析与求值。
 
-### 缺点
-- 表结构可能复杂
-- 函数支持有限
-- 错误恢复困难
+**动态运算符扩展**：新增运算符只需更新优先级表和语义动作表，无需修改核心解析逻辑。
 
-## 5. 混合方法 (Hybrid Approach)
+**确定性执行**：基于有限状态机（FSM）的解析流程，行为完全由表格驱动，无歧义。
 
-### 常见组合
-1. **栈 + 递归**：主表达式用栈处理，函数参数递归计算
-2. **AST + 访客模式**：构建AST后使用访客模式求值
-3. **递归下降 + 优先级爬升**：结合递归下降和运算符优先级
+**适配资源受限环境**：双栈结构内存占用固定，适合嵌入式设备（如低内存单片机）。
 
-### 示例实现
+### 2. 核心原理
+
+**输入字符串 → Token流（词法分析）**
+
+- 任务：将原始字符串拆分为有意义的 Token（如数字、运算符、括号）
+
+- 示例：
+  ```text
+  输入："3 + 4 * 2"
+  Token流：[
+      { type: 'NUMBER', value: 3 },
+      { type: 'OPERATOR', value: '+' },
+      { type: 'NUMBER', value: 4 },
+      { type: 'OPERATOR', value: '*' },
+      { type: 'NUMBER', value: 2 }
+  ]
+  ```
+
+**Token流 → 计算结果（表驱动解析）**
+
+解析过程依赖以下核心组件：
+
+- 状态转换表：定义当前状态和输入 Token 如何触发状态迁移
+
+- 优先级表：决定运算符的运算顺序（如 * 优先于 +）
+
+- 语义动作表：关联运算符与对应的计算函数（如 + 执行加法）
+
+- 双栈结构：操作数栈存储数字和中间结果、运算符栈存储未处理的运算符和括号
+
+**关键组件详解**
+
+状态转换表：
+
+| 当前状态 | 输入 Token |     动作     | 下一状态 |
+| :------: | :--------: | :----------: | :------: |
+|  Start   |   NUMBER   | 压入操作数栈 | Operand  |
+| Operand  |  OPERATOR  | 压入运算符栈 | Operator |
+| Operator |   NUMBER   | 压入操作数栈 | Operand  |
+| Operator |   LPAREN   | 压入运算符栈 |  Start   |
+
+- 作用：指导解析器在不同状态下如何处理输入的 Token
+
+运算符优先级表：
+
+| 运算符 | `+`  | `*`  | `^`  | `(`  |
+| :----: | :--: | :--: | :--: | :--: |
+|  `+`   |  ≤   |  <   |  <   |  <   |
+|  `*`   |  >   |  ≤   |  <   |  <   |
+|  `^`   |  >   |  >   |  ≤   |  <   |
+|  `(`   |  <   |  <   |  <   |  =   |
+
+- 作用：解决运算符优先级和结合性问题（如 * 优先于 +）
+- 符号说明：`<`：栈顶运算符优先级低于当前 Token，压栈、`>`：栈顶运算符优先级高于当前 Token，弹栈计算、`=`：匹配括号，弹栈（不计算）
+
+语义动作表：
+
+| 运算符 |    语义动作（函数）     |
+| :----: | :---------------------: |
+|  `+`   |  `lambda a, b: a + b`   |
+|  `*`   |  `lambda a, b: a * b`   |
+|  `^`   |  `lambda a, b: a ** b`  |
+| `sin`  | `lambda a: math.sin(a)` |
+
+- 作用：为每个运算符绑定具体的计算逻辑
+
+### 3. 实现步骤 (C语言)
+
+**数据结构定义**
+
 ```c
-double expression() {
-    double result = term();
-    while (current_token == '+' || current_token == '-') {
-        char op = current_token;
-        next_token();
-        double right = term();
-        result = (op == '+') ? result + right : result - right;
-    }
-    return result;
-}
+// 运算符类型
+typedef enum {
+    OP_ADD, OP_SUB, OP_MUL, OP_DIV, OP_POW, OP_FACT,
+    OP_LPAREN, OP_RPAREN, OP_FUNC, OP_END
+} Operator;
 
-double term() {
-    double result = factor();
-    while (current_token == '*' || current_token == '/') {
-        char op = current_token;
-        next_token();
-        double right = factor();
-        result = (op == '*') ? result * right : result / right;
-    }
-    return result;
-}
+// 状态类型
+typedef enum {
+    STATE_EXPECT_OPERAND,    // 期待操作数
+    STATE_EXPECT_OPERATOR,   // 期待运算符
+    STATE_FUNCTION_ARG,      // 函数参数处理
+    STATE_ERROR              // 错误状态
+} ParserState;
 
-double factor() {
-    double result = base();
-    while (current_token == '^') {
-        next_token();
-        double exponent = factor();
-        result = pow(result, exponent);
+// 优先级关系
+typedef enum {
+    REL_LOWER,      // 当前优先级低
+    REL_HIGHER,     // 当前优先级高
+    REL_EQUAL,      // 优先级相等
+    REL_REDUCE,     // 需要规约
+    REL_ERROR       // 错误关系
+} PrecedenceRelation;
+
+// 运算符属性
+typedef struct {
+    Operator op;
+    int precedence;          // 优先级数值
+    int is_right_assoc;      // 是否右结合
+    int operand_count;       // 操作数数量
+} OperatorInfo;
+
+// 状态表条目
+typedef struct {
+    ParserState current_state;
+    Operator op;
+    ParserState next_state;
+} StateTransition;
+```
+
+---
+
+**优先级表实现**
+
+```c
+// 优先级关系表 (PRT)
+PrecedenceRelation precedence_table[OP_END][OP_END] = {
+    /*           +     -     *     /     ^     !     (     )     func  end */
+    /* + */  { REL_LOWER, REL_LOWER, REL_LOWER, REL_LOWER, REL_LOWER, REL_HIGHER, REL_LOWER, REL_HIGHER, REL_LOWER, REL_HIGHER },
+    /* - */  { REL_LOWER, REL_LOWER, REL_LOWER, REL_LOWER, REL_LOWER, REL_HIGHER, REL_LOWER, REL_HIGHER, REL_LOWER, REL_HIGHER },
+    /* * */  { REL_HIGHER, REL_HIGHER, REL_LOWER, REL_LOWER, REL_LOWER, REL_HIGHER, REL_LOWER, REL_HIGHER, REL_LOWER, REL_HIGHER },
+    /* / */  { REL_HIGHER, REL_HIGHER, REL_LOWER, REL_LOWER, REL_LOWER, REL_HIGHER, REL_LOWER, REL_HIGHER, REL_LOWER, REL_HIGHER },
+    /* ^ */  { REL_HIGHER, REL_HIGHER, REL_HIGHER, REL_HIGHER, REL_HIGHER, REL_HIGHER, REL_LOWER, REL_HIGHER, REL_LOWER, REL_HIGHER },
+    /* ! */  { REL_HIGHER, REL_HIGHER, REL_HIGHER, REL_HIGHER, REL_HIGHER, REL_HIGHER, REL_ERROR, REL_HIGHER, REL_ERROR, REL_HIGHER },
+    /* ( */  { REL_LOWER, REL_LOWER, REL_LOWER, REL_LOWER, REL_LOWER, REL_HIGHER, REL_LOWER, REL_EQUAL, REL_LOWER, REL_ERROR },
+    /* ) */  { REL_ERROR, REL_ERROR, REL_ERROR, REL_ERROR, REL_ERROR, REL_ERROR, REL_ERROR, REL_ERROR, REL_ERROR, REL_ERROR },
+    /* func*/{ REL_LOWER, REL_LOWER, REL_LOWER, REL_LOWER, REL_LOWER, REL_HIGHER, REL_LOWER, REL_ERROR, REL_LOWER, REL_ERROR },
+    /* end */{ REL_ERROR, REL_ERROR, REL_ERROR, REL_ERROR, REL_ERROR, REL_ERROR, REL_ERROR, REL_ERROR, REL_ERROR, REL_ERROR }
+};
+
+// 运算符信息表
+OperatorInfo op_info[] = {
+    {OP_ADD, 10, 0, 2},   // 左结合，优先级10
+    {OP_SUB, 10, 0, 2},
+    {OP_MUL, 20, 0, 2},
+    {OP_DIV, 20, 0, 2},
+    {OP_POW, 30, 1, 2},   // 右结合，优先级30
+    {OP_FACT, 40, 0, 1},  // 一元运算符
+    {OP_LPAREN, 0, 0, 0},
+    {OP_RPAREN, 0, 0, 0},
+    {OP_FUNC, 40, 0, 1},
+    {OP_END, 0, 0, 0}
+};
+
+// 状态转换表
+StateTransition state_transitions[] = {
+    {STATE_EXPECT_OPERAND, OP_ADD, STATE_ERROR},
+    {STATE_EXPECT_OPERAND, OP_SUB, STATE_EXPECT_OPERAND},  // 处理一元负号
+    {STATE_EXPECT_OPERAND, OP_LPAREN, STATE_EXPECT_OPERAND},
+    {STATE_EXPECT_OPERAND, OP_FUNC, STATE_FUNCTION_ARG},
+    {STATE_EXPECT_OPERAND, OP_END, STATE_ERROR},
+    
+    {STATE_EXPECT_OPERATOR, OP_ADD, STATE_EXPECT_OPERAND},
+    {STATE_EXPECT_OPERATOR, OP_SUB, STATE_EXPECT_OPERAND},
+    {STATE_EXPECT_OPERATOR, OP_MUL, STATE_EXPECT_OPERAND},
+    {STATE_EXPECT_OPERATOR, OP_DIV, STATE_EXPECT_OPERAND},
+    {STATE_EXPECT_OPERATOR, OP_POW, STATE_EXPECT_OPERAND},
+    {STATE_EXPECT_OPERATOR, OP_FACT, STATE_EXPECT_OPERATOR},
+    {STATE_EXPECT_OPERATOR, OP_RPAREN, STATE_EXPECT_OPERATOR},
+    {STATE_EXPECT_OPERATOR, OP_FUNC, STATE_ERROR},
+    {STATE_EXPECT_OPERATOR, OP_END, STATE_END},
+    
+    {STATE_FUNCTION_ARG, OP_LPAREN, STATE_EXPECT_OPERAND},
+    {STATE_FUNCTION_ARG, OP_END, STATE_ERROR}
+};
+```
+
+---
+
+**解析器核心实现**
+
+```c
+double evaluate_expression(const char *input) {
+    // 双栈结构
+    double operand_stack[100];
+    Operator operator_stack[100];
+    int operand_top = -1;
+    int operator_top = -1;
+    
+    // 初始状态
+    ParserState state = STATE_EXPECT_OPERAND;
+    Token token = get_next_token(&input);
+    
+    // 特殊处理：表达式以负号开头
+    if (token.type == TOK_SUB && state == STATE_EXPECT_OPERAND) {
+        push_operator(operator_stack, &operator_top, OP_SUB);
+        token = get_next_token(&input);
     }
-    if (current_token == '!') {
-        next_token();
-        result = factorial(result);
+    
+    while (state != STATE_END && state != STATE_ERROR) {
+        Operator current_op = convert_token_to_op(token);
+        
+        // 状态转移
+        ParserState next_state = get_next_state(state, current_op);
+        if (next_state == STATE_ERROR) {
+            handle_error("Invalid state transition");
+            return NAN;
+        }
+        state = next_state;
+        
+        if (state == STATE_EXPECT_OPERAND) {
+            if (token.type == TOK_NUM) {
+                push_operand(operand_stack, &operand_top, token.value);
+                token = get_next_token(&input);
+            } else if (token.type == TOK_LPAREN) {
+                push_operator(operator_stack, &operator_top, OP_LPAREN);
+                token = get_next_token(&input);
+            } else if (token.type == TOK_FUNC) {
+                push_operator(operator_stack, &operator_top, OP_FUNC);
+                // 存储函数名
+                strncpy(func_name, token.func, MAX_FUNC_LEN);
+                token = get_next_token(&input);
+            }
+        } else if (state == STATE_EXPECT_OPERATOR) {
+            // 优先级处理
+            while (operator_top >= 0) {
+                Operator top_op = operator_stack[operator_top];
+                PrecedenceRelation rel = 
+                    precedence_table[top_op][current_op];
+                
+                if (rel == REL_HIGHER || rel == REL_EQUAL) {
+                    // 执行栈顶运算符
+                    execute_operator(&operand_stack, &operand_top, 
+                                    &operator_stack, &operator_top);
+                } else {
+                    break;
+                }
+            }
+            
+            if (current_op == OP_RPAREN) {
+                if (operator_stack[operator_top] == OP_LPAREN) {
+                    pop_operator(&operator_stack, &operator_top);
+                    token = get_next_token(&input);
+                } else {
+                    handle_error("Mismatched parentheses");
+                    return NAN;
+                }
+            } else if (current_op == OP_END) {
+                // 处理结束
+                state = STATE_END;
+            } else {
+                push_operator(operator_stack, &operator_top, current_op);
+                token = get_next_token(&input);
+            }
+        }
     }
-    return result;
+    
+    // 清理剩余运算符
+    while (operator_top >= 0) {
+        execute_operator(&operand_stack, &operand_top, 
+                        &operator_stack, &operator_top);
+    }
+    
+    if (operand_top == 0) {
+        return operand_stack[operand_top];
+    } else {
+        handle_error("Invalid expression");
+        return NAN;
+    }
 }
 ```
 
-## 6. 基于词法分析的直接求值 (Lexer-Based Direct Evaluation)
+---
+
+**运算符执行函数**
+
+```c
+void execute_operator(double *operand_stack, int *operand_top,
+                     Operator *operator_stack, int *operator_top) {
+    Operator op = pop_operator(operator_stack, operator_top);
+    OperatorInfo info = get_op_info(op);
+    
+    if (*operand_top < info.operand_count - 1) {
+        handle_error("Insufficient operands");
+        return;
+    }
+    
+    double result = 0;
+    switch (op) {
+        case OP_ADD: {
+            double b = pop_operand(operand_stack, operand_top);
+            double a = pop_operand(operand_stack, operand_top);
+            result = a + b;
+            break;
+        }
+        case OP_SUB: {
+            double b = pop_operand(operand_stack, operand_top);
+            double a = pop_operand(operand_stack, operand_top);
+            result = a - b;
+            break;
+        }
+        case OP_MUL: {
+            double b = pop_operand(operand_stack, operand_top);
+            double a = pop_operand(operand_stack, operand_top);
+            result = a * b;
+            break;
+        }
+        case OP_DIV: {
+            double b = pop_operand(operand_stack, operand_top);
+            double a = pop_operand(operand_stack, operand_top);
+            if (fabs(b) < 1e-10) {
+                handle_error("Division by zero");
+                return;
+            }
+            result = a / b;
+            break;
+        }
+        case OP_POW: {
+            double exp = pop_operand(operand_stack, operand_top);
+            double base = pop_operand(operand_stack, operand_top);
+            result = pow(base, exp);
+            break;
+        }
+        case OP_FACT: {
+            double a = pop_operand(operand_stack, operand_top);
+            if (a < 0 || fmod(a, 1.0) != 0.0) {
+                handle_error("Invalid factorial operand");
+                return;
+            }
+            long fact = 1;
+            for (int i = 1; i <= (int)a; i++) fact *= i;
+            result = (double)fact;
+            break;
+        }
+        case OP_FUNC: {
+            double arg = pop_operand(operand_stack, operand_top);
+            // 根据存储的函数名执行
+            if (strcmp(current_func, "sin") == 0) result = sin(arg);
+            else if (strcmp(current_func, "cos") == 0) result = cos(arg);
+            // ... 其他函数处理
+            break;
+        }
+    }
+    
+    push_operand(operand_stack, operand_top, result);
+}
+```
+
+---
+
+**性能优化技术**
+
+```c
+// 静态表存储
+const PrecedenceRelation PRT[OP_COUNT][OP_COUNT] = {
+    // 编译期初始化的优先级表
+};
+
+// 栈预分配
+#define MAX_STACK_SIZE 128
+double operand_stack[MAX_STACK_SIZE];
+Operator operator_stack[MAX_STACK_SIZE];
+
+// 内联函数
+static inline void push_operand(double stack[], int *top, double value) {
+    stack[++(*top)] = value;
+}
+
+// 位压缩存储
+// 使用1字节存储优先级关系
+typedef uint8_t PrecedenceRelation;
+#define REL_LOWER 0
+#define REL_HIGHER 1
+```
+
+---
+
+**扩展实现**
+
+```c
+// 变量支持
+typedef struct {
+    char name[20];
+    double value;
+} Variable;
+
+Variable variables[MAX_VARS];
+int var_count = 0;
+
+double get_variable_value(const char *name) {
+    for (int i = 0; i < var_count; i++) {
+        if (strcmp(variables[i].name, name) == 0) {
+            return variables[i].value;
+        }
+    }
+    return NAN; // 未找到变量
+}
+
+// 错误恢复机制
+void handle_error(const char *msg) {
+    // 错误处理策略：
+    // 1. 记录错误位置
+    // 2. 清空栈
+    // 3. 重置状态机
+    operand_top = -1;
+    operator_top = -1;
+    state = STATE_EXPECT_OPERAND;
+    
+    // 4. 跳过错误token
+    while (current_token.type != TOK_END && 
+           current_token.type != TOK_SEMICOLON) {
+        current_token = get_next_token();
+    }
+}
+
+// 内存保护
+// 栈操作安全检查
+void push_operator(Operator stack[], int *top, Operator op) {
+    if (*top >= MAX_STACK_SIZE - 1) {
+        handle_error("Operator stack overflow");
+        return;
+    }
+    stack[++(*top)] = op;
+}
+```
+
+### 4. 实例解析
+
+**例1：解析输入表达式 实例解析：3 + 4 * 2 ^ (1 + 1)**
+
+Token流拆分：
+
+```text
+[3, '+', 4, '*', 2, '^', '(', 1, '+', 1, ')']
+```
+
+双栈过程：
+
+| 步骤 | Token |    操作数栈     |    运算符栈     |         动作说明         |
+| :--: | :---: | :-------------: | :-------------: | :----------------------: |
+|  1   |   3   |       [3]       |       []        |      数字入操作数栈      |
+|  2   |   +   |       [3]       |       [+]       |        运算符入栈        |
+|  3   |   4   |     [3, 4]      |       [+]       |         数字入栈         |
+|  4   |   *   |     [3, 4]      |     [+, *]      | `*` 优先级 > `+`，不弹栈 |
+|  5   |   2   |    [3, 4, 2]    |     [+, *]      |         数字入栈         |
+|  6   |   ^   |    [3, 4, 2]    |    [+, *, ^]    | `^` 优先级 > `*`，不弹栈 |
+|  7   |   (   |    [3, 4, 2]    |  [+, *, ^, (]   |         '(' 入栈         |
+|  8   |   1   |  [3, 4, 2, 1]   |  [+, *, ^, (]   |         数字入栈         |
+|  9   |   +   |  [3, 4, 2, 1]   | [+, *, ^, (, +] |         '+' 入栈         |
+|  10  |   1   | [3, 4, 2, 1, 1] | [+, *, ^, (, +] |         数字入栈         |
+|  11  |   )   |  [3, 4, 2, 2]   |    [+, *, ^]    | 计算 `1 + 1`，弹栈至 '(' |
+|  12  |   -   |    [3, 4, 4]    |       [+]       | 计算 `2 ^ 2`，弹栈至 `*` |
+|  13  |   -   |     [3, 16]     |       [+]       | 计算 `4 * 4`，弹栈至 `+` |
+|  14  |   -   |      [19]       |       []        |   计算 `3 + 16`，结束    |
+
+最终结果：19
+
+### 5. 优点缺点
+
+**优点**：
+
+- 高效性能：O(n)时间复杂度
+  
+- 确定性行为：状态机驱动可预测
+
+- 易扩展性：添加运算符只需更新表
+
+- 内存效率：栈结构内存占用小
+
+- 无递归风险：避免栈溢出问题
+
+**缺点**：
+
+- 表结构复杂：需精心设计状态表和优先级表
+
+- 函数支持有限：多参数函数处理困难
+
+- 错误恢复困难：难以从错误状态恢复
+
+- 可读性差：表驱动逻辑不如递归下降直观
+
+- 灵活性受限：语法变更需重构表结构
+
+### 6. 算法特性
+
+**时间复杂度**：O(n)（每个 Token 仅处理一次）。
+
+**空间复杂度**：O(n)（双栈最大深度与表达式长度线性相关）。
+
+**动态扩展性**：新增运算符只需更新优先级表和语义动作表，无需修改解析逻辑。
+
+**确定性**：状态机和表格驱动，无回溯，行为完全可预测。
+
+### 7. 典型应用场景
+
+**嵌入式计算器**：资源受限设备（如单片机）
+
+**高性能计算库**：需要快速表达式求值
+
+**工业控制系统**：确定性行为要求高的场景
+
+**数据库引擎**：SQL条件表达式解析
+
+**金融交易系统**：低延迟公式计算
+
+**最佳实践建议**：
+
+- 使用代码生成器创建状态表和优先级表
+
+- 为嵌入式系统实现固定大小栈
+
+- 添加详细的错误日志记录
+
+- 对用户输入进行预验证
+
+表驱动解析在科学计算器中提供了：卓越性能 → 线性时间复杂度处理表达式、确定行为 → 状态机驱动的可预测执行、资源效率低 → 内存占用适合嵌入式系统、工业级可靠性 → 避免递归风险。
+
+**典型应用**：HP计算器系列、金融终端公式引擎、工业PLC控制器。
+
+## 五、混合方法 (Hybrid Approach)
+
+**栈 + 递归**：主表达式用栈处理，函数参数递归计算
+
+**AST + 访客模式**：构建AST后使用访客模式求值
+
+**递归下降 + 优先级爬升**：结合递归下降和运算符优先级
+
+## 六. 基于词法分析的直接求值 (Lexer-Based Direct Evaluation)
 
 ### 原理
 - 单次扫描输入
@@ -1343,10 +1808,14 @@ double factor() {
 
 ## 选择建议
 
-1. **通用科学计算器**：栈求值法或递归下降法
-2. **高性能需求**：表驱动或直接求值
-3. **教育目的**：递归下降（易于理解）
-4. **专业应用**：AST方法（最大灵活性）
-5. **嵌入式系统**：表驱动或直接求值
+**通用科学计算器**：栈求值法或递归下降法
+
+**高性能需求**：表驱动或直接求值
+
+**教育目的**：递归下降（易于理解）
+
+**专业应用**：AST方法（最大灵活性）
+
+**嵌入式系统**：表驱动或直接求值
 
 实际实现中，栈求值法和递归下降法最为常用，它们平衡了实现复杂度、性能和功能扩展性。本文第一个实现使用的就是栈求值法，而混合方法在专业计算软件中也很常见。
