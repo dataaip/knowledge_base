@@ -41,6 +41,7 @@ add_subdirectory(thridparty/log.c)       # 添加logc库的子目录
 add_subdirectory(src/tour_ccpp)                      # 添加源代码的子目录
 # add_subdirectory(tests/tour_ccpp/c)                # 添加测试代码的子目录
 add_subdirectory(src/guess_game)                     # 添加源代码的子目录
+add_subdirectory(src/calculator)                     # 添加源代码的子目录
 
 # =================================================
 # 安装
