@@ -1770,25 +1770,481 @@ Token流拆分：
 
 **典型应用**：HP计算器系列、金融终端公式引擎、工业PLC控制器。
 
-## 五、混合方法 (Hybrid Approach)
+## 六. 基于词法分析的直接求值 (Lexer-Based Direct Evaluation)
+
+基于词法分析的直接求值的这种算法是一种 轻量级、低内存占用 的计算方案，适用于嵌入式设备或需要极速响应的场景。其核心思想是 边解析边计算，不构建中间数据结构（如 AST 或双栈），直接在词法分析过程中完成求值。
+
+### 1. 核心目的
+
+**低资源环境适配**：无递归、无复杂数据结构（仅需维护当前值和运算符状态）。
+
+**极速响应**：单次扫描输入字符串，边解析边计算，时间复杂度 O(n)。
+
+**简单表达式支持**：直接处理基本算术（+-*/）和优先级（如 * 优先于 +）。
+
+**最小化实现**：代码量极少（<100 行），适合嵌入式系统或硬件描述语言（如 Verilog）。
+
+### 2. 核心原理
+
+**输入字符串 → 词法分析（Lexer）**
+
+- 任务：逐个字符读取输入，识别数字、运算符、括号等 Token。
+
+- 特性：无回溯 每个字符仅处理一次、即时处理 遇到完整 Token 后立即参与计算（如读完数字 123 后直接压入值栈）。
+
+**即时求值引擎**
+
+核心状态：
+
+- current_value：当前累积的计算结果。
+
+- pending_operator：待处理的运算符（如 +、*）。
+
+- pending_value：与待处理运算符关联的右操作数（部分延迟计算）。
+
+优先级处理：
+
+- 默认左结合（如 `1 + 2 + 3 → (1 + 2) + 3`）。
+
+- 遇到高优先级运算符（如 *）时，立即计算当前 pending 表达式。
+
+**关键特性**
+
+- 单次扫描：边解析边计算，不构建中间表示
+
+- 状态驱动：维护当前值和待处理运算符
+
+- 左结合优先：天然支持左结合运算
+
+- 即时计算：遇到高优先级运算符时立即计算
+
+### 3. 实现步骤 (C语言)
+
+**数据结构定义**
+
+```c
+typedef enum {
+    TOK_NUM,    // 数字
+    TOK_ADD,    // +
+    TOK_SUB,    // -
+    TOK_MUL,    // *
+    TOK_DIV,    // /
+    TOK_LPAREN, // (
+    TOK_RPAREN, // )
+    TOK_END     // 结束
+} TokenType;
+
+typedef struct {
+    TokenType type;
+    double value;  // 数字值
+} Token;
+
+// 解析状态
+typedef struct {
+    double current_value;  // 当前累计值
+    Token pending_op;      // 待处理运算符
+    int in_parenthesis;    // 括号嵌套计数
+} EvalState;
+```
+
+---
+
+**词法分析器**
+
+```c
+Token get_next_token(const char **input) {
+    while (isspace(**input)) (*input)++;  // 跳过空白
+    
+    if (**input == '\0') 
+        return (Token){TOK_END, 0};
+    
+    // 数字解析
+    if (isdigit(**input) || **input == '.') {
+        char *end;
+        double val = strtod(*input, &end);
+        *input = end;
+        return (Token){TOK_NUM, val};
+    }
+    
+    // 运算符解析
+    char op = *(*input)++;
+    switch(op) {
+        case '+': return (Token){TOK_ADD};
+        case '-': return (Token){TOK_SUB};
+        case '*': return (Token){TOK_MUL};
+        case '/': return (Token){TOK_DIV};
+        case '(': return (Token){TOK_LPAREN};
+        case ')': return (Token){TOK_RPAREN};
+        default: return (Token){TOK_END}; // 无效字符
+    }
+}
+```
+
+---
+
+**核心求值引擎**
+
+```c
+double evaluate(const char *input) {
+    EvalState state = {0, {TOK_ADD}, 0}; // 初始状态
+    Token token;
+    
+    while ((token = get_next_token(&input)).type != TOK_END) {
+        switch (token.type) {
+            case TOK_NUM:
+                process_number(&state, token.value);
+                break;
+                
+            case TOK_ADD: case TOK_SUB:
+                process_add_sub(&state, token);
+                break;
+                
+            case TOK_MUL: case TOK_DIV:
+                process_mul_div(&state, token);
+                break;
+                
+            case TOK_LPAREN:
+                state.in_parenthesis++;
+                break;
+                
+            case TOK_RPAREN:
+                if (state.in_parenthesis > 0) state.in_parenthesis--;
+                break;
+        }
+    }
+    
+    // 处理最后一个待定操作
+    apply_pending(&state);
+    return state.current_value;
+}
+
+void process_number(EvalState *state, double value) {
+    // 如果没有待处理操作符，直接更新当前值
+    if (state->pending_op.type == TOK_ADD && state->pending_op.value == 0) {
+        state->current_value = value;
+        return;
+    }
+    
+    // 应用待处理操作
+    switch (state->pending_op.type) {
+        case TOK_ADD:
+            state->current_value += value;
+            break;
+        case TOK_SUB:
+            state->current_value -= value;
+            break;
+        case TOK_MUL:
+            state->current_value *= value;
+            break;
+        case TOK_DIV:
+            if (fabs(value) < 1e-10) {
+                printf("Division by zero error\n");
+                exit(1);
+            }
+            state->current_value /= value;
+            break;
+    }
+    
+    // 重置待处理操作符
+    state->pending_op = (Token){TOK_ADD, 0};
+}
+
+void process_add_sub(EvalState *state, Token op) {
+    // 如果存在待处理的高优先级操作，先执行
+    if (state->pending_op.type == TOK_MUL || state->pending_op.type == TOK_DIV) {
+        apply_pending(state);
+    }
+    state->pending_op = op;
+}
+
+void process_mul_div(EvalState *state, Token op) {
+    // 乘法/除法立即设置为待处理操作
+    state->pending_op = op;
+}
+
+void apply_pending(EvalState *state) {
+    // 处理特殊场景：表达式以操作符开始
+    if (state->pending_op.type == TOK_ADD && state->pending_op.value == 0) 
+        return;
+    
+    // 应用操作（已处理数字时自动应用）
+    state->pending_op = (Token){TOK_ADD, 0};
+}
+```
+
+---
+
+**优先级问题解决方案**
+
+```c
+// 增强版处理函数（支持基本优先级）
+void process_operator(EvalState *state, Token op) {
+    // 高优先级运算符 (*,/) 立即处理
+    if (op.type == TOK_MUL || op.type == TOK_DIV) {
+        state->pending_high_op = op;
+        return;
+    }
+    
+    // 低优先级运算符 (+,-) 先处理待定的高优先级操作
+    if (state->pending_high_op.type != TOK_ADD) {
+        apply_high_pending(state);
+    }
+    state->pending_low_op = op;
+}
+
+// 状态结构增强
+typedef struct {
+    double current_value;
+    Token pending_low_op;   // +, -
+    Token pending_high_op;  // *, /
+    double last_number;     // 存储上一个数字
+} EvalState;
+```
+
+---
+
+**扩展实现**
+
+```c
+// 基本函数支持 函数解析扩展
+Token get_next_token(const char **input) {
+    // ... 数字和操作符解析 ...
+    
+    // 函数解析
+    if (isalpha(**input)) {
+        char func[10] = {0};
+        int i = 0;
+        while (isalpha(**input)) func[i++] = *(*input)++;
+        return (Token){TOK_FUNC, 0, func};
+    }
+}
+
+// 函数处理
+void process_function(EvalState *state, const char *func) {
+    // 获取参数
+    double arg = parse_simple_expression(input); // 递归解析参数
+    
+    // 执行函数
+    double result = 0;
+    if (strcmp(func, "sqrt") == 0) result = sqrt(arg);
+    else if (strcmp(func, "abs") == 0) result = fabs(arg);
+    // ...
+    
+    // 作为操作数处理
+    process_number(state, result);
+}
+
+// 错误恢复增强
+#define MAX_ERROR_LEN 50
+char error_msg[MAX_ERROR_LEN] = {0};
+
+double evaluate(const char *input) {
+    // ... 解析过程 ...
+    
+    if (state.in_parenthesis != 0) {
+        snprintf(error_msg, MAX_ERROR_LEN, "Mismatched parentheses");
+        return NAN;
+    }
+    
+    if (state.pending_op.type != TOK_ADD || state.pending_op.value != 0) {
+        snprintf(error_msg, MAX_ERROR_LEN, "Dangling operator");
+        return NAN;
+    }
+    // ...
+}
+
+// 变量支持
+typedef struct {
+    char name[20];
+    double value;
+} Variable;
+
+Variable variables[10];
+int var_count = 0;
+
+double get_variable(const char *name) {
+    for (int i = 0; i < var_count; i++) {
+        if (strcmp(variables[i].name, name) == 0) {
+            return variables[i].value;
+        }
+    }
+    return NAN;
+}
+
+// 在词法分析器中
+Token get_next_token(const char **input) {
+    // ... 
+    
+    // 变量解析
+    if (isalpha(**input)) {
+        char var[20] = {0};
+        int i = 0;
+        while (isalnum(**input)) var[i++] = *(*input)++;
+        double value = get_variable(var);
+        if (!isnan(value)) {
+            return (Token){TOK_NUM, value};
+        }
+        // 否则视为函数...
+    }
+}
+```
+
+---
+
+**性能优化技术**
+
+```c
+// 内联函数
+static inline void apply_add(EvalState *s, double val) {
+    s->current_value += val;
+}
+
+// 循环展开
+// 处理连续数字
+while (isdigit(**input)) {
+    val = val*10 + (**input - '0');
+    (*input)++;
+    // 展开4次迭代
+    if (isdigit(**input)) {
+        val = val*10 + (**input - '0');
+        (*input)++;
+        // ... 重复 ...
+    }
+}
+
+// 查表法
+// 运算符处理函数表
+typedef void (*OpHandler)(EvalState*, double);
+
+OpHandler op_handlers[] = {
+    [TOK_ADD] = apply_add,
+    [TOK_SUB] = apply_sub,
+    [TOK_MUL] = apply_mul,
+    [TOK_DIV] = apply_div
+};
+
+void process_number(EvalState *state, double value) {
+    if (state->pending_op.type != TOK_ADD || state->pending_op.value != 0) {
+        op_handlers[state->pending_op.type](state, value);
+    } else {
+        state->current_value = value;
+    }
+}
+```
+
+### 4. 实例解析
+
+**例1：解析输入表达式 实例解析：3 + 4 * 2 - 1**
+
+执行步骤：
+
+| 步骤 | Token | `current_value` | `pending_operator` | `pending_value` |       动作说明       |
+| :--: | :---: | :-------------: | :----------------: | :-------------: | :------------------: |
+|  1   |   3   |        3        |        '+'         |        -        |        初始值        |
+|  2   |   +   |        3        |        '+'         |        -        |      更新运算符      |
+|  3   |   4   |        7        |        '+'         |        -        |     计算 `3 + 4`     |
+|  4   |   *   |        7        |        '*'         |        2        | 高优先级，暂存 `* 2` |
+|  5   |   2   |       14        |        '*'         |        -        |     计算 `7 * 2`     |
+|  6   |   -   |       14        |        '-'         |        1        |      更新运算符      |
+|  7   |   1   |       13        |        '-'         |        -        |    计算 `14 - 1`     |
+| 结果 |   -   |       13        |         -          |        -        | 返回 `current_value` |
+
+最终结果：13
+
+注意：此实现简化了优先级处理，实际计算顺序为 `((3+4)*2)-1`，而非标准优先级 `3+(4*2)-1`。
+
+### 5. 优点缺点
+
+**优点**：
+
+- 极致高效：O(n)时间复杂度（单次扫描输入字符串），O(1)（仅需维护几个状态变量）
+
+- 内存高效：常数级空间复杂度，极低（无栈、无递归、无中间表示）
+
+- 实现简单：代码量少（<100行）
+
+- 快速响应：单次扫描即时求值
+
+- 无递归风险：避免栈溢出
+
+**缺点**：
+
+- 优先级处理有限：难以处理复杂优先级
+
+- 括号支持弱：无法处理嵌套括号
+
+- 右结合问题：无法处理指数运算等
+
+- 函数不支持：难以扩展函数调用
+
+- 错误恢复难：遇到错误需重启解析
+
+### 6. 算法特性
+
+**状态转移**：该算法通过 有限状态机（FSM） 控制解析流程
+
+|   当前状态   | 输入 Token |              动作              | 下一状态 |
+| :----------: | :--------: | :----------------------------: | :------: |
+|  **Start**   |    数字    | 读取数字，存入 `current_value` | Operand  |
+| **Operand**  |   运算符   |    更新 `pending_operator`     | Operator |
+| **Operator** |    数字    |  根据 `pending_operator` 计算  | Operand  |
+| **Operator** |    结束    |      返回 `current_value`      |   End    |
+
+**求值流程**：
+
+- 词法分析：逐字符读取输入，生成 Token（数字或运算符）
+
+- 立即求值：遇到数字直接参与当前运算（如 `3 → current_value = 3`）、遇到运算符更新 pending_operator（如 `+` → 等待下一个数字）
+
+- 结果输出：遍历结束后返回 current_value
+
+**优先级处理**:
+
+- 乘除优先于加减：遇到 `*` 或 `/` 时，立即计算当前表达式，而非延迟到后续操作
+
+- 左结合运算天然支持：同级运算符按从左到右顺序计算（如 `1 - 2 - 3 → (1 - 2) - 3`）
+
+### 7. 典型应用场景
+
+**嵌入式计算器**：单片机、IoT设备
+
+**命令行计算工具**：简单算术计算
+
+**工业控制器**：PLC简单公式计算
+
+**教育玩具**：儿童计算器
+
+**性能敏感环境**：实时系统简单计算
+
+基于词法分析的直接求值算法在科学计算器中提供了：
+
+- 极限效率：单次扫描即时求值
+
+- 最小资源：常数级内存占用
+
+- 实现简洁：<100行核心代码
+
+- 实时响应：无延迟计算结果
+
+**最佳实践建议**：
+
+- 适用于简单算术表达式（无嵌套括号/函数）
+
+- 在资源受限设备（MCU）首选此方案
+
+- 配合硬件加速器实现极致性能
+
+- 添加输入验证防止无效表达式
+
+**典型应用**：德州仪器基础计算器、Linux bc命令简化版、嵌入式设备控制面板
+
+## 六、混合方法 (Hybrid Approach)
 
 **栈 + 递归**：主表达式用栈处理，函数参数递归计算
 
 **AST + 访客模式**：构建AST后使用访客模式求值
 
 **递归下降 + 优先级爬升**：结合递归下降和运算符优先级
-
-## 六. 基于词法分析的直接求值 (Lexer-Based Direct Evaluation)
-
-### 原理
-- 单次扫描输入
-- 即时计算部分结果
-- 维护当前值和运算符状态
-
-### 特点
-- 高效但有限
-- 仅支持左结合运算
-- 难以处理优先级和括号
 
 ## 方法比较
 
