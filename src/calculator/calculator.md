@@ -179,8 +179,8 @@
 
 从左到右扫描后缀表达式：
 
-- 遇到操作数：压入栈。
-- 遇到运算符：从栈顶弹出所需数量的操作数（二元运算符弹出两个，一元函数弹出一个），进行运算，将结果压回栈。
+- 遇到操作数：压入栈
+- 遇到运算符：从栈顶弹出所需数量的操作数（二元运算符弹出两个，一元函数弹出一个），进行运算，将结果压回栈
 
 扫描结束后，栈顶元素就是最终结果。
 
@@ -214,27 +214,27 @@
 
 ### 1. 核心目的
 
-构建一个自顶向下的语法分析器，将输入的符号序列（如源代码）转换为抽象语法树(AST)，用于编译器/解释器的前端处理。核心目标是直接映射文法规则到代码结构，实现语法验证和树形结构构建
+构建一个自顶向下的语法分析器，将输入的符号序列（如源代码）转换为抽象语法树(AST)，用于编译器/解释器的前端处理。核心目标是直接映射文法规则到代码结构，实现语法验证和树形结构构建。
 
 ### 2. 核心原理
 
 **基于上下文无关文法（CFG）设计解析器**
 
-- CFG 是一种形式文法，用规则描述语言结构（如数学表达式），与上下文无关（规则不依赖周围符号）。
+- CFG 是一种形式文法，用规则描述语言结构（如数学表达式），与上下文无关（规则不依赖周围符号）
 
 **递归函数映射-每个文法规则对应一个解析函数**
 
-- `expression()` 函数处理 expression 规则，`term()` 函数处理 term 规则，以此类推。
-- 函数通过递归调用处理嵌套结构，函数内部可能调用其他规则函数（如 `expression()` 调用 `term()`），形成递归，处理嵌套结构（如 `(1+2)*3`）。
+- `expression()` 函数处理 expression 规则，`term()` 函数处理 term 规则，以此类推
+- 函数通过递归调用处理嵌套结构，函数内部可能调用其他规则函数（如 `expression()` 调用 `term()`），形成递归，处理嵌套结构（如 `(1+2)*3`）
 
 **自顶向下分析**
 
-- 从最高层表达式开始逐级分解，从最高层开始先尝试匹配 expression，逐步拆解到 term → factor → base。
-- 示例分析 `1 + 2 * 3`：调用 `expression()` → 匹配 `term（1）`，遇到 `+` → 继续匹配 `term（2*3）`，在 term 中递归匹配 `factor（2`）和 `* factor（3）`。
+- 从最高层表达式开始逐级分解，从最高层开始先尝试匹配 expression，逐步拆解到 term → factor → base
+- 示例分析 `1 + 2 * 3`：调用 `expression()` → 匹配 `term（1）`，遇到 `+` → 继续匹配 `term（2*3）`，在 term 中递归匹配 `factor（2`）和 `* factor（3）`
 
 **LL(1)解析**
 
-- 简单高效仅需预读一个 Token 即可决策，即单 Token 预读（Lookahead=1）根据当前 Token（如 +、*）决定使用哪条规则，无需回溯。
+- 简单高效仅需预读一个 Token 即可决策，即单 Token 预读（Lookahead=1）根据当前 Token（如 +、*）决定使用哪条规则，无需回溯
 
 **CFG 设计解析器**
 
@@ -446,59 +446,59 @@ double evaluate_expression(const char *expr) {
 
 ```text
 (1) 进入 expression() 规则：expression → term { ('+' | '-') term }
-- 先尝试匹配一个 term，然后检查后续是否是 + 或 -，循环匹配。
-- 执行：调用 term() 解析第一个 term。
+- 先尝试匹配一个 term，然后检查后续是否是 + 或 -，循环匹配
+- 执行：调用 term() 解析第一个 term
 
 (2) 进入 term() 规则：term → factor { ('*' | '/') factor }
-- 先匹配一个 factor，然后检查后续是否是 * 或 /，循环匹配。
-- 执行：调用 factor() 解析第一个 factor。
+- 先匹配一个 factor，然后检查后续是否是 * 或 /，循环匹配
+- 执行：调用 factor() 解析第一个 factor
 
 (3) 进入 factor() 规则：factor → base [ '^' factor ] | '!' factor
-- 先匹配一个 base，然后检查后续是否是 ^（幂）或 !（阶乘）。
-- 执行：调用 base() 解析 base。
+- 先匹配一个 base，然后检查后续是否是 ^（幂）或 !（阶乘）
+- 执行：调用 base() 解析 base
 
-(4) 进入 base() 规则：base → number | '(' expression ')' | function '(' expression ')' 可能是数字、括号表达式或函数调用。
-- 当前 Token：number(3)：匹配 number，消耗 number(3)，返回 3。
-- 返回到 factor()：base 返回 3，后续无 ^ 或 !，因此 factor() 返回 3。
-- 返回到 term()：factor 返回 3，检查下一个 Token 是 *，进入 * 分支。
+(4) 进入 base() 规则：base → number | '(' expression ')' | function '(' expression ')' 可能是数字、括号表达式或函数调用
+- 当前 Token：number(3)：匹配 number，消耗 number(3)，返回 3
+- 返回到 factor()：base 返回 3，后续无 ^ 或 !，因此 factor() 返回 3
+- 返回到 term()：factor 返回 3，检查下一个 Token 是 *，进入 * 分支
 
 (5) 处理 *
-- 当前 Token：'*' 消耗 '*'，继续调用 factor() 解析右侧。
+- 当前 Token：'*' 消耗 '*'，继续调用 factor() 解析右侧
 
 (6) 再次进入 factor()
 - 当前 Token：'(' 匹配 base 的 '(' expression ')' 分支：
-- 消耗 '('。
-- 调用 expression() 解析括号内的内容。
+- 消耗 '('
+- 调用 expression() 解析括号内的内容
 
 (7) 解析括号内 (1 + 2)
-- 进入 expression()：调用 term() → factor() → base() → number(1)，返回 1。
-- 下一个 Token '+'，进入 + 分支：消耗 '+'，调用 term() → factor() → base() → number(2)，返回 2。
-- 组合结果：1 + 2。
-- 消耗 ')'，括号表达式返回 3（因为 1 + 2 = 3）。
+- 进入 expression()：调用 term() → factor() → base() → number(1)，返回 1
+- 下一个 Token '+'，进入 + 分支：消耗 '+'，调用 term() → factor() → base() → number(2)，返回 2
+- 组合结果：1 + 2
+- 消耗 ')'，括号表达式返回 3（因为 1 + 2 = 3）
 
 (8) 处理 ! 阶乘
 - 返回到 factor()：base 返回 3，下一个 Token 是 '!'，进入 '!' factor 分支：
-- 消耗 '!'，调用 factor() 解析阶乘的右侧（但阶乘是单目运算符，无需右侧）。
-- 直接计算 3!（阶乘），结果为 6。
+- 消耗 '!'，调用 factor() 解析阶乘的右侧（但阶乘是单目运算符，无需右侧）
+- 直接计算 3!（阶乘），结果为 6
 
 (9) 完成 term()
-- 左侧 factor 是 3，右侧 * 和 factor 是 6，组合为 3 * 6。
-- term() 返回 18。
+- 左侧 factor 是 3，右侧 * 和 factor 是 6，组合为 3 * 6
+- term() 返回 18
 
 (10) 完成 expression()
-- expression() 返回 term() 的结果 18。
+- expression() 返回 term() 的结果 18
 
 关键点总结：
 
 优先级与结合性
-- `*` 比 `+` 优先级高，但这里通过文法层级（`term` vs `expression`）隐式实现。
-- `!` 是后缀运算符，优先级最高（在 `factor` 层处理）。
+- `*` 比 `+` 优先级高，但这里通过文法层级（`term` vs `expression`）隐式实现
+- `!` 是后缀运算符，优先级最高（在 `factor` 层处理）
 递归与回溯
-- 无回溯（LL(1) 特性），每一步仅需预读一个 Token 即可决策。
+- 无回溯（LL(1) 特性），每一步仅需预读一个 Token 即可决策
 括号处理
-- `(` 触发子表达式解析，递归调用 `expression()`，直到遇到 `)`。
+- `(` 触发子表达式解析，递归调用 `expression()`，直到遇到 `)`
 函数扩展性：
-- 如需支持函数（如 `sin(1+2)`），只需在 `base` 规则中添加 `function '(' expression ')'` 分支。
+- 如需支持函数（如 `sin(1+2)`），只需在 `base` 规则中添加 `function '(' expression ')'` 分支
 ```
 
 解析过程总结：
@@ -620,29 +620,635 @@ expression
 
 **实际应用建议**：对于超复杂表达式，可结合运算符优先级表（Operator-Precedence Parsing）或生成语法树进行多次求值，避免递归深度限制问题。
 
-## 3. 抽象语法树 (Abstract Syntax Tree, AST)
+## 三、 抽象语法树 (Abstract Syntax Tree, AST)
 
-### 原理
-1. 词法分析：将输入分解为token流
-2. 语法分析：构建语法树
-3. 树遍历求值
+### 1. 核心目的
 
-### 节点类型
-- 操作符节点：+, -, *, /, ^
-- 函数节点：sin, cos, log等
-- 数值节点
-- 括号节点
+抽象语法树（AST）是数学表达式在计算机中的结构化表示，它将表达式的 **语法结构** 和 **运算逻辑** 分离，是科学计算器的核心数据结构。AST 的主要作用是为数学表达式提供一种 中间表示，便于后续处理：
 
-### 优点
-- 最灵活的方法
-- 支持复杂语法分析
-- 易于优化和转换
-- 可生成中间代码
+**复杂表达式解析**：处理嵌套结构（如 sin(2^(x+1))）、多级运算符优先级（如 1 + 2 * 3）。
 
-### 缺点
-- 实现最复杂
-- 内存开销较大
-- 需要完整解析器
+**多阶段处理**：解析阶段（字符串 → AST）和 求值阶段（AST → 计算结果）分离，提高灵活性。
+
+**高级功能扩展**：支持 变量绑定（如 x = 5）、符号微分（如 d/dx (x^2)）、方程求解。
+
+**表达式优化**：常量折叠（2 * 3 → 6）、代数化简（x + 0 → x）。
+
+### 2. 核心原理
+
+**输入字符串 → Token 流（词法分析 Lexer）**
+
+- 任务：将原始字符串拆分成有意义的 Token（最小语法单元）
+
+- 关键点：识别数字、运算符、括号、函数名（如 sin）。忽略空格、处理负数（-5 vs 5 - 3）
+
+示例：
+
+```text
+输入："3 * (1 + 2)!"
+Token 流：
+[
+    { type: 'NUMBER', value: 3 },
+    { type: 'OPERATOR', value: '*' },
+    { type: 'LPAREN', value: '(' },
+    { type: 'NUMBER', value: 1 },
+    { type: 'OPERATOR', value: '+' },
+    { type: 'NUMBER', value: 2 },
+    { type: 'RPAREN', value: ')' },
+    { type: 'OPERATOR', value: '!' }
+]
+```
+
+**Token 流 → AST（语法分析 Parser）**
+
+- 任务：按照 文法规则 将 Token 流转换成 树形结构（AST）
+
+示例（`3 * (1 + 2)! `的 AST）：
+
+```text
+        *
+     / \
+    3   !
+       /
+      +
+     / \
+    1   2
+```
+
+文法规则（递归下降解析）：
+
+```text
+expression → term { ('+' | '-') term }
+term → factor { ('*' | '/') factor }
+factor → base [ '^' factor ] | '!' factor
+base → number | '(' expression ')' | function '(' expression ')'
+```
+
+- 解析过程：从 expression 开始，递归匹配 term、factor、base。遇到 ( 进入子表达式，遇到 ) 返回。运算符优先级通过 文法层级 隐式实现（如 * 比 + 优先级高）
+
+**AST → 求值（树遍历求值）**
+
+- 任务：递归遍历 AST，计算表达式结果
+
+示例（计算 `3 * (1 + 2)!`）：
+
+```text
+1. 访问 * 节点 → 先计算左子树 3，再计算右子树 !
+2. 计算 ! → 先计算子节点 +
+3. 计算 + → 1 + 2 = 3
+4. 计算 3! = 6
+5. 最终结果：3 * 6 = 18
+```
+
+**高级功能实现**
+
+- 变量绑定：AST 扩展，增加 VARIABLE 节点（如 x）、环境（Environment）存储变量值的字典 { 'x': 5 }、求值阶段遇到变量时从环境中查找值
+
+- 符号微分：对 AST 进行规则匹配（如 d/dx (x^2) → 2 * x），示例规则 d/dx (x) → 1、d/dx (sin(x)) → cos(x)
+
+- 常量折叠优化：AST 遍历：在求值前优化树结构，示例 2 * 3 → 6（直接替换为 NUMBER 节点）、x + 0 → x（删除冗余操作）
+
+**原理流程总结**
+
+|     阶段     |      输入      |     输出     |      关键组件      |
+| :----------: | :------------: | :----------: | :----------------: |
+| **词法分析** | `"3 * (1+2)!"` |   Token 流   | Lexer（正则匹配）  |
+| **语法分析** |    Token 流    |     AST      | Parser（递归下降） |
+|   **求值**   |      AST       |   计算结果   |  Tree Interpreter  |
+|   **优化**   |      AST       | 优化后的 AST |  Constant Folding  |
+
+### 3. 实现步骤 (C语言)
+
+**节点类型定义**
+
+```c
+typedef enum {
+    NODE_NUMBER,
+    NODE_BINARY_OP,
+    NODE_UNARY_OP,
+    NODE_FUNCTION,
+    NODE_PAREN // 实际可省略，用于可视化
+} NodeType;
+
+typedef enum {
+    OP_ADD, OP_SUB, OP_MUL, OP_DIV, OP_POW, OP_FACT
+} OperatorType;
+
+typedef struct ASTNode {
+    NodeType type;
+    union {
+        double number;  // 数值节点
+        struct {        // 操作符节点
+            OperatorType op_type;
+            struct ASTNode *left;
+            struct ASTNode *right;
+        };
+        struct {        // 函数节点
+            char func_name[10];
+            struct ASTNode *argument;
+        };
+    };
+} ASTNode;
+```
+
+---
+
+**词法分析器 (Lexer)**
+
+```c
+typedef enum {
+    TOK_NUMBER, TOK_PLUS, TOK_MINUS, TOK_MULT, TOK_DIV,
+    TOK_POW, TOK_FACT, TOK_LPAREN, TOK_RPAREN,
+    TOK_FUNCTION, TOK_END, TOK_ERROR
+} TokenType;
+
+typedef struct {
+    TokenType type;
+    double value;
+    char func[10];
+    int position;  // 错误定位
+} Token;
+
+Token get_next_token(const char **input) {
+    static int pos = 0;
+    while (isspace(**input)) { (*input)++; pos++; }
+    
+    if (**input == '\0') 
+        return (Token){TOK_END, 0, "", pos};
+    
+    // 数字解析
+    if (isdigit(**input) || **input == '.') {
+        char *end;
+        double val = strtod(*input, &end);
+        int len = end - *input;
+        *input = end;
+        Token tok = {TOK_NUMBER, val, "", pos};
+        pos += len;
+        return tok;
+    }
+    
+    // 函数解析
+    if (isalpha(**input)) {
+        Token tok = {TOK_FUNCTION, 0, "", pos};
+        int i = 0;
+        while (isalpha(**input)) 
+            tok.func[i++] = *(*input)++;
+        tok.func[i] = '\0';
+        pos += i;
+        return tok;
+    }
+    
+    // 运算符解析
+    char c = *(*input)++;
+    pos++;
+    switch(c) {
+        case '+': return (Token){TOK_PLUS, 0, "", pos-1};
+        case '-': return (Token){TOK_MINUS, 0, "", pos-1};
+        case '*': return (Token){TOK_MULT, 0, "", pos-1};
+        case '/': return (Token){TOK_DIV, 0, "", pos-1};
+        case '^': return (Token){TOK_POW, 0, "", pos-1};
+        case '!': return (Token){TOK_FACT, 0, "", pos-1};
+        case '(': return (Token){TOK_LPAREN, 0, "", pos-1};
+        case ')': return (Token){TOK_RPAREN, 0, "", pos-1};
+        default:  return (Token){TOK_ERROR, 0, "", pos-1};
+    }
+}
+```
+
+---
+
+**语法分析器 (Parser)**
+
+```c
+ASTNode* parse_expression(const char **input);
+ASTNode* parse_term(const char **input);
+ASTNode* parse_factor(const char **input);
+ASTNode* parse_base(const char **input);
+
+// 表达式解析: term { (+|-) term }
+ASTNode* parse_expression(const char **input) {
+    ASTNode *left = parse_term(input);
+    Token tok;
+    
+    while (1) {
+        tok = get_next_token(input);
+        if (tok.type != TOK_PLUS && tok.type != TOK_MINUS) {
+            *input -= 1; // 回退token
+            break;
+        }
+        
+        ASTNode *node = malloc(sizeof(ASTNode));
+        node->type = NODE_BINARY_OP;
+        node->op_type = (tok.type == TOK_PLUS) ? OP_ADD : OP_SUB;
+        node->left = left;
+        node->right = parse_term(input);
+        left = node;
+    }
+    return left;
+}
+
+// 因子解析: base [ '^' factor ] | '!' factor
+ASTNode* parse_factor(const char **input) {
+    Token tok = get_next_token(input);
+    
+    // 处理阶乘（后缀操作符）
+    if (tok.type == TOK_FACT) {
+        ASTNode *node = malloc(sizeof(ASTNode));
+        node->type = NODE_UNARY_OP;
+        node->op_type = OP_FACT;
+        node->left = parse_factor(input); // 递归解析操作数
+        node->right = NULL;
+        return node;
+    }
+    
+    // 回退并解析底数
+    *input -= 1;
+    ASTNode *base = parse_base(input);
+    
+    // 检查指数
+    tok = get_next_token(input);
+    if (tok.type == TOK_POW) {
+        ASTNode *node = malloc(sizeof(ASTNode));
+        node->type = NODE_BINARY_OP;
+        node->op_type = OP_POW;
+        node->left = base;
+        node->right = parse_factor(input); // 右递归处理指数
+        return node;
+    }
+    
+    *input -= 1; // 回退非指数token
+    return base;
+}
+
+// 基础元素解析
+ASTNode* parse_base(const char **input) {
+    Token tok = get_next_token(input);
+    
+    if (tok.type == TOK_NUMBER) {
+        ASTNode *node = malloc(sizeof(ASTNode));
+        node->type = NODE_NUMBER;
+        node->number = tok.value;
+        return node;
+    }
+    
+    if (tok.type == TOK_LPAREN) {
+        ASTNode *expr = parse_expression(input);
+        Token next = get_next_token(input);
+        if (next.type != TOK_RPAREN) {
+            fprintf(stderr, "Error: Mismatched parenthesis at position %d\n", next.position);
+            exit(EXIT_FAILURE);
+        }
+        
+        // 可选：创建括号节点用于可视化
+        ASTNode *paren = malloc(sizeof(ASTNode));
+        paren->type = NODE_PAREN;
+        paren->left = expr;
+        return paren;
+    }
+    
+    if (tok.type == TOK_FUNCTION) {
+        Token next = get_next_token(input);
+        if (next.type != TOK_LPAREN) {
+            fprintf(stderr, "Error: Expected '(' after function at %d\n", next.position);
+            exit(EXIT_FAILURE);
+        }
+        
+        ASTNode *arg = parse_expression(input);
+        next = get_next_token(input);
+        if (next.type != TOK_RPAREN) {
+            fprintf(stderr, "Error: Expected ')' after function argument at %d\n", next.position);
+            exit(EXIT_FAILURE);
+        }
+        
+        ASTNode *node = malloc(sizeof(ASTNode));
+        node->type = NODE_FUNCTION;
+        strncpy(node->func_name, tok.func, 10);
+        node->argument = arg;
+        return node;
+    }
+    
+    fprintf(stderr, "Error: Unexpected token at position %d\n", tok.position);
+    exit(EXIT_FAILURE);
+}
+```
+
+---
+
+**AST求值器**
+
+```c
+double evaluate_ast(ASTNode *node) {
+    if (!node) return NAN;
+    
+    switch (node->type) {
+        case NODE_NUMBER:
+            return node->number;
+            
+        case NODE_BINARY_OP:
+            double left = evaluate_ast(node->left);
+            double right = evaluate_ast(node->right);
+            switch (node->op_type) {
+                case OP_ADD: return left + right;
+                case OP_SUB: return left - right;
+                case OP_MUL: return left * right;
+                case OP_DIV: 
+                    if (right == 0) {
+                        fprintf(stderr, "Division by zero\n");
+                        return NAN;
+                    }
+                    return left / right;
+                case OP_POW: return pow(left, right);
+            }
+            break;
+            
+        case NODE_UNARY_OP:
+            if (node->op_type == OP_FACT) {
+                double val = evaluate_ast(node->left);
+                if (val < 0 || floor(val) != val) {
+                    fprintf(stderr, "Invalid factorial operand: %f\n", val);
+                    return NAN;
+                }
+                long result = 1;
+                for (int i = 1; i <= (long)val; i++) result *= i;
+                return (double)result;
+            }
+            break;
+            
+        case NODE_FUNCTION:
+            double arg = evaluate_ast(node->argument);
+            if (strcmp(node->func_name, "sin") == 0) return sin(arg);
+            if (strcmp(node->func_name, "cos") == 0) return cos(arg);
+            if (strcmp(node->func_name, "tan") == 0) return tan(arg);
+            if (strcmp(node->func_name, "log") == 0) return log(arg);
+            if (strcmp(node->func_name, "exp") == 0) return exp(arg);
+            fprintf(stderr, "Unknown function: %s\n", node->func_name);
+            return NAN;
+            
+        case NODE_PAREN:
+            return evaluate_ast(node->left);
+    }
+    return NAN;
+}
+```
+
+---
+
+**内存管理**
+
+```c
+void free_ast(ASTNode *node) {
+    if (!node) return;
+    
+    switch (node->type) {
+        case NODE_BINARY_OP:
+            free_ast(node->left);
+            free_ast(node->right);
+            break;
+        case NODE_UNARY_OP:
+        case NODE_FUNCTION:
+        case NODE_PAREN:
+            free_ast(node->left);
+            break;
+        default: break;
+    }
+    free(node);
+}
+```
+
+---
+
+**高级扩展实现**
+
+```c
+// 变量支持
+typedef struct {
+    char name[20];
+    double value;
+} Variable;
+
+ASTNode* create_variable_node(const char *name) {
+    ASTNode *node = malloc(sizeof(ASTNode));
+    node->type = NODE_VARIABLE;
+    strncpy(node->var_name, name, 20);
+    return node;
+}
+
+// 符号微分
+ASTNode* differentiate(ASTNode *node, const char *var) {
+    if (node->type == NODE_VARIABLE) {
+        if (strcmp(node->var_name, var) == 0) 
+            return create_number_node(1);
+        return create_number_node(0);
+    }
+    
+    if (node->type == NODE_BINARY_OP) {
+        switch (node->op_type) {
+            case OP_ADD: case OP_SUB:
+                return create_binary_node(
+                    node->op_type,
+                    differentiate(node->left, var),
+                    differentiate(node->right, var)
+                );
+            case OP_MUL: // 乘积法则
+                return create_binary_node(OP_ADD,
+                    create_binary_node(OP_MUL,
+                        differentiate(node->left, var),
+                        copy_ast(node->right)),
+                    create_binary_node(OP_MUL,
+                        copy_ast(node->left),
+                        differentiate(node->right, var))
+                );
+        }
+    }
+}
+
+// 常量折叠优化
+ASTNode* optimize_ast(ASTNode *node) {
+    if (!node) return NULL;
+    
+    node->left = optimize_ast(node->left);
+    node->right = optimize_ast(node->right);
+    
+    if (node->type == NODE_BINARY_OP) {
+        if (node->left->type == NODE_NUMBER && 
+            node->right->type == NODE_NUMBER) {
+            double result = evaluate_ast(node);
+            ASTNode *num = create_number_node(result);
+            free_ast(node);
+            return num;
+        }
+    }
+    return node;
+}
+```
+
+**性能优化技术**
+
+```c
+// 对象池管理
+#define POOL_SIZE 1000
+ASTNode node_pool[POOL_SIZE];
+int node_count = 0;
+
+ASTNode* alloc_node() {
+    if (node_count < POOL_SIZE) 
+        return &node_pool[node_count++];
+    return malloc(sizeof(ASTNode));
+}
+
+// 迭代遍历
+double iterative_eval(ASTNode *root) {
+    Stack stack; // 自定义栈实现
+    push(stack, root);
+    
+    while (!empty(stack)) {
+        ASTNode *current = top(stack);
+        
+        if (current->visited) {
+            pop(stack);
+            // 处理操作符...
+        } else {
+            current->visited = 1;
+            if (current->right) push(stack, current->right);
+            if (current->left) push(stack, current->left);
+        }
+    }
+}
+
+// LRU缓存
+#define CACHE_SIZE 50
+typedef struct {
+    char expr[100];
+    double value;
+} ExprCache;
+
+double cached_eval(const char *expr) {
+    // 查找缓存...
+    // 未命中时构建AST并求值
+    // 结果存入缓存
+}
+```
+
+### 4. 实例解析
+
+**例1：解析输入表达式 3 + sin(4^2)!**
+
+词法分析：
+
+```text
+[NUM:3] [+] [FUNC:sin] [(] [NUM:4] [^] [NUM:2] [)] [!]
+```
+
+AST构建：
+
+```text
+       +
+      / \
+     3   !
+        /
+       sin
+       /   
+      ^
+     / \
+    4   2
+```
+
+求值过程：
+
+```text
+后序遍历：3 → 4 → 2 → ^ → sin → ! → +
+
+计算步骤：
+4^2 = 16
+sin(16) ≈ -0.2879
+(-0.2879)! → 错误（阶乘需整数）
+```
+
+**例2：解析输入表达式 sin(2 * x) + 1**
+
+AST结构：
+
+```text
+        +
+       / \
+     sin  1
+      /
+     *
+    / \
+   2   x
+```
+
+求值过程：
+
+```text
+后序遍历：2 → x → * → sin → 1 → +
+
+计算 sin → 先计算 2 * x（假设 x = 3 → 6）
+计算 sin(6) ≈ -0.279
+计算 -0.279 + 1 ≈ 0.721
+```
+
+### 5. 优缺点
+
+**优点**
+
+- 结构化表示：清晰表达运算符优先级和嵌套关系，支持复杂语法分析
+
+- 多阶段架构：分离解析、优化与求值
+
+- 可视化能力：可生成中间代码，直观表达式表示
+
+- 灵活扩展：支持变量、函数、符号计算等高级功能
+
+- 高效优化：便于实现常量折叠、代数化简
+
+- 错误定位：精确到具体节点
+
+**缺点**
+
+- 实现复杂：需完整解析器架构
+
+- 内存开销：节点动态分配
+
+- 性能开销：树遍历额外成本
+
+- 递归风险：深度嵌套可能栈溢出
+
+### 6. 算法特性
+
+**优先级处理**：优先级：^ > ! > 函数 > +
+
+**结合性实现**：左结合 1-2-3 → (1-2)-3、右结合 2^3^4 → 2^(3^4)
+
+**错误处理**：位置感知错误报告、类型安全求值、边界检查（除零/阶乘）
+
+**空间复杂度**：解析阶段 O(d)（d=语法嵌套深度）、AST 存储 O(n)、优化后 O(min(d, n))
+
+**时间复杂度**：解析阶段 O(n)、求值阶段 O(n)、优化后 O(n)（理想）
+
+通过合理设计文法规则和遍历算法，AST 能在 线性时间和可控空间 内高效处理复杂数学表达式，满足科学计算器的实时性要求
+
+### 7. 典型应用场景
+
+**科学计算引擎**：MATLAB、Mathematica数值模拟软件
+
+**编译器前端**：编程语言解析（Python、Julia）、DSL（领域特定语言）
+
+**公式处理系统**：LaTeX公式渲染、表格计算（Excel公式）
+
+**符号计算系统**：代数化简、符号微分/积分
+
+**AI表达式解析**：规则引擎、自动定理证明
+
+**最佳实践建议**：对于性能敏感场景，可结合以下技术
+
+- AST池分配器：减少内存碎片
+
+- JIT编译：将AST编译为机器码
+
+- GPU卸载：将并行计算部分转移到GPU
+
+**典型应用**：Wolfram Mathematica、MATLAB 符号数学工具箱
 
 ## 4. 表驱动解析 (Table-Driven Parsing)
 
