@@ -18,19 +18,21 @@
 
 ### 1. 核心目的
 
-**将人类易读的中缀表达式转换为计算机易处理的后缀表达式（逆波兰表示法），然后使用栈计算后缀表达式值**
+**中缀表达式处理**：将人类易读的中缀表达式转换为计算机易处理的后缀表达式（逆波兰表示法），然后使用栈计算后缀表达式值
 
 - 中缀表达式：`3 + 4 * (5 - 2)`
 
 - 后缀表达式：`3 4 5 2 - * +`
 
-**转换目的**：
+**优先级自动处理**：自动处理运算符优先级和结合性
 
-- 消除括号需求：后缀表达式无需括号即可明确运算顺序
+**括号嵌套支持**：正确处理多层括号嵌套，后缀表达式无需括号即可明确运算顺序
 
-- 简化计算过程：计算机可通过栈结构高效计算后缀表达式
+**函数集成**：无缝支持数学函数调用
 
-- 统一处理规则：为编译器/解释器提供标准化的表达式处理方案
+**简化计算过程**：计算机可通过栈结构高效计算后缀表达式
+
+**统一处理规则**：为编译器/解释器提供标准化的表达式处理方案
 
 ### 2. 核心原理
 
@@ -43,9 +45,9 @@
 **优先级与结合性规则**：
 
 - 优先级：`^` > `*/` > `+-`（指数>乘除>加减）
-- 结合性：左结合：`+ - * /`（当优先级相同时，从左向右计算）、右结合：`^`（当优先级相同时，从右向左计算）
+- 结合性：左结合 `+ - * /`（当优先级相同时，从左向右计算）、右结合 `^`（当优先级相同时，从右向左计算）
 
-### 3. 实现步骤
+### 3. 实现步骤 (C语言)
 
 **数据结构**
 
@@ -77,6 +79,360 @@
   ```
 
 - 扫描结束 → 将栈中剩余运算符全部弹出加入输出队列
+
+---
+
+**数据结构定义**
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <math.h>
+
+#define MAX_STACK_SIZE 100
+
+// 运算符栈
+typedef struct {
+    char data[MAX_STACK_SIZE];
+    int top;
+} OperatorStack;
+
+// 操作数栈
+typedef struct {
+    double data[MAX_STACK_SIZE];
+    int top;
+} OperandStack;
+
+// 初始化运算符栈
+void initOperatorStack(OperatorStack *s) {
+    s->top = -1;
+}
+
+// 初始化操作数栈
+void initOperandStack(OperandStack *s) {
+    s->top = -1;
+}
+```
+
+---
+
+**栈操作函数**
+
+```c
+// 运算符栈操作
+void pushOperator(OperatorStack *s, char op) {
+    if (s->top < MAX_STACK_SIZE - 1) {
+        s->data[++s->top] = op;
+    } else {
+        printf("Operator Stack Overflow\n");
+        exit(1);
+    }
+}
+
+char popOperator(OperatorStack *s) {
+    if (s->top >= 0) {
+        return s->data[s->top--];
+    } else {
+        printf("Operator Stack Underflow\n");
+        exit(1);
+    }
+}
+
+char peekOperator(OperatorStack *s) {
+    if (s->top >= 0) {
+        return s->data[s->top];
+    } else {
+        return '\0';
+    }
+}
+
+// 操作数栈操作
+void pushOperand(OperandStack *s, double num) {
+    if (s->top < MAX_STACK_SIZE - 1) {
+        s->data[++s->top] = num;
+    } else {
+        printf("Operand Stack Overflow\n");
+        exit(1);
+    }
+}
+
+double popOperand(OperandStack *s) {
+    if (s->top >= 0) {
+        return s->data[s->top--];
+    } else {
+        printf("Operand Stack Underflow\n");
+        exit(1);
+    }
+}
+```
+
+---
+
+**优先级管理**
+
+```c
+// 获取运算符优先级
+int getPrecedence(char op) {
+    switch(op) {
+        case '+': case '-': return 1;
+        case '*': case '/': return 2;
+        case '^': return 3;
+        case 's': case 'c': case 't': case 'l': // 函数代码
+            return 4;
+        default: return 0;
+    }
+}
+
+// 比较运算符优先级
+int hasHigherPrecedence(char op1, char op2) {
+    return getPrecedence(op1) > getPrecedence(op2);
+}
+```
+
+---
+
+**调度场算法实现**
+
+```c
+// 中缀转后缀
+void infixToPostfix(char* infix, char* postfix) {
+    OperatorStack opStack;
+    initOperatorStack(&opStack);
+    int i = 0, j = 0;
+    char token[20];
+    
+    while (infix[i]) {
+        if (isspace(infix[i])) {
+            i++;
+            continue;
+        }
+        
+        // 处理数字
+        if (isdigit(infix[i]) || infix[i] == '.') {
+            int k = 0;
+            while (isdigit(infix[i]) || infix[i] == '.' || infix[i] == 'e' || 
+                  infix[i] == 'E' || (k > 0 && (infix[i] == '+' || infix[i] == '-'))) {
+                token[k++] = infix[i++];
+            }
+            token[k] = '\0';
+            
+            // 添加到后缀表达式
+            strcat(postfix, token);
+            strcat(postfix, " ");
+            continue;
+        }
+        
+        // 处理函数
+        if (isalpha(infix[i])) {
+            int k = 0;
+            while (isalpha(infix[i])) {
+                token[k++] = infix[i++];
+            }
+            token[k] = '\0';
+            
+            // 映射函数到单字符代码
+            char funcCode = 0;
+            if (strcmp(token, "sin") == 0) funcCode = 's';
+            else if (strcmp(token, "cos") == 0) funcCode = 'c';
+            else if (strcmp(token, "tan") == 0) funcCode = 't';
+            else if (strcmp(token, "log") == 0) funcCode = 'l';
+            
+            pushOperator(&opStack, funcCode);
+            continue;
+        }
+        
+        // 处理运算符
+        if (strchr("+-*/^", infix[i])) {
+            while (opStack.top != -1 && 
+                   peekOperator(&opStack) != '(' &&
+                   hasHigherPrecedence(peekOperator(&opStack), infix[i])) {
+                postfix[j++] = popOperator(&opStack);
+                postfix[j++] = ' ';
+            }
+            pushOperator(&opStack, infix[i]);
+        }
+        
+        // 处理左括号
+        else if (infix[i] == '(') {
+            pushOperator(&opStack, '(');
+        }
+        
+        // 处理右括号
+        else if (infix[i] == ')') {
+            while (opStack.top != -1 && peekOperator(&opStack) != '(') {
+                postfix[j++] = popOperator(&opStack);
+                postfix[j++] = ' ';
+            }
+            popOperator(&opStack); // 弹出 '('
+        }
+        
+        i++;
+    }
+    
+    // 处理栈中剩余运算符
+    while (opStack.top != -1) {
+        postfix[j++] = popOperator(&opStack);
+        postfix[j++] = ' ';
+    }
+    postfix[j] = '\0';
+}
+```
+
+---
+
+**后缀表达式求值**
+
+```c
+double evaluatePostfix(char* postfix) {
+    OperandStack numStack;
+    initOperandStack(&numStack);
+    char* token = strtok(postfix, " ");
+    
+    while (token != NULL) {
+        // 处理数字
+        if (isdigit(token[0]) || token[0] == '.' || 
+            (token[0] == '-' && isdigit(token[1]))) {
+            pushOperand(&numStack, atof(token));
+        }
+        // 处理运算符
+        else if (strlen(token) == 1) {
+            char op = token[0];
+            double b = popOperand(&numStack);
+            double a = 0;
+            
+            // 二元运算符需要两个操作数
+            if (op != 's' && op != 'c' && op != 't' && op != 'l') {
+                a = popOperand(&numStack);
+            }
+            
+            switch(op) {
+                case '+': pushOperand(&numStack, a + b); break;
+                case '-': pushOperand(&numStack, a - b); break;
+                case '*': pushOperand(&numStack, a * b); break;
+                case '/': 
+                    if (b == 0) {
+                        printf("Division by zero\n");
+                        exit(1);
+                    }
+                    pushOperand(&numStack, a / b); 
+                    break;
+                case '^': pushOperand(&numStack, pow(a, b)); break;
+                case 's': pushOperand(&numStack, sin(b)); break;
+                case 'c': pushOperand(&numStack, cos(b)); break;
+                case 't': pushOperand(&numStack, tan(b)); break;
+                case 'l': 
+                    if (b <= 0) {
+                        printf("Log of non-positive number\n");
+                        exit(1);
+                    }
+                    pushOperand(&numStack, log10(b)); 
+                    break;
+            }
+        }
+        token = strtok(NULL, " ");
+    }
+    
+    return popOperand(&numStack);
+}
+```
+
+---
+
+**扩展实现**
+
+```c
+// 变量支持
+typedef struct {
+    char name[20];
+    double value;
+} Variable;
+
+Variable variables[50];
+int varCount = 0;
+
+double getVariableValue(char* name) {
+    for (int i = 0; i < varCount; i++) {
+        if (strcmp(variables[i].name, name) == 0) {
+            return variables[i].value;
+        }
+    }
+    return NAN;
+}
+
+// 在词法分析中
+if (isalpha(token[0]) && !isFunction(token)) {
+    double value = getVariableValue(token);
+    if (!isnan(value)) {
+        pushOperand(&numStack, value);
+    }
+}
+
+// 错误恢复增强
+// 括号匹配检查
+int parenCount = 0;
+for (int i = 0; infix[i]; i++) {
+    if (infix[i] == '(') parenCount++;
+    if (infix[i] == ')') parenCount--;
+}
+if (parenCount != 0) {
+    printf("Mismatched parentheses\n");
+    exit(1);
+}
+
+// 栈溢出保护
+void pushOperator(OperatorStack *s, char op) {
+    if (s->top >= MAX_STACK_SIZE - 1) {
+        printf("Expression too complex\n");
+        exit(1);
+    }
+    // ...
+}
+
+// 科学计数法支持
+// 在数字解析中
+if (infix[i] == 'e' || infix[i] == 'E') {
+    token[k++] = infix[i++];
+    if (infix[i] == '+' || infix[i] == '-') {
+        token[k++] = infix[i++];
+    }
+    while (isdigit(infix[i])) {
+        token[k++] = infix[i++];
+    }
+}
+```
+
+---
+
+**性能优化**
+
+```c
+// 栈预分配
+#define MAX_EXPR_LEN 256
+char postfix[MAX_EXPR_LEN * 2]; // 后缀表达式缓冲区
+
+// 内联函数
+static inline int isOperator(char c) {
+    return strchr("+-*/^", c) != NULL;
+}
+
+// 位运算优化
+// 使用位域存储优先级
+typedef struct {
+    char op;
+    unsigned precedence : 3; // 0-7优先级
+    unsigned isFunction : 1; // 函数标志
+} OpInfo;
+
+// 表达式缓存
+typedef struct {
+    char infix[100];
+    double result;
+} ExprCache;
+
+ExprCache cache[20];
+```
 
 ### 4. 实例解析
 
@@ -186,9 +542,25 @@
 
 ### 5. 优缺点
 
-**优点**：结构清晰、易于处理运算符优先级、支持复杂表达式
+**优点**
 
-**缺点**：需要显式处理括号、函数处理较复杂
+- 结构清晰：双栈分离解析与计算
+
+- 优先级自动处理：内置优先级机制
+
+- 扩展性强：易添加新运算符
+
+- 支持复杂表达式：嵌套函数和括号
+
+**缺点**
+
+- 括号处理复杂：需要显式管理括号
+
+- 函数支持有限：多参数函数处理困难
+
+- 错误恢复难：错误时需清空栈
+
+- 左结合限制：右结合运算符需特殊处理
 
 ### 6. 算法特性
 
@@ -202,11 +574,37 @@
 
 ### 7. 典型应用场景
 
-- 编程语言编译器（表达式解析阶段）
-- 科学计算器软件（如Windows计算器）
-- 数据库查询优化器（SQL条件表达式处理）
-- 电子表格公式计算（Excel等）
-- 数学软件（MATLAB, Mathematica）
+**科学计算器**：Casio、TI系列计算器
+
+**编程语言解释器**：Python eval()函数实现
+
+**公式计算引擎**：Excel公式计算
+
+**工业控制系统**：PLC表达式计算
+
+**财务计算软件**：复利计算公式处理
+
+栈求值法在科学计算器中提供了：
+
+- 结构化处理：清晰分离解析和计算阶段
+
+- 优先级自动化：自动处理复杂运算符优先级
+
+- 健壮性：可靠处理嵌套括号和函数
+
+- 工业级应用：广泛用于计算器和编程语言
+
+**最佳实践建议**：
+
+- 添加详细错误检查和恢复机制
+
+- 实现表达式缓存提升重复计算性能
+
+- 使用预分配内存减少动态分配开销
+
+- 为嵌入式系统优化栈大小
+
+**典型应用**：HP计算器RPN模式、Python的eval函数、Excel公式引擎
 
 通过调度场算法，计算机得以高效处理人类直观的数学表达式，架起了自然数学表示与机器高效执行之间的关键桥梁。其设计体现了迪杰斯特拉"分而治之"的思想精髓，是算法设计中栈结构应用的经典范例。
 
