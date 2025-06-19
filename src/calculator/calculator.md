@@ -669,85 +669,53 @@ base → number | '(' expression ')' | function '(' expression ')'  // 数字/�
 **词法分析器（Lexer）**
 
 ```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <string.h>
-#include <math.h>
-
 typedef enum {
-    TOK_NUMBER,     // 数字
-    TOK_PLUS,       // +
-    TOK_MINUS,      // -
-    TOK_MULTIPLY,   // *
-    TOK_DIVIDE,     // /
-    TOK_POWER,      // ^
-    TOK_FACTORIAL,  // !
-    TOK_LPAREN,     // (
-    TOK_RPAREN,     // )
-    TOK_FUNCTION,   // sin, cos, etc
-    TOK_END         // 结束
+    TOK_NUM, TOK_ADD, TOK_SUB, TOK_MUL, TOK_DIV,
+    TOK_POW, TOK_FACT, TOK_LPAREN, TOK_RPAREN,
+    TOK_FUNC, TOK_END, TOK_ERR
 } TokenType;
 
 typedef struct {
     TokenType type;
-    double value;      // 对于TOK_NUMBER
-    char func_name[10]; // 对于TOK_FUNCTION
+    double value;    // 数字值
+    char func[10];   // 函数名
 } Token;
 
-const char* input;     // 输入字符串指针
-Token current_token;   // 当前token
-
-// 获取下一个token
-void next_token() {
-    while (isspace(*input)) input++; // 跳过空白字符
+Token get_next_token(const char **input) {
+    while (isspace(**input)) (*input)++;  // 跳过空白
     
-    if (*input == '\0') {
-        current_token.type = TOK_END;
-        return;
+    if (**input == '\0') return (Token){TOK_END, 0};
+    
+    // 数字解析
+    if (isdigit(**input) || **input == '.') {
+        char *end;
+        double val = strtod(*input, &end);
+        *input = end;
+        return (Token){TOK_NUM, val};
     }
     
-    // 处理数字
-    if (isdigit(*input) || *input == '.') {
-        char* end;
-        current_token.value = strtod(input, &end);
-        input = end;
-        current_token.type = TOK_NUMBER;
-        return;
-    }
-    
-    // 处理函数名
-    if (isalpha(*input)) {
+    // 函数解析
+    if (isalpha(**input)) {
+        Token tok = {TOK_FUNC};
         int i = 0;
-        while (isalpha(*input)) {
-            current_token.func_name[i++] = *input++;
-        }
-        current_token.func_name[i] = '\0';
-        current_token.type = TOK_FUNCTION;
-        return;
+        while (isalpha(**input)) 
+            tok.func[i++] = *(*input)++;
+        tok.func[i] = '\0';
+        return tok;
     }
     
-    // 处理运算符
-    switch (*input) {
-        case '+': current_token.type = TOK_PLUS; break;
-        case '-': current_token.type = TOK_MINUS; break;
-        case '*': current_token.type = TOK_MULTIPLY; break;
-        case '/': current_token.type = TOK_DIVIDE; break;
-        case '^': current_token.type = TOK_POWER; break;
-        case '!': current_token.type = TOK_FACTORIAL; break;
-        case '(': current_token.type = TOK_LPAREN; break;
-        case ')': current_token.type = TOK_RPAREN; break;
-        default:
-            fprintf(stderr, "Unexpected character: %c\n", *input);
-            exit(EXIT_FAILURE);
+    // 运算符解析
+    switch (*(*input)++) {
+        case '+': return (Token){TOK_ADD};
+        case '-': return (Token){TOK_SUB};
+        case '*': return (Token){TOK_MUL};
+        case '/': return (Token){TOK_DIV};
+        case '^': return (Token){TOK_POW};
+        case '!': return (Token){TOK_FACT};
+        case '(': return (Token){TOK_LPAREN};
+        case ')': return (Token){TOK_RPAREN};
+        default:  return (Token){TOK_ERR};
     }
-    input++;
-}
-
-// 初始化词法分析器
-void init_lexer(const char* expr) {
-    input = expr;
-    next_token(); // 获取第一个token
 }
 ```
 
