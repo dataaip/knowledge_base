@@ -614,6 +614,14 @@ ExprCache cache[20];
 
 构建一个自顶向下的语法分析器，将输入的符号序列（如源代码）转换为抽象语法树(AST)，用于编译器/解释器的前端处理。核心目标是直接映射文法规则到代码结构，实现语法验证和树形结构构建。
 
+**自然语法映射**：将数学表达式的语法结构直接映射到代码结构
+
+**优先级自动处理**：通过递归层级隐式处理运算符优先级
+
+**复杂嵌套支持**：优雅处理多层嵌套的括号和函数
+
+**扩展性**：轻松添加新语法结构而不影响整体框架
+
 ### 2. 核心原理
 
 **基于上下文无关文法（CFG）设计解析器**
@@ -661,59 +669,91 @@ base → number | '(' expression ')' | function '(' expression ')'  // 数字/�
 **词法分析器（Lexer）**
 
 ```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+#include <math.h>
+
 typedef enum {
-    TOK_NUM, TOK_ADD, TOK_SUB, TOK_MUL, TOK_DIV,
-    TOK_POW, TOK_FACT, TOK_LPAREN, TOK_RPAREN,
-    TOK_FUNC, TOK_END, TOK_ERR
+    TOK_NUMBER,     // 数字
+    TOK_PLUS,       // +
+    TOK_MINUS,      // -
+    TOK_MULTIPLY,   // *
+    TOK_DIVIDE,     // /
+    TOK_POWER,      // ^
+    TOK_FACTORIAL,  // !
+    TOK_LPAREN,     // (
+    TOK_RPAREN,     // )
+    TOK_FUNCTION,   // sin, cos, etc
+    TOK_END         // 结束
 } TokenType;
 
 typedef struct {
     TokenType type;
-    double value;    // 数字值
-    char func[10];   // 函数名
+    double value;      // 对于TOK_NUMBER
+    char func_name[10]; // 对于TOK_FUNCTION
 } Token;
 
-Token get_next_token(const char **input) {
-    while (isspace(**input)) (*input)++;  // 跳过空白
+const char* input;     // 输入字符串指针
+Token current_token;   // 当前token
+
+// 获取下一个token
+void next_token() {
+    while (isspace(*input)) input++; // 跳过空白字符
     
-    if (**input == '\0') return (Token){TOK_END, 0};
-    
-    // 数字解析
-    if (isdigit(**input) || **input == '.') {
-        char *end;
-        double val = strtod(*input, &end);
-        *input = end;
-        return (Token){TOK_NUM, val};
+    if (*input == '\0') {
+        current_token.type = TOK_END;
+        return;
     }
     
-    // 函数解析
-    if (isalpha(**input)) {
-        Token tok = {TOK_FUNC};
+    // 处理数字
+    if (isdigit(*input) || *input == '.') {
+        char* end;
+        current_token.value = strtod(input, &end);
+        input = end;
+        current_token.type = TOK_NUMBER;
+        return;
+    }
+    
+    // 处理函数名
+    if (isalpha(*input)) {
         int i = 0;
-        while (isalpha(**input)) 
-            tok.func[i++] = *(*input)++;
-        tok.func[i] = '\0';
-        return tok;
+        while (isalpha(*input)) {
+            current_token.func_name[i++] = *input++;
+        }
+        current_token.func_name[i] = '\0';
+        current_token.type = TOK_FUNCTION;
+        return;
     }
     
-    // 运算符解析
-    switch (*(*input)++) {
-        case '+': return (Token){TOK_ADD};
-        case '-': return (Token){TOK_SUB};
-        case '*': return (Token){TOK_MUL};
-        case '/': return (Token){TOK_DIV};
-        case '^': return (Token){TOK_POW};
-        case '!': return (Token){TOK_FACT};
-        case '(': return (Token){TOK_LPAREN};
-        case ')': return (Token){TOK_RPAREN};
-        default:  return (Token){TOK_ERR};
+    // 处理运算符
+    switch (*input) {
+        case '+': current_token.type = TOK_PLUS; break;
+        case '-': current_token.type = TOK_MINUS; break;
+        case '*': current_token.type = TOK_MULTIPLY; break;
+        case '/': current_token.type = TOK_DIVIDE; break;
+        case '^': current_token.type = TOK_POWER; break;
+        case '!': current_token.type = TOK_FACTORIAL; break;
+        case '(': current_token.type = TOK_LPAREN; break;
+        case ')': current_token.type = TOK_RPAREN; break;
+        default:
+            fprintf(stderr, "Unexpected character: %c\n", *input);
+            exit(EXIT_FAILURE);
     }
+    input++;
+}
+
+// 初始化词法分析器
+void init_lexer(const char* expr) {
+    input = expr;
+    next_token(); // 获取第一个token
 }
 ```
 
 ---
 
-**递归下降解析器**
+**递归下降解析器 (Parser)**
 
 ```c
 double parse_expression(const char **input);
@@ -821,6 +861,172 @@ double parse_base(const char **input) {
 
 double evaluate_expression(const char *expr) {
     return parse_expression(&expr);
+}
+```
+
+---
+
+**扩展实现**
+
+```c
+// 变量支持
+typedef struct {
+    char name[20];
+    double value;
+} Variable;
+
+Variable variables[50];
+int var_count = 0;
+
+double get_variable(const char* name) {
+    for (int i = 0; i < var_count; i++) {
+        if (strcmp(variables[i].name, name) == 0) {
+            return variables[i].value;
+        }
+    }
+    return NAN; // 未找到
+}
+
+// 在parse_base()中添加
+if (is_variable(current_token)) {
+    const char* var_name = get_identifier();
+    double value = get_variable(var_name);
+    if (isnan(value)) {
+        fprintf(stderr, "Undefined variable: %s\n", var_name);
+        exit(EXIT_FAILURE);
+    }
+    result = value;
+    next_token();
+}
+
+// 错误恢复增强
+// 错误恢复机制
+void synchronize() {
+    // 跳过token直到遇到同步点
+    while (current_token.type != TOK_END) {
+        switch (current_token.type) {
+            case TOK_SEMICOLON:
+            case TOK_RPAREN:
+            case TOK_PLUS:
+            case TOK_MINUS:
+                next_token();
+                return;
+            default:
+                next_token();
+        }
+    }
+}
+
+// 在解析函数中使用
+double parse_expression() {
+    try {
+        double result = parse_term();
+        // ...
+    } catch (ParseError) {
+        synchronize();
+        return NAN;
+    }
+}
+
+// 递归深度限制
+#define MAX_RECURSION_DEPTH 100
+int recursion_depth = 0;
+
+double parse_expression() {
+    if (recursion_depth++ > MAX_RECURSION_DEPTH) {
+        fprintf(stderr, "Recursion depth exceeded\n");
+        exit(EXIT_FAILURE);
+    }
+    
+    // 解析逻辑...
+    
+    recursion_depth--;
+    return result;
+}
+
+// 多参数函数支持
+// 解析参数列表
+double* parse_arguments(int* count) {
+    double* args = malloc(10 * sizeof(double));
+    *count = 0;
+    
+    if (current_token.type != TOK_LPAREN) {
+        fprintf(stderr, "Expected '(' after function\n");
+        exit(EXIT_FAILURE);
+    }
+    next_token();
+    
+    // 解析第一个参数
+    if (current_token.type != TOK_RPAREN) {
+        args[(*count)++] = parse_expression();
+        
+        // 解析后续参数
+        while (current_token.type == TOK_COMMA) {
+            next_token();
+            args[(*count)++] = parse_expression();
+        }
+    }
+    
+    if (current_token.type != TOK_RPAREN) {
+        fprintf(stderr, "Expected ')' after arguments\n");
+        exit(EXIT_FAILURE);
+    }
+    next_token();
+    
+    return args;
+}
+```
+
+---
+
+**性能优化**
+
+```c
+// 尾递归优化
+// 将递归转换为迭代
+double parse_term() {
+    double result = parse_factor();
+    
+    while (is_multiplicative_op(current_token.type)) {
+        TokenType op = current_token.type;
+        next_token();
+        double factor_val = parse_factor();
+        result = apply_operator(result, op, factor_val);
+    }
+    return result;
+}
+
+// 记忆化缓存
+typedef struct {
+    char expr[100];
+    double result;
+} ExprCache;
+
+ExprCache cache[100];
+
+double parse_with_cache(const char* expr) {
+    for (int i = 0; i < 100; i++) {
+        if (strcmp(cache[i].expr, expr) == 0) {
+            return cache[i].result;
+        }
+    }
+    double result = parse(expr);
+    add_to_cache(expr, result);
+    return result;
+}
+
+// 预计算常量表达式
+if (is_constant_expression(expr)) {
+    return evaluate_constant(expr);
+}
+
+// 运算符快速路径
+double apply_operator(double a, TokenType op, double b) {
+    switch (op) {
+        case TOK_PLUS: return a + b;
+        case TOK_MINUS: return a - b;
+        // ...其他运算符
+    }
 }
 ```
 
@@ -975,9 +1181,29 @@ expression
 
 ### 5. 优缺点
 
-**优点**：代码结构清晰易读、文法规则直接映射函数、易于扩展新语法（如新增运算符）、天然支持嵌套结构
+**优点**：
 
-**缺点**：递归深度受限（栈溢出风险）、需手动处理左递归问题、错误恢复机制复杂、回溯效率低（非预测文法）
+- 代码结构清晰：文法规则直接映射到函数
+
+- 优先级自然处理：通过函数调用层级实现
+
+- 扩展性强：添加新语法只需添加函数
+
+- 嵌套支持好：递归天然处理嵌套结构
+
+- 可读性高：代码接近数学表达式的结构
+
+**缺点**：
+
+- 递归深度限制：复杂表达式可能导致栈溢出
+
+- 左递归问题：需改写文法避免左递归
+
+- 错误恢复复杂：错误处理需要额外机制
+
+- 性能开销：函数调用有额外开销
+
+- 全局状态依赖：需维护全局解析状态
 
 ### 6. 算法特性
 
@@ -987,13 +1213,13 @@ expression
 
 **方向性**：自顶向下（Top-down）
 
-**错误检测**：括号不匹配、函数调用格式错误、除零操作、非法阶乘操作
-
 **文法类型**：严格LL(k)（通常k=1）文法规则直接转换为代码结构
 
 **空间复杂度**：O(d)（d=语法嵌套深度）
 
 **时间复杂度**：O(n)（无回溯时）O(n)时间复杂度处理表达式
+
+**错误检测**：括号不匹配、函数调用格式错误、除零操作、非法阶乘操作
 
 **灵活扩展**：新增运算符只需修改局部函数
 
@@ -1006,15 +1232,43 @@ expression
 
 ### 7. 典型应用场景
 
-- 科学计算器：处理复杂数学表达式
-- 编译器前端：编程语言语法分析
-- 配置文件解析：JSON/XML解析器
-- 查询引擎：SQL查询解析
-- 数学公式解释器：MATLAB/Excel等表格软件
-- 领域特定语言：Jinja模板引擎
-- 网络协议：HTTP/DNS报文解码
+**编程语言编译器**：GCC、Clang等编译器前端
 
-**经典案例**：SQLite的SQL解析器使用手工编写的递归下降解析器
+**配置文件解析**：JSON、XML解析器
+
+**数据库查询引擎**：SQL解析器
+
+**数学计算软件**：MATLAB、Mathematica
+
+**工业控制系统**：复杂公式解析
+
+**游戏脚本引擎**：游戏逻辑脚本解析
+
+**科学计算器**：高级函数表达式处理
+
+递归下降解析在科学计算器中提供了：
+
+- 自然映射：语法规则直接对应代码结构
+
+- 优雅嵌套：递归天然处理括号和函数嵌套
+
+- 灵活扩展：轻松添加新运算符和函数
+
+- 清晰结构：代码可读性和可维护性高
+
+**最佳实践建议**：
+
+- 为嵌入式系统设置递归深度限制
+
+- 实现详细的错误消息和位置报告
+
+- 使用LR(1)或LL(k)文法避免歧义
+
+- 添加语法高亮和实时错误检查
+
+- 对性能敏感场景进行尾递归优化
+
+**典型应用**：Python的ast模块、GCC编译器前端、SQLite的SQL解析器、高级科学计算器（如HP Prime）
 
 **实际应用建议**：对于超复杂表达式，可结合运算符优先级表（Operator-Precedence Parsing）或生成语法树进行多次求值，避免递归深度限制问题。
 
@@ -1563,6 +1817,8 @@ AST构建：
 sin(16) ≈ -0.2879
 (-0.2879)! → 错误（阶乘需整数）
 ```
+
+---
 
 **例2：解析输入表达式 sin(2 * x) + 1**
 
