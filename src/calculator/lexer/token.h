@@ -30,6 +30,7 @@ typedef struct {
   token_type token_type;
   double number_value;
   char func_value[FUNC_MAX_CHAR];
+  int tok_length;
 } token;
 
 #endif // !LEXER_TOKEN_H

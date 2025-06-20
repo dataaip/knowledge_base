@@ -23,8 +23,9 @@ token get_next_token(const char **input) {
     if (errno == ERANGE) {
       printf("invalid strtol, please try again.\n");
     }
+    int len = (int)(endptr - *input);
     *input = endptr;
-    return (token){.token_type = TOK_NUM, num};
+    return (token){.token_type = TOK_NUM, num, .tok_length = len};
   }
 
   // 判断函数
@@ -36,36 +37,37 @@ token get_next_token(const char **input) {
       (*input)++;
     }
     tok.func_value[i] = '\0';
+    tok.tok_length = i;
     return tok;
   }
 
   // 判断运算符
   switch (*(*input)++) {
   case '+':
-    return (token){TOK_ADD};
+    return (token){TOK_ADD, .tok_length = 1};
   case '-':
-    return (token){TOK_SUB};
+    return (token){TOK_SUB, .tok_length = 1};
   case '*':
-    return (token){TOK_MUL};
+    return (token){TOK_MUL, .tok_length = 1};
   case '/':
-    return (token){TOK_DIV};
+    return (token){TOK_DIV, .tok_length = 1};
   case '%':
-    return (token){TOK_MOD};
+    return (token){TOK_MOD, .tok_length = 1};
   case '^':
-    return (token){TOK_POW};
+    return (token){TOK_POW, .tok_length = 1};
   case '!':
-    return (token){TOK_FACT};
+    return (token){TOK_FACT, .tok_length = 1};
   case '(':
-    return (token){TOK_LPAREN};
+    return (token){TOK_LPAREN, .tok_length = 1};
   case ')':
-    return (token){TOK_RPAREN};
+    return (token){TOK_RPAREN, .tok_length = 1};
   case '\0':
-    return (token){TOK_END};
+    return (token){TOK_END, .tok_length = 1};
   default:
-    return (token){TOK_ERR};
+    return (token){TOK_ERR, .tok_length = 1};
   }
 }
 
 void print_token(const token *t) {
-  printf("(%d, %f, %s) -> ", t->token_type, t->number_value, t->func_value);
+  printf("(%d, %f, %s, %d)\n", t->token_type, t->number_value, t->func_value, t->tok_length);
 }
