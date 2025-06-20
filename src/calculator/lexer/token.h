@@ -17,9 +17,11 @@ typedef enum {
   // 幂运算 ^ 阶乘! 等右结合
   TOK_POW,
   TOK_FACT,
-  // 括号 ( ) 优先级 
+  // 括号 ( ) 优先级
   TOK_LPAREN,
   TOK_RPAREN,
+  // 逗号 , 用于函数参数
+  TOK_COMMA,
   // 结束标志
   TOK_END,
   // 异常标志

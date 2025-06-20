@@ -1,10 +1,4 @@
 /*
-expression → term { ('+' | '-') term }  // 加减运算（左结合）
-term → factor { ('*' | '/') factor }    // 乘除运算（左结合）
-factor → base [ '^' factor ] | base '!'  // 幂（右结合）或阶乘
-base → number | '(' expression ')' | function '(' expression ')'  //
-数字/子表达式/函数调用
-
 expression > term > factor > base 的层次结构很好地反映了算术运算的优先级顺序：
 加减法（+, -）优先级最低。
 乘除法（*, /）优先级高于加减法。
@@ -21,6 +15,7 @@ arguments → expression { ',' expression } // 参数列表
 
 #include <limits.h>
 #include <math.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -29,12 +24,16 @@ arguments → expression { ',' expression } // 参数列表
 #include "../lexer/token.h"
 #include "parser.h"
 
+#define FUNC_ARGS_MAX 4
+
 double parser_expression(const char **input);
 double parser_term(const char **input);
 double parser_factor(const char **input);
 double parser_base(const char **input);
+double parser_function_call(const char **input);
+double parser_arguments(const char **input, double *args_values);
 
-// expression → term { ('+' | '-') term }
+// expression → term { ('+' | '-') term } // 加减运算（左结合）
 double parser_expression(const char **input) {
   // 先解析左边
   double left = parser_term(input);
@@ -52,13 +51,13 @@ double parser_expression(const char **input) {
   }
 
   // 回退指针
-  *input -= tok.tok_length; 
+  *input -= tok.tok_length;
 
   // 返回 left 计算值
   return left;
 }
 
-// term → factor { ('*' | '/') factor }
+// term → factor { ('*' | '/') factor } // 乘除运算（左结合）
 double parser_term(const char **input) {
   // 先解析左边
   double left = parser_factor(input);
@@ -86,22 +85,38 @@ double parser_term(const char **input) {
   }
 
   // 回退指针
-  *input -= tok.tok_length;  
+  *input -= tok.tok_length;
 
   // 返回 left 计算值
   return left;
 }
 
-// factor → base [ '^' factor ] | base '!'
+// factor → [ '-' ] base [ '^' factor ] [ '!' ] //
+// 负号、幂（右结合）、阶乘（后缀）
 double parser_factor(const char **input) {
   // 记录起始位置用于错误报告
   const char *start_pos = *input;
-  // 先解析 base 基础值
+
+  // 判断是否为 - 数
+  bool negative = false;
+  token tok = get_next_token(input);
+  if (tok.token_type == TOK_SUB) {
+    negative = true;
+  } else {
+    // 回退 token
+    *input -= tok.tok_length;
+  }
+
+  // 解析 base 基础值
   double base_value = parser_base(input);
+  // 符号转变
+  if (negative) {
+    base_value *= -1;
+  }
 
   // 获取下一个 token
-  token tok = get_next_token(input);
-  
+  tok = get_next_token(input);
+
   // 计算 2^(3!)、(4!)!、2^(3^2) 多个组合
   while (tok.token_type == TOK_FACT || tok.token_type == TOK_POW) {
 
@@ -136,7 +151,8 @@ double parser_factor(const char **input) {
       base_value = pow(base_value, factor_value);
     }
 
-    // 继续获取下一个 token 判断是不是 ^ !，此时到最后一步会多获取一个tok，需要回退
+    // 继续获取下一个 token 判断是不是 ^
+    // !，此时到最后一步会多获取一个tok，需要回退
     tok = get_next_token(input);
   }
 
@@ -146,7 +162,7 @@ double parser_factor(const char **input) {
   return base_value;
 }
 
-// base → number | '(' expression ')' | function '(' expression ')'
+// base → number | '(' expression ')' | function_call
 double parser_base(const char **input) {
   token tok = get_next_token(input);
   const char *start_pos = *input; // 记录起始位置用于错误报告
@@ -171,42 +187,110 @@ double parser_base(const char **input) {
 
   // 判断 function 函数
   if (tok.token_type == TOK_FUNC) {
-    // 获取函数名称字符串
-    char func_name[FUNC_MAX_CHAR];
-    strncpy(func_name, tok.func_value, sizeof(func_name) - 1);
-    func_name[sizeof(func_name) - 1] = '\0';
-
-    // 处理 () 括号里的内容 先判断 括号
-    // 判断是否括号，先判断左括号 (
-    if (get_next_token(input).token_type != TOK_LPAREN) {
-      fprintf(stderr, "Error: Expected '(' after function '%s'\n", func_name);
-      exit(1);
-    }
-    // 调用解析表达式计算
-    double func_value = parser_expression(input);
-    // 获取下一个字符，判断是否右括号 )
-    if (get_next_token(input).token_type != TOK_RPAREN) {
-      fprintf(stderr, "Error: Expected ',' or ')' after argument\n");
-      exit(1);
-    }
-
-    // 判断函数类型，调用函数
-    if (strcmp(func_name, "sin") == 0) {
-      return sin(func_value);
-    }
-    if (strcmp(func_name, "cos") == 0) {
-      return cos(func_value);
-    }
-    if (strcmp(func_name, "tan") == 0) {
-      return tan(func_value);
-    }
+    // 回退 token
+    *input -= tok.tok_length;
+    // 调用 function call 解析 函数
+    double function_value = parser_function_call(input);
+    return function_value;
   }
 
-  fprintf(stderr, "Error at position %ld: Expected ')', got '%d'\n",
+  fprintf(stderr, "Error at position %ld: Expected , got '%d'\n",
           (*input - start_pos), (int)tok.token_type);
   exit(1);
 }
 
+// function_call → function '(' arguments ')' // 函数调用
+double parser_function_call(const char **input) {
+  token tok = get_next_token(input);
+  const char *start_pos = *input; // 记录起始位置用于错误报告
+
+  // 获取函数名称字符串
+  char func_name[FUNC_MAX_CHAR];
+  strncpy(func_name, tok.func_value, sizeof(func_name) - 1);
+  func_name[sizeof(func_name) - 1] = '\0';
+
+  // 处理 () 括号里的内容 先判断 括号
+  // 判断是否括号，先判断左括号 (
+  if (get_next_token(input).token_type != TOK_LPAREN) {
+    fprintf(stderr, "Error: Expected '(' after function '%s'\n", func_name);
+    exit(1);
+  }
+
+  // 调用解析表达式计算
+  double args_values[FUNC_ARGS_MAX];
+  // 解析计算参数列表
+  double args_number = parser_arguments(input, args_values);
+  // 获取下一个字符，判断是否右括号 )
+  if (get_next_token(input).token_type != TOK_RPAREN) {
+    fprintf(stderr, "Error: Expected ',' or ')' after argument\n");
+    exit(1);
+  }
+
+  // 根据参数个数调用函数 参数为 1 个
+  if (args_number == 1) {
+    // 判断函数类型，调用函数
+    if (strcmp(func_name, "sin") == 0) {
+      return sin(args_values[0]);
+    }
+    if (strcmp(func_name, "cos") == 0) {
+      return cos(args_values[0]);
+    }
+    if (strcmp(func_name, "tan") == 0) {
+      return tan(args_values[0]);
+    }
+    if (strcmp(func_name, "sqrt") == 0) {
+      return sqrt(args_values[0]);
+    }
+    if (strcmp(func_name, "log") == 0 && args_values[0] >= 0) {
+      return log(args_values[0]);
+    }
+  }
+  // 根据参数个数调用函数 参数为 2 个
+  if (args_number == 2) {
+    if (strcmp(func_name, "pow") == 0 && !isnan(pow(args_values[0], args_values[1]))) {
+      return pow(args_values[0], args_values[1]);
+    }
+  }
+
+  fprintf(stderr, "Error at position %ld: Expected function call, got '%d'\n",
+          (*input - start_pos), (int)tok.token_type);
+  exit(1);
+}
+
+// arguments → expression { ',' expression } // 参数列表
+double parser_arguments(const char **input, double *args_values) {
+  // 最大支持解析 4 个参数
+  int current_arg = 0;
+
+  token tok = get_next_token(input);
+  while (tok.token_type != TOK_RPAREN) {
+    // 参数个数判断
+    if (current_arg > FUNC_MAX_CHAR - 1) {
+      fprintf(stderr, "Too many arguments for function.\n");
+      exit(1);
+    }
+    // 解析计算第 n 个参数，添加到 参数列表
+    args_values[current_arg++] = parser_expression(input);
+    // 获取下一个 token
+    tok = get_next_token(input);
+
+    if (tok.token_type != TOK_COMMA) {
+      fprintf(stderr, "arguments for function error , lost.\n");
+      exit(1);
+    }
+  }
+  // 返回函数拥有的参数个数
+  return current_arg;
+}
+
 double evaluate_expression(const char *expr) {
-  return parser_expression(&expr);
+
+  double result = parser_expression(&expr);
+  // 判断是否解析完成
+  if (get_next_token(&expr).token_type != TOK_END) {
+    fprintf(stderr, "Error: Extra characters after expression\n");
+    exit(1);
+  }
+
+  return result;
 }

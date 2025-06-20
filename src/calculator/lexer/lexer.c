@@ -17,15 +17,17 @@ token get_next_token(const char **input) {
 
   // 判断数值
   if (isdigit(**input) || **input == '.') {
-    char *endptr = NULL;
-    errno = 0;
-    double num = strtod(*input, &endptr);
-    if (errno == ERANGE) {
-      printf("invalid strtol, please try again.\n");
+    if (**input != '-') {
+      char *endptr = NULL;
+      errno = 0;
+      double num = strtod(*input, &endptr);
+      if (errno == ERANGE) {
+        printf("invalid strtol, please try again.\n");
+      }
+      int len = (int)(endptr - *input);
+      *input = endptr;
+      return (token){.token_type = TOK_NUM, num, .tok_length = len};
     }
-    int len = (int)(endptr - *input);
-    *input = endptr;
-    return (token){.token_type = TOK_NUM, num, .tok_length = len};
   }
 
   // 判断函数
@@ -61,6 +63,8 @@ token get_next_token(const char **input) {
     return (token){TOK_LPAREN, .tok_length = 1};
   case ')':
     return (token){TOK_RPAREN, .tok_length = 1};
+  case ',':
+    return (token){TOK_COMMA, .tok_length = 1}; 
   case '\0':
     return (token){TOK_END, .tok_length = 1};
   default:
