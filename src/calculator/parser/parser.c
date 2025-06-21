@@ -20,6 +20,7 @@ arguments → expression { ',' expression } // 参数列表
 #include <stdlib.h>
 #include <string.h>
 
+#include "logfmt.h"
 #include "lexer.h"
 #include "token.h"
 #include "parser.h"
@@ -61,8 +62,6 @@ double parser_expression(const char **input) {
 double parser_term(const char **input) {
   // 先解析左边
   double left = parser_factor(input);
-  // 记录起始位置用于错误报告
-  const char *start_pos = *input;
 
   // 获取运算符号 * /
   token tok = get_next_token(input);
@@ -76,8 +75,7 @@ double parser_term(const char **input) {
     } else if (right != 0) {
       left /= right;
     } else {
-      fprintf(stderr, "Error at position %ld: Expected Division by zero!\n",
-              (*input - start_pos));
+      log_fatal("被除数不能为 0 : %s", *input);        
       exit(1);
     }
 
@@ -94,9 +92,6 @@ double parser_term(const char **input) {
 // factor → [ '-' ] base [ '^' factor ] [ '!' ] //
 // 负号、幂（右结合）、阶乘（后缀）
 double parser_factor(const char **input) {
-  // 记录起始位置用于错误报告
-  const char *start_pos = *input;
-
   // 判断是否为 - 数
   bool negative = false;
   token tok = get_next_token(input);
@@ -125,18 +120,14 @@ double parser_factor(const char **input) {
       // 判断 base 是否为整数
       int fact = (int)base_value;
       if (fact < 0 || fact != base_value) {
-        fprintf(
-            stderr,
-            "Error at position %ld: Expected Factorial requires non-negative "
-            "integer, got '%d'\n",
-            (*input - start_pos), (int)tok.token_type);
+        log_fatal("获取的阶乘 base 不为整数：%s", *input);    
         exit(1);
       }
       // 计算阶乘
       int fact_value = 1;
       for (int i = 1; i <= fact; i++) {
         if (fact_value > INT_MAX / i) {
-          fprintf(stderr, "Factorial overflow");
+          log_fatal("阶乘结果大于 int 类型最大值：%s", *input);
           exit(1);
         }
         fact_value *= i;
@@ -164,8 +155,8 @@ double parser_factor(const char **input) {
 
 // base → number | '(' expression ')' | function_call
 double parser_base(const char **input) {
+  // 获取下一个 token
   token tok = get_next_token(input);
-  const char *start_pos = *input; // 记录起始位置用于错误报告
 
   // 判断是否数值类型，如果是则返回
   if (tok.token_type == TOK_NUM) {
@@ -178,8 +169,7 @@ double parser_base(const char **input) {
     double expr_value = parser_expression(input);
     // 获取下一个字符，判断是否右括号 )
     if (get_next_token(input).token_type != TOK_RPAREN) {
-      fprintf(stderr, "Error at position %ld: Expected ')', got '%d'\n",
-              (*input - start_pos), (int)tok.token_type);
+      log_fatal("右获取缺失括号不匹配：%s", *input);        
       exit(1);
     }
     return expr_value;
@@ -194,15 +184,14 @@ double parser_base(const char **input) {
     return function_value;
   }
 
-  fprintf(stderr, "Error at position %ld: Expected , got '%d'\n",
-          (*input - start_pos), (int)tok.token_type);
+  log_fatal("未知的 base 项：%s", *input);
   exit(1);
 }
 
 // function_call → function '(' arguments ')' // 函数调用
 double parser_function_call(const char **input) {
+  // 获取下一个 token
   token tok = get_next_token(input);
-  const char *start_pos = *input; // 记录起始位置用于错误报告
 
   // 获取函数名称字符串
   char func_name[FUNC_MAX_CHAR];
@@ -212,7 +201,7 @@ double parser_function_call(const char **input) {
   // 处理 () 括号里的内容 先判断 括号
   // 判断是否括号，先判断左括号 (
   if (get_next_token(input).token_type != TOK_LPAREN) {
-    fprintf(stderr, "Error: Expected '(' after function '%s'\n", func_name);
+    log_fatal("函数左括号匹配失败：%s", *input);
     exit(1);
   }
 
@@ -222,7 +211,7 @@ double parser_function_call(const char **input) {
   double args_number = parser_arguments(input, args_values);
   // 获取下一个字符，判断是否右括号 )
   if (get_next_token(input).token_type != TOK_RPAREN) {
-    fprintf(stderr, "Error: Expected ',' or ')' after argument\n");
+    log_fatal("函数右括号匹配失败：%s", *input);
     exit(1);
   }
 
@@ -252,8 +241,7 @@ double parser_function_call(const char **input) {
     }
   }
 
-  fprintf(stderr, "Error at position %ld: Expected function call, got '%d'\n",
-          (*input - start_pos), (int)tok.token_type);
+  log_fatal("未知的函数匹配失败：%s", *input);
   exit(1);
 }
 
@@ -269,8 +257,8 @@ double parser_arguments(const char **input, double *args_values) {
   // 判断是否为 ) 右括号结束
   while (tok.token_type != TOK_RPAREN) {
     // 参数个数判断
-    if (current_arg > FUNC_MAX_CHAR - 1) {
-      fprintf(stderr, "Too many arguments for function.\n");
+    if (current_arg > FUNC_ARGS_MAX - 1) {
+      log_fatal("函数参数超出了最大个数：%s", *input);
       exit(1);
     }
     // 解析计算第 n 个参数，添加到 参数列表
@@ -279,7 +267,7 @@ double parser_arguments(const char **input, double *args_values) {
     tok = get_next_token(input);
 
     if (tok.token_type != TOK_COMMA && tok.token_type != TOK_RPAREN) {
-      fprintf(stderr, "arguments for function error , lost.\n");
+      log_fatal("函数参数匹配失败非逗号非右括号项：%s", *input);
       exit(1);
     }
   }
@@ -296,7 +284,7 @@ double evaluate_expression(const char *expr) {
   double result = parser_expression(&expr);
   // 判断是否解析完成
   if (get_next_token(&expr).token_type != TOK_END) {
-    fprintf(stderr, "Error: Extra characters after expression\n");
+    log_error("解析未完成，但已结束：%s", &expr);
     exit(1);
   }
 

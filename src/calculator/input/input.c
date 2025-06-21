@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "input.h"
+#include "logfmt.h"
 
 #define MAX_IN 100
 
@@ -12,8 +13,7 @@
 */
 void clear_input_buffer() {
   int c = 0;
-  while ((c = getchar()) != '\n' && c != EOF)
-    ;
+  while ((c = getchar()) != '\n' && c != EOF);
 }
 
 char *get_input_expression() {
@@ -27,10 +27,10 @@ char *get_input_expression() {
     // 获取输入
     if (!fgets(inputs, sizeof(char) * MAX_IN, stdin)) {
       if (feof(stdin)) {
-        printf("输入流 EOF 关闭输入.\n");
+        log_error("输入流 EOF 关闭输入.\n");
         clearerr(stdin);
       } else {
-        perror("fgets 输入 异常");
+        log_fatal("fgets 输入 异常");
       }
 
       clear_input_buffer();
@@ -39,7 +39,7 @@ char *get_input_expression() {
 
     // 验证输入完整性
     if (strchr(inputs, '\n') == NULL) {
-      printf("输入字符太长, 请重新输入.\n");
+      log_warn("输入字符太长, 请重新输入.\n");
       clear_input_buffer();
       continue;
     }
@@ -50,7 +50,8 @@ char *get_input_expression() {
       inputs[len - 1] = '\0';
       len--;
     }
-
+    log_info("输入的字符串为：%s", inputs);
+    
     return inputs;
   }
 }

@@ -1,14 +1,14 @@
-#include "lexer.h"
-#include "token.h"
 #include <ctype.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-token get_next_token(const char **input) {
+#include "lexer.h"
+#include "token.h"
+#include "logfmt.h"
 
-  // 1. 保障 **input 是正确的字符
+token get_next_token(const char **input) {
 
   // 跳过空字符
   while (isspace(**input)) {
@@ -22,7 +22,7 @@ token get_next_token(const char **input) {
       errno = 0;
       double num = strtod(*input, &endptr);
       if (errno == ERANGE) {
-        printf("invalid strtol, please try again.\n");
+        log_error("strol 数值转换异常：%s", *input);
       }
       int len = (int)(endptr - *input);
       *input = endptr;
@@ -64,14 +64,30 @@ token get_next_token(const char **input) {
   case ')':
     return (token){TOK_RPAREN, .tok_length = 1};
   case ',':
-    return (token){TOK_COMMA, .tok_length = 1}; 
+    return (token){TOK_COMMA, .tok_length = 1};
   case '\0':
     return (token){TOK_END, .tok_length = 1};
   default:
     return (token){TOK_ERR, .tok_length = 1};
   }
+
+  log_error("获取下一个 Token 异常：%s", *input);
+}
+
+token_type peek_next_token(const char** inputs) {
+  // 保存原始指针位置
+  const char* original = *inputs;
+  // 读取下一个 token
+  token tok = get_next_token(inputs);
+  // 恢复原始指针位置
+  *inputs = original;
+
+  log_info("预读到的下一个 token 类型为 %d: ", tok.token_type);
+  
+  return tok.token_type;
 }
 
 void print_token(const token *t) {
-  printf("(%d, %f, %s, %d)\n", t->token_type, t->number_value, t->func_value, t->tok_length);
+  printf("(%d, %f, %s, %d)\n", t->token_type, t->number_value, t->func_value,
+         t->tok_length);
 }
