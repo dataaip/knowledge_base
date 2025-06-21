@@ -1,51 +1,48 @@
-/*
-expression > term > factor > base 的层次结构很好地反映了算术运算的优先级顺序：
-加减法（+, -）优先级最低。
-乘除法（*, /）优先级高于加减法。
-幂运算（^）和阶乘（!）优先级更高。
-最底层是数字、括号子表达式和函数调用
-
-expression → term { ('+' | '-') term } // 加减运算（左结合）
-term → factor { ('*' | '/') factor } // 乘除运算（左结合）
-factor → [ '-' ] base [ '^' factor ] [ '!' ] // 负号、幂（右结合）、阶乘（后缀）
-base → number | '(' expression ')' | function_call // 数字、子表达式、函数调用
-function_call → function '(' arguments ')' // 函数调用
-arguments → expression { ',' expression } // 参数列表
-*/
-
-#include <limits.h>
-#include <math.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "logfmt.h"
+#include "ast.h"
 #include "lexer.h"
+#include "logfmt.h"
 #include "token.h"
-#include "parser.h"
+#include <stdlib.h>
+#include <limits.h>
+#include <string.h>
 
 #define FUNC_ARGS_MAX 4
 
-double parser_expression(const char **input);
-double parser_term(const char **input);
-double parser_factor(const char **input);
-double parser_base(const char **input);
-double parser_function_call(const char **input);
-double parser_arguments(const char **input, double *args_values);
+// 表达式解析函数
+ast_node* parser_expression_ast(const char **input);
+ast_node* parser_term_ast(const char **input);
+ast_node* parser_factor_ast(const char **input);
+ast_node* parser_base_ast(const char **input);
+ast_node* parser_function_call_ast(const char **input);
+void parser_arguments_ast(const char **input, ast_node*** args, int* count);
+
+double factorial(double n) {
+    if (n < 0 || n != (int)n) {
+        log_fatal("错误: 阶乘要求非负整数");
+        exit(1);
+    }
+    
+    double result = 1;
+    for (int i = 1; i <= (int)n; i++) {
+        result *= i;
+    }
+    return result;
+}
 
 // expression → term { ('+' | '-') term } // 加减运算（左结合）
-double parser_expression(const char **input) {
+ast_node* parser_expression_ast(const char **input) {
   // 先解析左边
-  double left = parser_term(input);
+  ast_node* left = parser_term_ast(input);
 
   // 获取运算符号 + -
   token tok = get_next_token(input);
   // 如果是 + -
   while (tok.token_type == TOK_ADD || tok.token_type == TOK_SUB) {
     // 再解析右边
-    double right = parser_term(input);
-    // 根据符号 返回计算值
-    left = tok.token_type == TOK_ADD ? left + right : left - right;
+    ast_node*  right = parser_term_ast(input);
+    // 根据符号 创建 ast 节点
+    oper_type op_type = (tok.token_type == TOK_ADD) ? OP_ADD : OP_SUB;
+    ast_create_binary(op_type, left, right);
 
     tok = get_next_token(input);
   }
@@ -58,21 +55,21 @@ double parser_expression(const char **input) {
 }
 
 // term → factor { ('*' | '/') factor } // 乘除运算（左结合）
-double parser_term(const char **input) {
+ast_node* parser_term_ast(const char **input) {
   // 先解析左边
-  double left = parser_factor(input);
+  ast_node* left = parser_factor_ast(input);
 
   // 获取运算符号 * /
   token tok = get_next_token(input);
   // 如果是 * /
   while (tok.token_type == TOK_MUL || tok.token_type == TOK_DIV) {
     // 再解析右边
-    double right = parser_factor(input);
-    // 根据符号 返回计算值
+    ast_node* right = parser_factor_ast(input);
+    // 根据符号创建 ast 节点
     if (tok.token_type == TOK_MUL) {
-      left *= right;
+      ast_create_binary(OP_MUL, left, right);  
     } else if (right != 0) {
-      left /= right;
+      ast_create_binary(OP_DIV, left, right);  
     } else {
       log_fatal("被除数不能为 0 : %s", *input);        
       exit(1);
@@ -89,10 +86,10 @@ double parser_term(const char **input) {
 }
 
 // factor → [ '-' ] base [ '^' factor ] [ '!' ] //
-// 负号、幂（右结合）、阶乘（后缀）
-double parser_factor(const char **input) {
+ast_node* parser_factor_ast(const char **input) {
   // 判断是否为 - 数
   bool negative = false;
+  // 获取下一个 token
   token tok = get_next_token(input);
   if (tok.token_type == TOK_SUB) {
     negative = true;
@@ -102,10 +99,11 @@ double parser_factor(const char **input) {
   }
 
   // 解析 base 基础值
-  double base_value = parser_base(input);
+  ast_node* base_value = parser_base_ast(input);
   // 符号转变
   if (negative) {
-    base_value *= -1;
+    // 创建一元符号节点
+    ast_create_unary(OP_NEGATE, base_value);
   }
 
   // 获取下一个 token
@@ -116,29 +114,14 @@ double parser_factor(const char **input) {
 
     // ！阶乘 判断
     if (tok.token_type == TOK_FACT) {
-      // 判断 base 是否为整数
-      int fact = (int)base_value;
-      if (fact < 0 || fact != base_value) {
-        log_fatal("获取的阶乘 base 不为整数：%s", *input);    
-        exit(1);
-      }
-      // 计算阶乘
-      int fact_value = 1;
-      for (int i = 1; i <= fact; i++) {
-        if (fact_value > INT_MAX / i) {
-          log_fatal("阶乘结果大于 int 类型最大值：%s", *input);
-          exit(1);
-        }
-        fact_value *= i;
-      }
-      base_value = fact_value;
+      ast_create_unary(OP_FACT, base_value);
     }
 
     // 幂计算 判断
     if (tok.token_type == TOK_POW) {
       // 解析 幂计算 返回
-      double factor_value = parser_factor(input);
-      base_value = pow(base_value, factor_value);
+      ast_node* factor_value = parser_factor_ast(input);
+      ast_create_binary(OP_POW, base_value, factor_value);
     }
 
     // 继续获取下一个 token 判断是不是 ^
@@ -150,28 +133,29 @@ double parser_factor(const char **input) {
   *input -= tok.tok_length;
 
   return base_value;
+
 }
 
 // base → number | '(' expression ')' | function_call
-double parser_base(const char **input) {
+ast_node* parser_base_ast(const char **input) {
   // 获取下一个 token
   token tok = get_next_token(input);
 
   // 判断是否数值类型，如果是则返回
   if (tok.token_type == TOK_NUM) {
-    return tok.number_value;
+    return ast_create_number(tok.number_value);
   }
 
   // 判断是否括号，先判断左括号 (
   if (tok.token_type == TOK_LPAREN) {
     // 调用解析表达式计算
-    double expr_value = parser_expression(input);
+    ast_node* parser_expression = parser_expression_ast(input);
     // 获取下一个字符，判断是否右括号 )
     if (get_next_token(input).token_type != TOK_RPAREN) {
       log_fatal("右获取缺失括号不匹配：%s", *input);        
       exit(1);
     }
-    return expr_value;
+    return ast_create_args(parser_expression);
   }
 
   // 判断 function 函数
@@ -179,8 +163,7 @@ double parser_base(const char **input) {
     // 回退 token
     *input -= tok.tok_length;
     // 调用 function call 解析 函数
-    double function_value = parser_function_call(input);
-    return function_value;
+    return parser_function_call_ast(input);
   }
 
   log_fatal("未知的 base 项：%s", *input);
@@ -188,7 +171,7 @@ double parser_base(const char **input) {
 }
 
 // function_call → function '(' arguments ')' // 函数调用
-double parser_function_call(const char **input) {
+ast_node* parser_function_call_ast(const char **input){
   // 获取下一个 token
   token tok = get_next_token(input);
 
@@ -205,49 +188,25 @@ double parser_function_call(const char **input) {
   }
 
   // 调用解析表达式计算
-  double args_values[FUNC_ARGS_MAX];
+  ast_node** args = NULL;
+  int args_count = 0;
   // 解析计算参数列表
-  double args_number = parser_arguments(input, args_values);
+  parser_arguments_ast(input, &args, &args_count);
   // 获取下一个字符，判断是否右括号 )
   if (get_next_token(input).token_type != TOK_RPAREN) {
     log_fatal("函数右括号匹配失败：%s", *input);
     exit(1);
   }
-
-  // 根据参数个数调用函数 参数为 1 个
-  if (args_number == 1) {
-    // 判断函数类型，调用函数
-    if (strcmp(func_name, "sin") == 0) {
-      return sin(args_values[0]);
-    }
-    if (strcmp(func_name, "cos") == 0) {
-      return cos(args_values[0]);
-    }
-    if (strcmp(func_name, "tan") == 0) {
-      return tan(args_values[0]);
-    }
-    if (strcmp(func_name, "sqrt") == 0) {
-      return sqrt(args_values[0]);
-    }
-    if (strcmp(func_name, "log") == 0 && args_values[0] >= 0) {
-      return log(args_values[0]);
-    }
-  }
-  // 根据参数个数调用函数 参数为 2 个
-  if (args_number == 2) {
-    if (strcmp(func_name, "pow") == 0 && !isnan(pow(args_values[0], args_values[1]))) {
-      return pow(args_values[0], args_values[1]);
-    }
-  }
-
-  log_fatal("未知的函数匹配失败：%s", *input);
-  exit(1);
+  // 创建函数 ast 节点 
+  return ast_create_function(func_name, args, args_count);
 }
 
 // arguments → expression { ',' expression } // 参数列表
-double parser_arguments(const char **input, double *args_values) {
-  // 最大支持解析 4 个参数
-  int current_arg = 0;
+void parser_arguments_ast(const char **input, ast_node*** args, int* count) {
+
+  // ast_node*** args 
+  // -> ast_node args 结构体本身 -> ast_node* args 结构体指针 -> ast_node** args 结构体指针的数组 -> ast_node*** args 结构体指针的数组的指针
+  // -> *args 结构体数组 **args 结构体指针 ***args 结构体本身
 
   // 获取下一个 token
   token tok = get_next_token(input);
@@ -256,12 +215,13 @@ double parser_arguments(const char **input, double *args_values) {
   // 判断是否为 ) 右括号结束
   while (tok.token_type != TOK_RPAREN) {
     // 参数个数判断
-    if (current_arg > FUNC_ARGS_MAX - 1) {
+    if (*count > FUNC_ARGS_MAX - 1) {
       log_fatal("函数参数超出了最大个数：%s", *input);
       exit(1);
     }
     // 解析计算第 n 个参数，添加到 参数列表
-    args_values[current_arg++] = parser_expression(input);
+    ast_node* ast_expression = parser_base_ast(input);
+    (*args)[(*count)++] = ast_expression;
     // 获取下一个 token
     tok = get_next_token(input);
 
@@ -274,18 +234,17 @@ double parser_arguments(const char **input, double *args_values) {
   // 回退指针
   *input -= tok.tok_length;
    
-  // 返回函数拥有的参数个数
-  return current_arg;
+  return;
 }
 
-double evaluate_expression(const char *expr) {
-
-  double result = parser_expression(&expr);
+ast_node* evaluate_expression_ast(const char *expr) {
+  // 解析 表达式 到 AST 数中
+  ast_node* ast_head = parser_expression_ast(&expr);
   // 判断是否解析完成
   if (get_next_token(&expr).token_type != TOK_END) {
     log_error("解析未完成，但已结束：%s", &expr);
     exit(1);
   }
 
-  return result;
+  return ast_head;
 }
