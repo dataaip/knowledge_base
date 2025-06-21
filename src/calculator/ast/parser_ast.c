@@ -68,11 +68,8 @@ ast_node* parser_term_ast(const char **input) {
     // 根据符号创建 ast 节点
     if (tok.token_type == TOK_MUL) {
       ast_create_binary(OP_MUL, left, right);  
-    } else if (right != 0) {
-      ast_create_binary(OP_DIV, left, right);  
     } else {
-      log_fatal("被除数不能为 0 : %s", *input);        
-      exit(1);
+      ast_create_binary(OP_DIV, left, right);  
     }
 
     tok = get_next_token(input);
