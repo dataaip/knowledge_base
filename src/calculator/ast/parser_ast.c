@@ -29,7 +29,7 @@ ast_node* parser_expression_ast(const char **input) {
     ast_node*  right = parser_term_ast(input);
     // 根据符号 创建 ast 节点
     oper_type op_type = (tok.token_type == TOK_ADD) ? OP_ADD : OP_SUB;
-    ast_create_binary(op_type, left, right);
+    left = ast_create_binary(op_type, left, right);
 
     tok = get_next_token(input);
   }
@@ -54,9 +54,9 @@ ast_node* parser_term_ast(const char **input) {
     ast_node* right = parser_factor_ast(input);
     // 根据符号创建 ast 节点
     if (tok.token_type == TOK_MUL) {
-      ast_create_binary(OP_MUL, left, right);  
+      left = ast_create_binary(OP_MUL, left, right);  
     } else {
-      ast_create_binary(OP_DIV, left, right);  
+      left = ast_create_binary(OP_DIV, left, right);  
     }
 
     tok = get_next_token(input);
@@ -87,7 +87,7 @@ ast_node* parser_factor_ast(const char **input) {
   // 符号转变
   if (negative) {
     // 创建一元符号节点
-    ast_create_unary(OP_NEGATE, base_value);
+    base_value = ast_create_unary(OP_NEGATE, base_value);
   }
 
   // 获取下一个 token
@@ -98,14 +98,14 @@ ast_node* parser_factor_ast(const char **input) {
 
     // ！阶乘 判断
     if (tok.token_type == TOK_FACT) {
-      ast_create_unary(OP_FACT, base_value);
+      base_value = ast_create_unary(OP_FACT, base_value);
     }
 
     // 幂计算 判断
     if (tok.token_type == TOK_POW) {
       // 解析 幂计算 返回
       ast_node* factor_value = parser_factor_ast(input);
-      ast_create_binary(OP_POW, base_value, factor_value);
+      base_value = ast_create_binary(OP_POW, base_value, factor_value);
     }
 
     // 继续获取下一个 token 判断是不是 ^

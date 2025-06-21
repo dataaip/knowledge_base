@@ -70,14 +70,19 @@ double evaluate_function(ast_node *ast_func) {
 }
 
 double evaluate_ast(ast_node *ast_head) {
+
+  log_info("当前节点值为：%d, 操作符为: %d", ast_head->number, ast_head->op);
+
   // 递归跳出条件
   if (!ast_head) {
     return 0;
   }
 
   switch (ast_head->op) {
-  case OP_NUM:
+  case OP_NUM: {
+    log_info("当前节点值为数值: %d", ast_head->number);
     return ast_head->number;
+  }
 
   case OP_NEGATE:
     return -evaluate_ast(ast_head->left);
