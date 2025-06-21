@@ -16,19 +16,6 @@ ast_node* parser_base_ast(const char **input);
 ast_node* parser_function_call_ast(const char **input);
 void parser_arguments_ast(const char **input, ast_node*** args, int* count);
 
-double factorial(double n) {
-    if (n < 0 || n != (int)n) {
-        log_fatal("错误: 阶乘要求非负整数");
-        exit(1);
-    }
-    
-    double result = 1;
-    for (int i = 1; i <= (int)n; i++) {
-        result *= i;
-    }
-    return result;
-}
-
 // expression → term { ('+' | '-') term } // 加减运算（左结合）
 ast_node* parser_expression_ast(const char **input) {
   // 先解析左边
@@ -205,6 +192,10 @@ void parser_arguments_ast(const char **input, ast_node*** args, int* count) {
   // -> ast_node args 结构体本身 -> ast_node* args 结构体指针 -> ast_node** args 结构体指针的数组 -> ast_node*** args 结构体指针的数组的指针
   // -> *args 结构体数组 **args 结构体指针 ***args 结构体本身
 
+  // 必须动态创建 源调用者非堆内存作用域失效回回收
+  *args = malloc(4 * sizeof(ast_node*)); // 最多4个参数
+  *count = 0;
+
   // 获取下一个 token
   token tok = get_next_token(input);
   // 回退指针
@@ -234,7 +225,7 @@ void parser_arguments_ast(const char **input, ast_node*** args, int* count) {
   return;
 }
 
-ast_node* evaluate_expression_ast(const char *expr) {
+ast_node* parser_to_ast(const char *expr) {
   // 解析 表达式 到 AST 数中
   ast_node* ast_head = parser_expression_ast(&expr);
   // 判断是否解析完成

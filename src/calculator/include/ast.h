@@ -38,6 +38,8 @@ ast_node* ast_create_args(ast_node* expr); // 创建 函数参数 ast_node 节�
 
 void ast_tree_free(ast_node* head); // ast 树节点释放
 
-ast_node* evaluate_expression_ast(const char *expr);
+ast_node* parser_to_ast(const char *expr);
+
+double evaluate_ast(ast_node* ast_head);
 
 #endif // !CALCULATOR_AST_H
