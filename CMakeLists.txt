@@ -31,7 +31,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -finput-charset=UTF-8 -fexec-charset=UTF-8")
 # 包含子目录
 # 本项目库代码
 add_subdirectory(library/colorfmt)          # 添加Utils库的子目录
-add_subdirectory(library/toolsMath)         # 添加Math库的子目录
+add_subdirectory(library/toolsmath)         # 添加Math库的子目录
 add_subdirectory(library/utils)             # 添加Utils库的子目录
 # 三方库代码
 add_subdirectory(thridparty/log.c)       # 添加logc库的子目录

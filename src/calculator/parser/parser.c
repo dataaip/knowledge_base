@@ -262,7 +262,11 @@ double parser_arguments(const char **input, double *args_values) {
   // 最大支持解析 4 个参数
   int current_arg = 0;
 
+  // 获取下一个 token
   token tok = get_next_token(input);
+  // 回退指针
+  *input -= tok.tok_length;
+  // 判断是否为 ) 右括号结束
   while (tok.token_type != TOK_RPAREN) {
     // 参数个数判断
     if (current_arg > FUNC_MAX_CHAR - 1) {
@@ -274,11 +278,15 @@ double parser_arguments(const char **input, double *args_values) {
     // 获取下一个 token
     tok = get_next_token(input);
 
-    if (tok.token_type != TOK_COMMA) {
+    if (tok.token_type != TOK_COMMA && tok.token_type != TOK_RPAREN) {
       fprintf(stderr, "arguments for function error , lost.\n");
       exit(1);
     }
   }
+
+  // 回退指针
+  *input -= tok.tok_length;
+   
   // 返回函数拥有的参数个数
   return current_arg;
 }
