@@ -612,3 +612,289 @@ int main() {
 ```
 
 这个实现展示了如何从字符串表达式构建AST，然后递归计算AST得到最终结果。AST结构不仅用于计算，还可以用于表达式优化、可视化等其他用途。
+
+这段代码存在几个关键问题，需要修复和改进：
+
+### 1. **除数为零的错误处理问题**
+```c
+// 错误：尝试将 double 值作为字符串打印
+log_fatal("被除数不能为 0 : %s", right); // %s 需要字符串，但 right 是 double
+```
+**修复方案**：
+```c
+log_fatal("被除数不能为 0 : %g", right); // 使用 %g 打印 double 值
+```
+
+### 2. **sqrt 函数缺少参数检查**
+```c
+if (strcmp(func_name, "sqrt") == 0) {
+  return sqrt(args_values[0]); // 缺少负数检查
+}
+```
+**修复方案**：
+```c
+if (strcmp(func_name, "sqrt") == 0) {
+  if (args_values[0] < 0) {
+    log_fatal("sqrt 参数不能为负数: %g", args_values[0]);
+    exit(1);
+  }
+  return sqrt(args_values[0]);
+}
+```
+
+### 3. **函数参数检查不完整**
+当前代码：
+- 只检查了 log 的参数 >=0
+- 未检查 tan 的参数有效性
+- pow 的 isnan 检查不完整
+
+**改进方案**：
+```c
+// 统一参数检查函数
+void validate_function_args(const char* func_name, int expected_count, int actual_count, double* args) {
+  if (actual_count != expected_count) {
+    log_fatal("函数 %s 需要 %d 个参数，但提供了 %d", func_name, expected_count, actual_count);
+    exit(1);
+  }
+  
+  if (strcmp(func_name, "log") == 0 && args[0] <= 0) {
+    log_fatal("log 参数必须为正数: %g", args[0]);
+    exit(1);
+  }
+  
+  if (strcmp(func_name, "sqrt") == 0 && args[0] < 0) {
+    log_fatal("sqrt 参数不能为负数: %g", args[0]);
+    exit(1);
+  }
+  
+  if (strcmp(func_name, "tan") == 0 && fmod(fabs(args[0]), M_PI/2) < 1e-9) {
+    log_fatal("tan 参数不能是 π/2 + kπ: %g", args[0]);
+    exit(1);
+  }
+}
+```
+
+### 4. **函数处理逻辑冗余**
+当前代码重复检查参数数量，可重构为：
+
+```c
+double evaluate_function(ast_node *ast_func) {
+  // ... [获取函数名和参数值]
+  
+  // 统一验证参数
+  if (strcmp(func_name, "sin") == 0 || 
+      strcmp(func_name, "cos") == 0 ||
+      strcmp(func_name, "tan") == 0 ||
+      strcmp(func_name, "sqrt") == 0 ||
+      strcmp(func_name, "log") == 0) {
+    validate_function_args(func_name, 1, args_count, args_values);
+  } 
+  else if (strcmp(func_name, "pow") == 0) {
+    validate_function_args(func_name, 2, args_count, args_values);
+  }
+  
+  // 分函数处理
+  if (strcmp(func_name, "sin") == 0) return sin(args_values[0]);
+  if (strcmp(func_name, "cos") == 0) return cos(args_values[0]);
+  if (strcmp(func_name, "tan") == 0) return tan(args_values[0]);
+  if (strcmp(func_name, "sqrt") == 0) return sqrt(args_values[0]);
+  if (strcmp(func_name, "log") == 0) return log(args_values[0]);
+  if (strcmp(func_name, "pow") == 0) return pow(args_values[0], args_values[1]);
+  
+  log_fatal("未知函数: %s", func_name);
+  exit(1);
+}
+```
+
+### 5. **内存安全问题**
+```c
+char func_name[FUNC_MAX_CHAR];
+strncpy(func_name, ast_func->func_name, sizeof(func_name) - 1);
+```
+**修复方案**：
+```c
+// 确保字符串终止
+strncpy(func_name, ast_func->func_name, sizeof(func_name) - 1);
+func_name[sizeof(func_name) - 1] = '\0'; // 明确添加终止符
+```
+
+### 6. **可扩展性问题**
+硬编码函数列表，添加新函数需要修改多处代码。建议使用函数注册表：
+
+```c
+// 函数类型定义
+typedef double (*MathFunction)(double*, int);
+
+// 函数注册结构
+typedef struct {
+  const char* name;
+  MathFunction func;
+  int arg_count;
+} FunctionRegistry;
+
+// 注册函数
+FunctionRegistry func_table[] = {
+  {"sin", [](double* args, int) { return sin(args[0]); }, 1},
+  {"cos", [](double* args, int) { return cos(args[0]); }, 1},
+  {"tan", [](double* args, int) { return tan(args[0]); }, 1},
+  {"sqrt", [](double* args, int) { 
+      if (args[0] < 0) { /* 错误处理 */ }
+      return sqrt(args[0]); 
+  }, 1},
+  {"log", [](double* args, int) { 
+      if (args[0] <= 0) { /* 错误处理 */ }
+      return log(args[0]); 
+  }, 1},
+  {"pow", [](double* args, int) { return pow(args[0], args[1]); }, 2},
+  {NULL, NULL, 0} // 结束标记
+};
+
+// 在 evaluate_function 中使用
+for (int i = 0; func_table[i].name; i++) {
+  if (strcmp(func_name, func_table[i].name) == 0) {
+    if (args_count != func_table[i].arg_count) {
+      log_fatal("函数 %s 需要 %d 个参数", func_name, func_table[i].arg_count);
+      exit(1);
+    }
+    return func_table[i].func(args_values, args_count);
+  }
+}
+```
+
+### 7. **错误信息不明确**
+```c
+log_fatal("未知的函数匹配失败：%s", func_name);
+```
+**改进方案**：
+```c
+log_fatal("未知或不受支持的函数: %s", func_name);
+```
+
+### 8. **数值精度问题**
+阶乘函数使用 double 计算大数时会丢失精度：
+```c
+double factorial(double number) {
+  // ...
+  double result = 1;
+  for (int i = 1; i <= (int)number; i++) {
+    result *= i; // 对于 n>22 会丢失精度
+  }
+  return result;
+}
+```
+**解决方案**：
+- 对于 n <= 22 使用 double 计算
+- 对于 n > 22 使用 tgamma(n+1)（Gamma 函数）
+- 或使用任意精度数学库
+
+### 完整修复后的 evaluate_function
+
+```c
+double evaluate_function(ast_node *ast_func) {
+  // 安全复制函数名
+  char func_name[FUNC_MAX_CHAR + 1];
+  strncpy(func_name, ast_func->func_name, FUNC_MAX_CHAR);
+  func_name[FUNC_MAX_CHAR] = '\0';
+
+  // 准备参数值
+  int args_count = ast_func->args_count;
+  double args_values[args_count];
+  for (int i = 0; i < args_count; i++) {
+    args_values[i] = evaluate_ast(ast_func->args[i]);
+  }
+
+  // 检查并执行已知函数
+  if (strcmp(func_name, "sin") == 0) {
+    if (args_count != 1) {
+      log_fatal("sin 需要 1 个参数");
+      exit(1);
+    }
+    return sin(args_values[0]);
+  }
+  
+  if (strcmp(func_name, "cos") == 0) {
+    if (args_count != 1) {
+      log_fatal("cos 需要 1 个参数");
+      exit(1);
+    }
+    return cos(args_values[0]);
+  }
+  
+  if (strcmp(func_name, "tan") == 0) {
+    if (args_count != 1) {
+      log_fatal("tan 需要 1 个参数");
+      exit(1);
+    }
+    // 检查 tan(π/2 + kπ) 的奇点
+    if (fabs(fmod(args_values[0] + M_PI_2, M_PI) - M_PI_2) < 1e-9) {
+      log_fatal("tan 参数 %g 接近奇点", args_values[0]);
+      exit(1);
+    }
+    return tan(args_values[0]);
+  }
+  
+  if (strcmp(func_name, "sqrt") == 0) {
+    if (args_count != 1) {
+      log_fatal("sqrt 需要 1 个参数");
+      exit(1);
+    }
+    if (args_values[0] < 0) {
+      log_fatal("sqrt 参数不能为负数: %g", args_values[0]);
+      exit(1);
+    }
+    return sqrt(args_values[0]);
+  }
+  
+  if (strcmp(func_name, "log") == 0) {
+    if (args_count != 1) {
+      log_fatal("log 需要 1 个参数");
+      exit(1);
+    }
+    if (args_values[0] <= 0) {
+      log_fatal("log 参数必须为正数: %g", args_values[0]);
+      exit(1);
+    }
+    return log(args_values[0]);
+  }
+  
+  if (strcmp(func_name, "pow") == 0) {
+    if (args_count != 2) {
+      log_fatal("pow 需要 2 个参数");
+      exit(1);
+    }
+    double result = pow(args_values[0], args_values[1]);
+    if (isnan(result)) {
+      log_fatal("pow(%g, %g) 结果未定义", args_values[0], args_values[1]);
+      exit(1);
+    }
+    return result;
+  }
+
+  log_fatal("未知或不受支持的函数: %s", func_name);
+  exit(1);
+}
+```
+
+### 主要改进总结
+
+1. **健壮的错误处理**
+   - 修复了错误的格式化字符串
+   - 添加了全面的参数验证
+   - 提供了更明确的错误信息
+
+2. **函数安全性**
+   - 添加了 sqrt 的负数检查
+   - 改进了 tan 的奇点检查
+   - 增强了 pow 的 NaN 结果检测
+
+3. **代码可维护性**
+   - 消除冗余的参数检查
+   - 集中错误处理逻辑
+   - 更清晰的函数分发结构
+
+4. **边界情况处理**
+   - 字符串终止符保证
+   - 大数阶乘的精度问题
+   - 特殊数学情况的处理
+
+这些改进使代码更健壮、更安全，并提高了可维护性和错误报告的准确性。

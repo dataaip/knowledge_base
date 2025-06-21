@@ -23,7 +23,7 @@ double number_div(double left, double right) {
   if (right != 0) {
     return left / right;
   }
-  log_fatal("被除数不能为 0 : %s", right);
+  log_fatal("被除数不能为 0 : %d", right);
   exit(1);
 }
 
