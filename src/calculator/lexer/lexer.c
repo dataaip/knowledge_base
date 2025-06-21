@@ -70,8 +70,7 @@ token get_next_token(const char **input) {
   default:
     return (token){TOK_ERR, .tok_length = 1};
   }
-
-  log_error("获取下一个 Token 异常：%s", *input);
+  
 }
 
 token_type peek_next_token(const char** inputs) {
