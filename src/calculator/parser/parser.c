@@ -20,8 +20,8 @@ arguments → expression { ',' expression } // 参数列表
 #include <stdlib.h>
 #include <string.h>
 
-#include "../lexer/lexer.h"
-#include "../lexer/token.h"
+#include "lexer.h"
+#include "token.h"
 #include "parser.h"
 
 #define FUNC_ARGS_MAX 4
