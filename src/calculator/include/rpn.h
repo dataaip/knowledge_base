@@ -26,5 +26,10 @@ int push_operand_stack(operand_stack* stack, double operand);
 double pop_operand_stack(operand_stack* stack);
 
 // 运算符优先级 运算符类型 运算符应用
+int operator_precedence(char operator);
+int is_operator(char operator);
+int is_function(const char* operator);
+double apply_operator(double left, double right, char operator);
+double apply_function(const char* operator, double right);
 
 #endif // !CALCULATOR
