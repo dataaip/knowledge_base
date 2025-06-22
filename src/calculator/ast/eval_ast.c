@@ -7,6 +7,7 @@
 #include <string.h>
 
 double factorial(double number) {
+  // 计算阶乘
   if (number < 0 || number != (int)number) {
     log_fatal("错误: 阶乘要求非负整数");
     exit(1);
@@ -20,6 +21,7 @@ double factorial(double number) {
 }
 
 double number_div(double left, double right) {
+  // 计算除法
   if (right != 0) {
     return left / right;
   }
@@ -31,7 +33,7 @@ double evaluate_function(ast_node *ast_func) {
   char func_name[FUNC_MAX_CHAR];
   strncpy(func_name, ast_func->func_name, sizeof(func_name) - 1);
   func_name[sizeof(func_name) - 1] = '\0';
-
+  // 求 参数列表的值
   int args_count = ast_func->args_count;
   double args_values[args_count];
   for (int i = 0; i < args_count; i++) {
@@ -77,7 +79,7 @@ double evaluate_ast(ast_node *ast_head) {
   if (!ast_head) {
     return 0;
   }
-
+  // 判断 ast 节点类型回溯
   switch (ast_head->op) {
   case OP_NUM: {
     log_info("当前节点值为数值: %d", ast_head->number);
