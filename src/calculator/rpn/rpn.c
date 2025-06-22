@@ -1,11 +1,43 @@
 #include "rpn.h"
+#include "lexer.h"
 #include "logfmt.h"
+#include "token.h"
 
 #include <ctype.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+// 中缀表达式转后缀表达式 逆波兰算法
+void shunting_yard_expression_bak(const char **inputs,
+                                  char postfix_expression[][STACK_MAX_SIZE],
+                                  int *postfix_expression_count) {
+  // 初始化 运算符栈
+  operator_stack ops;
+  init_operator_stack(&ops);
+  log_info("初始化运算符栈");
+
+  while (peek_next_token(inputs) != TOK_END &&
+         peek_next_token(inputs) != TOK_ERR) {
+    // 获取下一个 token      
+    token tok = get_next_token(inputs);
+
+    if (tok.token_type == TOK_NUM) {
+      char buffer[STACK_MAX_SIZE]; // 目标字符串缓冲区
+      sprintf(buffer, "%f", tok.number_value); // 将浮点数转换为字符串
+      strcpy(postfix_expression[(*postfix_expression_count)++], buffer);
+      log_info("获取了数值类型 %s 写入 postfix 表达式列表", buffer);
+    } else if (tok.token_type == TOK_LPAREN) {
+      strcpy(postfix_expression[(*postfix_expression_count)++], "(");
+      log_info("获取了数值类型 %s 写入 postfix 表达式列表", "(");    
+    } else if (tok.token_type == TOK_RPAREN) {
+
+    } else if (tok.token_type) {
+      
+    }
+  }
+}
 
 // 中缀表达式转后缀表达式 逆波兰算法
 void shunting_yard_expression(const char *inputs,
@@ -15,6 +47,9 @@ void shunting_yard_expression(const char *inputs,
   operator_stack ops;
   init_operator_stack(&ops);
   log_info("初始化运算符栈");
+  // char postfix_expression[][STACK_MAX_SIZE] 存储后缀表达式
+  // 初始化 后缀表达式栈 长度
+  *postfix_expression_count = 0;
 
   // 先获取长度，在归 0 转为后缀表达式去除括号空格后重新计算赋值
   size_t inputs_len = strlen(inputs);
@@ -99,7 +134,7 @@ void shunting_yard_expression(const char *inputs,
 
       // 处理一元表达式，判断 - 号的位置作用，压入栈
       if (c == '-' &&
-          (i == 0 || inputs[i-1] == '(' || is_operator(inputs[i-1]))) {
+          (i == 0 || inputs[i - 1] == '(' || is_operator(inputs[i - 1]))) {
         strcpy(postfix_expression[(*postfix_expression_count)++], "~");
         log_info("%s 写入 postfix表达式列表", token);
         continue;
