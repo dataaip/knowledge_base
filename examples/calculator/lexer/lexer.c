@@ -52,6 +52,12 @@ int number_strtol(const char **input) {
 int main() {
 
   char *ch = "2034 + 4 * 8 % 10";
+  char *abc = "abc";
+  printf("%s len = %zu\n", abc, strlen(abc));
+  char def[3]; 
+  strncpy(def, abc, strlen(abc));
+  printf("%s len = %zu\n", def, strlen(def));
+
   istype_test((const char **)&ch);
 
   number_strtol((const char **)&ch);
