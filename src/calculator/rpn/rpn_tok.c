@@ -1,73 +1,36 @@
-#include "rpn.h"
 #include "lexer.h"
 #include "logfmt.h"
+#include "rpn.h"
 #include "token.h"
+
 #include <ctype.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-
 // 中缀表达式转后缀表达式 逆波兰算法
-void shunting_yard_expression(const char *inputs,
-                              char postfix_expression[][STACK_MAX_SIZE],
-                              int *postfix_expression_count) {
+void shunting_yard_expression_tok(const char **inputs,
+                                  char postfix_expression[][STACK_MAX_SIZE],
+                                  int *postfix_expression_count) {
   // 初始化 运算符栈
   operator_stack ops;
   init_operator_stack(&ops);
   log_info("初始化运算符栈");
-  // char postfix_expression[][STACK_MAX_SIZE] 存储后缀表达式
-  // 初始化 后缀表达式栈 长度
-  *postfix_expression_count = 0;
 
-  // 先获取长度，在归 0 转为后缀表达式去除括号空格后重新计算赋值
-  size_t inputs_len = strlen(inputs);
-  // char postfix_expression[][STACK_MAX_SIZE] 存储后缀表达式
-  // 初始化 后缀表达式栈 长度
-  *postfix_expression_count = 0;
+  token tok = get_next_token(inputs);
+  while (tok.token_type != TOK_END && tok.token_type != TOK_ERR) {
 
-  // 临时存储单个 token
-  char token[STACK_MAX_SIZE] = {0};
-  int token_index = 0;
-
-  // 循环计算处理 token
-  for (int i = 0; i <= inputs_len; i++) {
-    char c = inputs[i];
-    log_warn("接收到一个字符 %c", c);
-
-    if (isalnum(c) || c == '.') {
-      // 判断数值直接写入 token 列表 等待
-      token[token_index++] = c;
-      log_info("%c 写入 token 列表", c);
-    } else if (c == '(') {
-      // 判断左括号 压入操作符栈
-
-      // 先判断 token 列表里有值 就压入后缀表达式栈
-      if (token_index > 0) {
-        token[token_index] = '\0';
-        strcpy(postfix_expression[(*postfix_expression_count)++], token);
-        token_index = 0;
-        log_info("%s 写入 postfix表达式列表", token);
-      }
-
-      // 压入 左括号 入运算符栈
-      push_operator_stack(&ops, &c);
-      log_info("%c 压入运算符栈", c);
-    } else if (c == ')') {
-      // 判断右括号 弹出运算符栈的符号 压入 后缀表达式 直到遇到 匹配的左括号
-      // 判断 inputs 结束
-
-      // 先判断 token 列表里有值 就压入后缀表达式栈
-      if (token_index > 0) {
-        token[token_index] = '\0';
-        strcpy(postfix_expression[(*postfix_expression_count)++], token);
-        token_index = 0;
-        log_info("%s 写入 postfix表达式列表", token);
-      }
-
-      // 预读将运算符栈的 运算符弹出压入 postfix 后缀表达式直到 遇到 左括号或
-      // NULL
+    if (tok.token_type == TOK_NUM) { // 判断 数值类型
+      char buffer[STACK_MAX_SIZE];
+      sprintf(buffer, "%f", tok.number_value);
+      strcpy(postfix_expression[(*postfix_expression_count)++], buffer);
+      log_info("获取了数值类型 %s 写入 postfix 表达式列表", buffer);
+    } else if (tok.token_type == TOK_LPAREN) { // 判断左括号 压入操作符栈
+      push_operator_stack(&ops, "(");
+      log_info("%s 压入运算符栈", "(");
+    } else if (tok.token_type == TOK_RPAREN) { // 判断右括号
+      // 从运算符栈不断去除运算符 直到遇到括号
       while (peek_operator_stack(&ops) != NULL &&
              strcmp(peek_operator_stack(&ops), "(") != 0) {
         log_info("%s 弹出运算符栈 写入 postfix 表达式列表",
@@ -75,16 +38,16 @@ void shunting_yard_expression(const char *inputs,
         strcpy(postfix_expression[(*postfix_expression_count)++],
                pop_operator_stack(&ops));
       }
-
+      // 弹出 ( 左括号
       if (peek_operator_stack(&ops) != NULL &&
           strcmp(peek_operator_stack(&ops), "(") == 0) {
         log_info("%s 弹出运算符栈", peek_operator_stack(&ops));
         pop_operator_stack(&ops);
       } else {
-        log_fatal("右括号没有匹配到相应的左括号 %c, %d", c, i);
+        log_fatal("右括号没有匹配到相应的左括号 %d", tok.token_type);
         exit(1);
       }
-
+      // 若为函数 处理函数
       if (peek_operator_stack(&ops) != NULL &&
           is_function(peek_operator_stack(&ops))) {
         log_info("%s 弹出运算符栈 写入 postfix 表达式列表",
@@ -92,36 +55,75 @@ void shunting_yard_expression(const char *inputs,
         strcpy(postfix_expression[(*postfix_expression_count)++],
                pop_operator_stack(&ops));
       }
-    } else if (is_operator(c) || c == ',') {
+    } else if (tok.token_type == TOK_FUNC) { // 判断函数
+      push_operator_stack(&ops, tok.func_value);
+      log_info("%s 压入运算符栈", tok.func_value);
+    } else if (tok.token_type == TOK_ADD || tok.token_type == TOK_SUB ||
+               tok.token_type == TOK_MUL || tok.token_type == TOK_DIV ||
+               tok.token_type == TOK_MOD || tok.token_type == TOK_POW ||
+               tok.token_type == TOK_FACT) { // 判断 运算符
 
-      // 先判断 token 列表里有值 就压入后缀表达式栈
-      if (token_index > 0) {
-        token[token_index] = '\0';
-        strcpy(postfix_expression[(*postfix_expression_count)++], token);
-        token_index = 0;
-        log_info("%s 写入 postfix表达式列表", token);
+      char c = '\0';
+      switch (tok.token_type) {
+      case TOK_ADD: {
+        c = '+';
+        break;
+      }
+
+      case TOK_SUB: {
+        c = '-';
+        break;
+      }
+
+      case TOK_MUL: {
+        c = '*';
+        break;
+      }
+
+      case TOK_DIV: {
+        c = '/';
+        break;
+      }
+
+      case TOK_MOD: {
+        c = '%';
+        break;
+      }
+
+      case TOK_POW: {
+        c = '^';
+        break;
+      }
+
+      case TOK_FACT: {
+        c = '!';
+        break;
+      }
+
+      default: {
+        log_fatal("未知的操作符 %d", tok.token_type);
+        exit(1);
+      }
       }
 
       // 处理一元表达式，判断 - 号的位置作用，压入栈
-      if (c == '-' &&
-          (i == 0 || inputs[i - 1] == '(' || is_operator(inputs[i - 1]))) {
-        strcpy(postfix_expression[(*postfix_expression_count)++], "~");
-        log_info("%s 写入 postfix表达式列表", token);
-        continue;
-      }
 
       // 处理运算符优先级
       while (peek_operator_stack(&ops) != NULL) {
+
         char *ops_c = peek_operator_stack(&ops);
+
         if (is_function(ops_c)) {
           log_info("%s 弹出运算符栈 写入 postfix 表达式列表",
                    peek_operator_stack(&ops));
           strcpy(postfix_expression[(*postfix_expression_count)++],
                  pop_operator_stack(&ops));
+
         } else if (is_operator(ops_c[0]) &&
                    (operator_precedence(ops_c[0]) > operator_precedence(c) ||
                     (operator_precedence(ops_c[0]) == operator_precedence(c) &&
                      c != '^' && c != '!'))) {
+
           log_info("%s 弹出运算符栈 写入 postfix 表达式列表",
                    peek_operator_stack(&ops));
           strcpy(postfix_expression[(*postfix_expression_count)++],
@@ -134,15 +136,9 @@ void shunting_yard_expression(const char *inputs,
       char operator_str[2] = {c, '\0'};
       push_operator_stack(&ops, operator_str);
       log_info("%s 压入运算符栈", operator_str);
-    } else if (c == ' ' || c == '\0') {
-      // 先判断 token 列表里有值 就压入后缀表达式栈
-      if (token_index > 0) {
-        token[token_index] = '\0';
-        strcpy(postfix_expression[(*postfix_expression_count)++], token);
-        token_index = 0;
-        log_info("%s 写入 postfix表达式列表", token);
-      }
     }
+
+    tok = get_next_token(inputs);
   }
 
   // 处理剩余运算符
@@ -155,8 +151,9 @@ void shunting_yard_expression(const char *inputs,
 }
 
 // 后缀表达式求值
-double evaluation_postfix_expression(char postfix_expression[][STACK_MAX_SIZE],
-                                     int postfix_expression_count) {
+double
+evaluation_postfix_expression_tok(char postfix_expression[][STACK_MAX_SIZE],
+                                  int postfix_expression_count) {
 
   // 初始化 操作数栈
   operand_stack ods;
@@ -202,14 +199,14 @@ double evaluation_postfix_expression(char postfix_expression[][STACK_MAX_SIZE],
   return result;
 }
 
-double evaluate_expression_rpn(const char *inputs) {
+double evaluate_expression_rpn_tok(const char *inputs) {
   // 初始化 token
   char tokens[STACK_MAX_SIZE][STACK_MAX_SIZE];
   int count = 0;
   // 生成后缀表达式
-  shunting_yard_expression(inputs, tokens, &count);
+  shunting_yard_expression_tok(&inputs, tokens, &count);
   // 计算后缀表达式
-  double result = evaluation_postfix_expression(tokens, count);
+  double result = evaluation_postfix_expression_tok(tokens, count);
 
   return result;
 }

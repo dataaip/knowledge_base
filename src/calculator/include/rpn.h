@@ -40,4 +40,6 @@ double evaluation_postfix_expression(char postfix_expression[][STACK_MAX_SIZE], 
 // 双栈法求值
 double evaluate_expression_rpn(const char* inputs);
 
+double evaluate_expression_rpn_tok(const char *inputs);
+
 #endif // !CALCULATOR
