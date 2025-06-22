@@ -3,6 +3,7 @@
 
 #include <ctype.h>
 #include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -26,8 +27,9 @@ void shunting_yard_expression(const char *inputs,
   int token_index = 0;
 
   // 循环计算处理 token
-  for (int i = 0; i < inputs_len; i++) {
+  for (int i = 0; i <= inputs_len; i++) {
     char c = inputs[i];
+    log_warn("接收到一个字符 %c", c);
 
     if (isalnum(c) || c == '.') {
       // 判断数值直接写入 token 列表 等待
@@ -47,8 +49,9 @@ void shunting_yard_expression(const char *inputs,
       // 压入 左括号 入运算符栈
       push_operator_stack(&ops, &c);
       log_info("%c 压入运算符栈", c);
-    } else if (c == ')' || c == '\0') {
+    } else if (c == ')') {
       // 判断右括号 弹出运算符栈的符号 压入 后缀表达式 直到遇到 匹配的左括号
+      // 判断 inputs 结束
 
       // 先判断 token 列表里有值 就压入后缀表达式栈
       if (token_index > 0) {
@@ -96,7 +99,7 @@ void shunting_yard_expression(const char *inputs,
 
       // 处理一元表达式，判断 - 号的位置作用，压入栈
       if (c == '-' &&
-          (i == 0 || inputs[i - 1] == '(' || is_operator(inputs[i - 1]))) {
+          (i == 0 || inputs[i-1] == '(' || is_operator(inputs[i-1]))) {
         strcpy(postfix_expression[(*postfix_expression_count)++], "~");
         log_info("%s 写入 postfix表达式列表", token);
         continue;
@@ -122,12 +125,11 @@ void shunting_yard_expression(const char *inputs,
           break;
         }
       }
-
       // 压入运算符栈
       char operator_str[2] = {c, '\0'};
       push_operator_stack(&ops, operator_str);
       log_info("%s 压入运算符栈", operator_str);
-    } else if (c == ' ') {
+    } else if (c == ' ' || c == '\0') {
       // 先判断 token 列表里有值 就压入后缀表达式栈
       if (token_index > 0) {
         token[token_index] = '\0';
@@ -191,16 +193,16 @@ double evaluation_postfix_expression(char postfix_expression[][STACK_MAX_SIZE],
 
   double result = pop_operand_stack(&ods);
   log_info("后缀表达式计算完成 %d", result);
-  
+
   return result;
 }
 
-double evaluate_expression_rpn(const char* inputs) {
-  // 初始化 token 
+double evaluate_expression_rpn(const char *inputs) {
+  // 初始化 token
   char tokens[STACK_MAX_SIZE][STACK_MAX_SIZE];
   int count = 0;
   // 生成后缀表达式
-  shunting_yard_expression(inputs, tokens, &count);    
+  shunting_yard_expression(inputs, tokens, &count);
   // 计算后缀表达式
   double result = evaluation_postfix_expression(tokens, count);
 
