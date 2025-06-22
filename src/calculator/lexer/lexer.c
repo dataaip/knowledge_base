@@ -5,8 +5,8 @@
 #include <string.h>
 
 #include "lexer.h"
-#include "token.h"
 #include "logfmt.h"
+#include "token.h"
 
 token get_next_token(const char **input) {
 
@@ -17,17 +17,15 @@ token get_next_token(const char **input) {
 
   // 判断数值
   if (isdigit(**input) || **input == '.') {
-    if (**input != '-') {
-      char *endptr = NULL;
-      errno = 0;
-      double num = strtod(*input, &endptr);
-      if (errno == ERANGE) {
-        log_error("strol 数值转换异常：%s", *input);
-      }
-      int len = (int)(endptr - *input);
-      *input = endptr;
-      return (token){.token_type = TOK_NUM, num, .tok_length = len};
+    char *endptr = NULL;
+    errno = 0;
+    double num = strtod(*input, &endptr);
+    if (errno == ERANGE) {
+      log_error("strol 数值转换异常：%s", *input);
     }
+    int len = (int)(endptr - *input);
+    *input = endptr;
+    return (token){.token_type = TOK_NUM, num, .tok_length = len};
   }
 
   // 判断函数
@@ -70,19 +68,18 @@ token get_next_token(const char **input) {
   default:
     return (token){TOK_ERR, .tok_length = 1};
   }
-  
 }
 
-token_type peek_next_token(const char** inputs) {
+token_type peek_next_token(const char **inputs) {
   // 保存原始指针位置
-  const char* original = *inputs;
+  const char *original = *inputs;
   // 读取下一个 token
   token tok = get_next_token(inputs);
   // 恢复原始指针位置
   *inputs = original;
 
   log_info("预读到的下一个 token 类型为 %d: ", tok.token_type);
-  
+
   return tok.token_type;
 }
 

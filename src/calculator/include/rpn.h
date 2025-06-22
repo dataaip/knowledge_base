@@ -32,4 +32,12 @@ int is_function(const char* operator);
 double apply_operator(double left, double right, char operator);
 double apply_function(const char* operator, double right);
 
+// 中缀表达式转后缀表达式 逆波兰算法
+void shunting_yard_expression(const char* inputs, char postfix_expression[][STACK_MAX_SIZE], int* postfix_expression_count);
+// 后缀表达式求值
+double evaluation_postfix_expression(char postfix_expression[][STACK_MAX_SIZE], int postfix_expression_count);
+
+// 双栈法求值
+double evaluate_expression_rpn(const char* inputs);
+
 #endif // !CALCULATOR

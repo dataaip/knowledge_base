@@ -42,4 +42,6 @@ ast_node* parser_to_ast(const char *expr);
 
 double evaluate_ast(ast_node* ast_head);
 
+double evaluate_expression_ast(const char* inputs);
+
 #endif // !CALCULATOR_AST_H

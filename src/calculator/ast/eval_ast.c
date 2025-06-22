@@ -119,3 +119,11 @@ double evaluate_ast(ast_node *ast_head) {
     exit(1);
   }
 }
+
+double evaluate_expression_ast(const char *inputs) {
+  ast_node *ast = parser_to_ast(inputs);
+  double value = evaluate_ast(ast);
+  ast_tree_free(ast);
+
+  return value;
+}
