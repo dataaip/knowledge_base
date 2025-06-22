@@ -162,7 +162,7 @@ double evaluation_postfix_expression(char postfix_expression[][STACK_MAX_SIZE],
     char *token = postfix_expression[i];
 
     // 处理数值 直接压入
-    if (isdigit(token) || (token[0] == '-' && isdigit(token[i + 1]))) {
+    if (isdigit(token[0]) || (token[0] == '-' && isdigit(token[i + 1]))) {
       double value = atof(token);
       push_operand_stack(&ods, value);
       log_info("处理数值计算 %f 压入操作数栈", value);

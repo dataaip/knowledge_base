@@ -58,6 +58,8 @@ int main() {
   // strncpy(def, abc, strlen(abc));
   // printf("%s len = %zu\n", def, strlen(def));
 
+  printf(" + %d.\n",isdigit('+'));
+
   istype_test((const char **)&ch);
 
   number_strtol((const char **)&ch);
