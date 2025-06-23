@@ -144,3 +144,273 @@
 3. LSP客户端（语言服务器协议）
 4. 扩展宿主环境
 5. UI框架（Electron/原生GUI）
+
+# 基于C语言的文本编辑器项目架构设计
+
+下面是一个完整的文本编辑器项目目录架构设计，采用模块化设计便于扩展和维护：
+
+## 项目目录结构
+
+```
+text-editor/
+├── src/                 # 源代码目录
+│   ├── core/            # 核心功能模块
+│   │   ├── buffer.c     # 文本缓冲区管理
+│   │   ├── buffer.h
+│   │   ├── editor.c     # 编辑器状态管理
+│   │   ├── editor.h
+│   │   ├── fileio.c     # 文件读写操作
+│   │   └── fileio.h
+│   ├── terminal/        # 终端交互模块
+│   │   ├── input.c      # 输入处理
+│   │   ├── input.h
+│   │   ├── output.c     # 输出渲染
+│   │   ├── output.h
+│   │   ├── screen.c     # 屏幕管理
+│   │   └── screen.h
+│   ├── features/        # 高级功能模块
+│   │   ├── search.c     # 搜索功能
+│   │   ├── search.h
+│   │   ├── syntax.c     # 语法高亮
+│   │   ├── syntax.h
+│   │   ├── undo.c       # 撤销/重做
+│   │   └── undo.h
+│   ├── utils/           # 工具函数
+│   │   ├── logger.c     # 日志系统
+│   │   ├── logger.h
+│   │   ├── strutil.c    # 字符串处理
+│   │   └── strutil.h
+│   └── main.c           # 程序入口
+├── include/             # 公共头文件
+│   └── common.h         # 通用定义和宏
+├── tests/               # 测试目录
+│   ├── test_buffer.c
+│   ├── test_fileio.c
+│   └── ...
+├── build/               # 构建目录（自动生成）
+├── Makefile             # 构建脚本
+├── config.mk            # 构建配置
+├── .clang-format        # 代码格式化配置
+├── .gitignore           # Git忽略文件
+├── README.md            # 项目说明
+└── LICENSE              # 许可证文件
+```
+
+## 各模块详细说明
+
+### 1. 核心功能模块 (core/)
+
+- **buffer.c/buffer.h**
+  - 文本缓冲区实现
+  - 行式存储结构（动态数组或链表）
+  - 插入/删除字符/行操作
+  - 光标位置管理
+  - 文本选择功能
+
+- **editor.c/editor.h**
+  - 编辑器全局状态管理
+  - 配置管理（行号显示、自动缩进等）
+  - 模式管理（正常模式、插入模式、命令模式）
+  - 事件调度
+
+- **fileio.c/fileio.h**
+  - 文件加载和保存
+  - 编码检测和转换（UTF-8支持）
+  - 行尾格式处理（CRLF/LF）
+  - 文件状态检测（修改状态、只读状态）
+
+### 2. 终端交互模块 (terminal/)
+
+- **input.c/input.h**
+  - 终端原始模式设置
+  - 按键处理（包括特殊键和组合键）
+  - 输入队列管理
+  - 命令解析
+
+- **output.c/output.h**
+  - 屏幕渲染引擎
+  - 文本区域渲染（带滚动）
+  - 状态栏和消息栏渲染
+  - 语法高亮显示
+  - 高效刷新策略（差异刷新）
+
+- **screen.c/screen.h**
+  - 终端尺寸检测
+  - 窗口大小变化处理
+  - 光标控制
+  - 颜色管理
+
+### 3. 高级功能模块 (features/)
+
+- **search.c/search.h**
+  - 文本搜索（向前/向后）
+  - 正则表达式支持
+  - 搜索高亮
+  - 替换功能
+
+- **syntax.c/syntax.h**
+  - 语法高亮引擎
+  - 多语言支持（C, Python, Markdown等）
+  - 高亮规则配置
+  - 语法检测
+
+- **undo.c/undo.h**
+  - 多级撤销/重做系统
+  - 操作历史记录
+  - 操作合并（连续字符输入）
+
+### 4. 工具模块 (utils/)
+
+- **logger.c/logger.h**
+  - 日志系统（调试/错误/警告）
+  - 日志级别控制
+  - 日志输出到文件或终端
+
+- **strutil.c/strutil.h**
+  - 字符串处理函数
+  - Unicode支持
+  - 内存高效字符串操作
+
+### 5. 主程序入口 (main.c)
+
+```c
+#include "common.h"
+#include "core/editor.h"
+#include "terminal/screen.h"
+#include "utils/logger.h"
+
+int main(int argc, char *argv[]) {
+    // 初始化日志系统
+    init_logger("editor.log", LOG_LEVEL_DEBUG);
+    
+    // 初始化编辑器
+    EditorState *editor = editor_init();
+    
+    // 处理命令行参数
+    if (argc > 1) {
+        editor_open_file(editor, argv[1]);
+    }
+    
+    // 初始化终端
+    TerminalState terminal;
+    if (!terminal_init(&terminal)) {
+        LOG_ERROR("Failed to initialize terminal");
+        return 1;
+    }
+    
+    // 设置状态消息
+    editor_set_status(editor, "Ready. Ctrl-Q to quit | Ctrl-S to save");
+    
+    // 主事件循环
+    while (editor->running) {
+        // 处理输入
+        terminal_process_input(&terminal, editor);
+        
+        // 渲染界面
+        terminal_render(&terminal, editor);
+    }
+    
+    // 清理资源
+    terminal_cleanup(&terminal);
+    editor_free(editor);
+    close_logger();
+    
+    return 0;
+}
+```
+
+## 构建系统 (Makefile)
+
+```makefile
+# 编译器设置
+CC = gcc
+CFLAGS = -Wall -Wextra -O2 -Iinclude
+LDFLAGS = -lm
+LIBS = -lncursesw
+
+# 源文件和目标文件
+SRC_DIR = src
+BUILD_DIR = build
+SRCS = $(wildcard $(SRC_DIR)/*.c) \
+        $(wildcard $(SRC_DIR)/core/*.c) \
+        $(wildcard $(SRC_DIR)/terminal/*.c) \
+        $(wildcard $(SRC_DIR)/features/*.c) \
+        $(wildcard $(SRC_DIR)/utils/*.c)
+OBJS = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRCS))
+TARGET = editor
+
+# 构建规则
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LIBS)
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -rf $(BUILD_DIR) $(TARGET)
+
+run: $(TARGET)
+	./$(TARGET)
+
+debug: CFLAGS += -g -DDEBUG
+debug: clean $(TARGET)
+
+.PHONY: all clean run debug
+```
+
+## 开发路线图
+
+### 阶段1: 基础编辑器
+1. 终端原始模式设置
+2. 文本缓冲区和基本编辑操作
+3. 屏幕渲染和光标移动
+4. 文件加载和保存
+
+### 阶段2: 核心功能增强
+1. 撤销/重做系统
+2. 文本搜索功能
+3. 行号显示和状态栏
+4. 配置系统（配置文件支持）
+
+### 阶段3: 高级功能
+1. 语法高亮（多语言支持）
+2. 多标签/分屏支持
+3. 插件系统架构
+4. 鼠标支持
+
+### 阶段4: 优化和扩展
+1. 性能优化（大文件处理）
+2. Unicode完整支持
+3. 主题系统
+4. LSP集成（语言服务器协议）
+
+## 关键设计考虑
+
+1. **跨平台支持**：
+   - 使用条件编译处理平台差异
+   - 抽象平台相关功能
+
+2. **性能优化**：
+   - 增量渲染（只重绘变化部分）
+   - 行式文本存储（非单一大缓冲区）
+   - 延迟语法高亮计算
+
+3. **可扩展架构**：
+   - 插件系统接口
+   - 模块化设计（功能可插拔）
+   - 配置驱动行为
+
+4. **鲁棒性**：
+   - 全面的错误处理
+   - 内存安全（Valgrind检测）
+   - 崩溃恢复机制
+
+5. **国际化**：
+   - UTF-8支持
+   - 多语言界面
+   - 本地化资源
+
+这个架构设计提供了一个健壮的基础，可以支持从简单编辑器到功能丰富的现代代码编辑器的演进。实际实现中，每个模块都可以进一步细化和扩展，添加更多专业功能如代码补全、调试集成等。
