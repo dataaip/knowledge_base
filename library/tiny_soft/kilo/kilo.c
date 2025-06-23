@@ -54,7 +54,7 @@
 #include <fcntl.h>
 #include <signal.h>
 
-/* Syntax highlight types */
+/* Syntax highlight types 语法高亮类型 */
 #define HL_NORMAL 0
 #define HL_NONPRINT 1
 #define HL_COMMENT 2   /* Single line comment. */
@@ -64,10 +64,17 @@
 #define HL_STRING 6
 #define HL_NUMBER 7
 #define HL_MATCH 8      /* Search match. */
-
+/*
+语法特性的标志位（按位组合），常见值：
+HL_HIGHLIGHT_NUMBERS (1<<0)：是否高亮数字
+HL_HIGHLIGHT_STRINGS (1<<1)：是否高亮字符串
+*/
 #define HL_HIGHLIGHT_STRINGS (1<<0)
 #define HL_HIGHLIGHT_NUMBERS (1<<1)
 
+/*
+editorSyntax 定义了用于源代码语法高亮的规则配置
+*/
 struct editorSyntax {
     char **filematch;
     char **keywords;
@@ -77,6 +84,7 @@ struct editorSyntax {
     int flags;
 };
 
+/*这个结构体 erow 表示文本编辑器中的一行内容，它包含了原始文本内容以及为显示和语法高亮处理的各种元数据。*/
 /* This structure represents a single line of the file we are editing. */
 typedef struct erow {
     int idx;            /* Row index in the file, zero-based. */
@@ -93,6 +101,14 @@ typedef struct hlcolor {
     int r,g,b;
 } hlcolor;
 
+/*
+该结构体是文本编辑器的核心状态容器，用于：
+管理光标位置、滚动偏移和屏幕尺寸
+存储文件内容（通过 erow 数组）
+跟踪文件修改状态和名称
+控制终端原始模式
+处理状态消息和语法高亮
+*/
 struct editorConfig {
     int cx,cy;  /* Cursor x and y position in characters */
     int rowoff;     /* Offset of row displayed. */
@@ -109,8 +125,10 @@ struct editorConfig {
     struct editorSyntax *syntax;    /* Current syntax highlight, or NULL. */
 };
 
+/*全局编辑器状态变量 E*/
 static struct editorConfig E;
 
+/*键盘操作枚举 KEY_ACTION*/
 enum KEY_ACTION{
         KEY_NULL = 0,       /* NULL */
         CTRL_C = 3,         /* Ctrl-c */
@@ -138,6 +156,7 @@ enum KEY_ACTION{
         PAGE_DOWN
 };
 
+/*在文本编辑器的状态栏中设置状态消息。状态消息通常显示在屏幕底部，用于向用户显示临时信息（如操作结果、警告或提示）。*/
 void editorSetStatusMessage(const char *fmt, ...);
 
 /* =========================== Syntax highlights DB =========================
@@ -161,7 +180,7 @@ void editorSetStatusMessage(const char *fmt, ...);
  *
  * There is no support to highlight patterns currently. */
 
-/* C / C++ */
+/* C / C++ 判断文件 和 高亮词*/
 char *C_HL_extensions[] = {".c",".h",".cpp",".hpp",".cc",NULL};
 char *C_HL_keywords[] = {
 	/* C Keywords */
@@ -183,6 +202,7 @@ char *C_HL_keywords[] = {
         "void|","short|","auto|","const|","bool|",NULL
 };
 
+/* 定义了一个语法高亮数据库（HLDB），它是一个包含各种编程语言语法规则的数组。当前只包含了 C/C++ 语言的语法规则。*/
 /* Here we define an array of syntax highlights by extensions, keywords,
  * comments delimiters and flags. */
 struct editorSyntax HLDB[] = {
@@ -191,10 +211,10 @@ struct editorSyntax HLDB[] = {
         C_HL_extensions,
         C_HL_keywords,
         "//","/*","*/",
-        HL_HIGHLIGHT_STRINGS | HL_HIGHLIGHT_NUMBERS
+        HL_HIGHLIGHT_STRINGS | HL_HIGHLIGHT_NUMBERS // 标志通常是位掩码 高亮哪些类型
     }
 };
-
+/* 数组大小*/
 #define HLDB_ENTRIES (sizeof(HLDB)/sizeof(HLDB[0]))
 
 /* ======================= Low level terminal handling ====================== */
