@@ -27,8 +27,9 @@ void shunting_yard_expression_tok(const char **inputs,
       strcpy(postfix_expression[(*postfix_expression_count)++], buffer);
       log_info("获取了数值类型 %s 写入 postfix 表达式列表", buffer);
     } else if (tok.token_type == TOK_LPAREN) { // 判断左括号 压入操作符栈
-      push_operator_stack(&ops, "(");
-      log_info("%s 压入运算符栈", "(");
+      char operator_str[2] = {'(', '\0'};
+      push_operator_stack(&ops, operator_str);
+      log_info("%s 压入运算符栈", operator_str);
     } else if (tok.token_type == TOK_RPAREN) { // 判断右括号
       // 从运算符栈不断去除运算符 直到遇到括号
       while (peek_operator_stack(&ops) != NULL &&

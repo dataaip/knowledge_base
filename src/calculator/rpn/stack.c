@@ -26,7 +26,7 @@ int push_operator_stack(operator_stack *stack, const char *operator) {
     return 0;
   }
 
-  strncpy(stack->operator[++stack->top], operator, strlen(operator));
+  strcpy(stack->operator[++stack->top], operator);
   log_info("栈运算符 %s 压入栈", operator);
   return 1;
 }
