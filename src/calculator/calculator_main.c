@@ -20,11 +20,10 @@ int main() {
     // double value = evaluate_expression((const char *)input_expression);
 
     // 递归下降 转为 AST 求值法
-    // double value = evaluate_expression_ast((const char *)input_expression);
+    double value = evaluate_expression_ast((const char *)input_expression);
 
     // 双栈求值法
-    // double value = evaluate_expression_rpn((const char *)input_expression);
-    double value = evaluate_expression_rpn_tok((const char *)input_expression);
+    // double value = evaluate_expression_rpn_tok((const char *)input_expression);
 
     log_info("表达式解析完成，值为 %f", value);
     printf("%s = %f.\n", input_expression, value);
