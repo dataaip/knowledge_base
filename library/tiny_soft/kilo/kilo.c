@@ -219,21 +219,26 @@ struct editorSyntax HLDB[] = {
 
 /* ======================= Low level terminal handling ====================== */
 
+/*
+struct termios（存储终端配置的结构体），保存程序启动时终端的原始配置，以便后续恢复
+通过 tcgetattr 获取当前配置，tcsetattr 设置新配置
+*/
 static struct termios orig_termios; /* In order to restore at exit.*/
 
-void disableRawMode(int fd) {
+void disableRawMode(int fd) { // fd 是文件描述符（通常是标准输入 STDIN_FILENO）
     /* Don't even check the return value as it's too late. */
-    if (E.rawmode) {
-        tcsetattr(fd,TCSAFLUSH,&orig_termios);
-        E.rawmode = 0;
+    if (E.rawmode) { // 检查全局变量 E.rawmode（假设是某个编辑器状态结构体）是否为 1（表示当前处于 raw mode）
+        tcsetattr(fd,TCSAFLUSH,&orig_termios); // 如果是，调用 tcsetattr 恢复终端的原始配置（从 orig_termios）
+        E.rawmode = 0; // TCSAFLUSH 表示在恢复配置前，先丢弃未处理的输入/输出数据
     }
 }
 
 /* Called at exit to avoid remaining in raw mode. */
-void editorAtExit(void) {
+void editorAtExit(void) { // 直接调用 disableRawMode(STDIN_FILENO) 作用于标准输入
     disableRawMode(STDIN_FILENO);
 }
 
+/*将终端切换到 原始模式（Raw Mode），禁用行缓冲、回显和信号处理，使程序能直接读取单个按键输入*/
 /* Raw mode: 1960 magic shit. */
 int enableRawMode(int fd) {
     struct termios raw;
@@ -268,6 +273,7 @@ fatal:
     return -1;
 }
 
+/*在 Raw Mode 下读取终端按键输入，并处理 转义序列（如方向键、功能键等）*/
 /* Read a key from the terminal put in raw mode, trying to handle
  * escape sequences. */
 int editorReadKey(int fd) {
@@ -321,6 +327,7 @@ int editorReadKey(int fd) {
     }
 }
 
+/*获取终端的当前光标位置，通过发送 ANSI 控制序列 并解析终端的响应来实现*/
 /* Use the ESC [6n escape sequence to query the horizontal cursor position
  * and return it. On error -1 is returned, on success the position of the
  * cursor is stored at *rows and *cols and 0 is returned. */
@@ -345,12 +352,15 @@ int getCursorPosition(int ifd, int ofd, int *rows, int *cols) {
     return 0;
 }
 
+/*获取终端窗口大小的函数
+ * getWindowSize。它使用两种不同的方法来获取终端尺寸，优先尝试标准方法，如果不成功则使用备用方法。*/
+
 /* Try to get the number of columns in the current terminal. If the ioctl()
  * call fails the function will try to query the terminal itself.
  * Returns 0 on success, -1 on error. */
 int getWindowSize(int ifd, int ofd, int *rows, int *cols) {
     struct winsize ws;
-
+    // 使用 ioctl 系统调用和 TIOCGWINSZ 命令直接查询终端大小
     if (ioctl(1, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0) {
         /* ioctl() failed. Try to query the terminal itself. */
         int orig_row, orig_col, retval;
@@ -358,7 +368,7 @@ int getWindowSize(int ifd, int ofd, int *rows, int *cols) {
         /* Get the initial position so we can restore it later. */
         retval = getCursorPosition(ifd,ofd,&orig_row,&orig_col);
         if (retval == -1) goto failed;
-
+        // 移动光标到假定的右下角
         /* Go to right/bottom margin and get position. */
         if (write(ofd,"\x1b[999C\x1b[999B",12) != 12) goto failed;
         retval = getCursorPosition(ifd,ofd,rows,cols);
@@ -382,7 +392,7 @@ failed:
 }
 
 /* ====================== Syntax highlight color scheme  ==================== */
-
+// 判断是否分隔符
 int is_separator(int c) {
     return c == '\0' || isspace(c) || strchr(",.()+-/*=~%[];",c) != NULL;
 }

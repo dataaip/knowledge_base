@@ -145,6 +145,96 @@
 4. 扩展宿主环境
 5. UI框架（Electron/原生GUI）
 
+
+在 C 语言中开发一个类似于 `vim` 或 `nano` 的文本编辑器，通常需要依赖以下库来实现核心功能（如终端控制、语法高亮、文件操作等）。以下是主要的依赖库及其用途：
+
+---
+
+### **1. 终端控制 & 用户界面**
+- **ncurses**（或 **PDCurses** 在 Windows 上）  
+  - 提供终端图形界面（TUI）支持，包括窗口管理、光标移动、键盘输入、颜色等。  
+  - 示例：`#include <ncurses.h>`  
+  - 安装：`sudo apt-get install libncurses-dev`（Linux）  
+  - 替代方案：直接使用 `termios` + ANSI 转义序列（但开发复杂）。
+
+---
+
+### **2. 文件操作**
+- **标准 C 库（stdio.h）**  
+  - 用于文件读写（`fopen`、`fread`、`fwrite` 等）。  
+  - 示例：`#include <stdio.h>`
+
+---
+
+### **3. 正则表达式（可选，用于搜索/替换）**
+- **POSIX 正则表达式库（regex.h）**  
+  - 支持模式匹配和文本搜索。  
+  - 示例：`#include <regex.h>`
+
+---
+
+### **4. 语法高亮（可选）**
+- 自定义实现或第三方库：  
+  - 需要解析不同语言的语法规则（如通过正则表达式或状态机）。  
+  - 可结合 `ncurses` 的颜色功能实现高亮。
+
+---
+
+### **5. 多平台支持（可选）**
+- **libuv** 或 **GLib**  
+  - 跨平台事件循环和文件系统操作（非必须，但简化跨平台开发）。
+
+---
+
+### **6. 国际化（可选）**
+- **gettext**  
+  - 支持多语言翻译。
+
+---
+
+### **示例代码框架（依赖 ncurses）**
+```c
+#include <ncurses.h>
+#include <stdio.h>
+
+int main() {
+    // 初始化 ncurses
+    initscr();
+    cbreak();             // 禁用行缓冲
+    noecho();             // 关闭输入回显
+    keypad(stdscr, TRUE); // 启用功能键（如方向键）
+
+    // 主循环
+    int ch;
+    while ((ch = getch()) != 'q') { // 按 'q' 退出
+        printw("Pressed: %c\n", ch);
+        refresh();
+    }
+
+    // 清理
+    endwin();
+    return 0;
+}
+```
+
+---
+
+### **编译命令（需链接 ncurses）**
+```bash
+gcc editor.c -o editor -lncurses
+```
+
+---
+
+### **其他注意事项**
+1. **无依赖的极简编辑器**：  
+   - 可以仅用 `stdio.h` 和 `termios.h`（禁用缓冲，直接处理输入），但功能受限。  
+2. **扩展功能**：  
+   - 插件系统（需动态加载库，如 `dlopen`）。  
+   - 多窗口/分屏（需更复杂的 `ncurses` 使用）。  
+
+如果需要更完整的实现，可以参考开源项目（如 [kilo](https://github.com/antirez/kilo) 或 [micro](https://github.com/zyedidia/micro)）的代码结构。
+
 # 基于C语言的文本编辑器项目架构设计
 
 下面是一个完整的文本编辑器项目目录架构设计，采用模块化设计便于扩展和维护：
