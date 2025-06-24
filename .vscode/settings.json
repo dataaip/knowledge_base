@@ -120,6 +120,7 @@
         // Clang-Tidy 静态检查的参数，指出按照哪些规则进行静态检查，详情见「与按照官方文档配置好的 VSCode 相比拥有的优势」
         // 参数后部分的*表示通配符
         // 在参数前加入-，如-modernize-use-trailing-return-type，将会禁用某一规则
+        "--clang-tidy-checks=file:${workspaceFolder}/.clang-tidy",
         "--clang-tidy-checks=bugprone-*,clang-analyzer-*,cppcoreguidelines-*,google-*,modernize-*,performance-*,portability-*,readability-*",
         "--clang-tidy-checks=-google-build-using-namespace,-modernize-use-trailing-return-type",
         // 默认格式化风格: 谷歌开源项目代码指南

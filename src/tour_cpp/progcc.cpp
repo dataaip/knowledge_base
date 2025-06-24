@@ -1,5 +1,4 @@
 #include <iostream>
-#include <string>
 
 #include "fmt/base.h"
 #include "toolsmath/toolsmath.h"
@@ -8,7 +7,7 @@
 #define SPDLOG_FMT_EXTERNAL // 定义不使用 spdlog 内部的 fmt 使用外部自定义引入的
 #include "spdlog/spdlog.h"
 
-auto main() -> int
+int main()
 {
     ToolsMath math;
     Utils     utils;

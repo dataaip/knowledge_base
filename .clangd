@@ -1,0 +1,69 @@
+# .clangd
+CompileFlags:
+  # 编译命令数据库位置
+  CompilationDatabase: build
+  # 添加全局编译选项
+  Add: 
+    - -Wall
+    - -Wextra
+    # 添加其他必要标志
+
+Index:
+  # 后台索引
+  Background: true
+  # PCH 存储位置
+  PCHStorage: memory
+
+Diagnostics:
+  ClangTidy:
+    # 使用自定义配置文件
+    Config: .clang-tidy
+    
+    # 添加/移除特定检查
+    Add: 
+      - bugprone-*
+      - clang-analyzer-*
+      - cppcoreguidelines-*
+      - google-*
+      - modernize-*
+      - performance-*
+      - portability-*
+      - readability-*
+    Remove:
+      - google-build-using-namespace
+      - modernize-use-trailing-return-type
+    
+    # 启用静态检查
+    Enabled: true
+    
+    # 性能优化
+    MemoryLimit: 4096
+    ParallelThreads: 2
+    Exclude: 
+      - "**/thirdparty/**"
+      - "**/build/**"
+
+Format:
+  # 使用项目中的 .clang-format 文件
+  Style: file
+  # 备用风格为 LLVM
+  FallbackStyle: LLVM
+
+InlayHints:
+  # 禁用函数参数占位符
+  FunctionParameterPlaceholders: false
+
+Completion:
+  # 启用全局补全
+  AllScopes: true
+  # 补全风格
+  Style: bundled
+  # 允许自动插入头文件 (iwyu)
+  InsertIncludes: true
+  # 在建议中显示头文件装饰器
+  IncludeDecorators: true
+
+Refactor:
+  # 跨文件重命名默认启用
+  # 重命名时包含注释
+  RenameIncludeComments: true

@@ -1,1 +1,46 @@
-Checks: 'cppcoreguidelines-*,performance-*,bugprone-*,portability-*,modernize-*,google-*'
+# .clang-tidy - 完整配置示例
+Checks: >
+    bugprone-*,
+    clang-analyzer-*,
+    cppcoreguidelines-*,
+    google-*,
+    modernize-*,
+    performance-*,
+    portability-*,
+    readability-*,
+    -google-build-using-namespace,
+    -cppcoreguidelines-pro-type-vararg
+
+# 检查项目源代码
+HeaderFilterRegex: '.*\.(c|h|cpp|hpp)$'
+
+# 将严重问题视为错误
+WarningsAsErrors: 'bugprone-*,clang-analyzer-*'
+
+# 特定检查项配置
+CheckOptions:
+  # 魔法数字检查配置
+  readability-magic-numbers.IgnoredNumbers: '0,1,2,3,4,8,16,32,64,100'
+  readability-magic-numbers.IgnoreBitFields: true
+  
+  # 函数复杂度配置
+  readability-function-size.LineThreshold: 50
+  readability-function-size.StatementThreshold: 30
+  readability-function-size.ParameterThreshold: 6
+  
+  # 命名检查
+  readability-identifier-naming.ClassCase: CamelCase
+  readability-identifier-naming.VariableCase: camelBack
+  
+  # 空指针检查
+  clang-analyzer-core.NullDereference.IgnoreMacros: true
+  
+  # 现代C++配置
+  modernize-use-nullptr.IgnoreMacros: true
+  modernize-use-emplace.IgnoreImplicitConstructors: true
+
+# 使用项目的.clang-format文件
+FormatStyle: file
+
+# 分析临时对象析构
+AnalyzeTemporaryDtors: true
