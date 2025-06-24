@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <aio.h>
 
 #define HL_HIGHLIGHT_STRINGS (1 << 0) // 01
 #define HL_HIGHLIGHT_NUMBERS (1 << 1) // 10
