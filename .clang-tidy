@@ -43,4 +43,4 @@ CheckOptions:
 FormatStyle: file
 
 # 分析临时对象析构
-AnalyzeTemporaryDtors: true
+# AnalyzeTemporaryDtors: true
