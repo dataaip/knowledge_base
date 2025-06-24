@@ -1,75 +1,80 @@
+# .clang-tidy 配置文件详解
+
+# ======================
 # 主配置部分（全局设置）
+# ======================
 # 这些设置适用于所有文件，除非被条件块覆盖
 
 # 诊断设置
 Diagnostics:
+  # Clang-Tidy 检查器配置
   ClangTidy:
-    Enabled: true        # 启用 Clang-Tidy
-    Config: .clang-tidy  # 使用项目中的 .clang-tidy 文件
-    Add:                 # 添加的检查组
-      - bugprone-*       # 常见错误模式检查
-      - clang-analyzer-* # Clang 静态分析器
-      - cppcoreguidelines-* # C++ 核心指南
-      - google-*         # Google 风格指南
-      - modernize-*      # 现代化改造建议
-      - performance-*    # 性能相关检查
-      - portability-*    # 可移植性问题
-      - readability-*    # 可读性改进
-    Remove:              # 排除的特定检查
-      - google-build-using-namespace        # 允许 using namespace
-      - modernize-use-trailing-return-type  # 允许传统返回类型
-    MemoryLimit: 4096    # 内存限制 4GB
-    ParallelThreads: 2   # 使用 2 个线程
-
-# 代码格式化
-Format:
-  Style: file            # 使用项目中的 .clang-format
-  FallbackStyle: LLVM    # 后备风格为 LLVM
+    # 启用/禁用的检查项列表
+    Add:
+      # 启用所有潜在错误检查
+      - bugprone-*
+      # 启用静态分析器检查
+      - clang-analyzer-*
+      # 启用C++核心指南检查
+      - cppcoreguidelines-*
+      # 启用Google风格检查
+      - google-*
+      # 启用现代化C++检查
+      - modernize-*
+      # 启用性能优化检查
+      - performance-*
+      # 启用可移植性检查
+      - portability-*
+      # 启用可读性检查
+      - readability-*
+    Remove:
+      - google-build-using-namespace
 
 # 编译器标志
 CompileFlags:
+  # 指定编译命令数据库路径（通常由CMake生成）
   CompilationDatabase: build  # 从 build 目录获取编译命令
-  Add:                        # 添加额外标志
+  
+  # 添加额外的编译器标志
+  Add:                        
+    # 启用所有标准警告
     - -Wall                   # 所有警告
+    # 启用额外警告级别
     - -Wextra                 # 额外警告
+    # 添加项目包含路径（${projectRoot}是变量）
     - -I${projectRoot}/include # 添加包含路径
+
 
 # 代码补全
 Completion:
+  # 启用全作用域代码补全（不仅限于当前作用域）
   AllScopes: true          # 搜索所有作用域
-  Style: bundled           # 使用内置补全风格
-  InsertIncludes: true     # 自动插入头文件
-  IncludeDecorators: true  # 智能选择引号/尖括号
 
-# 预编译头（提升性能）
-Preamble:
-  Storage: memory          # 内存中存储预编译头
-  Cache:                   # 缓存设置
-    Path: .cache/clangd/pch # 缓存路径
-    Size: 1024             # 缓存大小 1GB
-  UpdatePolicy: Background # 后台更新
 
 # 索引设置
 Index:
+  # 索引构建方式：在后台构建（不影响编辑体验）
   Background: Build        # 后台构建索引
-  BackgroundThreads: 2     # 2 个索引线程
-  BackgroundMemory: 2048   # 索引内存限制 2GB
+
 
 # 内联提示
 InlayHints:
-  FunctionParameterPlaceholders: false # 禁用参数占位符
+  # 启用内联提示功能
   Enabled: true  # 启用参数名提示等辅助功能
-  TypeNames: true
+  # 显示参数名提示
   Designators: true
 
-# 重构选项
-Refactor:
-  RenameIncludeComments: true # 重命名时更新注释中的名称
-
+# ======================
 # 测试文件特殊配置
-If: 
-  PathMatch: ".*_test\\.(cpp|h)$"  # 匹配测试文件
-Then: 
-  Diagnostics:
-    ClangTidy:
-      Remove: [performance-*]  # 移除性能检查（测试中不相关）
+# ======================
+# 条件块：对测试文件应用特殊规则
+# If:
+#   # 使用正则表达式匹配测试文件（*_test.cpp或*_test.h）
+#   PathMatch: ".*_test\\.(cpp|h)$"  # 匹配测试文件
+#   
+#   # 匹配成功时应用的配置
+#   Then: 
+#     Diagnostics:
+#       ClangTidy:
+#         # 在测试文件中移除性能检查（测试代码通常不关心性能）
+#         Remove: [performance-*]  # 移除性能检查（测试中不相关）
