@@ -1,8 +1,8 @@
 #include <stdio.h>
 
-int main(){
+int main()
+{
+    printf("tour c beg..\n");
 
-  printf("tour c beg..\n");
-  
-  return 0;
+    return 0;
 }
