@@ -76,24 +76,24 @@ HL_HIGHLIGHT_STRINGS (1<<1)：是否高亮字符串
 editorSyntax 定义了用于源代码语法高亮的规则配置
 */
 struct editorSyntax {
-    char **filematch;
-    char **keywords;
-    char singleline_comment_start[2];
-    char multiline_comment_start[3];
-    char multiline_comment_end[3];
-    int flags;
+    char **filematch; /*文件名模式数组（用于识别文件类型）*/
+    char **keywords; /*关键字数组（通常按类别分组）*/
+    char singleline_comment_start[2]; /*单行注释起始标记（固定长度数组）*/
+    char multiline_comment_start[3]; /*多行注释起始标记*/
+    char multiline_comment_end[3]; /*多行注释结束标记*/
+    int flags; /*语法高亮特性标志位（位掩码）*/
 };
 
 /*这个结构体 erow 表示文本编辑器中的一行内容，它包含了原始文本内容以及为显示和语法高亮处理的各种元数据。*/
 /* This structure represents a single line of the file we are editing. */
 typedef struct erow {
-    int idx;            /* Row index in the file, zero-based. */
-    int size;           /* Size of the row, excluding the null term. */
-    int rsize;          /* Size of the rendered row. */
-    char *chars;        /* Row content. */
-    char *render;       /* Row content "rendered" for screen (for TABs). */
-    unsigned char *hl;  /* Syntax highlight type for each character in render.*/
-    int hl_oc;          /* Row had open comment at end in last syntax highlight
+    int idx;            /* 行在文件中的索引位置（从0开始）Row index in the file, zero-based. */
+    int size;           /* 行原始内容的长度（字节数），不包括终止空字符 \0 Size of the row, excluding the null term. */
+    int rsize;          /* 渲染后内容的长度（字节数）Size of the rendered row. */
+    char *chars;        /* 指向行原始内容的指针（以 \0 结尾的字符串）Row content. */
+    char *render;       /* 指向渲染后内容的指针（以 \0 结尾的字符串）Row content "rendered" for screen (for TABs). */
+    unsigned char *hl;  /* 语法高亮信息数组（每个元素对应 render 字符串的一个字符）Syntax highlight type for each character in render.*/
+    int hl_oc;          /* 多行注释状态标志（Open Comment）Row had open comment at end in last syntax highlight
                            check. */
 } erow;
 
@@ -110,19 +110,19 @@ typedef struct hlcolor {
 处理状态消息和语法高亮
 */
 struct editorConfig {
-    int cx,cy;  /* Cursor x and y position in characters */
-    int rowoff;     /* Offset of row displayed. */
-    int coloff;     /* Offset of column displayed. */
-    int screenrows; /* Number of rows that we can show */
-    int screencols; /* Number of cols that we can show */
-    int numrows;    /* Number of rows */
-    int rawmode;    /* Is terminal raw mode enabled? */
-    erow *row;      /* Rows */
-    int dirty;      /* File modified but not saved. */
-    char *filename; /* Currently open filename */
-    char statusmsg[80];
-    time_t statusmsg_time;
-    struct editorSyntax *syntax;    /* Current syntax highlight, or NULL. */
+    int cx,cy;      /* 光标位置（列 cx 和行 cy），以字符为单位。Cursor x and y position in characters */
+    int rowoff;     /* 垂直滚动偏移：屏幕顶部显示的文件行号。Offset of row displayed. */
+    int coloff;     /* 水平滚动偏移：屏幕左侧显示的行字符偏移。Offset of column displayed. */
+    int screenrows; /* 终端屏幕行数：当前终端可显示的行数。Number of rows that we can show */
+    int screencols; /* 终端屏幕列数：当前终端可显示的列数。Number of cols that we can show */
+    int numrows;    /* 文件总行数：当前打开文件包含的行数。Number of rows */
+    int rawmode;    /* 终端原始模式标志：是否启用了终端原始模式。Is terminal raw mode enabled? */
+    erow *row;      /* 行数据数组：指向所有行数据的指针。Rows */
+    int dirty;      /* 文件修改标志：文件是否被修改但未保存。File modified but not saved. */
+    char *filename; /* 当前文件名：打开/保存的文件名。Currently open filename */
+    char statusmsg[80]; /*状态栏消息：显示在底部的临时消息*/
+    time_t statusmsg_time; /*状态消息时间戳：消息显示的时间*/
+    struct editorSyntax *syntax;    /*当前语法高亮规则：指向语言定义结构的指针 Current syntax highlight, or NULL. */
 };
 
 /*全局编辑器状态变量 E*/
@@ -397,6 +397,7 @@ int is_separator(int c) {
     return c == '\0' || isspace(c) || strchr(",.()+-/*=~%[];",c) != NULL;
 }
 
+// 函数用于判断指定行是否包含一个未闭合的多行注释。它的核心功能是检测当前行末尾是否有未闭合的多行注释标记
 /* Return true if the specified row last char is part of a multi line comment
  * that starts at this row or at one before, and does not end at the end
  * of the row but spawns to the next row. */
@@ -410,9 +411,12 @@ int editorRowHasOpenComment(erow *row) {
 /* Set every byte of row->hl (that corresponds to every character in the line)
  * to the right syntax highlight type (HL_* defines). */
 void editorUpdateSyntax(erow *row) {
-    row->hl = realloc(row->hl,row->rsize);
+    // 申请资源扩容
+    row->hl = realloc(row->hl, row->rsize);
+    // 填充高亮数组为标准
     memset(row->hl,HL_NORMAL,row->rsize);
 
+    // 如果 高亮规则结构体为 NULL，直接返回 不需要高亮
     if (E.syntax == NULL) return; /* No syntax, everything is HL_NORMAL. */
 
     int i, prev_sep, in_string, in_comment;
