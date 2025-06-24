@@ -15,13 +15,15 @@ TabWidth: 4                 # Tab 宽度
 UseTab: Never               # 禁用 Tab，使用空格
 
 # 大括号风格（Allman 风格兼容 C/C++）
-BreakBeforeBraces: Allman   # 大括号总是换行
+BreakBeforeBraces: Stroustrup
 BraceWrapping:
-  AfterClass: true          # C++ 类后换行（C 结构体/联合体同样适用）
-  AfterFunction: true       # 函数后换行
-  AfterStruct: true         # 显式添加：结构体后换行（C 兼容）
-  AfterUnion: true          # 显式添加：联合体后换行（C 兼容）
-  AfterEnum: true           # 显式添加：枚举后换行（C 兼容）
+  AfterClass: true      # 类后换行 (Stroustrup 默认)
+  AfterFunction: true   # 函数后换行 (Stroustrup 默认)
+  AfterStruct: true     # 结构体后换行
+  AfterUnion: true      # 联合体后换行
+  AfterEnum: true       # 枚举后换行
+  AfterNamespace: false # 命名空间后不换行 (Stroustrup 默认)
+  AfterControlStatement: Never # 控制语句后不换行 (Stroustrup 核心)
 
 # 空格控制（C/C++ 通用）
 SpaceBeforeParens: ControlStatements  # if/while/for 后加空格

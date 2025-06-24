@@ -1,4 +1,5 @@
 #include "guess_game_cpp_oop.hpp"
+
 #include <cstddef>
 #include <exception>
 #include <iostream>
@@ -61,26 +62,30 @@ get_input_number()	输入处理器	        Strategy模式雏形
 
 namespace game {
 
-GuessGame::GuessGame(int min, int max):
-    min_range(min),max_range(max),engine(device()) {};    
+GuessGame::GuessGame(int min, int max)
+    : min_range(min), max_range(max), engine(device()) {};
 
 
-void GuessGame::display_welcome() {
+void GuessGame::display_welcome()
+{
     std::cout << "guess_game_oop for cpp beg" << std::endl;
 }
 
 
-auto GuessGame::generate_secret_number() -> int {
+auto GuessGame::generate_secret_number() -> int
+{
     // 均匀分布生成随机数
-    return std::uniform_int_distribution<>(GuessGame::min_range, GuessGame::max_range)(engine);
+    return std::uniform_int_distribution<>(GuessGame::min_range,
+                                           GuessGame::max_range)(engine);
 }
 
 
-auto GuessGame::get_input_number() -> int {
+auto GuessGame::get_input_number() -> int
+{
     std::string input;
     while (true) {
         // 获取输入判断异常
-        if(!std::getline(std::cin,input)) {
+        if (!std::getline(std::cin, input)) {
             if (std::cin.eof()) {
                 throw std::runtime_error("EOF输入流关闭");
             }
@@ -91,18 +96,20 @@ auto GuessGame::get_input_number() -> int {
         try {
             // 判断输入转换异常 stoi
             size_t pos = 0;
-            int number = std::stoi(input,&pos,10);
+            int    number = std::stoi(input, &pos, 10);
 
             if (pos != input.length()) {
                 throw std::runtime_error("包含非数字输入");
             }
 
-            if (number < GuessGame::min_range || number > GuessGame::max_range) {
+            if (number < GuessGame::min_range ||
+                number > GuessGame::max_range) {
                 throw std::runtime_error("数字范围超出");
             }
 
             return number;
-        } catch (const std::exception&) {
+        }
+        catch (const std::exception&) {
             // 黄色错误提示
             std::cout << "\033[33m无效输入，请重试\033[0m\n";
         }
@@ -110,7 +117,8 @@ auto GuessGame::get_input_number() -> int {
 }
 
 
-void GuessGame::evaluate_guess() {
+void GuessGame::evaluate_guess()
+{
     GuessGame::secret_number = GuessGame::generate_secret_number();
 
     while (true) {
@@ -121,17 +129,22 @@ void GuessGame::evaluate_guess() {
                 std::cout << "ok，猜对了" << std::endl;
                 break;
             }
-            std::cout << (GuessGame::guess_number > GuessGame::secret_number ? "大了" : "小了") << std::endl;
-
-        } catch (const std::exception& e) {
+            std::cout << (GuessGame::guess_number > GuessGame::secret_number
+                              ? "大了"
+                              : "小了")
+                      << std::endl;
+        }
+        catch (const std::exception& e) {
             // 红色错误提示
-            std::cerr << "\033[31m错误: " << e.what() << "\033[31m" << std::endl;   
-        }  
-    }  
+            std::cerr << "\033[31m错误: " << e.what() << "\033[31m"
+                      << std::endl;
+        }
+    }
 }
 
 
-void GuessGame::play() {
+void GuessGame::play()
+{
     GuessGame::display_welcome();
     GuessGame::evaluate_guess();
 }

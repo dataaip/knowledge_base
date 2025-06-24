@@ -1,12 +1,12 @@
-#include <stdio.h>
+#include "guess_game_c.h"
+
+#include <errno.h>
+#include <limits.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <errno.h>
-#include <limits.h>
-
-#include "guess_game_c.h"
 /*
 
 关键知识点：
@@ -28,15 +28,18 @@
 /*
 清除缓冲区陷阱
 */
-void clear_input_buffer() {
+void clear_input_buffer()
+{
     int c = 0;
-    while ((c = getchar()) != '\n' && c != EOF);
+    while ((c = getchar()) != '\n' && c != EOF)
+        ;
 }
 
 /*
 随机数生成
 */
-int random_int(int min, int max) {
+int random_int(int min, int max)
+{
     static int seeded = 0;
     if (!seeded) {
         srand(time(NULL));
@@ -50,8 +53,8 @@ int random_int(int min, int max) {
 /*
 获取输入
 */
-int get_input_number() {
-
+int get_input_number()
+{
     char inputs[MAX_IN];
 
     while (true) {
@@ -62,46 +65,43 @@ int get_input_number() {
         //     continue;
         // }
         // clear_input_buffer();
-        
+
         // 使用 fgets()+strtol() 替代 scanf() 避免非数字和缓冲区溢出
-        if(!fgets(inputs, sizeof(inputs), stdin)) {
+        if (!fgets(inputs, sizeof(inputs), stdin)) {
             if (feof(stdin)) {
                 printf("EOF received. Exiting program.\n");
                 clearerr(stdin);
                 // exit(0);
-            } else {
+            }
+            else {
                 perror("fgets input error");
             }
             clear_input_buffer();
-            continue;  
+            continue;
         }
         // 完整性
         size_t len = strlen(inputs);
         if (len > 0 && inputs[len - 1] != '\n') {
             printf("input too long, please try again.\n");
             clear_input_buffer();
-            continue;  
+            continue;
         }
 
         char* endptr = NULL;
         errno = 0;
         long val = strtol(inputs, &endptr, 10);
-        if (
-            inputs == endptr ||
-            *endptr != '\n'  ||
-            errno == ERANGE  ||
-            val < INT_MIN    ||
-            val > INT_MAX
-        ) {
+        if (inputs == endptr || *endptr != '\n' || errno == ERANGE ||
+            val < INT_MIN || val > INT_MAX) {
             printf("invalid strtol, please try again.\n");
-            continue;             
+            continue;
         }
 
         return (int)val;
     }
 }
 
-int play_guess() {
+int play_guess()
+{
     printf("guess game for c beg!\n");
 
     int secret_number = random_int(1, 100);
@@ -110,15 +110,19 @@ int play_guess() {
 
     while (true) {
         guess = get_input_number();
-        guess_count ++;
+        guess_count++;
 
         if (guess > secret_number) {
             printf("greater\n");
-        } else if (guess < secret_number) {
+        }
+        else if (guess < secret_number) {
             printf("less\n");
-        } else {
+        }
+        else {
             printf("ok\n");
-            printf("rand number is %d, you guess %d count.\n", secret_number, guess_count);
+            printf("rand number is %d, you guess %d count.\n",
+                   secret_number,
+                   guess_count);
             break;
         }
     }
