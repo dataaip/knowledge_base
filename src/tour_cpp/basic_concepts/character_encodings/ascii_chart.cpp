@@ -1,3 +1,17 @@
+/**
+* @file              ascii_chart.cpp
+* @brief             brief
+* @version           0.1
+* @author            brightl birigtl3016@outlook.com
+* @date              2025.07.03
+* @copyright         Copyright (c) 2025.
+*
+* @note              Revision History:
+* <table>
+* <tr><th>Date       <th>Version         <th>Author          <th>Description
+* <tr><td>2025.07.03 <td>0.1             <td>brightl         <td>description
+* </table>
+*/
 
 #include <iostream>
 
@@ -114,6 +128,12 @@ ASCII 表格 C++ 语言
  最后，关于Unicode：ASCII字符在Unicode中对应基本拉丁语块，范围是U+0000到U+007F（共128个字符）。其中U+0000到U+001F和U+007F是控制字符，U+0020到U+007E是可打印字符（与ASCII一致），U+007F是删除（DEL）。
 */
 
+/**
+* @brief             brief
+* @return  int       Return Description
+*
+* @note              Revision History
+*/
 auto ascii_chart_fn() -> int
 {
 
