@@ -48,6 +48,7 @@ int main() {
 
 ### **关键知识点总结**
 1. **ASCII 编码特性**：
+   
    - **十进制/八进制/十六进制**可直接互换（如 `'A'=65=0x41=0101`）
    - **控制字符**需转义序列（如 `\n`=换行, `\t`=制表符）
    - **字符运算**：`char` 本质是整数（`c+1` 指向下一字符）
@@ -68,6 +69,7 @@ int main() {
 ### **实际应用场景**
 1. **数据序列化**：将控制字符（如`STX=0x02`）用于通信协议
 2. **字符串清洗**：过滤不可打印字符
+   
    ```cpp
    std::string remove_control_chars(std::string s) {
       s.erase(std::remove_if(s.begin(), s.end(), 
@@ -77,6 +79,7 @@ int main() {
    }
    ```
 3. **字符转换**：十六进制转 ASCII
+   
    ```cpp
    char hex_to_ascii(char h1, char h2) {
       return (h1 - '0') * 16 + (h2 - '0');  // 简化的转换逻辑
