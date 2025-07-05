@@ -244,4 +244,5 @@
         "UTHASH"
     ],
     "remote.downloadExtensionsLocally": true,
+    "editor.wordWrap": "off"
 }
