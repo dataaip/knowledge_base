@@ -38,7 +38,7 @@ cpp优秀大型开源库框架: https://github.com/fffaraz/awesome-cpp
 
 全面库框架编写指南: https://github.com/codecrafters-io/build-your-own-x
 
-cpp优秀开源小工具库
+cpp优秀开源小工具库:
 https://github.com/0voice/introduce_c-cpp_manual
 
 cpp自我构建项目框架库工具-进行中...
