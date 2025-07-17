@@ -1,37 +1,45 @@
 **优秀数据库系统**
 
-https://github.com/ClickHouse/ClickHouse.git
+clickhouse数据库: https://github.com/ClickHouse/ClickHouse
 
 ---
 
-**优秀开源项目-大型系统**
+**优秀学习路径项目**
 
-https://github.com/fffaraz/awesome-cpp.git
+开发路线图: https://github.com/kamranahmedse/developer-roadmap
 
-**优秀开源项目-最全分类**
+计算机自学课程指南: https://github.com/PKUFlyingPig/cs-self-learning
 
-https://github.com/codecrafters-io/build-your-own-x.git
-
-**优秀开源项目-小型组件**
-
-https://github.com/0voice/introduce_c-cpp_manual.git
+计算机系统总结: https://github.com/huihut/interview
 
 ---
 
-**优秀计算机学习路径**
+**标准编程参考文档**
 
-https://github.com/huihut/interview.git
+c/cpp参考手册: https://github.com/PeterFeicht/cppreference-doc
 
-**优秀算法实现项目**
-
-https://github.com/TheAlgorithms/C-Plus-Plus.git
+cpp开发用户指南: https://github.com/isocpp/CppCoreGuidelines
 
 ---
 
-**isocpp用户指南**
+**优秀开源算法项目**
 
-https://github.com/isocpp/CppCoreGuidelines.git
+cpp教学算法库: https://github.com/TheAlgorithms/C-Plus-Plus
 
-**cppreference参考手册**
+leetcode刷题协助库: https://github.com/labuladong/fucking-algorithm
 
-https://github.com/PeterFeicht/cppreference-doc.git
+数据结构算法总结: https://github.com/nonstriater/Learn-Algorithms
+
+---
+
+**优秀开源库&框架&工具**
+
+cpp优秀大型开源库框架: https://github.com/fffaraz/awesome-cpp
+
+全面库框架编写指南: https://github.com/codecrafters-io/build-your-own-x
+
+cpp优秀开源小工具库
+https://github.com/0voice/introduce_c-cpp_manual
+
+cpp自我构建项目框架库工具-进行中...
+https://github.com/dataaip/ccpp_pro_pl
