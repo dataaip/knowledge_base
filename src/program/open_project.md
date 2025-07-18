@@ -29,7 +29,7 @@ https://isocpp.org
 google编码规范:
 https://github.com/google/styleguide
 
-ai项目代码分析
+ai项目代码分析:
 https://github.com/AsyncFuncAI/deepwiki-open
 
 ---
