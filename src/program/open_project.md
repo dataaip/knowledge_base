@@ -20,6 +20,9 @@ c/cpp参考手册: https://github.com/PeterFeicht/cppreference-doc
 
 cpp开发用户指南: https://github.com/isocpp/CppCoreGuidelines
 
+google编码规范:
+https://github.com/google/styleguide
+
 ---
 
 **优秀开源算法项目**
