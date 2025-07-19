@@ -81,18 +81,18 @@ protected:
 template <typename T>
 class Container {
 public:
-/**
-* @brief 添加元素
-* @param element 要添加的元素
-*/
-void add(const T& element);
+   /**
+    * @brief 添加元素
+    * @param element 要添加的元素
+    */
+    void add(const T& element);
 
-/**
-* @brief 获取元素
-* @param index 索引
-* @return 对应元素
-*/
-T get(size_t index) const;
+   /**
+    * @brief 获取元素
+    * @param index 索引
+    * @return 对应元素
+    */
+    T get(size_t index) const;
 };
 
 /**
@@ -105,7 +105,7 @@ T get(size_t index) const;
 */
 template <typename T>
 T max(const T& a, const T& b) {
-return a > b ? a : b;
+    return a > b ? a : b;
 }
 ```
 
