@@ -133,6 +133,7 @@ namespace MyNamespace {
     /// @brief 命名空间内的函数
     void helper();
 }
+```
 
 ---
 
@@ -254,7 +255,7 @@ REFERENCED_BY_RELATION = YES   # 显示被引用关系
 
 ---
 
-#### 十、C++ 特有命令
+#### 十二、C++ 特有命令
 | 命令 | 用途 | 示例 |
 |------|------|------|
 | `@tparam` | 模板参数 | `@tparam T 元素类型` |
@@ -266,7 +267,7 @@ REFERENCED_BY_RELATION = YES   # 显示被引用关系
 
 ---
 
-#### 十一、最佳实践
+#### 十三、最佳实践
 1. **必须注释项**：
    - 所有公共类和接口
    - 模板类和模板函数
@@ -314,8 +315,11 @@ REFERENCED_BY_RELATION = YES   # 显示被引用关系
 
 ---
 
-#### 十二、生成文档
+#### 十四、生成文档
 ```bash
+# 安装
+apt install doxygen
+
 # 生成配置
 doxygen -g
 
