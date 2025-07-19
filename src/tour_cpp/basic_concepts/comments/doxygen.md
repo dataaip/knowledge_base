@@ -74,10 +74,10 @@ protected:
 #### 三、模板类/函数注释
 ```cpp
 /**
-* @brief 模板类示例
-*
-* @tparam T 类型参数说明
-*/
+ * @brief 模板类示例
+ *
+ * @tparam T 类型参数说明
+ */
 template <typename T>
 class Container {
 public:
@@ -96,13 +96,13 @@ public:
 };
 
 /**
-* @brief 模板函数示例
-*
-* @tparam T 类型参数
-* @param a 参数1
-* @param b 参数2
-* @return T 较大值
-*/
+ * @brief 模板函数示例
+ *
+ * @tparam T 类型参数
+ * @param a 参数1
+ * @param b 参数2
+ * @return T 较大值
+ */
 template <typename T>
 T max(const T& a, const T& b) {
     return a > b ? a : b;
@@ -115,6 +115,8 @@ T max(const T& a, const T& b) {
 ```cpp
 /**
  * @brief 命名空间功能描述
+ *
+ * 详细描述命名空间的功能和包含的内容。
  */
 namespace ProjectModule {
     /**
@@ -123,6 +125,14 @@ namespace ProjectModule {
     void helperFunction();
 }
 ```
+
+或者使用行尾注释：
+
+```cpp
+namespace MyNamespace {
+    /// @brief 命名空间内的函数
+    void helper();
+}
 
 ---
 
@@ -153,6 +163,14 @@ public:
      * @override 标记重写基类方法
      */
     void virtualMethod() override;
+
+    /**
+     * @brief 重写基类虚函数
+     * @override
+     * @param data 数据
+     * @return 状态码
+     */
+    int handle(const std::string& data) override;
 };
 ```
 
@@ -191,7 +209,38 @@ auto lambda = [](int x) -> int {
 
 ---
 
-#### 九、配置规范（Doxyfile）
+#### 九、宏注释（与C相同）
+```cpp
+/**
+ * @def ASSERT(expr)
+ * @brief 断言宏
+ * @param expr 表达式
+ */
+#define ASSERT(expr) \
+do { if (!(expr)) abort(); } while(0)
+```
+
+---
+
+#### 十、分组管理（模块化）
+```cpp
+/** @defgroup MathModule 数学模块
+ * 数学相关的函数和类
+ * @{
+ */
+
+/// 数学函数
+double sqrt(double x);
+
+/// 数学类
+class Vector { ... };
+
+/** @} */ // 结束MathModule分组
+```
+
+---
+
+#### 十一、配置规范（Doxyfile）
 ```ini
 # C++ 特有配置
 OPTIMIZE_OUTPUT_FOR_C  = NO
