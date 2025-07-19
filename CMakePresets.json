@@ -1,5 +1,5 @@
 {
-    "version": 8,
+    "version": 10,
     "cmakeMinimumRequired": {
         "major": 3,
         "minor": 19,
@@ -7,21 +7,135 @@
     },
     "configurePresets": [
         {
-            "name": "GCC compilers",
-            "displayName": "GCC compilers",
-            "description": "Using compilers: C = /usr/bin/gcc, CXX = /usr/bin/g++",
-            "binaryDir": "${sourceDir}/build",
+            "name": "gcc-compilers",
+            "displayName": "GCC Compilers",
+            "description": "Using GCC compilers for Unix Makefiles",
+            "generator": "Unix Makefiles",
+            "binaryDir": "${sourceDir}/build/gcc-make",
             "cacheVariables": {
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/install",
                 "CMAKE_C_COMPILER": "/usr/bin/gcc",
                 "CMAKE_CXX_COMPILER": "/usr/bin/g++",
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
-                "CMAKE_BUILD_TYPE": "Debug"
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "YES"
+            }
+        },
+        {
+            "name": "clang-compilers",
+            "displayName": "Clang Compilers",
+            "description": "Using Clang compilers with Ninja generator",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/clang-ninja",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/install",
+                "CMAKE_C_COMPILER": "/usr/bin/clang-19",
+                "CMAKE_CXX_COMPILER": "/usr/bin/clang++-19",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "YES"
+            }
+        },
+        {
+            "name": "msvc-compilers",
+            "displayName": "MSVC Compilers",
+            "description": "Using MSVC compilers on Windows",
+            "generator": "Visual Studio 17 2022",
+            "binaryDir": "${sourceDir}/build/msvc",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/install",
+                "CMAKE_C_COMPILER": "cl.exe",
+                "CMAKE_CXX_COMPILER": "cl.exe",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "YES"
             }
         }
     ],
-    "buildPresets": [],
-    "testPresets": [],
-    "packagePresets": [],
-    "workflowPresets": []
+    "buildPresets": [
+        {
+            "name": "make-gcc-debug",
+            "displayName": "Make with GCC (Debug)",
+            "configurePreset": "gcc-compilers",
+            "configuration": "Debug",
+            "cleanFirst": true,
+            "jobs": 8
+        },
+        {
+            "name": "make-gcc-release",
+            "displayName": "Make with GCC (Release)",
+            "configurePreset": "gcc-compilers",
+            "configuration": "Release",
+            "cleanFirst": true,
+            "jobs": 8
+        },
+        {
+            "name": "ninja-clang-debug",
+            "displayName": "Ninja with Clang (Debug)",
+            "configurePreset": "clang-compilers",
+            "configuration": "Debug",
+            "cleanFirst": true,
+            "jobs": 8
+        },
+        {
+            "name": "ninja-clang-release",
+            "displayName": "Ninja with Clang (Release)",
+            "configurePreset": "clang-compilers",
+            "configuration": "Release",
+            "cleanFirst": true,
+            "jobs": 8
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "gcc-tests",
+            "displayName": "Run Tests with GCC",
+            "configurePreset": "gcc-compilers",
+            "configuration": "Debug",
+            "output": {
+                "outputOnFailure": true,
+                "shortProgress": true
+            }
+        },
+        {
+            "name": "clang-tests",
+            "displayName": "Run Tests with Clang",
+            "configurePreset": "clang-compilers",
+            "configuration": "Debug",
+            "output": {
+                "outputOnFailure": true,
+                "shortProgress": true
+            }
+        }
+    ],
+    "packagePresets": [
+        {
+            "name": "package-gcc",
+            "displayName": "Package with GCC",
+            "configurePreset": "gcc-compilers"
+        },
+        {
+            "name": "package-clang",
+            "displayName": "Package with Clang",
+            "configurePreset": "clang-compilers"
+        }
+    ],
+    "workflowPresets": [
+        {
+            "name": "gcc-workflow",
+            "displayName": "Full Workflow (GCC)",
+            "description": "Complete workflow: configure, build, test, and package with GCC",
+            "steps": [
+                { "type": "configure", "name": "gcc-compilers" },
+                { "type": "build", "name": "make-gcc-debug" },
+                { "type": "test", "name": "gcc-tests" },
+                { "type": "package", "name": "package-gcc" }
+            ]
+        },
+        {
+            "name": "clang-workflow",
+            "displayName": "Full Workflow (Clang)",
+            "description": "Complete workflow: configure, build, test, and package with Clang",
+            "steps": [
+                { "type": "configure", "name": "clang-compilers" },
+                { "type": "build", "name": "ninja-clang-debug" },
+                { "type": "test", "name": "clang-tests" },
+                { "type": "package", "name": "package-clang" }
+            ]
+        }
+    ]
 }
