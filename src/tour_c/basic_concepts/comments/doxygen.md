@@ -10,8 +10,9 @@ Doxygen 是一个自动化文档生成工具，通过解析代码注释生成 AP
    /**
     * 多行文档注释（推荐）
     */
-   /// 单行文档注释
    /*! 另一种多行格式 */
+
+   /// 或 //! 用于单行注释
    ```
 
 2. **文件头注释**（必须包含 `@file`）：
@@ -108,11 +109,15 @@ typedef enum {
 ---
 
 #### 七、配置规范（Doxyfile）
-1. 生成配置文件：
+1. 安装Doxygen：
+   ```bash
+   apt install doxygen
+   ```
+2. 生成配置文件：
    ```bash
    doxygen -g
    ```
-2. 关键配置项：
+3. 关键配置项：
    ```ini
    PROJECT_NAME           = "MyProject"
    OUTPUT_DIRECTORY       = docs/
