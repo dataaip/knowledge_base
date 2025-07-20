@@ -78,3 +78,221 @@ UTF-8编码用于将执行字符集的字符映射到带u8前缀的字符常量�
 实现定义的编码(直到C23)/UTF-16编码(自C23起)用于将执行字符集的字符映射到带u前缀的字符常量或字符串字面值。
 
 实现定义的编码(直到C23)/UTF-32编码(自C23起)用于将执行字符集的字符映射到带U前缀的字符常量或字符串字面值。
+```
+
+---
+
+### C 语言字符集与编码深度解析
+
+#### 1. **基本字符集 (Basic Character Set)**
+```c
+// 合法基本字符集示例
+printf("Hello_World!"); // 包含下划线(U+005F)
+int var = 42; // 包含字母和数字
+```
+- **定义**：C 源代码中可直接使用的 95 个字符
+- **组成**：
+  - **控制字符**：
+    | **代码点** | **名称**       | **功能**                     | **C 表示** |
+    |------------|----------------|------------------------------|------------|
+    | U+0009     | 水平制表符     | 列对齐                       | `\t`       |
+    | U+000B     | 垂直制表符     | 行对齐（现代系统少用）       | `\v`       |
+    | U+000C     | 换页符         | 打印机换页                   | `\f`       |
+    | U+0020     | 空格           | 单词分隔                     | ` `        |
+  
+  - **标点与运算符**：
+    ```c
+    int sum = a + b; // 使用 + (U+002B)
+    if (x > y) {...} // 使用 > (U+003E) 和 ( ) (U+0028/U+0029)
+    ```
+  - **数字**：U+0030-U+0039 (0-9)
+  - **字母**：A-Z (U+0041-U+005A)，a-z (U+0061-U+007A)
+- **行结束处理**：
+  ```c
+  // Windows: CR+LF(\r\n), Linux: LF(\n), Mac Classic: CR(\r)
+  // 编译器统一视为 U+000A (LF)
+  ```
+
+#### 2. **基本执行字符集 (Basic Execution Character Set)**
+```c
+printf("Alert\a"); // 响铃(U+0007)
+printf("Back\b");  // 退格(U+0008)
+```
+- **扩展字符**：
+  | **代码点** | **字符** | **功能**               | **C 转义** |
+  |------------|----------|------------------------|------------|
+  | U+0000     | NUL      | 字符串终止符           | `\0`       |
+  | U+0007     | BEL      | 终端响铃               | `\a`       |
+  | U+0008     | BS       | 光标左移               | `\b`       |
+  | U+000A     | LF       | 换行                   | `\n`       |
+  | U+000D     | CR       | 回车                   | `\r`       |
+
+- **编码要求**：
+  ```c
+  // 数字连续性验证
+  assert('1' - '0' == 1); // 标准要求连续编码
+  assert('\0' == 0);      // 空字符必须为0
+  ```
+
+#### 3. **字面编码 (Literal Encoding)**
+```c
+char normal_char = '$'; // U+0024 (C23起)
+char normal_str[] = "@email"; // U+0040
+```
+- **实现定义映射**：
+  - **ASCII 系统**：直接对应 ASCII 值
+    ```c
+    'A' → 65, 'a' → 97
+    ```
+  - **EBCDIC 系统**（大型机）：
+    ```c
+    'A' → 193, 'a' → 129
+    ```
+- **C23 新增要求**：
+  | **字符** | **代码点** | **示例**       |
+  |----------|------------|----------------|
+  | $        | U+0024     | `char c = '$'` |
+  | @        | U+0040     | `"user@host"`  |
+  | `        | U+0060     | `` `backtick` ``|
+
+#### 4. **宽字面编码 (Wide Literal Encoding)**
+```c
+wchar_t wide_char = L'€'; // 宽字符常量
+wchar_t wide_str[] = L"日本語"; // 宽字符串
+```
+- **映射规则**：
+  - 基本字符集：与窄编码相同值
+  ```c
+  assert(L'A' == 'A'); // 通常成立
+  ```
+  - 扩展字符：实现定义
+- **`__STDC_MB_MIGHT_NEQ_WC__` 宏**：
+  ```c
+  #ifdef __STDC_MB_MIGHT_NEQ_WC__
+  // 窄/宽字符编码可能不同
+  wchar_t wc = L'α'; // 可能不同于窄编码
+  #endif
+  ```
+
+#### 5. **Unicode 字面编码**
+```c
+// UTF-8 编码 (C23)
+char8_t u8_char = u8'✓'; 
+char8_t u8_str[] = u8"✅检查";
+
+// UTF-16 (C23)
+char16_t u16_char = u'😊';
+char16_t u16_str[] = u"开心表情";
+
+// UTF-32 (C23)
+char32_t u32_char = U'🚀';
+char32_t u32_str[] = U"火箭";
+```
+- **编码标准**：
+  | **前缀** | **编码** | **字符类型** | **大小** |
+  |----------|----------|--------------|----------|
+  | `u8`     | UTF-8    | `char8_t`    | 1-4字节  |
+  | `u`      | UTF-16   | `char16_t`   | 2/4字节  |
+  | `U`      | UTF-32   | `char32_t`   | 4字节    |
+
+#### 6. **执行字符集 (Execution Character Set)**
+- **结构**：
+  ```mermaid
+  graph LR
+    A[执行字符集] --> B[基本执行字符集]
+    A --> C[扩展字符集]
+    B --> D[单字节编码]
+    C --> E[多字节编码]
+  ```
+- **多字节字符处理**：
+  ```c
+  char mb_str[] = "日本語"; // 多字节序列
+  mblen(mb_str, MB_CUR_MAX); // 获取首字符长度
+  ```
+
+#### 7. **编码转换实践**
+```c
+// 宽窄转换示例
+#include <stdlib.h>
+#include <locale.h>
+
+int main() {
+    setlocale(LC_ALL, "en_US.utf8");
+    
+    const char* narrow = u8"こんにちは";
+    size_t len = mbstowcs(NULL, narrow, 0); // 获取宽字符长度
+    wchar_t* wide = malloc((len + 1) * sizeof(wchar_t));
+    mbstowcs(wide, narrow, len + 1);
+    
+    wprintf(L"Wide: %ls\n", wide);
+    free(wide);
+}
+```
+
+#### 8. **平台差异处理**
+```c
+// 处理编码差异
+#if defined(_WIN32)
+    #define LINE_ENDING "\r\n"
+    #define ENCODING "CP1252"
+#elif defined(__unix__)
+    #define LINE_ENDING "\n"
+    #define ENCODING "UTF-8"
+#endif
+
+void write_file() {
+    FILE* f = fopen("output.txt", "w");
+    fprintf(f, "Content%s", LINE_ENDING);
+    fclose(f);
+}
+```
+
+#### 9. **C23 编码改进**
+- **新特性**：
+  - `char8_t` 类型：明确 UTF-8 字符
+  - 强制 UTF 编码：消除实现定义歧义
+  - Unicode 标识符：
+    ```c
+    int résumé = 1; // C23 允许
+    ```
+
+#### 10. **字符集应用场景**
+```c
+// 1. 协议通信
+void send_packet() {
+    char packet[] = { STX, 'D','a','t','a', ETX };
+    serial_write(packet);
+}
+
+// 2. 终端控制
+void clear_screen() {
+    printf("\033[2J"); // ANSI 转义序列
+}
+
+// 3. 本地化输出
+void localized_print() {
+    setlocale(LC_CTYPE, "ja_JP.utf8");
+    wprintf(L"日本語出力\n");
+}
+```
+
+#### 11. **编码验证技术**
+```c
+// UTF-8 验证函数
+bool is_valid_utf8(const char* str) {
+    while (*str) {
+        if ((*str & 0x80) == 0) { // 单字节
+            str++;
+        } 
+        else if ((*str & 0xE0) == 0xC0) { // 2字节
+            if ((str[1] & 0xC0) != 0x80) return false;
+            str += 2;
+        }
+        // ... 其他情况类似处理
+        else return false;
+    }
+    return true;
+}
+```
+
+> C 语言的字符处理建立在基本字符集和实现定义的编码映射之上。理解字符集层次（基本源字符集→基本执行字符集→扩展执行字符集）是正确处理文本的基础。C23 通过引入强制 Unicode 编码和 `char8_t` 等类型，显著改善了多语言支持。开发跨平台应用时，必须考虑行结束符和字符编码的差异，使用标准库函数进行转换验证可确保代码健壮性。
