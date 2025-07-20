@@ -41,7 +41,6 @@
 注：在Unicode中，ASCII字符块被称为U+0000..U+007F基本拉丁字母。
 
 示例代码：
-```c
 #include <stdio.h>
 
 int main(void)
@@ -52,10 +51,8 @@ int main(void)
         putchar(i % 16 == 15 ? '\n' : ' ');
     }
 }
-```
 
 可能的输出：
-```
 可打印ASCII字符:
   ! " # $ % & ' ( ) * + , - . /
 0 1 2 3 4 5 6 7 8 9 : ; < = > ?
@@ -63,7 +60,6 @@ int main(void)
 P Q R S T U V W X Y Z [ \ ] ^ _
 ` a b c d e f g h i j k l m n o
 p q r s t u v w x y z { | } ~
-```
 
 （注：保持所有技术术语的英文缩写如NUL、SOH等不变，因为这些是标准术语。对控制字符名称进行了准确的中文翻译，如"退格"、"换行"等。表格格式调整为更适合中文阅读的排版方式，同时保留了原始的技术精确性。）
 ```
