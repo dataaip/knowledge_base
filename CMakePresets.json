@@ -33,6 +33,19 @@
             }
         },
         {
+            "name": "clang20-compilers",
+            "displayName": "Clang20 Compilers",
+            "description": "Using Clang20 compilers with Ninja generator",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/clang20-ninja",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/install",
+                "CMAKE_C_COMPILER": "/opt/homebrew/Cellar/llvm/20.1.7/bin/clang",
+                "CMAKE_CXX_COMPILER": "/opt/homebrew/Cellar/llvm/20.1.7/bin/clang++",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "YES"
+            }
+        },        
+        {
             "name": "msvc-compilers",
             "displayName": "MSVC Compilers",
             "description": "Using MSVC compilers on Windows",
@@ -78,6 +91,22 @@
             "configuration": "Release",
             "cleanFirst": true,
             "jobs": 8
+        },
+        {
+            "name": "ninja-clang20-debug",
+            "displayName": "Ninja with Clang20 (Debug)",
+            "configurePreset": "clang20-compilers",
+            "configuration": "Debug",
+            "cleanFirst": true,
+            "jobs": 8
+        },
+        {
+            "name": "ninja-clang20-release",
+            "displayName": "Ninja with Clang20 (Release)",
+            "configurePreset": "clang20-compilers",
+            "configuration": "Release",
+            "cleanFirst": true,
+            "jobs": 8
         }
     ],
     "testPresets": [
@@ -100,6 +129,16 @@
                 "outputOnFailure": true,
                 "shortProgress": true
             }
+        },
+        {
+            "name": "clang20-tests",
+            "displayName": "Run Tests with Clang20",
+            "configurePreset": "clang20-compilers",
+            "configuration": "Debug",
+            "output": {
+                "outputOnFailure": true,
+                "shortProgress": true
+            }
         }
     ],
     "packagePresets": [
@@ -112,6 +151,11 @@
             "name": "package-clang",
             "displayName": "Package with Clang",
             "configurePreset": "clang-compilers"
+        },
+        {
+            "name": "package-clang20",
+            "displayName": "Package with Clang20",
+            "configurePreset": "clang20-compilers"
         }
     ],
     "workflowPresets": [
@@ -135,6 +179,17 @@
                 { "type": "build", "name": "ninja-clang-debug" },
                 { "type": "test", "name": "clang-tests" },
                 { "type": "package", "name": "package-clang" }
+            ]
+        },
+        {
+            "name": "clang20-workflow",
+            "displayName": "Full Workflow (Clang20)",
+            "description": "Complete workflow: configure, build, test, and package with Clang20",
+            "steps": [
+                { "type": "configure", "name": "clang20-compilers" },
+                { "type": "build", "name": "ninja-clang20-debug" },
+                { "type": "test", "name": "clang20-tests" },
+                { "type": "package", "name": "package-clang20" }
             ]
         }
     ]
