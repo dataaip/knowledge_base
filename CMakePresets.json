@@ -11,7 +11,7 @@
             "displayName": "GCC Compilers",
             "description": "Using GCC compilers for Unix Makefiles",
             "generator": "Unix Makefiles",
-            "binaryDir": "${sourceDir}/build/gcc-make",
+            "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/install",
                 "CMAKE_C_COMPILER": "/usr/bin/gcc",
@@ -24,7 +24,7 @@
             "displayName": "Clang Compilers",
             "description": "Using Clang compilers with Ninja generator",
             "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/clang-ninja",
+            "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/install",
                 "CMAKE_C_COMPILER": "/usr/bin/clang-19",
@@ -37,7 +37,7 @@
             "displayName": "Clang20 Compilers",
             "description": "Using Clang20 compilers with Ninja generator",
             "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/clang20-ninja",
+            "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/install",
                 "CMAKE_C_COMPILER": "/opt/homebrew/Cellar/llvm/20.1.7/bin/clang",
@@ -50,7 +50,7 @@
             "displayName": "MSVC Compilers",
             "description": "Using MSVC compilers on Windows",
             "generator": "Visual Studio 17 2022",
-            "binaryDir": "${sourceDir}/build/msvc",
+            "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/install",
                 "CMAKE_C_COMPILER": "cl.exe",
