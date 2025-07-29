@@ -52,7 +52,7 @@ Mkfile.old
 dkms.conf
 
 # 忽略 cmake build 文件夹
-/build
+/cmake-build
 *.zip
 
 # 忽略 boost 库源代码

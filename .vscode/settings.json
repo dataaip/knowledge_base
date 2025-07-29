@@ -244,5 +244,6 @@
         "UTHASH"
     ],
     "remote.downloadExtensionsLocally": true,
-    "editor.wordWrap": "off"
+    "editor.wordWrap": "off",
+    "cmake.buildDirectory": "${workspaceFolder}/cmake-build"
 }
