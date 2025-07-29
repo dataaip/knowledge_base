@@ -50,7 +50,7 @@
                 "CMAKE_EXPORT_PACKAGE_REGISTRY": "ON",
                 "CMAKE_EXPORT_TARGETS": "ON"
             }
-        },        
+        },
         {
             "name": "msvc-compilers",
             "displayName": "MSVC Compilers",
@@ -64,6 +64,17 @@
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
                 "CMAKE_EXPORT_PACKAGE_REGISTRY": "ON",
                 "CMAKE_EXPORT_TARGETS": "ON"
+            }
+        },
+        {
+            "name": "Custom configure preset",
+            "displayName": "Custom configure preset",
+            "description": "Sets Ninja generator, build and install directory",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}"
             }
         }
     ],
@@ -172,10 +183,22 @@
             "displayName": "Full Workflow (GCC)",
             "description": "Complete workflow: configure, build, test, and package with GCC",
             "steps": [
-                { "type": "configure", "name": "gcc-compilers" },
-                { "type": "build", "name": "make-gcc-debug" },
-                { "type": "test", "name": "gcc-tests" },
-                { "type": "package", "name": "package-gcc" }
+                {
+                    "type": "configure",
+                    "name": "gcc-compilers"
+                },
+                {
+                    "type": "build",
+                    "name": "make-gcc-debug"
+                },
+                {
+                    "type": "test",
+                    "name": "gcc-tests"
+                },
+                {
+                    "type": "package",
+                    "name": "package-gcc"
+                }
             ]
         },
         {
@@ -183,10 +206,22 @@
             "displayName": "Full Workflow (Clang)",
             "description": "Complete workflow: configure, build, test, and package with Clang",
             "steps": [
-                { "type": "configure", "name": "clang-compilers" },
-                { "type": "build", "name": "ninja-clang-debug" },
-                { "type": "test", "name": "clang-tests" },
-                { "type": "package", "name": "package-clang" }
+                {
+                    "type": "configure",
+                    "name": "clang-compilers"
+                },
+                {
+                    "type": "build",
+                    "name": "ninja-clang-debug"
+                },
+                {
+                    "type": "test",
+                    "name": "clang-tests"
+                },
+                {
+                    "type": "package",
+                    "name": "package-clang"
+                }
             ]
         },
         {
@@ -194,10 +229,22 @@
             "displayName": "Full Workflow (Clang20)",
             "description": "Complete workflow: configure, build, test, and package with Clang20",
             "steps": [
-                { "type": "configure", "name": "clang20-compilers" },
-                { "type": "build", "name": "ninja-clang20-debug" },
-                { "type": "test", "name": "clang20-tests" },
-                { "type": "package", "name": "package-clang20" }
+                {
+                    "type": "configure",
+                    "name": "clang20-compilers"
+                },
+                {
+                    "type": "build",
+                    "name": "ninja-clang20-debug"
+                },
+                {
+                    "type": "test",
+                    "name": "clang20-tests"
+                },
+                {
+                    "type": "package",
+                    "name": "package-clang20"
+                }
             ]
         }
     ]
