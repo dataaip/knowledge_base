@@ -7,13 +7,14 @@
   // src/calculator
   // src/tiny_editor
 
-// 每周对比学习 C/C++/Rust/Go 语言一个模块
+// 每周对比学习 C/C++/Rust/Python/Go 语言一个模块
   // src/tour_c
   // src/tour_cpp
   // rust/tour_rust
+  // python/tour_python
 
 // 每周针对上述学习整理博客出来发布
-  // doc -> csdn/知乎
+  // doc -> csdn
 
 // 工具/库/项目【开源项目、视频】：计算机基础线路 - 数据结构 --> 操作系统 --> 计算机网络 --> 编译原理 --> 计算机构成
 // 每周对比学习【书籍、官网、博客】：编程语言路线：Java(spring) --> Rust/Go --> C/C++
