@@ -10,8 +10,7 @@
 // 每周对比学习 C/C++/Rust/Python/Go 语言一个模块
   // src/tour_c
   // src/tour_cpp
-  // rust/tour_rust
-  // python/tour_python
+  // src/tour_other
 
 // 每周针对上述学习整理博客出来发布
   // doc -> csdn
