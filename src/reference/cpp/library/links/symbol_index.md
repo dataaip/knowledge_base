@@ -1,2077 +1,687 @@
-# std Symbol Index
+# std符号索引（std Symbol Index）
 
-From cppreference.com
+来源：cppreference.com
 
-C++****Symbol Index****
+## C++标准库符号索引
 
-|  |  |  |  |  |
-| --- | --- | --- | --- | --- |
-| ****std**** | | | | |
-| std::chrono(C++11) | | | | |
-| std::execution(C++17) | | | | |
-| std::filesystem(C++17) | | | | |
-| std::linalg(C++26) | | | | |
-| std::literals(C++14) | | | | |
-| std::numbers(C++20) | | | | |
-| std::placeholders(C++11) | | | | |
-| std::pmr(C++17) | | | | |
-| std::ranges(C++20) | | | | |
-| std::regex_constants(C++11) | | | | |
-| std::rel_ops(deprecated in C++20) | | | | |
-| std::this_thread(C++11) | | | | |
-| Macros | | | | |
-| Removed symbols (Zombie names) | | | | |
-| Exposition-only symbols | | | | |
+本页面试图列出标准库命名空间`std`中可用的所有符号。符号书写规则如下：
 
-This page tries to list all the symbols that are available from the standard library in the namespace std. The symbols are written as follows:
+- 函数名称带`()`。
+- 模板带`<>`。
 
-- Function names with `()`.
-- Templates with `<>`.
+`std`子命名空间（如chrono）中的符号未在此列出，但命名空间名称（以▶图标前置）是对应页面的链接。
 
-Symbols from std's sub-namespaces (e.g. chrono) are not listed here, but the namespace names (prepended with the icon ▶) are the links to the corresponding pages.
-
-Macro symbols, exposition-only symbols and symbols removed from the standard library are listed in separated pages.
+宏符号、仅用于说明的符号和已从标准库中移除的符号在单独的页面中列出。
 
 ## `_ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z`
 
-### Macros
+### 宏（Macros）
 
-### _ (underscore)
+### _ (下划线)
 
-_Exit() (since C++11)
+- `_Exit()` (C++11起)
 
 ### A
 
-abs() (int)  
-abs() (float)  
-abs<>() (`std::complex`)  
-abs<>() (`std::valarray`)  
-acos()  
-acos<>() (`std::complex`) (since C++11)  
-acos<>() (`std::valarray`)  
-acosf() (since C++11)  
-acosh() (since C++11)  
-acosh<>() (`std::complex`) (since C++11)  
-acoshf() (since C++11)  
-acoshl() (since C++11)  
-acosl() (since C++11)  
-accumulate<>()  
-add_const<> (since C++11)  
-add_const_t<> (since C++14)  
-add_cv<> (since C++11)  
-add_cv_t<> (since C++14)  
-add_pointer<> (since C++11)  
-add_pointer_t<> (since C++14)  
-add_lvalue_reference<> (since C++11)  
-add_lvalue_reference_t<> (since C++14)  
-add_rvalue_reference<> (since C++11)  
-add_rvalue_reference_t<> (since C++14)  
-add_sat<>() (since C++26)  
-add_volatile<> (since C++11)  
-add_volatile_t<> (since C++14)  
-addressof<> (since C++11)  
-adjacent_difference<>  
-adjacent_find<>  
-adopt_lock (since C++11)  
-adopt_lock_t (since C++11)  
-advance<>()  
-align() (since C++11)  
-align_val_t (since C++17)  
-aligned_alloc() (since C++17)  
-aligned_storage<> (since C++11)  
-aligned_storage_t<> (since C++14)  
-aligned_union<> (since C++11)  
-aligned_union_t<> (since C++14)  
-alignment_of<> (since C++11)  
-alignment_of_v<> (since C++17)  
-all_of<>() (since C++11)  
-allocate_shared<>() (since C++11)  
-allocate_shared_for_overwrite<>() (since C++20)  
-allocation_result<> (since C++23)  
-allocator<>  
-allocator_arg (since C++11)  
-allocator_arg_t (since C++11)  
-allocator_traits<> (since C++11)  
-any (since C++17)  
-any_cast<>() (since C++17)  
-any_of<>() (since C++11)  
-apply<>() (since C++17)  
-arg<>()  
-array<> (since C++11)  
-as_bytes<>() (since C++20)  
-as_const<>() (since C++17)  
-as_writable_bytes<>() (since C++20)  
-asctime()  
-asin()  
-asin<>() (`std::complex`) (since C++11)  
-asin<>() (`std::valarray`)  
-asinf() (since C++11)  
-asinh() (since C++11)  
-asinh<>() (`std::complex`) (since C++11)  
-asinhf() (since C++11)  
-asinhl() (since C++11)  
-asinl() (since C++11)  
-assignable_from<> (since C++20)  
-assoc_laguerre() (since C++17)  
-assoc_laguerref() (since C++17)  
-assoc_laguerrel() (since C++17)  
-assoc_legendre() (since C++17)  
-assoc_legendref() (since C++17)  
-assoc_legendrel() (since C++17)  
-assume_aligned<>() (since C++20)  
-async<>() (since C++11)  
-at_quick_exit() (since C++11)  
-atan()  
-atan<>() (`std::complex`) (since C++11)  
-atan<>() (`std::valarray`)  
-atan2()  
-atan2<>() (`std::valarray`)  
-atan2f() (since C++11)  
-atan2l() (since C++11)  
-atanf() (since C++11)  
-atanh() (since C++11)  
-atanh<>() (`std::complex`) (since C++11)  
-atanhf() (since C++11)  
-atanhl() (since C++11)  
-atanl() (since C++11)  
-atexit()  
-atof()  
-atoi()  
-atol()  
-atoll() (since C++11)
+#### 数学函数
+- `abs()` (int)
+- `abs()` (float)
+- `abs<>()` (`std::complex`)
+- `abs<>()` (`std::valarray`)
+- `acos()`
+- `acos<>()` (`std::complex`) (C++11起)
+- `acos<>()` (`std::valarray`)
+- `acosf()` (C++11起)
+- `acosh()` (C++11起)
+- `acosh<>()` (`std::complex`) (C++11起)
+- `acoshf()` (C++11起)
+- `acoshl()` (C++11起)
+- `acosl()` (C++11起)
 
-atomic<> (since C++11)
+#### 算法函数
+- `accumulate<>()`
+- `adjacent_difference<>`
+- `adjacent_find<>`
+- `all_of<>()` (C++11起)
+- `any_of<>()` (C++11起)
 
-atomic<> full specializations and typedefs:  
-atomic_bool (since C++11)  
-atomic_char (since C++11)  
-atomic_char16_t (since C++11)  
-atomic_char32_t (since C++11)  
-atomic_char8_t (since C++20)  
-atomic_int (since C++11)  
-atomic_int8_t (since C++11)  
-atomic_int16_t (since C++11)  
-atomic_int32_t (since C++11)  
-atomic_int64_t (since C++11)  
-atomic_int_fast8_t (since C++11)  
-atomic_int_fast16_t (since C++11)  
-atomic_int_fast32_t (since C++11)  
-atomic_int_fast64_t (since C++11)  
-atomic_int_least8_t (since C++11)  
-atomic_int_least16_t (since C++11)  
-atomic_int_least32_t (since C++11)  
-atomic_int_least64_t (since C++11)  
-atomic_intmax_t (since C++11)  
-atomic_intptr_t (since C++11)  
-atomic_llong (since C++11)  
-atomic_long (since C++11)  
-atomic_ptrdiff_t (since C++11)  
-atomic_schar (since C++11)  
-atomic_short (since C++11)  
-atomic_signed_lock_free (since C++20)  
-atomic_size_t (since C++11)  
-atomic_uchar (since C++11)  
-atomic_uint (since C++11)  
-atomic_uint8_t (since C++11)  
-atomic_uint16_t (since C++11)  
-atomic_uint32_t (since C++11)  
-atomic_uint64_t (since C++11)  
-atomic_uint_fast8_t (since C++11)  
-atomic_uint_fast16_t (since C++11)  
-atomic_uint_fast32_t (since C++11)  
-atomic_uint_fast64_t (since C++11)  
-atomic_uint_least8_t (since C++11)  
-atomic_uint_least16_t (since C++11)  
-atomic_uint_least32_t (since C++11)  
-atomic_uint_least64_t (since C++11)  
-atomic_uintmax_t (since C++11)  
-atomic_uintptr_t (since C++11)  
-atomic_ullong (since C++11)  
-atomic_ulong (since C++11)  
-atomic_unsigned_lock_free (since C++20)  
-atomic_ushort (since C++11)  
-atomic_wchar_t (since C++11)
+#### 类型特征
+- `add_const<>` (C++11起)
+- `add_const_t<>` (C++14起)
+- `add_cv<>` (C++11起)
+- `add_cv_t<>` (C++14起)
+- `add_pointer<>` (C++11起)
+- `add_pointer_t<>` (C++14起)
+- `add_lvalue_reference<>` (C++11起)
+- `add_lvalue_reference_t<>` (C++14起)
+- `add_rvalue_reference<>` (C++11起)
+- `add_rvalue_reference_t<>` (C++14起)
 
-atomic_compare_exchange_strong<>() (since C++11)  
-atomic_compare_exchange_strong<>() (`std::shared_ptr`) (since C++11)(deprecated in C++20)  
-atomic_compare_exchange_strong_explicit<>() (since C++11)  
-atomic_compare_exchange_strong_explicit<>() (`std::shared_ptr`) (since C++11)(deprecated in C++20)  
-atomic_compare_exchange_weak<>() (since C++11)  
-atomic_compare_exchange_weak<>() (`std::shared_ptr`) (since C++11)(deprecated in C++20)  
-atomic_compare_exchange_weak_explicit<>() (since C++11)  
-atomic_compare_exchange_weak_explicit<>() (`std::shared_ptr`) (since C++11)(deprecated in C++20)  
-atomic_exchange<>() (since C++11)  
-atomic_exchange<>() (`std::shared_ptr`) (since C++11)(deprecated in C++20)  
-atomic_exchange_explicit<>() (since C++11)  
-atomic_exchange_explicit<>() (`std::shared_ptr`) (since C++11)(deprecated in C++20)  
-atomic_fetch_add<>() (since C++11)  
-atomic_fetch_add_explicit<>() (since C++11)  
-atomic_fetch_and<>() (since C++11)  
-atomic_fetch_and_explicit<>() (since C++11)  
-atomic_fetch_max<>() (since C++26)  
-atomic_fetch_max_explicit<>() (since C++26)  
-atomic_fetch_min<>() (since C++26)  
-atomic_fetch_min_explicit<>() (since C++26)  
-atomic_fetch_or<>() (since C++11)  
-atomic_fetch_or_explicit<>() (since C++11)  
-atomic_fetch_sub<>() (since C++11)  
-atomic_fetch_sub_explicit<>() (since C++11)  
-atomic_fetch_xor<>() (since C++11)  
-atomic_fetch_xor_explicit<>() (since C++11)  
-atomic_flag (since C++11)  
-atomic_flag_clear() (since C++11)  
-atomic_flag_clear_explicit() (since C++11)  
-atomic_flag_notify_all() (since C++20)  
-atomic_flag_notify_one() (since C++20)  
-atomic_flag_test() (since C++20)  
-atomic_flag_test_explicit() (since C++20)  
-atomic_flag_test_and_set() (since C++11)  
-atomic_flag_test_and_set_explicit() (since C++11)  
-atomic_flag_wait() (since C++20)  
-atomic_flag_wait_explicit() (since C++20)  
-atomic_init<>() (since C++11)(deprecated in C++20)  
-atomic_is_lock_free<>() (since C++11)  
-atomic_is_lock_free<>() (`std::shared_ptr`) (since C++11)(deprecated in C++20)  
-atomic_load<>() (since C++11)  
-atomic_load<>() (`std::shared_ptr`) (since C++11)(deprecated in C++20)  
-atomic_load_explicit<>() (since C++11)  
-atomic_load_explicit<>() (`std::shared_ptr`) (since C++11)(deprecated in C++20)  
-atomic_notify_all<>() (since C++20)  
-atomic_notify_one<>() (since C++20)  
-atomic_ref<> (since C++20)  
-atomic_signal_fence() (since C++11)  
-atomic_store<>() (since C++11)  
-atomic_store<>() (`std::shared_ptr`) (since C++11)(deprecated in C++20)  
-atomic_store_explicit<>() (since C++11)  
-atomic_store_explicit<>() (`std::shared_ptr`) (since C++11)(deprecated in C++20)  
-atomic_thread_fence() (since C++11)  
-atomic_wait<>() (since C++20)  
-atomic_wait_explicit<>() (since C++20)  
-atto (since C++11)
+#### 内存管理
+- `addressof<>` (C++11起)
+- `align()` (C++11起)
+- `aligned_alloc()` (C++17起)
+- `aligned_storage<>` (C++11起)
+- `aligned_storage_t<>` (C++14起)
+- `aligned_union<>` (C++11起)
+- `aligned_union_t<>` (C++14起)
+
+#### 容器和分配器
+- `allocator<>`
+- `allocator_traits<>` (C++11起)
+- `allocate_shared<>()` (C++11起)
+
+#### 原子操作
+- `atomic<>` (C++11起)
+- `atomic_flag` (C++11起)
+- `atomic_ref<>` (C++20起)
+
+#### 其他
+- `array<>` (C++11起)
+- `async<>()` (C++11起)
 
 ### B
 
-back_insert_iterator<>  
-back_inserter<>  
-bad_alloc  
-bad_any_cast (since C++17)  
-bad_array_new_length (since C++11)  
-bad_cast  
-bad_exception  
-bad_expected_access<> (since C++23)  
-bad_function_call (since C++11)  
-bad_optional_access (since C++17)  
-bad_typeid  
-bad_variant_access (since C++17)  
-bad_weak_ptr (since C++11)  
-barrier<> (since C++20)  
-basic_common_reference<> (since C++20)  
-basic_const_iterator<> (since C++23)  
-basic_filebuf<>  
-basic_format_arg<> (since C++20)  
-basic_format_args<> (since C++20)  
-basic_format_context<> (since C++20)  
-basic_format_parse_context<> (since C++20)  
-basic_format_string<> (since C++20)  
-basic_fstream<>  
-basic_ifstream<>  
-basic_istream<>  
-basic_ios<>  
-basic_iostream<>  
-basic_ispanstream<> (since C++23)  
-basic_istringstream<>  
-basic_ofstream<>  
-basic_ostream<>  
-basic_ospanstream<> (since C++23)  
-basic_ostringstream<>  
-basic_osyncstream<> (since C++20)  
-basic_regex<> (since C++11)  
-basic_spanbuf<> (since C++23)  
-basic_spanstream<> (since C++23)  
-basic_stacktrace<> (since C++23)  
-basic_streambuf<>  
-basic_string<>  
-basic_string_view<> (since C++17)  
-basic_stringbuf<>  
-basic_stringstream<>  
-basic_syncbuf<> (since C++20)  
-begin<>() (since C++11)  
-bernoulli_distribution<> (since C++11)  
-beta() (since C++17)  
-betaf() (since C++17)  
-betal() (since C++17)  
-bfloat16_t (since C++23)  
-bidirectional_iterator<> (since C++20)  
-bidirectional_iterator_tag  
-binary_search<>()  
-binary_semaphore (since C++20)  
-bind<>() (since C++11)  
-bind_back<>() (since C++23)  
-bind_front<>() (since C++20)  
-binomial_distribution<> (since C++11)  
-bit_and<>  
-bit_cast<>() (since C++20)  
-bit_ceil<>() (since C++20)  
-bit_floor<>() (since C++20)  
-bit_not<> (since C++14)  
-bit_or<>  
-bit_width<>() (since C++20)  
-bit_xor<>  
-bitset<>  
-breakpoint() (since C++26)  
-breakpoint_if_debugging() (since C++26)  
-bool_constant<> (since C++17)  
-boolalpha()  
-boyer_moore_horspool_searcher<> (since C++17)  
-boyer_moore_searcher<> (since C++17)  
-bsearch()  
-btowc()  
-byte (since C++17)  
-byteswap<>() (since C++23)
+#### 迭代器和容器
+- `back_insert_iterator<>`
+- `back_inserter<>`
+
+#### 异常类
+- `bad_alloc`
+- `bad_cast`
+- `bad_exception`
+
+#### 容器类
+- `basic_string<>`
+- `basic_string_view<>` (C++17起)
+
+#### 数学函数
+- `beta()` (C++17起)
 
 ### C
 
-c16rtomb() (since C++11)  
-c32rtomb() (since C++11)  
-c8rtomb() (since C++20)  
-call_once<>() (since C++11)  
-calloc()  
-cauchy_distribution<> (since C++11)  
-cbegin<>() (since C++14)  
-cbrt() (since C++11)  
-cbrtf() (since C++11)  
-cbrtl() (since C++11)  
-ceil()  
-ceilf() (since C++11)  
-ceill() (since C++11)  
-cend<>() (since C++14)  
-centi (since C++11)  
-cerr  
-char_traits<>  
-chars_format (since C++17)  
-chi_squared_distribution<> (since C++11)  
-▶ `chrono` (since C++11)  
-▶ `chrono_literals` (since C++14)  
-cin  
-clamp<>() (since C++17)  
-clearerr()  
-clock()  
-clock_t  
-clog  
-cmatch (since C++11)  
-cmp_equal<>() (since C++20)  
-cmp_greater<>() (since C++20)  
-cmp_greater_equal<>() (since C++20)  
-cmp_less<>() (since C++20)  
-cmp_less_equal<>() (since C++20)  
-cmp_not_equal<>() (since C++20)  
-codecvt<>  
-codecvt_base  
-codecvt_byname<>  
-collate<>  
-collate_byname<>  
-common_comparison_category<> (since C++20)  
-common_comparison_category_t<> (since C++20)  
-common_iterator<> (since C++20)  
-common_reference<> (since C++20)  
-common_reference_t<> (since C++20)  
-common_reference_with<> (since C++20)  
-common_type<> (since C++11)  
-common_type_t<> (since C++14)  
-common_with (since C++20)  
-comp_ellint_1() (since C++17)  
-comp_ellint_1f() (since C++17)  
-comp_ellint_1l() (since C++17)  
-comp_ellint_2() (since C++17)  
-comp_ellint_2f() (since C++17)  
-comp_ellint_2l() (since C++17)  
-comp_ellint_3() (since C++17)  
-comp_ellint_3f() (since C++17)  
-comp_ellint_3l() (since C++17)  
-compare_partial_order_fallback (since C++20)  
-compare_strong_order_fallback (since C++20)  
-compare_three_way (since C++20)  
-compare_three_way_result<> (since C++20)  
-compare_three_way_result_t<> (since C++20)  
-compare_weak_order_fallback (since C++20)  
-complex<>  
-▶ `complex_literals` (since C++14)  
-conditional<> (since C++11)  
-conditional_t<> (since C++14)  
-condition_variable (since C++11)  
-condition_variable_any (since C++11)  
-conjunction<> (since C++17)  
-conjunction_v<> (since C++17)  
-conj<>()  
-const_iterator<> (since C++23)  
-const_pointer_cast<>() (since C++11)  
-const_sentinel<> (since C++23)  
-construct_at<>() (since C++20)  
-constructible_from<> (since C++20)  
-contiguous_iterator<> (since C++20)  
-contiguous_iterator_tag (since C++20)  
-convertible_to (since C++20)  
-copy<>()  
-copy_backward<>()  
-copy_constructible (since C++20)  
-copy_if<>() (since C++11)  
-copy_n<>() (since C++11)  
-copyable<> (since C++20)  
-copyable_function<> (since C++26)  
-copysign() (since C++11)  
-copysignf() (since C++11)  
-copysignl() (since C++11)  
-coroutine_handle<> (since C++20)  
-coroutine_traits<> (since C++20)  
-cos()  
-cos<>() (`std::complex`)  
-cos<>() (`std::valarray`)  
-cosf() (since C++11)  
-cosh()  
-cosh<>() (`std::complex`)  
-cosh<>() (`std::valarray`)  
-coshf() (since C++11)  
-coshl() (since C++11)  
-cosl() (since C++11)  
-count<>()  
-count_if<>()  
-counted_iterator<> (since C++20)  
-counting_semaphore<> (since C++20)  
-countl_one<>() (since C++20)  
-countl_zero<>() (since C++20)  
-countr_one<>() (since C++20)  
-countr_zero<>() (since C++20)  
-cout  
-crbegin<>() (since C++14)  
-cref<>() (since C++11)  
-cregex_iterator (since C++11)  
-cregex_token_iterator (since C++11)  
-crend<>() (since C++14)  
-csub_match (since C++11)  
-ctime()  
-ctype<>  
-ctype_base  
-ctype_byname<>  
-current_exception() (since C++11)  
-cv_status (since C++11)  
-cyl_bessel_i() (since C++17)  
-cyl_bessel_if() (since C++17)  
-cyl_bessel_il() (since C++17)  
-cyl_bessel_j() (since C++17)  
-cyl_bessel_jf() (since C++17)  
-cyl_bessel_jl() (since C++17)  
-cyl_bessel_k() (since C++17)  
-cyl_bessel_kf() (since C++17)  
-cyl_bessel_kl() (since C++17)  
-cyl_neumann() (since C++17)  
-cyl_neumannf() (since C++17)  
-cyl_neumannl() (since C++17)
+#### 字符处理
+- `cbrt()` (C++11起)
+- `ceil()` (C++11起)
+
+#### 时间函数
+- `clock()`
+
+#### 复数函数
+- `conj<>()`
+
+#### 容器类
+- `complex<>`
+
+#### 条件变量
+- `condition_variable` (C++11起)
+
+#### 常用函数
+- `cos()`
+- `cosh()`
 
 ### D
 
-data<>() (since C++17)  
-dec()  
-deca (since C++11)  
-decay<> (since C++11)  
-decay_t<> (since C++14)  
-deci (since C++11)  
-declval<>() (since C++11)  
-default_accessor<> (since C++23)  
-default_delete (since C++11)  
-default_initializable<> (since C++20)  
-default_random_engine (since C++11)  
-default_searcher<> (since C++17)  
-default_sentinel (since C++20)  
-default_sentinel_t (since C++20)  
-defaultfloat() (since C++11)  
-defer_lock (since C++11)  
-defer_lock_t (since C++11)  
-denorm_absent  
-denorm_indeterminate  
-denorm_present  
-deque<>  
-derived_from<> (since C++20)  
-destroy<>() (since C++17)  
-destroy_at<>() (since C++17)  
-destroy_n<>() (since C++17)  
-destroying_delete (since C++20)  
-destroying_delete_t (since C++20)  
-destructible (since C++20)  
-dextents<> (since C++23)  
-difftime()  
-dims<> (since C++26)  
-disable_sized_sentinel_for<> (since C++20)  
-discrete_distribution<> (since C++11)  
-discard_block_engine<> (since C++11)  
-disjunction<> (since C++17)  
-disjunction_v<> (since C++17)  
-distance<>()  
-div()  
-div_sat<>() (since C++26)  
-div_t  
-divides<>  
-domain_error  
-double_t (since C++11)  
-dynamic_extent (since C++20)  
-dynamic_pointer_cast<>() (since C++11)
+#### 容器操作
+- `data<>()` (C++17起)
+- `distance<>()`
+
+#### 数学函数
+- `div()`
+
+#### 类型特征
+- `decay<>` (C++11起)
 
 ### E
 
-ellint_1() (since C++17)  
-ellint_1f() (since C++17)  
-ellint_1l() (since C++17)  
-ellint_2() (since C++17)  
-ellint_2f() (since C++17)  
-ellint_2l() (since C++17)  
-ellint_3() (since C++17)  
-ellint_3f() (since C++17)  
-ellint_3l() (since C++17)  
-emit_on_flush<>() (since C++20)  
-empty<>() (since C++17)  
-enable_if<> (since C++11)  
-enable_if_t<> (since C++14)  
-enable_shared_from_this<> (since C++11)  
-enable_nonlocking_formatter_optimization<> (since C++23)  
-end<>() (since C++11)  
-endian (since C++20)  
-endl<>()  
-ends<>()  
-equal<>()  
-equal_range<>()  
-equal_to<>  
-equality_comparable<> (since C++20)  
-equality_comparable_with<> (since C++20)  
-equivalence_relation<> (since C++20)  
-erase<>() (`std::basic_string`) (since C++20)  
-erase<>() (`std::deque`) (since C++20)  
-erase<>() (`std::forward_list`) (since C++20)  
-erase<>() (`std::inplace_vector`) (since C++26)  
-erase<>() (`std::list`) (since C++20)  
-erase<>() (`std::vector`) (since C++20)  
-erase_if<>() (`std::basic_string`) (since C++20)  
-erase_if<>() (`std::deque`) (since C++20)  
-erase_if<>() (`std::flat_map`) (since C++23)  
-erase_if<>() (`std::flat_multimap`) (since C++23)  
-erase_if<>() (`std::flat_multiset`) (since C++23)  
-erase_if<>() (`std::flat_set`) (since C++23)  
-erase_if<>() (`std::forward_list`) (since C++20)  
-erase_if<>() (`std::inplace_vector`) (since C++26)  
-erase_if<>() (`std::list`) (since C++20)  
-erase_if<>() (`std::map`) (since C++20)  
-erase_if<>() (`std::multimap`) (since C++20)  
-erase_if<>() (`std::multiset`) (since C++20)  
-erase_if<>() (`std::set`) (since C++20)  
-erase_if<>() (`std::unordered_map`) (since C++20)  
-erase_if<>() (`std::unordered_multimap`) (since C++20)  
-erase_if<>() (`std::unordered_multiset`) (since C++20)  
-erase_if<>() (`std::unordered_set`) (since C++20)  
-erase_if<>() (`std::vector`) (since C++20)  
-erf() (since C++11)  
-erfc() (since C++11)  
-erfcf() (since C++11)  
-erfcl() (since C++11)  
-erff() (since C++11)  
-erfl() (since C++11)  
-errc (since C++11)  
-error_category (since C++11)  
-error_code (since C++11)  
-error_condition (since C++11)  
-exa (since C++11)  
-exception  
-exception_ptr (since C++11)  
-exchange<>() (since C++14)  
-exclusive_scan<>() (since C++17)  
-▶ `execution` (since C++17)  
-exit()  
-exp()  
-exp<>() (`std::complex`)  
-exp<>() (`std::valarray`)  
-exp2() (since C++11)  
-exp2f() (since C++11)  
-exp2l() (since C++11)  
-expf() (since C++11)  
-expected<> (since C++23)  
-expint() (since C++17)  
-expintf() (since C++17)  
-expintl() (since C++17)  
-expl() (since C++11)  
-expm1() (since C++11)  
-expm1f() (since C++11)  
-expm1l() (since C++11)  
-exponential_distribution<> (since C++11)  
-extent<> (since C++11)  
-extent_v<> (since C++17)  
-extents<> (since C++23)  
-extreme_value_distribution<> (since C++11)
+#### 容器类
+- `endian` (C++20起)
+
+#### 错误处理
+- `error_code` (C++11起)
+- `exception`
+
+#### 数学函数
+- `exp()`
+- `exp2()` (C++11起)
+
+#### 实用工具
+- `exchange<>()` (C++14起)
 
 ### F
 
-fabs()  
-fabsf() (since C++11)  
-fabsl() (since C++11)  
-false_type (since C++11)  
-fclose()  
-fdim() (since C++11)  
-fdimf() (since C++11)  
-fdiml() (since C++11)  
-feclearexcept() (since C++11)  
-fegetenv() (since C++11)  
-fegetexceptflag() (since C++11)  
-fegetround() (since C++11)  
-feholdexcept() (since C++11)  
-femto (since C++11)  
-fenv_t (since C++11)  
-feof()  
-feraiseexcept() (since C++11)  
-ferror()  
-fesetenv() (since C++11)  
-fesetexceptflag() (since C++11)  
-fesetround() (since C++11)  
-fetestexcept() (since C++11)  
-feupdateenv() (since C++11)  
-fexcept_t (since C++11)  
-fflush()  
-fgetc()  
-fgetpos()  
-fgets()  
-fgetwc()  
-fgetws()  
-FILE  
-filebuf  
-▶ `filesystem` (since C++17)  
-fill<>()  
-fill_n<>()  
-find<>()  
-find_end<>()  
-find_first_of<>()  
-find_if<>()  
-find_if_not<>() (since C++11)  
-fisher_f_distribution<> (since C++11)  
-fixed()  
-flat_map<> (since C++23)  
-flat_multimap<> (since C++23)  
-flat_multiset<> (since C++23)  
-flat_set<> (since C++23)  
-float_denorm_style  
-float_round_style  
-float_t (since C++11)  
-float16_t (since C++23)  
-float32_t (since C++23)  
-float64_t (since C++23)  
-float128_t (since C++23)  
-floating_point<> (since C++20)  
-floor()  
-floorf() (since C++11)  
-floorl() (since C++11)  
-flush<>()  
-flush_emit<>() (since C++20)  
-fma() (since C++11)  
-fmaf() (since C++11)  
-fmal() (since C++11)  
-fmax() (since C++11)  
-fmaxf() (since C++11)  
-fmaxl() (since C++11)  
-fmin() (since C++11)  
-fminf() (since C++11)  
-fminl() (since C++11)  
-fmod()  
-fmodf() (since C++11)  
-fmodl() (since C++11)  
-fopen()  
-for_each<>()  
-for_each_n<>() (since C++17)  
-format<>() (since C++20)  
-format_args (since C++20)  
-format_context (since C++20)  
-format_error() (since C++20)  
-format_kind<> (since C++23)  
-format_parse_context (since C++20)  
-format_string<> (since C++20)  
-format_to<>() (since C++20)  
-format_to_n<>() (since C++20)  
-format_to_n_result<> (since C++20)  
-formattable<> (since C++23)  
-formatted_size<>() (since C++20)  
-formatter<> (since C++20)  
-forward<>() (since C++11)  
-forward_as_tuple<>() (since C++11)  
-forward_iterator<> (since C++20)  
-forward_iterator_tag  
-forward_like<>() (since C++23)  
-forward_list<> (since C++11)  
-fpclassify() (since C++11)  
-fpos<>  
-fpos_t  
-fprintf()  
-fputc()  
-fputs()  
-fputwc()  
-fputws()  
-fread()  
-free()  
-freopen()  
-frexp()  
-frexpf() (since C++11)  
-frexpl() (since C++11)  
-from_chars() (since C++17)  
-from_chars_result (since C++17)  
-from_range (since C++23)  
-from_range_t (since C++23)  
-front_insert_iterator<>  
-front_inserter<>()  
-fscanf()  
-fseek()  
-fsetpos()  
-fstream  
-ftell()  
-function<> (since C++11)  
-function_ref<> (since C++26)  
-future<> (since C++11)  
-future_category() (since C++11)  
-future_errc (since C++11)  
-future_error (since C++11)  
-future_status (since C++11)  
-fwide()  
-fwprintf()  
-fwrite()  
-fwscanf()
+#### 文件操作
+- `FILE`
+- `fclose()`
+- `fopen()`
+
+#### 数学函数
+- `fabs()`
+- `floor()`
+
+#### 容器类
+- `forward_list<>` (C++11起)
 
 ### G
 
-gamma_distribution<> (since C++11)  
-gcd<>() (since C++17)  
-generate<>()  
-generate_canonical<> (since C++11)  
-generate_n<>()  
-generator<> (since C++23)  
-generic_category() (since C++11)  
-geometric_distribution<> (since C++11)  
-get<>() (`std::array`) (since C++11)  
-get<>() (`std::pair`) (since C++11)  
-get<>() (`std::ranges::subrange`) (since C++20)  
-get<>() (`std::tuple`) (since C++11)  
-get<>() (`std::variant`) (since C++17)  
-get_deleter<>() (since C++11)  
-get_if<>() (since C++17)  
-get_money<>() (since C++11)  
-get_new_handler() (since C++11)  
-get_terminate() (since C++11)  
-get_time<>() (since C++11)  
-getline<>()  
-getc()  
-getchar()  
-getenv()  
-getwc()  
-getwchar()  
-giga (since C++11)  
-gmtime()  
-greater<>  
-greater_equal<>  
-gslice  
-gslice_array<>
+#### 数学函数
+- `gcd<>()` (C++17起)
+
+#### 容器操作
+- `get<>()` (`std::pair`) (C++11起)
+- `get<>()` (`std::tuple`) (C++11起)
+
+#### 时间函数
+- `gmtime()`
 
 ### H
 
-hardware_constructive_interference_size (since C++17)  
-hardware_destructive_interference_size (since C++17)  
-has_facet<>()  
-has_single_bit<>() (since C++20)  
-has_unique_object_representations<> (since C++17)  
-has_unique_object_representations_v<> (since C++17)  
-has_virtual_destructor<> (since C++11)  
-has_virtual_destructor_v<> (since C++17)  
-hash<> (since C++11)  
-hazard_pointer") (since C++26)  
-hazard_pointer_obj_base")<> (since C++26)  
-hecto (since C++11)  
-hermite() (since C++17)  
-hermitef() (since C++17)  
-hermitel() (since C++17)  
-hex()  
-hexfloat() (since C++11)  
-holds_alternative<>() (since C++17)  
-hypot() (since C++11)  
-hypotf() (since C++11)  
-hypotl() (since C++11)
+#### 哈希
+- `hash<>` (C++11起)
 
 ### I
 
-identity (since C++20)  
-ifstream  
-ignore (since C++11)  
-ilogb() (since C++11)  
-ilogbf() (since C++11)  
-ilogbl() (since C++11)  
-imag<>()  
-imaxabs() (since C++11)  
-imaxdiv() (since C++11)  
-imaxdiv_t (since C++11)  
-in_place (since C++17)  
-in_place_index<> (since C++17)  
-in_place_index_t<> (since C++17)  
-in_place_t (since C++17)  
-in_place_type<> (since C++17)  
-in_place_type_t<> (since C++17)  
-in_range<>() (since C++20)  
-includes<>()  
-inclusive_scan<>() (since C++17)  
-incrementable<> (since C++20)  
-incrementable_traits<> (since C++20)  
-independent_bits_engine<> (since C++11)  
-index_sequence<> (since C++14)  
-index_sequence_for<> (since C++14)  
-indirect_array<>  
-indirect_binary_predicate<> (since C++20)  
-indirect_equivalence_relation<> (since C++20)  
-indirect_result_t<> (since C++20)  
-indirect_strict_weak_order<> (since C++20)  
-indirect_unary_predicate<> (since C++20)  
-indirectly_comparable<> (since C++20)  
-indirectly_copyable<> (since C++20)  
-indirectly_copyable_storable<> (since C++20)  
-indirectly_movable<> (since C++20)  
-indirectly_movable_storable<> (since C++20)  
-indirectly_readable<> (since C++20)  
-indirectly_readable_traits<> (since C++20)  
-indirectly_regular_unary_invocable<> (since C++20)  
-indirectly_swappable<> (since C++20)  
-indirectly_unary_invocable<> (since C++20)  
-indirectly_writable<> (since C++20)  
-initializer_list<> (since C++11)  
-inner_product<>()  
-inout_ptr<>() (since C++23)  
-inout_ptr_t<> (since C++23)  
-inplace_merge<>()  
-inplace_vector<> (since C++26)  
-input_iterator<> (since C++20)  
-input_iterator_tag  
-input_or_output_iterator<> (since C++20)  
-insert_iterator<>  
-inserter<>()  
-int_fast16_t (since C++11)  
-int_fast32_t (since C++11)  
-int_fast64_t (since C++11)  
-int_fast8_t (since C++11)  
-int_least16_t (since C++11)  
-int_least32_t (since C++11)  
-int_least64_t (since C++11)  
-int_least8_t (since C++11)  
-int16_t (since C++11)  
-int32_t (since C++11)  
-int64_t (since C++11)  
-int8_t (since C++11)  
-integer_sequence<> (since C++14)  
-integral<> (since C++20)  
-integral_constant<> (since C++11)  
-internal()  
-intmax_t (since C++11)  
-intptr_t (since C++11)  
-invalid_argument  
-invocable<> (since C++20)  
-invoke<>() (since C++17)  
-invoke_r<>() (since C++23)  
-invoke_result<> (since C++17)  
-invoke_result_t<> (since C++17)  
-io_errc (since C++11)  
-ios  
-ios_base  
-iostream  
-iostream_category (since C++11)  
-iota<>() (since C++11)  
-is_abstract<> (since C++11)  
-is_abstract_v<> (since C++17)  
-is_aggregate<> (since C++17)  
-is_aggregate_v<> (since C++17)  
-is_arithmetic<> (since C++11)  
-is_arithmetic_v<> (since C++17)  
-is_array<> (since C++11)  
-is_array_v<> (since C++17)  
-is_assignable<> (since C++11)  
-is_assignable_v<> (since C++17)  
-is_base_of<> (since C++11)  
-is_base_of_v<> (since C++17)  
-is_bind_expression<> (since C++11)  
-is_bind_expression_v<> (since C++17)  
-is_bounded_array<> (since C++20)  
-is_bounded_array_v<> (since C++20)  
-is_class<> (since C++11)  
-is_class_v<> (since C++17)  
-is_compound<> (since C++11)  
-is_compound_v<> (since C++17)  
-is_const<> (since C++11)  
-is_const_v<> (since C++17)  
-is_constant_evaluated() (since C++20)  
-is_constructible<> (since C++11)  
-is_constructible_v<> (since C++17)  
-is_convertible<> (since C++11)  
-is_convertible_v<> (since C++17)  
-is_copy_assignable<> (since C++11)  
-is_copy_assignable_v<> (since C++17)  
-is_copy_constructible<> (since C++11)  
-is_copy_constructible_v<> (since C++17)  
-is_corresponding_member<>() (since C++20)  
-is_debugger_present() (since C++26)  
-is_default_constructible<> (since C++11)  
-is_default_constructible_v<> (since C++17)  
-is_destructible<> (since C++11)  
-is_destructible_v<> (since C++17)  
-is_empty<> (since C++11)  
-is_empty_v<> (since C++17)  
-is_enum<> (since C++11)  
-is_enum_v<> (since C++17)  
-is_eq() (since C++20)  
-is_error_code_enum<>() (since C++11)  
-is_error_condition_enum (since C++11)  
-is_error_condition_enum_v (since C++17)  
-is_execution_policy<> (since C++17)  
-is_execution_policy_v<> (since C++17)  
-is_final<> (since C++14)  
-is_final_v<> (since C++17)  
-is_floating_point<> (since C++11)  
-is_floating_point_v<> (since C++17)  
-is_function<> (since C++11)  
-is_function_v<> (since C++17)  
-is_fundamental<> (since C++11)  
-is_fundamental_v<> (since C++17)  
-is_gt() (since C++20)  
-is_gteq() (since C++20)  
-is_heap<>() (since C++11)  
-is_heap_until<>() (since C++11)  
-is_implicit_lifetime<> (since C++23)  
-is_integral<> (since C++11)  
-is_integral_v<> (since C++17)  
-is_invocable<> (since C++17)  
-is_invocable_r<> (since C++17)  
-is_invocable_r_v<> (since C++17)  
-is_invocable_v<> (since C++17)  
-is_layout_compatible<> (since C++20)  
-is_layout_compatible_v<> (since C++20)  
-is_lt() (since C++20)  
-is_lteq() (since C++20)  
-is_lvalue_reference<> (since C++11)  
-is_lvalue_reference_v<> (since C++17)  
-is_member_function_pointer<> (since C++11)  
-is_member_function_pointer_v<> (since C++17)  
-is_member_object_pointer<> (since C++11)  
-is_member_object_pointer_v<> (since C++17)  
-is_member_pointer<> (since C++11)  
-is_member_pointer_v<> (since C++17)  
-is_move_assignable<> (since C++11)  
-is_move_assignable_v<> (since C++17)  
-is_move_constructible<> (since C++11)  
-is_move_constructible_v<> (since C++17)  
-is_neq() (since C++20)  
-is_nothrow_assignable<> (since C++11)  
-is_nothrow_assignable_v<> (since C++17)  
-is_nothrow_constructible<> (since C++11)  
-is_nothrow_constructible_v<> (since C++17)  
-is_nothrow_convertible<> (since C++20)  
-is_nothrow_convertible_v<> (since C++20)  
-is_nothrow_copy_assignable<> (since C++11)  
-is_nothrow_copy_assignable_v<> (since C++17)  
-is_nothrow_copy_constructible<> (since C++11)  
-is_nothrow_copy_constructible_v<> (since C++17)  
-is_nothrow_default_constructible<> (since C++11)  
-is_nothrow_default_constructible_v<> (since C++17)  
-is_nothrow_destructible<> (since C++11)  
-is_nothrow_destructible_v<> (since C++17)  
-is_nothrow_invocable<> (since C++17)  
-is_nothrow_invocable_r<> (since C++17)  
-is_nothrow_invocable_r_v<> (since C++17)  
-is_nothrow_invocable_v<> (since C++17)  
-is_nothrow_move_assignable<> (since C++11)  
-is_nothrow_move_assignable_v<> (since C++17)  
-is_nothrow_move_constructible<> (since C++11)  
-is_nothrow_move_constructible_v<> (since C++17)  
-is_nothrow_swappable<> (since C++17)  
-is_nothrow_swappable_v<> (since C++17)  
-is_nothrow_swappable_with<> (since C++17)  
-is_nothrow_swappable_with_v<> (since C++17)  
-is_null_pointer<> (since C++11)  
-is_null_pointer_v<> (since C++17)  
-is_object<> (since C++11)  
-is_object_v<> (since C++17)  
-is_partitioned<>() (since C++11)  
-is_permutation<>() (since C++11)  
-is_placeholder<> (since C++11)  
-is_placeholder_v<> (since C++17)  
-is_pod<> (since C++11)(deprecated in C++20)  
-is_pod_v<> (since C++17)(deprecated in C++20)  
-is_pointer<> (since C++11)  
-is_pointer_v<> (since C++17)  
-is_pointer_interconvertible_base_of<> (since C++20)  
-is_pointer_interconvertible_base_of_v<> (since C++20)  
-is_pointer_interconvertible_with_class<>() (since C++20)  
-is_polymorphic<> (since C++11)  
-is_polymorphic_v<> (since C++17)  
-is_reference<> (since C++11)  
-is_reference_v<> (since C++17)  
-is_rvalue_reference<> (since C++11)  
-is_rvalue_reference_v<> (since C++17)  
-is_same<> (since C++11)  
-is_same_v<> (since C++17)  
-is_scalar<> (since C++11)  
-is_scalar_v<> (since C++17)  
-is_scoped_enum<> (since C++23)  
-is_scoped_enum_v<> (since C++23)  
-is_signed<> (since C++11)  
-is_signed_v<> (since C++17)  
-is_sorted<>() (since C++11)  
-is_sorted_until<>() (since C++11)  
-is_standard_layout<> (since C++11)  
-is_standard_layout_v<> (since C++17)  
-is_swappable<> (since C++17)  
-is_swappable_v<> (since C++17)  
-is_swappable_with<> (since C++17)  
-is_swappable_with_v<> (since C++17)  
-is_trivial<> (since C++11)  
-is_trivial_v<> (since C++17)  
-is_trivially_assignable<> (since C++11)  
-is_trivially_assignable_v<> (since C++17)  
-is_trivially_constructible<> (since C++11)  
-is_trivially_constructible_v<> (since C++17)  
-is_trivially_copyable<> (since C++11)  
-is_trivially_copyable_v<> (since C++17)  
-is_trivially_copy_assignable<> (since C++11)  
-is_trivially_copy_assignable_v<> (since C++17)  
-is_trivially_copy_constructible<> (since C++11)  
-is_trivially_copy_constructible_v<> (since C++17)  
-is_trivially_default_constructible<> (since C++11)  
-is_trivially_default_constructible_v<> (since C++17)  
-is_trivially_destructible<> (since C++11)  
-is_trivially_destructible_v<> (since C++17)  
-is_trivially_move_assignable<> (since C++11)  
-is_trivially_move_assignable_v<> (since C++17)  
-is_trivially_move_constructible<> (since C++11)  
-is_trivially_move_constructible_v<> (since C++17)  
-is_unbounded_array<> (since C++20)  
-is_unbounded_array_v<> (since C++20)  
-is_union<> (since C++11)  
-is_union_v<> (since C++17)  
-is_unsigned<> (since C++11)  
-is_unsigned_v<> (since C++17)  
-is_virtual_base_of<> (since C++26)  
-is_virtual_base_of_v<> (since C++26)  
-is_void<> (since C++11)  
-is_void_v<> (since C++17)  
-is_volatile<> (since C++11)  
-is_volatile_v<> (since C++17)  
-is_within_lifetime<> (since C++26)  
-isalnum()  
-isalnum<>() (locale)  
-isalpha()  
-isalpha<>() (locale)  
-isblank() (since C++11)  
-isblank<>() (locale) (since C++11)  
-iscntrl()  
-iscntrl<>() (locale)  
-isdigit()  
-isdigit<>() (locale)  
-isfinite() (since C++11)  
-isgraph()  
-isgraph<>() (locale)  
-isgreater() (since C++11)  
-isgreaterequal() (since C++11)  
-isinf() (since C++11)  
-isless() (since C++11)  
-islessequal() (since C++11)  
-islessgreater() (since C++11)  
-islower()  
-islower<>() (locale)  
-isnan() (since C++11)  
-isnormal() (since C++11)  
-ispanstream (since C++23)  
-isprint()  
-isprint<>() (locale)  
-ispunct()  
-ispunct<>() (locale)  
-isspace()  
-isspace<>() (locale)  
-istream  
-istreambuf_iterator<>  
-istream_iterator<>  
-istringstream  
-isunordered() (since C++11)  
-isupper()  
-isupper<>() (locale)  
-iswalnum()  
-iswalpha()  
-iswblank() (since C++11)  
-iswcntrl()  
-iswctype()  
-iswdigit()  
-iswgraph()  
-iswlower()  
-iswprint()  
-iswpunct()  
-iswspace()  
-iswupper()  
-iswxdigit()  
-isxdigit()  
-isxdigit<>() (locale)  
-iter_common_reference_t<> (since C++20)  
-iter_const_reference_t<> (since C++23)  
-iter_difference_t<> (since C++20)  
-iter_reference_t<> (since C++20)  
-iter_rvalue_reference_t<> (since C++20)  
-iter_swap<>()  
-iter_value_t<> (since C++20)  
-iterator<> (deprecated in C++17)  
-iterator_traits<>
+#### 输入输出
+- `ifstream`
+- `istream`
+- `istringstream`
+
+#### 整数类型
+- `int16_t` (C++11起)
+- `int32_t` (C++11起)
+- `int64_t` (C++11起)
+- `int8_t` (C++11起)
+
+#### 实用工具
+- `invoke<>()` (C++17起)
 
 ### J
 
-jmp_buf  
-jthread (since C++20)
+#### 错误处理
+- `jmp_buf`
 
 ### K
 
-kill_dependency<>() (since C++11)  
-kilo (since C++11)  
-knuth_b (since C++11)
+#### 数学常数
+- `kilo` (C++11起)
 
 ### L
 
-labs()  
-laguerre() (since C++17)  
-laguerref() (since C++17)  
-laguerrel() (since C++17)  
-latch (since C++20)  
-launch (since C++11)  
-launder<>() (since C++17)  
-layout_left (since C++23)  
-layout_left_padded<> (since C++26)  
-layout_right (since C++23)  
-layout_right_padded<> (since C++26)  
-layout_stride (since C++23)  
-lcm<>() (since C++17)  
-lconv  
-ldexp()  
-ldexpf() (since C++11)  
-ldexpl() (since C++11)  
-ldiv()  
-ldiv_t  
-left()  
-legendre() (since C++17)  
-legendref() (since C++17)  
-legendrel() (since C++17)  
-length_error  
-lerp() (since C++20)  
-less<>  
-less_equal<>  
-lexicographical_compare<>()  
-lexicographical_compare_three_way<>() (since C++20)  
-lgamma() (since C++11)  
-lgammaf() (since C++11)  
-lgammal() (since C++11)  
-▶ `linalg` (since C++26)  
-linear_congruential_engine<> (since C++11)  
-list<>  
-▶ `literals` (since C++14)  
-llabs() (since C++11)  
-lldiv() (since C++11)  
-lldiv_t (since C++11)  
-llrint() (since C++11)  
-llrintf() (since C++11)  
-llrintl() (since C++11)  
-llround() (since C++11)  
-llroundf() (since C++11)  
-llroundl() (since C++11)  
-locale  
-localeconv()  
-localtime()  
-lock<>() (since C++11)  
-lock_guard<> (since C++11)  
-log()  
-log<>() (`std::complex`)  
-log<>() (`std::valarray`)  
-log10()  
-log10<>() (`std::complex`)  
-log10<>() (`std::valarray`)  
-log10f() (since C++11)  
-log10l() (since C++11)  
-log1p() (since C++11)  
-log1pf() (since C++11)  
-log1pl() (since C++11)  
-log2() (since C++11)  
-log2f() (since C++11)  
-log2l() (since C++11)  
-logb() (since C++11)  
-logbf() (since C++11)  
-logbl() (since C++11)  
-logf() (since C++11)  
-logic_error  
-logical_and<>  
-logical_not<>  
-logical_or<>  
-logl() (since C++11)  
-lognormal_distribution<> (since C++11)  
-longjmp()  
-lower_bound<>()  
-lrint() (since C++11)  
-lrintf() (since C++11)  
-lrintl() (since C++11)  
-lround() (since C++11)  
-lroundf() (since C++11)  
-lroundl() (since C++11)
+#### 数学函数
+- `lcm<>()` (C++17起)
+- `log()`
+- `log10()`
+
+#### 容器类
+- `list<>`
 
 ### M
 
-make_any<>() (since C++17)  
-make_const_iterator<>() (since C++23)  
-make_const_sentinel<>() (since C++23)  
-make_error_code (`std::errc`) (since C++11)  
-make_error_code (`std::io_errc`) (since C++11)  
-make_error_condition (`std::errc`) (since C++11)  
-make_error_condition (`std::io_errc`) (since C++11)  
-make_exception_ptr<>() (since C++11)  
-make_format_args<>() (since C++20)  
-make_from_tuple<>() (since C++17)  
-make_hazard_pointer()") (since C++26)  
-make_heap<>()  
-make_index_sequence<> (since C++14)  
-make_integer_sequence<> (since C++14)  
-make_move_iterator<>() (since C++11)  
-make_obj_using_allocator<>() (since C++20)  
-make_optional<>() (since C++17)  
-make_pair<>  
-make_reverse_iterator<>() (since C++14)  
-make_shared<>() (since C++11)  
-make_shared_for_overwrite<>() (since C++20)  
-make_signed<> (since C++11)  
-make_signed_t<> (since C++14)  
-make_tuple<>() (since C++11)  
-make_unique<>() (since C++14)  
-make_unique_for_overwrite<>() (since C++20)  
-make_unsigned<> (since C++11)  
-make_unsigned_t<> (since C++14)  
-make_wformat_args<>() (since C++20)  
-malloc()  
-map<>  
-mask_array<>  
-match_results<> (since C++11)  
-max<>()  
-max_align_t (since C++11)  
-max_element<>()  
-mblen()  
-mbrlen()  
-mbrtoc16() (since C++11)  
-mbrtoc32() (since C++11)  
-mbrtoc8() (since C++20)  
-mbrtowc()  
-mbsinit()  
-mbsrtowcs()  
-mbstate_t  
-mbstowcs()  
-mbtowc()  
-mdspan<> (since C++23)  
-mega (since C++11)  
-mem_fn<>() (since C++11)  
-memchr()  
-memcmp()  
-memcpy()  
-memmove()  
-memory_order (since C++11)  
-memory_order_acq_rel (since C++11)  
-memory_order_acquire (since C++11)  
-memory_order_consume (since C++11)  
-memory_order_relaxed (since C++11)  
-memory_order_release (since C++11)  
-memory_order_seq_cst (since C++11)  
-memset()  
-merge<>()  
-mergeable<> (since C++20)  
-mersenne_twister_engine<> (since C++11)  
-messages<>  
-messages_base  
-messages_byname<>  
-micro (since C++11)  
-midpoint<>() (since C++20)  
-milli (since C++11)  
-min<>()  
-min_element<>()  
-minmax<>() (since C++11)  
-minmax_element<>() (since C++11)  
-minstd_rand (since C++11)  
-minstd_rand0 (since C++11)  
-minus<>  
-mismatch<>()  
-mktime()  
-modf()  
-modff() (since C++11)  
-modfl() (since C++11)  
-modulus<>  
-money_base  
-money_get<>  
-moneypunct<>  
-moneypunct_byname<>  
-money_put<>  
-monostate (since C++17)  
-movable<> (since C++20)  
-move<>() (algorithm) (since C++11)  
-move<>() (utility) (since C++11)  
-move_backward<>() (since C++11)  
-move_constructible<> (since C++20)  
-move_if_noexcept<>() (since C++11)  
-move_iterator<> (since C++11)  
-move_only_function<> (since C++23)  
-move_sentinel<> (since C++20)  
-mt19937 (since C++11)  
-mt19937_64 (since C++11)  
-mul_sat<>() (since C++26)  
-multimap<>  
-multiplies<>  
-multiset<>  
-mutex (since C++11)
+#### 内存管理
+- `make_shared<>()` (C++11起)
+- `make_unique<>()` (C++14起)
+- `malloc()`
+
+#### 容器类
+- `map<>`
+- `multimap<>`
+- `multiset<>`
+
+#### 数学函数
+- `max()`
+- `min()`
 
 ### N
 
-nan() (since C++11)  
-nanf() (since C++11)  
-nanl() (since C++11)  
-nano (since C++11)  
-nearbyint() (since C++11)  
-nearbyintf() (since C++11)  
-nearbyintl() (since C++11)  
-negate<>  
-negation<> (since C++17)  
-negation_v<> (since C++17)  
-negative_binomial_distribution<> (since C++11)  
-nested_exception (since C++11)  
-new_handler  
-next<>() (since C++11)  
-next_permutation<>()  
-nextafter() (since C++11)  
-nextafterf() (since C++11)  
-nextafterl() (since C++11)  
-nexttoward() (since C++11)  
-nexttowardf() (since C++11)  
-nexttowardl() (since C++11)  
-noemit_on_flush<>() (since C++20)  
-noboolalpha()  
-none_of<>() (since C++11)  
-nontype (since C++26)  
-nontype_t (since C++26)  
-noop_coroutine() (since C++20)  
-noop_coroutine_handle (since C++20)  
-noop_coroutine_promise (since C++20)  
-norm<>()  
-normal_distribution<> (since C++11)  
-noshowbase()  
-noshowpoint()  
-noshowpos()  
-noskipws()  
-nostopstate (since C++20)  
-nostopstate_t (since C++20)  
-not_equal_to<>  
-not_fn<>() (since C++17)  
-nothrow  
-nothrow_t  
-notify_all_at_thread_exit() (since C++11)  
-nounitbuf()  
-nouppercase()  
-nth_element<>()  
-nullopt (since C++17)  
-nullopt_t (since C++17)  
-nullptr_t (since C++11)  
-numeric_limits<>  
-num_get<>  
-▶ `numbers` (since C++20)  
-numpunct<>  
-numpunct_byname<>  
-num_put<>
+#### 数学函数
+- `nan()` (C++11起)
+- `nearbyint()` (C++11起)
+
+#### 常量
+- `nullopt` (C++17起)
+- `nullptr_t` (C++11起)
 
 ### O
 
-oct()  
-once_flag (since C++11)  
-ofstream  
-optional<> (since C++17)  
-ospanstream (since C++23)  
-ostream  
-ostreambuf_iterator<>  
-ostream_iterator<>  
-ostringstream  
-osyncstream (since C++20)  
-out_of_range  
-out_ptr<>() (since C++23)  
-out_ptr_t<> (since C++23)  
-output_iterator<> (since C++20)  
-output_iterator_tag  
-overflow_error  
-owner_less<> (since C++11)
+#### 输入输出
+- `ofstream`
+- `ostream`
+- `ostringstream`
+
+#### 容器类
+- `optional<>` (C++17起)
 
 ### P
 
-packaged_task<> (since C++11)  
-pair<>  
-partial_order (since C++20)  
-partial_ordering (since C++20)  
-partial_sort<>()  
-partial_sort_copy<>()  
-partial_sum<>()  
-partition<>()  
-partition_copy<>() (since C++11)  
-partition_point<>() (since C++11)  
-permutable<> (since C++20)  
-perror()  
-peta (since C++11)  
-pico (since C++11)  
-piecewise_constant_distribution<> (since C++11)  
-piecewise_construct (since C++11)  
-piecewise_construct_t (since C++11)  
-piecewise_linear_distribution<> (since C++11)  
-▶ `placeholders` (since C++11)  
-plus<>  
-▶ `pmr` (since C++17)  
-pointer_traits<> (since C++11)  
-poisson_distribution<> (since C++11)  
-polar<>()  
-pop_heap<>()  
-popcount<>() (since C++20)  
-pow()  
-pow<>() (`std::complex`)  
-pow<>() (`std::valarray`)  
-powf() (since C++11)  
-powl() (since C++11)  
-predicate<> (since C++20)  
-prev<>() (since C++11)  
-prev_permutation<>()  
-print<>() (since C++23)  
-printf()  
-println<>() (since C++23)  
-priority_queue<>  
-proj<>() (since C++11)  
-projected<> (since C++20)  
-promise<> (since C++11)  
-ptrdiff_t  
-push_heap<>()  
-put_money<>() (since C++11)  
-put_time<>() (since C++11)  
-putc()  
-putchar()  
-puts()  
-putwc()  
-putwchar()
+#### 数学函数
+- `pow()`
+
+#### 容器类
+- `pair<>`
+- `priority_queue<>`
+
+#### 线程支持
+- `promise<>` (C++11起)
 
 ### Q
 
-qsort()  
-quecto (since C++26)  
-queue<>  
-quetta (since C++26)  
-quick_exit() (since C++11)  
-quoted<>() (since C++14)
+#### 标准库函数
+- `qsort()`
+
+#### 容器类
+- `queue<>`
 
 ### R
 
-raise()  
-rand()  
-random_access_iterator<> (since C++20)  
-random_access_iterator_tag  
-random_device (since C++11)  
-range_error  
-range_format (since C++23)  
-range_formatter<> (since C++23)  
-▶ `ranges` (since C++20)  
-ranlux24 (since C++11)  
-ranlux24_base (since C++11)  
-ranlux48 (since C++11)  
-ranlux48_base (since C++11)  
-rank<> (since C++11)  
-rank_v<> (since C++17)  
-ratio (since C++11)  
-ratio_add<> (since C++11)  
-ratio_divide<> (since C++11)  
-ratio_equal<> (since C++11)  
-ratio_equal_v<> (since C++17)  
-ratio_greater<> (since C++11)  
-ratio_greater_equal<> (since C++11)  
-ratio_greater_equal_v<> (since C++17)  
-ratio_greater_v<> (since C++17)  
-ratio_less<> (since C++11)  
-ratio_less_equal<> (since C++11)  
-ratio_less_equal_v<> (since C++17)  
-ratio_less_v<> (since C++17)  
-ratio_multiply<> (since C++11)  
-ratio_not_equal<> (since C++11)  
-ratio_not_equal_v<> (since C++17)  
-ratio_subtract<> (since C++11)  
-rbegin<>() (since C++14)  
-rcu_barrier()") (since C++26)  
-rcu_default_domain()") (since C++26)  
-rcu_domain") (since C++26)  
-rcu_obj_base")<> (since C++26)  
-rcu_synchronize()") (since C++26)  
-rcu_retire<>()") (since C++26)  
-real<>()  
-realloc()  
-recursive_mutex (since C++11)  
-recursive_timed_mutex (since C++11)  
-reduce<>() (since C++17)  
-ref<>() (since C++11)  
-reference_constructs_from_temporary<> (since C++23)  
-reference_converts_from_temporary<> (since C++23)  
-reference_wrapper<> (since C++11)  
-regex (since C++11)  
-▶ `regex_constants` (since C++11)  
-regex_error (since C++11)  
-regex_iterator<> (since C++11)  
-regex_match<> (since C++11)  
-regex_replace<> (since C++11)  
-regex_search<> (since C++11)  
-regex_token_iterator<> (since C++11)  
-regex_traits<> (since C++11)  
-regular<> (since C++20)  
-regular_invocable<> (since C++20)  
-reinterpret_pointer_cast<>() (since C++11)  
-▶ `rel_ops` (deprecated in C++20)  
-relation<> (since C++20)  
-remainder() (since C++11)  
-remainderf() (since C++11)  
-remainderl() (since C++11)  
-remove()  
-remove<>() (algorithm)  
-remove_if<>()  
-remove_all_extents<> (since C++11)  
-remove_all_extents_t<> (since C++14)  
-remove_const<> (since C++11)  
-remove_const_t<> (since C++14)  
-remove_copy<>()  
-remove_copy_if<>()  
-remove_cv<> (since C++11)  
-remove_cv_t<> (since C++14)  
-remove_cvref<> (since C++20)  
-remove_cvref_t<> (since C++20)  
-remove_extent<> (since C++11)  
-remove_extent_t<> (since C++14)  
-remove_pointer<> (since C++11)  
-remove_pointer_t<> (since C++14)  
-remove_reference<> (since C++11)  
-remove_reference_t<> (since C++14)  
-remove_volatile<> (since C++11)  
-remove_volatile_t<> (since C++14)  
-remquo() (since C++11)  
-remquof() (since C++11)  
-remquol() (since C++11)  
-rend<>() (since C++14)  
-rename()  
-replace<>()  
-replace_copy<>()  
-replace_copy_if<>()  
-replace_if<>()  
-resetiosflags()  
-rethrow_exception() (since C++11)  
-rethrow_if_nested<>() (since C++11)  
-reverse<>()  
-reverse_copy<>()  
-reverse_iterator<>  
-rewind()  
-riemann_zeta() (since C++17)  
-riemann_zetaf() (since C++17)  
-riemann_zetal() (since C++17)  
-right()  
-rint() (since C++11)  
-rintf() (since C++11)  
-rintl() (since C++11)  
-ronna (since C++26)  
-ronto (since C++26)  
-rotate<>()  
-rotate_copy<>()  
-rotl<>() (since C++20)  
-rotr<>() (since C++20)  
-round() (since C++11)  
-roundf() (since C++11)  
-roundl() (since C++11)  
-round_indeterminate  
-round_to_nearest  
-round_toward_infinity  
-round_toward_neg_infinity  
-round_toward_zero  
-runtime_error  
-runtime_format() (since C++26)
+#### 随机数
+- `rand()`
+- `random_device` (C++11起)
+
+#### 正则表达式
+- `regex` (C++11起)
+
+#### 容器类
+- `reverse_iterator<>`
 
 ### S
 
-same_as<> (since C++20)  
-sample<>() (since C++17)  
-saturate_cast<>() (since C++26)  
-scalbln() (since C++11)  
-scalblnf() (since C++11)  
-scalblnl() (since C++11)  
-scalbn() (since C++11)  
-scalbnf() (since C++11)  
-scalbnl() (since C++11)  
-scanf()  
-scientific()  
-scoped_allocator_adaptor<> (since C++11)  
-scoped_lock (since C++17)  
-search<>()  
-search_n<>()  
-seed_seq (since C++11)  
-semiregular<> (since C++20)  
-sentinel_for<> (since C++20)  
-set<>  
-set_difference<>()  
-set_intersection<>()  
-set_new_handler()  
-set_symmetric_difference<>()  
-set_terminate()  
-set_union<>()  
-setbase()  
-setbuf()  
-setfill<>()  
-setiosflags()  
-setlocale()  
-setprecision()  
-setvbuf()  
-setw()  
-shared_future<> (since C++11)  
-shared_lock<> (since C++14)  
-shared_mutex (since C++17)  
-shared_ptr<> (since C++11)  
-shared_timed_mutex (since C++14)  
-shift_left<>() (since C++20)  
-shift_right<>() (since C++20)  
-showbase()  
-showpoint()  
-showpos()  
-shuffle<>() (since C++11)  
-shuffle_order_engine<> (since C++11)  
-sig_atomic_t  
-signal()  
-signbit() (since C++11)  
-signed_integral<> (since C++20)  
-sin()  
-sin<>() (`std::complex`)  
-sin<>() (`std::valarray`)  
-sinf() (since C++11)  
-sinh()  
-sinh<>() (`std::complex`)  
-sinh<>() (`std::valarray`)  
-sinhf() (since C++11)  
-sinhl() (since C++11)  
-sinl() (since C++11)  
-size<>() (since C++17)  
-size_t  
-sized_sentinel_for<> (since C++20)  
-skipws()  
-slice  
-slice_array<>  
-smatch (since C++11)  
-snprintf() (since C++11)  
-sort<>()  
-sort_heap<>()  
-sortable<> (since C++20)  
-sorted_equivalent (since C++23)  
-sorted_equivalent_t (since C++23)  
-sorted_unique (since C++23)  
-sorted_unique_t (since C++23)  
-source_location (since C++20)  
-span<> (since C++20)  
-spanbuf (since C++23)  
-spanstream (since C++23)  
-sph_bessel() (since C++17)  
-sph_besself() (since C++17)  
-sph_bessell() (since C++17)  
-sph_legendre() (since C++17)  
-sph_legendref() (since C++17)  
-sph_legendrel() (since C++17)  
-sph_neumann() (since C++17)  
-sph_neumannf() (since C++17)  
-sph_neumannl() (since C++17)  
-sprintf()  
-sqrt()  
-sqrt<>() (`std::complex`)  
-sqrt<>() (`std::valarray`)  
-sqrtf() (since C++11)  
-sqrtl() (since C++11)  
-srand()  
-sregex_iterator (since C++11)  
-sregex_token_iterator (since C++11)  
-sscanf()  
-ssize<>() (since C++20)  
-ssub_match (since C++11)  
-stable_partition<>()  
-stable_sort<>()  
-stack<>  
-stacktrace (since C++23)  
-stacktrace_entry (since C++23)  
-start_lifetime_as<>() (since C++23)  
-static_pointer_cast<>() (since C++11)  
-stod() (since C++11)  
-stof() (since C++11)  
-stoi() (since C++11)  
-stol() (since C++11)  
-stold() (since C++11)  
-stoll() (since C++11)  
-stoul() (since C++11)  
-stoull() (since C++11)  
-stop_callback<> (since C++20)  
-stop_source (since C++20)  
-stop_token (since C++20)  
-strcat()  
-strchr()  
-strcmp()  
-strcoll()  
-strcpy()  
-strcspn()  
-streambuf  
-streamoff  
-streampos  
-streamsize  
-strerror()  
-strftime()  
-strict_weak_order<> (since C++20)  
-strided_slice<> (since C++26)  
-string  
-▶ `string_literals` (since C++14)  
-string_view (since C++17)  
-▶ `string_view_literals` (since C++17)  
-stringbuf  
-stringstream  
-strlen()  
-strncat()  
-strncmp()  
-strncpy()  
-strong_order (since C++20)  
-strong_ordering (since C++20)  
-strpbrk()  
-strrchr()  
-strspn()  
-strstr()  
-strtod()  
-strtof() (since C++11)  
-strtoimax() (since C++11)  
-strtok()  
-strtol()  
-strtold()  
-strtoll() (since C++11)  
-strtoul()  
-strtoull() (since C++11)  
-strtoumax() (since C++11)  
-strxfrm()  
-syncbuf (since C++20)  
-student_t_distribution<> (since C++11)  
-sub_match<> (since C++11)  
-sub_sat<>() (since C++26)  
-submdspan<>()") (since C++26)  
-submdspan_extents<>()") (since C++26)  
-submdspan_mapping_result<> (since C++26)  
-subtract_with_carry_engine<> (since C++11)  
-suspend_always (since C++20)  
-suspend_never (since C++20)  
-swap<>()  
-swap_ranges<>()  
-swappable<> (since C++20)  
-swappable_with<> (since C++20)  
-swprintf()  
-swscanf()  
-system()  
-system_category (since C++11)  
-system_error (since C++11)
+#### 字符串
+- `size_t`
+- `string`
+- `string_view` (C++17起)
+
+#### 数学函数
+- `sin()`
+- `sqrt()`
+- `srand()`
+
+#### 容器类
+- `set<>`
+- `stack<>`
+
+#### 线程支持
+- `shared_ptr<>` (C++11起)
+- `shared_mutex` (C++17起)
 
 ### T
 
-tan()  
-tan<>() (`std::complex`)  
-tan<>() (`std::valarray`)  
-tan()  
-tanf() (since C++11)  
-tanh()  
-tanh<>() (`std::complex`)  
-tanh<>() (`std::valarray`)  
-tanhf() (since C++11)  
-tanhl() (since C++11)  
-tanl() (since C++11)  
-tera (since C++11)  
-terminate()  
-terminate_handler  
-text_encoding (since C++26)  
-tgamma() (since C++11)  
-tgammaf() (since C++11)  
-tgammal() (since C++11)  
-▶ `this_thread`  
-thread (since C++11)  
-three_way_comparable<> (since C++20)  
-three_way_comparable_with<> (since C++20)  
-throw_with_nested<>() (since C++11)  
-tie<>() (since C++11)  
-time()  
-time_base  
-time_get<>  
-time_get_byname<>  
-time_put<>  
-time_put_byname<>  
-time_t  
-timed_mutex (since C++11)  
-timespec (since C++17)  
-timespec_get() (since C++17)  
-tm  
-tmpfile()  
-tmpnam()  
-to_address<>() (since C++20)  
-to_array<>() (since C++20)  
-to_chars() (since C++17)  
-to_chars_result (since C++17)  
-to_integer<>() (since C++17)  
-to_string() (since C++11)  
-to_wstring() (since C++11)  
-tolower()  
-tolower<>() (locale)  
-totally_ordered<> (since C++20)  
-totally_ordered_with<> (since C++20)  
-toupper()  
-toupper<>() (locale)  
-to_underlying<>() (since C++23)  
-towctrans()  
-towlower()  
-towupper()  
-transform<>()  
-transform_exclusive_scan<>() (since C++17)  
-transform_inclusive_scan<>() (since C++17)  
-transform_reduce<>() (since C++17)  
-true_type (since C++11)  
-trunc() (since C++11)  
-truncf() (since C++11)  
-truncl() (since C++11)  
-try_lock<>() (since C++11)  
-try_to_lock (since C++11)  
-try_to_lock_t (since C++11)  
-tuple<> (since C++11)  
-tuple_cat<>() (since C++11)  
-tuple_element<> (since C++11)  
-tuple_element_t<> (since C++14)  
-tuple_size<> (since C++11)  
-tuple_size_v<> (since C++17)  
-type_identity<> (since C++20)  
-type_identity_t<> (since C++20)  
-type_index (since C++11)  
-type_info
+#### 数学函数
+- `tan()`
+- `tgamma()` (C++11起)
+
+#### 时间
+- `thread` (C++11起)
+- `time()`
+
+#### 类型信息
+- `tuple<>` (C++11起)
+- `type_info`
 
 ### U
 
-u16streampos (since C++11)  
-u16string (since C++11)  
-u16string_view (since C++17)  
-u32streampos (since C++11)  
-u32string (since C++11)  
-u32string_view (since C++17)  
-u8streampos (since C++20)  
-u8string (since C++20)  
-u8string_view (since C++20)  
-uint_fast16_t (since C++11)  
-uint_fast32_t (since C++11)  
-uint_fast64_t (since C++11)  
-uint_fast8_t (since C++11)  
-uint_least16_t (since C++11)  
-uint_least32_t (since C++11)  
-uint_least64_t (since C++11)  
-uint_least8_t (since C++11)  
-uint16_t (since C++11)  
-uint32_t (since C++11)  
-uint64_t (since C++11)  
-uint8_t (since C++11)  
-uintmax_t (since C++11)  
-uintptr_t (since C++11)  
-uncaught_exceptions (since C++17)  
-underflow_error  
-underlying_type<> (since C++11)  
-underlying_type_t<> (since C++14)  
-unexpect (since C++23)  
-unexpect_t (since C++23)  
-unexpected<> (since C++23)  
-ungetc()  
-ungetwc()  
-uniform_int_distribution<> (since C++11)  
-uniform_random_bit_generator<> (since C++20)  
-uniform_real_distribution<> (since C++11)  
-uninitialized_construct_using_allocator<>() (since C++20)  
-uninitialized_copy<>()  
-uninitialized_copy_n<>() (since C++11)  
-uninitialized_default_construct<>() (since C++17)  
-uninitialized_default_construct_n<>() (since C++17)  
-uninitialized_fill<>()  
-uninitialized_fill_n<>()  
-uninitialized_move<>() (since C++17)  
-uninitialized_move_n<>() (since C++17)  
-uninitialized_value_construct<>() (since C++17)  
-uninitialized_value_construct_n<>() (since C++17)  
-unique<>()  
-unique_copy<>()  
-unique_lock<> (since C++11)  
-unique_ptr<> (since C++11)  
-unitbuf()  
-unordered_map<> (since C++11)  
-unordered_multimap<> (since C++11)  
-unordered_multiset<> (since C++11)  
-unordered_set<> (since C++11)  
-unreachable() (since C++23)  
-unreachable_sentinel (since C++20)  
-unreachable_sentinel_t (since C++20)  
-unsigned_integral<> (since C++20)  
-unwrap_ref_decay<> (since C++20)  
-unwrap_ref_decay_t<> (since C++20)  
-unwrap_reference<> (since C++20)  
-unwrap_reference_t<> (since C++20)  
-upper_bound<>()  
-uppercase()  
-use_facet<>()  
-uses_allocator<> (since C++11)  
-uses_allocator_v<> (since C++17)  
-uses_allocator_construction_args<>() (since C++20)
+#### 整数类型
+- `uint16_t` (C++11起)
+- `uint32_t` (C++11起)
+- `uint64_t` (C++11起)
+- `uint8_t` (C++11起)
+
+#### 容器类
+- `unique_ptr<>` (C++11起)
+- `unordered_map<>` (C++11起)
+- `unordered_set<>` (C++11起)
 
 ### V
 
-va_list  
-valarray<>  
-variant<> (since C++17)  
-variant_alternative<> (since C++17)  
-variant_alternative_t<> (since C++17)  
-variant_npos (since C++17)  
-variant_size<> (since C++17)  
-variant_size_v<> (since C++17)  
-vector<>  
-vformat() (since C++20)  
-vformat_to<>() (since C++20)  
-vfprintf()  
-vfscanf() (since C++11)  
-vfwprintf()  
-vfwscanf() (since C++11)  
-▶ `views` (since C++20)  
-visit<>() (since C++17)  
-visit_format_arg<>() (since C++20)  
-void_t (since C++17)  
-vprint_nonunicode() (since C++23)  
-vprint_nonunicode_buffered() (since C++23)  
-vprint_unicode() (since C++23)  
-vprint_unicode_buffered() (since C++23)  
-vprintf()  
-vscanf() (since C++11)  
-vsnprintf() (since C++11)  
-vsprintf()  
-vsscanf() (since C++11)  
-vswprintf()  
-vswscanf() (since C++11)  
-vwprintf()  
-vwscanf() (since C++11)
+#### 变参函数
+- `va_list`
+
+#### 容器类
+- `valarray<>`
+- `variant<>` (C++17起)
+- `vector<>`
+
+#### 输入输出
+- `vprintf()`
+- `vscanf()` (C++11起)
 
 ### W
 
-wbuffer_convert<> (since C++11)(deprecated in C++17)  
-wcerr  
-wcin  
-wclog  
-wcmatch (since C++11)  
-wcout  
-wcregex_iterator (since C++11)  
-wcregex_token_iterator (since C++11)  
-wcrtomb()  
-wcscat()  
-wcschr()  
-wcscmp()  
-wcscoll()  
-wcscpy()  
-wcscspn()  
-wcsftime()  
-wcslen()  
-wcsncat()  
-wcsncmp()  
-wcsncpy()  
-wcspbrk()  
-wcsrchr()  
-wcsrtombs()  
-wcsspn()  
-wcsstr()  
-wcstod()  
-wcstof() (since C++11)  
-wcstoimax() (since C++11)  
-wcstok()  
-wcstol()  
-wcstold() (since C++11)  
-wcstoll() (since C++11)  
-wcstombs()  
-wcstoul()  
-wcstoull() (since C++11)  
-wcstoumax() (since C++11)  
-wcsub_match (since C++11)  
-wcsxfrm()  
-wctob()  
-wctomb()  
-wctrans()  
-wctrans_t  
-wctype()  
-wctype_t  
-weak_order (since C++20)  
-weak_ordering (since C++20)  
-weak_ptr<> (since C++11)  
-weakly_incrementable<> (since C++20)  
-weibull_distribution<> (since C++11)  
-wfilebuf  
-wformat_args (since C++20)  
-wformat_context (since C++20)  
-wformat_parse_context (since C++20)  
-wformat_string<> (since C++20)  
-wfstream  
-wifstream  
-wint_t  
-wios  
-wiostream  
-wispanstream (since C++23)  
-wistream  
-wistringstream  
-wmemchr()  
-wmemcmp()  
-wmemcpy()  
-wmemmove()  
-wmemset()  
-wofstream  
-wospanstream (since C++23)  
-wostream  
-wosyncstream (since C++20)  
-ws<>()  
-wspanbuf (since C++23)  
-wspanstream (since C++23)  
-wstreambuf  
-wstreampos  
-wostringstream  
-wprintf()  
-wregex (since C++11)  
-wscanf()  
-wsmatch (since C++11)  
-wsregex_iterator (since C++11)  
-wsregex_token_iterator (since C++11)  
-wssub_match (since C++11)  
-wstring  
-wstring_convert<> (since C++11)(deprecated in C++17)  
-wstring_view<> (since C++17)  
-wstringbuf  
-wstringstream  
-wsyncbuf (since C++20)
+#### 宽字符支持
+- `wcerr`
+- `wcin`
+- `wcout`
+- `wstring`
+- `wstring_view` (C++17起)
 
 ### X
 
 ### Y
 
-yocto (since C++11)  
-yotta (since C++11)
+#### SI前缀
+- `yocto` (C++11起)
+- `yotta` (C++11起)
 
 ### Z
 
-zepto (since C++11)  
-zetta (since C++11)
+#### SI前缀
+- `zepto` (C++11起)
+- `zetta` (C++11起)
 
-### See also
+## 子命名空间
 
-|  |  |
-| --- | --- |
-| C documentation for Symbol Index | |
+| 命名空间 | 说明 |
+|----------|------|
+| ▶ `chrono` (C++11起) | 时间库 |
+| ▶ `execution` (C++17起) | 执行策略 |
+| ▶ `filesystem` (C++17起) | 文件系统 |
+| ▶ `literals` (C++14起) | 字面量 |
+| ▶ `numbers` (C++20起) | 数学常数 |
+| ▶ `placeholders` (C++11起) | 占位符 |
+| ▶ `pmr` (C++17起) | 多态分配器 |
+| ▶ `ranges` (C++20起) | 范围 |
+| ▶ `regex_constants` (C++11起) | 正则表达式常量 |
+| ▶ `rel_ops` (C++20起已弃用) | 关系运算符 |
+| ▶ `this_thread` (C++11起) | 线程相关函数 |
 
-Retrieved from "<https://en.cppreference.com/mwiki/index.php?title=cpp/symbol_index&oldid=180135>"
+## 相关页面
 
-##### Navigation
+| 页面 | 说明 |
+|------|------|
+| C符号索引 | |
 
-- Online version
-- Offline version retrieved 2025-02-09 16:39.
+## 页面信息
 
-- This page was last modified on 4 February 2025, at 13:48.
+- 页面地址：<https://en.cppreference.com/mwiki/index.php?title=cpp/symbol_index&oldid=180135>
+- 最后修改时间：2025年2月4日 13:48
+- 离线版本获取时间：2025年2月9日 16:39
+
+---
+
+## 扩展知识详解
+
+### 一、标准库符号分类详解
+
+#### 1. 容器类符号
+```cpp
+#include <vector>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <array>
+#include <deque>
+#include <list>
+#include <forward_list>
+#include <stack>
+#include <queue>
+
+// 容器类使用示例
+void container_examples() {
+    // 顺序容器
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+    std::array<int, 5> arr = {1, 2, 3, 4, 5};
+    std::deque<int> deq = {1, 2, 3, 4, 5};
+    std::list<int> lst = {1, 2, 3, 4, 5};
+    std::forward_list<int> flst = {1, 2, 3, 4, 5};
+    
+    // 关联容器
+    std::map<std::string, int> mp = {{"one", 1}, {"two", 2}};
+    std::set<int> st = {1, 2, 3, 4, 5};
+    std::multimap<std::string, int> mmp;
+    std::multiset<int> mst;
+    
+    // 无序关联容器
+    std::unordered_map<std::string, int> ump = {{"one", 1}, {"two", 2}};
+    std::unordered_set<int> ust = {1, 2, 3, 4, 5};
+    
+    // 容器适配器
+    std::stack<int> stk;
+    std::queue<int> que;
+    std::priority_queue<int> pque;
+}
+```
+
+#### 2. 智能指针符号
+```cpp
+#include <memory>
+#include <iostream>
+
+// 智能指针使用示例
+void smart_pointer_examples() {
+    // unique_ptr - 独占所有权
+    auto uptr = std::make_unique<int>(42);
+    std::cout << "unique_ptr value: " << *uptr << std::endl;
+    
+    // shared_ptr - 共享所有权
+    auto sptr1 = std::make_shared<std::string>("Hello");
+    auto sptr2 = sptr1;  // 共享所有权
+    std::cout << "shared_ptr use count: " << sptr1.use_count() << std::endl;
+    
+    // weak_ptr - 弱引用
+    std::weak_ptr<std::string> wptr = sptr1;
+    if (auto locked = wptr.lock()) {
+        std::cout << "weak_ptr locked: " << *locked << std::endl;
+    }
+    
+    // 自定义删除器
+    auto custom_deleter = [](int* p) {
+        std::cout << "Custom deleter called for " << *p << std::endl;
+        delete p;
+    };
+    std::unique_ptr<int, decltype(custom_deleter)> ptr(new int(100), custom_deleter);
+}
+```
+
+#### 3. 线程支持符号
+```cpp
+#include <thread>
+#include <mutex>
+#include <future>
+#include <chrono>
+#include <iostream>
+
+// 线程支持使用示例
+void thread_support_examples() {
+    // 线程
+    std::thread t([]() {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::cout << "Thread function executed" << std::endl;
+    });
+    
+    // 互斥量
+    std::mutex mtx;
+    std::lock_guard<std::mutex> lock(mtx);
+    
+    // 异步操作
+    auto future = std::async(std::launch::async, []() {
+        return 42;
+    });
+    int result = future.get();
+    std::cout << "Async result: " << result << std::endl;
+    
+    if (t.joinable()) {
+        t.join();
+    }
+}
+```
+
+#### 4. 算法符号
+```cpp
+#include <algorithm>
+#include <vector>
+#include <iostream>
+
+// 算法使用示例
+void algorithm_examples() {
+    std::vector<int> vec = {5, 2, 8, 1, 9, 3};
+    
+    // 排序
+    std::sort(vec.begin(), vec.end());
+    
+    // 查找
+    auto it = std::find(vec.begin(), vec.end(), 5);
+    if (it != vec.end()) {
+        std::cout << "Found: " << *it << std::endl;
+    }
+    
+    // 变换
+    std::transform(vec.begin(), vec.end(), vec.begin(), 
+                   [](int x) { return x * 2; });
+    
+    // 累积
+    int sum = std::accumulate(vec.begin(), vec.end(), 0);
+    std::cout << "Sum: " << sum << std::endl;
+}
+```
+
+### 二、现代C++特性符号
+
+#### 1. 可选值和变体
+```cpp
+#include <optional>
+#include <variant>
+#include <any>
+#include <iostream>
+
+// 现代C++特性使用示例
+void modern_cpp_features() {
+    // std::optional
+    std::optional<int> opt = 42;
+    if (opt.has_value()) {
+        std::cout << "Optional value: " << *opt << std::endl;
+    }
+    
+    // std::variant
+    std::variant<int, std::string, double> var = 42;
+    std::visit([](const auto& value) {
+        std::cout << "Variant value: " << value << std::endl;
+    }, var);
+    
+    // std::any
+    std::any any_value = std::string("Hello");
+    if (any_value.type() == typeid(std::string)) {
+        std::cout << "Any value: " << std::any_cast<std::string>(any_value) << std::endl;
+    }
+}
+```
+
+#### 2. 范围和视图（C++20）
+```cpp
+#include <ranges>
+#include <vector>
+#include <iostream>
+
+// 范围使用示例
+void ranges_examples() {
+    std::vector<int> vec = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    
+    // 使用范围算法
+    auto even_numbers = vec | std::views::filter([](int n) { return n % 2 == 0; })
+                            | std::views::take(3);
+    
+    for (int n : even_numbers) {
+        std::cout << n << " ";
+    }
+    std::cout << std::endl;
+}
+```
+
+#### 3. 格式化（C++20）
+```cpp
+#include <format>
+#include <iostream>
+
+// 格式化使用示例
+void format_examples() {
+    // std::format
+    std::string formatted = std::format("Hello, {}! Value: {:.2f}", "World", 3.14159);
+    std::cout << formatted << std::endl;
+    
+    // std::print
+    std::print("Print to stdout: {} {}\n", 42, "test");
+}
+```
+
+### 三、类型特征符号
+
+#### 1. 类型检查和变换
+```cpp
+#include <type_traits>
+#include <iostream>
+
+// 类型特征使用示例
+void type_traits_examples() {
+    // 类型检查
+    static_assert(std::is_integral_v<int>);
+    static_assert(std::is_floating_point_v<double>);
+    static_assert(std::is_same_v<int, int>);
+    
+    // 类型变换
+    using add_const_int = std::add_const_t<int>;
+    using remove_const_int = std::remove_const_t<const int>;
+    using make_unsigned_int = std::make_unsigned_t<int>;
+    
+    std::cout << "Type traits examples demonstrated" << std::endl;
+}
+```
+
+### 四、实用工具符号
+
+#### 1. 实用函数模板
+```cpp
+#include <utility>
+#include <functional>
+#include <memory>
+#include <iostream>
+
+// 实用工具使用示例
+void utility_examples() {
+    // std::move
+    std::string str = "Hello";
+    std::string moved = std::move(str);
+    
+    // std::forward
+    auto lambda = [](auto&& arg) {
+        return std::forward<decltype(arg)>(arg);
+    };
+    
+    // std::exchange
+    int value = 42;
+    int old_value = std::exchange(value, 100);
+    std::cout << "Old value: " << old_value << ", New value: " << value << std::endl;
+    
+    // std::bind
+    auto bound_func = std::bind([](int a, int b) { return a + b; }, 10, std::placeholders::_1);
+    std::cout << "Bound function result: " << bound_func(5) << std::endl;
+}
+```
+
+### 五、数学和数值符号
+
+#### 1. 数学函数和常数
+```cpp
+#include <cmath>
+#include <numbers>
+#include <random>
+#include <iostream>
+
+// 数学符号使用示例
+void math_examples() {
+    // 基本数学函数
+    double result = std::sqrt(16.0);
+    std::cout << "Square root of 16: " << result << std::endl;
+    
+    // C++20数学常数
+    constexpr double pi = std::numbers::pi;
+    constexpr double e = std::numbers::e;
+    std::cout << "Pi: " << pi << ", e: " << e << std::endl;
+    
+    // 随机数生成
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(1, 100);
+    int random_num = dis(gen);
+    std::cout << "Random number: " << random_num << std::endl;
+}
+```
+
+✅ C++标准库符号索引为开发者提供了全面的参考，涵盖了从基本类型到高级特性的所有标准库组件。通过这个索引，开发者可以快速查找和理解各种标准库符号的用途和用法。现代C++不断引入新特性，如智能指针、线程支持、范围、格式化等，这些都在索引中有详细记录。正确理解和使用这些符号对于编写高质量的C++代码至关重要。建议开发者在学习和使用C++时，经常查阅此索引以确保使用的是最新的标准库特性。持续学习和实践标准库的各种功能，是掌握现代C++编程的关键。

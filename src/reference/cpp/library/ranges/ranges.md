@@ -1,353 +1,673 @@
-# Ranges library (since C++20)
+# C++ 范围库（Ranges library）（C++20起）
 
-From cppreference.com
+来源：cppreference.com
 
-****Ranges library****
+## 范围库概述
 
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| |  |  |  |  |  | | --- | --- | --- | --- | --- | | Range access | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | begin | | | | | | cbegin | | | | | | end | | | | | | cend | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | rbegin | | | | | | crbegin | | | | | | rend | | | | | | crend | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | size | | | | | | ssize | | | | | | data | | | | | | cdata | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | empty | | | | | |  | | | | | |  | | | | | |  | | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | Range conversions | | | | | | std::from_range_t std::from_range(C++23)(C++23) | | | | | | to(C++23) | | | | | |  | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | Dangling iterator handling | | | | | | dangling | | | | | | borrowed_iterator_t | | | | | | borrowed_subrange_t | | | | | |  | | | | | |
+范围库是对算法库和迭代器库的扩展和泛化，通过使它们可组合且不易出错来增强其功能。
 
-|  |  |  |  |  |
-| --- | --- | --- | --- | --- |
-| Range primitives | | | | |
-| |  |  |  |  |  | | --- | --- | --- | --- | --- | | range_size_trange_difference_trange_value_t | | | | | | elements_of(C++23) | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | iterator_tconst_iterator_tsentinel_tconst_sentinel_t(C++23)(C++23) | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | range_reference_trange_const_reference_trange_rvalue_reference_trange_common_reference_t(C++23) | | | | | |
+该库创建和操作范围**视图**（view），这些是轻量级对象，间接表示可迭代序列（**范围**）。范围是以下内容的抽象：
 
-|  |  |  |  |  |
-| --- | --- | --- | --- | --- |
-| Range concepts | | | | |
-| |  |  |  |  |  | | --- | --- | --- | --- | --- | | range | | | | | | borrowed_range | | | | | | sized_range | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | common_range | | | | | | view | | | | | | viewable_range | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | input_range | | | | | | output_range | | | | | | forward_range | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | bidirectional_range | | | | | | random_access_range | | | | | | contiguous_range | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | constant_range(C++23) | | | | | |  | | | | | |  | | | | | |
+- `(begin, end)` - 迭代器对，例如通过容器隐式转换创建的范围
+- `(begin + 0, size)` - 计数序列，例如由`views::counted`返回的范围
+- `(begin, predicate)` - 条件终止序列，例如由`views::take_while`返回的范围
+- `(begin, ..)` - 无界序列，例如由`views::iota`返回的范围
 
-|  |  |  |  |  |
-| --- | --- | --- | --- | --- |
-| Views | | | | |
-| |  |  |  |  |  | | --- | --- | --- | --- | --- | | view_interface | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | subrange | | | | | |  | |  |  |  |  |  | | --- | --- | --- | --- | --- | |  | | | | | |
+范围库包括范围算法（急切应用）和范围适配器（惰性应用）。适配器可以组成管道，使得操作在视图迭代时发生。
 
-|  |  |  |  |  |
-| --- | --- | --- | --- | --- |
-| Range factories | | | | |
-| |  |  |  |  |  | | --- | --- | --- | --- | --- | | empty_viewviews::empty | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | single_viewviews::single | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | basic_istream_viewviews::istream | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | iota_viewviews::iota | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | repeat_viewviews::repeat(C++23)(C++23) | | | | | |
-
-|  |  |  |  |  |
-| --- | --- | --- | --- | --- |
-| Range adaptors | | | | |
-| |  |  |  |  |  | | --- | --- | --- | --- | --- | | views::all_tviews::all | | | | | | ref_view | | | | | | owning_view | | | | | | as_rvalue_viewviews::as_rvalue(C++23)(C++23) | | | | | | filter_viewviews::filter | | | | | | transform_viewviews::transform | | | | | | take_viewviews::take | | | | | | take_while_viewviews::take_while | | | | | | concat_viewviews::concat(C++26)(C++26) | | | | | | views::counted | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | drop_viewviews::drop | | | | | | drop_while_viewviews::drop_while | | | | | | join_viewviews::join | | | | | | join_with_viewviews::join_with(C++23)(C++23) | | | | | | lazy_split_viewviews::lazy_split | | | | | | split_viewviews::split | | | | | | common_viewviews::common | | | | | | cache_latest_viewviews::cache_latest(C++26)(C++26) | | | | | |  | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | reverse_viewviews::reverse | | | | | | as_const_viewviews::as_const(C++23)(C++23) | | | | | | elements_viewviews::elements | | | | | | keys_viewviews::keys | | | | | | values_viewviews::values | | | | | | enumerate_viewviews::enumerate(C++23)(C++23) | | | | | | zip_viewviews::zip(C++23)(C++23) | | | | | | zip_transform_viewviews::zip_transform(C++23)(C++23) | | | | | |  | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | adjacent_viewviews::adjacent(C++23)(C++23) | | | | | | views::pairwise(C++23) | | | | | | adjacent_transform_viewviews::adjacent_transform(C++23)(C++23) | | | | | | views::pairwise_transform(C++23) | | | | | | chunk_viewviews::chunk(C++23)(C++23) | | | | | | slide_viewviews::slide(C++23)(C++23) | | | | | | chunk_by_viewviews::chunk_by(C++23)(C++23) | | | | | | stride_viewviews::stride(C++23)(C++23) | | | | | | cartesian_product_viewviews::cartesian_product(C++23)(C++23) | | | | | |  | | | | | |
-
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| |  |  |  |  |  | | --- | --- | --- | --- | --- | | Range generators | | | | | | std::generator(C++23) | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | Range adaptor closure objects | | | | | | range_adaptor_closure(C++23) | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | Range adaptor objects | | | | | |  | | | | | |
-
-|  |  |  |  |  |
-| --- | --- | --- | --- | --- |
-| Helper items | | | | |
-| |  |  |  |  |  | | --- | --- | --- | --- | --- | | **copyable-box** **movable-box**(until C++23)(C++23) | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | **simple-view** | | | | | | **non-propagating-cache** | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | |  | | | | | |  | | | | | |
-
-The ranges library is an extension and generalization of the algorithms and iterator libraries that makes them more powerful by making them composable and less error-prone.
-
-The library creates and manipulates range **views**, lightweight objects that indirectly represent iterable sequences (**ranges**). Ranges are an abstraction on top of
-
-- ``begin`,`end`)` – iterator pairs, e.g. ranges made by implicit conversion from containers. All algorithms that take iterator pairs now have overloads that accept ranges (e.g. [ranges::sort)
-- begin`+```​0​`,`size`)` – counted sequences, e.g. range returned by [views::counted
-- ``begin`,`**predicate**`)` – conditionally-terminated sequences, e.g. range returned by [views::take_while
-- ``begin`,`..`)` – unbounded sequences, e.g. range returned by [views::iota
-
-The ranges library includes range algorithms, which are applied to ranges eagerly, and range adaptors, which are applied to views lazily. Adaptors can be composed into pipelines, so that their actions take place as the view is iterated.
-
-|  |  |  |
-| --- | --- | --- |
-| Defined in header `<ranges>` |  |  |
-| namespace std {  namespace views = ranges::views; } |  | (since C++20) |
-|  |  |  |
-
-The namespace alias `std::views` is provided as a shorthand for `std::ranges::views`.
-
-|  |  |
-| --- | --- |
-| Defined in namespace `std::ranges` | |
-| Range access | |
-| Defined in header `<ranges>` | |
-| Defined in header `<iterator>` | |
-| ranges::begin(C++20) | returns an iterator to the beginning of a range (customization point object) |
-| ranges::end(C++20) | returns a sentinel indicating the end of a range (customization point object) |
-| ranges::cbegin(C++20) | returns an iterator to the beginning of a read-only range (customization point object) |
-| ranges::cend(C++20) | returns a sentinel indicating the end of a read-only range (customization point object) |
-| ranges::rbegin(C++20) | returns a reverse iterator to a range (customization point object) |
-| ranges::rend(C++20) | returns a reverse end iterator to a range (customization point object) |
-| ranges::crbegin(C++20) | returns a reverse iterator to a read-only range (customization point object) |
-| ranges::crend(C++20) | returns a reverse end iterator to a read-only range (customization point object) |
-| ranges::size(C++20) | returns an integer equal to the size of a range (customization point object) |
-| ranges::ssize(C++20) | returns a signed integer equal to the size of a range (customization point object) |
-| ranges::empty(C++20) | checks whether a range is empty (customization point object) |
-| ranges::data(C++20) | obtains a pointer to the beginning of a contiguous range (customization point object) |
-| ranges::cdata(C++20) | obtains a pointer to the beginning of a read-only contiguous range (customization point object) |
-| Range primitives | |
-| Defined in header `<ranges>` | |
-| ranges::iterator_tranges::const_iterator_tranges::sentinel_tranges::const_sentinel_t(C++20)(C++23)(C++20)(C++23) | obtains iterator and sentinel types of a range (alias template) |
-| ranges::range_difference_tranges::range_size_tranges::range_value_t(C++20)(C++20)(C++20) | obtains size, difference, and value types of a range (alias template) |
-| ranges::range_reference_tranges::range_const_reference_tranges::range_rvalue_reference_tranges::range_common_reference_t(C++20)(C++23)(C++20)(C++20) | obtains reference types of a range (alias template) |
-| Dangling iterator handling | |
-| Defined in header `<ranges>` | |
-| ranges::dangling(C++20) | a placeholder type indicating that an iterator or a `subrange` should not be returned since it would be dangling   (class) |
-| ranges::borrowed_iterator_tranges::borrowed_subrange_t(C++20) | obtains iterator type or `subrange` type of a `borrowed_range` (alias template) |
-| Other utilities | |
-| Defined in header `<ranges>` | |
-| ranges::elements_of(C++23) | tags a range to be treated as a sequence rather than a single value   (class template) |
-| Range concepts | |
-| Defined in header `<ranges>` | |
-| ranges::range(C++20) | specifies that a type is a range, that is, it provides a `begin` iterator and an `end` sentinel   (concept) |
-| ranges::borrowed_range(C++20) | specifies that a type is a `range` and iterators obtained from an expression of it can be safely returned without danger of dangling   (concept) |
-| ranges::sized_range(C++20) | specifies that a range knows its size in constant time   (concept) |
-| ranges::view(C++20) | specifies that a range is a view, that is, it has constant time copy/move/assignment   (concept) |
-| ranges::input_range(C++20) | specifies a range whose iterator type satisfies `input_iterator`   (concept) |
-| ranges::output_range(C++20) | specifies a range whose iterator type satisfies `output_iterator`   (concept) |
-| ranges::forward_range(C++20) | specifies a range whose iterator type satisfies `forward_iterator`   (concept) |
-| ranges::bidirectional_range(C++20) | specifies a range whose iterator type satisfies `bidirectional_iterator`   (concept) |
-| ranges::random_access_range(C++20) | specifies a range whose iterator type satisfies `random_access_iterator`   (concept) |
-| ranges::contiguous_range(C++20) | specifies a range whose iterator type satisfies `contiguous_iterator`   (concept) |
-| ranges::common_range(C++20) | specifies that a range has identical iterator and sentinel types   (concept) |
-| ranges::viewable_range(C++20) | specifies the requirements for a `range` to be safely convertible to a `view`   (concept) |
-| ranges::constant_range(C++23) | specifies that a range has read-only elements   (concept) |
-| Range conversions | |
-| Defined in header `<ranges>` | |
-| ranges::to(C++23) | constructs a new non-view object from an input range   (function template) |
-| Views | |
-| Defined in header `<ranges>` | |
-| ranges::view_interface(C++20) | helper class template for defining a `view`, using the curiously recurring template pattern   (class template) |
-| ranges::subrange(C++20) | combines an iterator-sentinel pair into a `view`   (class template) |
-
-### Range factories
-
-|  |  |
-| --- | --- |
-| Defined in header `<ranges>` | |
-| Defined in namespace `std::ranges` | |
-| ranges::empty_viewviews::empty(C++20) | an empty `view` with no elements (class template) (variable template) |
-| ranges::single_viewviews::single(C++20) | a `view` that contains a single element of a specified value (class template) (customization point object) |
-| ranges::iota_viewviews::iota(C++20) | a `view` consisting of a sequence generated by repeatedly incrementing an initial value (class template) (customization point object) |
-| ranges::repeat_viewviews::repeat(C++23) | a `view` consisting of a generated sequence by repeatedly producing the same value (class template) (customization point object) |
-| ranges::basic_istream_viewviews::istream(C++20) | a `view` consisting of the elements obtained by successive application of `operator>>` on the associated input stream (class template) (customization point object) |
-
-### Range adaptors
-
-|  |  |
-| --- | --- |
-| Defined in header `<ranges>` | |
-| Defined in namespace `std::ranges` | |
-| ranges::range_adaptor_closure(C++23) | helper base class template for defining a range adaptor closure object   (class template) |
-| views::all_tviews::all(C++20) | a `view` that includes all elements of a `range` (alias template) (range adaptor object) |
-| ranges::ref_view(C++20) | a `view` of the elements of some other `range`   (class template) |
-| ranges::owning_view(C++20) | a `view` with unique ownership of some `range`   (class template) |
-| ranges::as_rvalue_viewviews::as_rvalue(C++23) | a `view` of a sequence that casts each element to an rvalue (class template) (range adaptor object) |
-| ranges::filter_viewviews::filter(C++20) | a `view` that consists of the elements of a `range` that satisfies a predicate (class template) (range adaptor object) |
-| ranges::transform_viewviews::transform(C++20) | a `view` of a sequence that applies a transformation function to each element (class template) (range adaptor object) |
-| ranges::take_viewviews::take(C++20) | a `view` consisting of the first N elements of another `view` (class template) (range adaptor object) |
-| ranges::take_while_viewviews::take_while(C++20) | a `view` consisting of the initial elements of another `view`, until the first element on which a predicate returns false (class template) (range adaptor object) |
-| ranges::drop_viewviews::drop(C++20) | a `view` consisting of elements of another `view`, skipping the first N elements (class template) (range adaptor object) |
-| ranges::drop_while_viewviews::drop_while(C++20) | a `view` consisting of the elements of another `view`, skipping the initial subsequence of elements until the first element where the predicate returns false (class template) (range adaptor object) |
-| ranges::join_viewviews::join(C++20) | a `view` consisting of the sequence obtained from flattening a `view` of `range`s (class template) (range adaptor object) |
-| ranges::join_with_viewviews::join_with(C++23) | a `view` consisting of the sequence obtained from flattening a view of ranges, with the delimiter in between elements (class template) (range adaptor object) |
-| ranges::lazy_split_viewviews::lazy_split(C++20) | a `view` over the subranges obtained from splitting another `view` using a delimiter (class template) (range adaptor object) |
-| ranges::split_viewviews::split(C++20) | a `view` over the subranges obtained from splitting another `view` using a delimiter (class template) (range adaptor object) |
-| ranges::concat_viewviews::concat(C++26) | a `view` consisting of concatenation of the adapted views (class template) (customization point object) |
-| views::counted(C++20) | creates a subrange from an iterator and a count (customization point object) |
-| ranges::common_viewviews::common(C++20) | converts a `view` into a `common_range` (class template) (range adaptor object) |
-| ranges::reverse_viewviews::reverse(C++20) | a `view` that iterates over the elements of another bidirectional view in reverse order (class template) (range adaptor object) |
-| ranges::as_const_viewviews::as_const(C++23) | converts a `view` into a `constant_range` (class template) (range adaptor object) |
-| ranges::elements_viewviews::elements(C++20) | takes a `view` consisting of **tuple-like** values and a number N and produces a `view` of Nth element of each tuple (class template) (range adaptor object) |
-| ranges::keys_viewviews::keys(C++20) | takes a `view` consisting of pair-like values and produces a `view` of the first elements of each pair (class template) (range adaptor object) |
-| ranges::values_viewviews::values(C++20) | takes a `view` consisting of pair-like values and produces a `view` of the second elements of each pair (class template) (range adaptor object) |
-| ranges::enumerate_viewviews::enumerate(C++23) | a `view` that maps each element of adapted sequence to a tuple of both the element's position and its value (class template) (range adaptor object) |
-| ranges::zip_viewviews::zip(C++23) | a `view` consisting of tuples of references to corresponding elements of the adapted views (class template) (customization point object) |
-| ranges::zip_transform_viewviews::zip_transform(C++23) | a `view` consisting of results of application of a transformation function to corresponding elements of the adapted views (class template) (customization point object) |
-| ranges::adjacent_viewviews::adjacent(C++23) | a `view` consisting of tuples of references to adjacent elements of the adapted view (class template) (range adaptor object) |
-| ranges::adjacent_transform_viewviews::adjacent_transform(C++23) | a `view` consisting of results of application of a transformation function to adjacent elements of the adapted view (class template) (range adaptor object) |
-| ranges::chunk_viewviews::chunk(C++23) | a range of `view`s that are `N`-sized non-overlapping successive chunks of the elements of another `view` (class template) (range adaptor object) |
-| ranges::slide_viewviews::slide(C++23) | a `view` whose Mth element is a `view` over the Mth through (M + N - 1)th elements of another `view` (class template) (range adaptor object) |
-| ranges::chunk_by_viewviews::chunk_by(C++23) | splits the `view` into subranges between each pair of adjacent elements for which the given predicate returns false (class template) (range adaptor object) |
-| ranges::stride_viewviews::stride(C++23) | a `view` consisting of elements of another `view`, advancing over N elements at a time (class template) (range adaptor object) |
-| ranges::cartesian_product_viewviews::cartesian_product(C++23) | a `view` consisting of tuples of results calculated by the n-ary cartesian product of the adapted views (class template) (customization point object) |
-| ranges::cache_latest_viewviews::cache_latest(C++26) | a `view` that caches the last-accessed element of its underlying sequence (class template) (range adaptor object) |
-
-### Range generators (since C++23)
-
-|  |  |
-| --- | --- |
-| Defined in header `<generator>` | |
-| Defined in namespace `std` | |
-| generator(C++23) | A `view` that represents synchronous coroutine generator   (class template) |
-
-### Helper items
-
-#### Range adaptor objects
-
-See RangeAdaptorObject (RAO).
-
-#### Range adaptor closure objects
-
-See RangeAdaptorClosureObject (RACO).
-
-#### Customization point objects
-
-See Customization point object (CPO).
-
-#### Assignable wrapper
-
-Some range adaptors wrap their elements or function objects with the `copyable-box`(until C++23)`movable-box`(since C++23). The wrapper augments the wrapped object with assignability when needed.
-
-#### Non-propagating cache
-
-Some range adaptors are specified in terms of an exposition-only class template `non-propagating-cache`, which behaves almost like std::optional<T> (see description for differences).
-
-#### Conditionally-`const` type
-
-|  |  |  |
-| --- | --- | --- |
-| template< bool Const, class T >  using /\*maybe-const\*/ = std::conditional_t<Const, const T, T>; |  | (exposition only\*) |
-|  |  |  |
-
-The alias template /\*maybe-const\*/ is a shorthand used to conditionally apply a const qualifier to the type `T`.
-
-#### Integer-like type helper templates
-
-|  |  |  |
-| --- | --- | --- |
-| template< /\*is-integer-like\*/ T >  using /\*make-signed-like-t\*/<T> = /\* see description \*/; | (1) | (exposition only\*) |
-| template< /\*is-integer-like\*/ T >  using /\*make-unsigned-like-t\*/<T> = /\* see description \*/; | (2) | (exposition only\*) |
-| template< /\*is-integer-like\*/ T >  /\*make-unsigned-like-t\*/<T> /\*to-unsigned-like\*/( T t )  {      return static_cast</\*make-unsigned-like-t\*/<T>>(t); } | (3) | (exposition only\*) |
-|  |  |  |
-
-1) For an integer-like type `T`:
-
-- If `T` is an integer type, /\*make-signed-like-t\*/<T> is std::make_signed_t<T>.
-- Otherwise, /\*make-signed-like-t\*/<T> is a corresponding unspecified signed-integer-like type of the same width as `T`.
-2) For an integer-like type `T`:
-
-- If `T` is an integer type, /\*make-unsigned-like-t\*/<T> is std::make_unsigned_t<T>.
-- Otherwise, /\*make-signed-like-t\*/<T> is a corresponding unspecified unsigned-integer-like type of the same width as `T`.
-3) Explicitly converts t to /\*make-unsigned-like-t\*/<T>.
-
-#### Customization point object helpers
-
-|  |  |  |
-| --- | --- | --- |
-| template< ranges::input_range R >  constexpr auto& /\*possibly-const-range\*/(R& r) noexcept  {      if constexpr (ranges::input_range<const R>)          return const_cast<const R&>(r);      else          return r; } | (1) | (exposition only\*) |
-| template< class T >  constexpr auto /\*as-const-pointer\*/( const T\* p ) noexcept  {      return p; } | (2) | (exposition only\*) |
-|  |  |  |
-
-Some range access customization point objects are specified in terms of these exposition-only function templates.
-
-1) /\*possibly-const-range\*/ returns the const-qualified version of r if const R models `input_range`; otherwise, returns r without any casting.2) /\*as-const-pointer\*/ returns a pointer to object of constant type.
-
-#### Range adaptor helpers
-
-|  |  |  |
-| --- | --- | --- |
-| template< class F, class Tuple >  constexpr auto /\*tuple-transform\*/( F&& f, Tuple&& tuple )  {      return std::apply([&]<class... Ts>(Ts&&... args)      {          return std::tuple<std::invoke_result_t<F&, Ts>...>              (std::invoke(f, std::forward<Ts>(args))...);      }, std::forward<Tuple>(tuple)); } | (1) | (exposition only\*) |
-| template< class F, class Tuple >  constexpr void /\*tuple-for-each\*/( F&& f, Tuple&& tuple )  {      std::apply([&]<class... Ts>(Ts&&... args)      {          (static_cast<void>(std::invoke(f, std::forward<Ts>(args))), ...);      }, std::forward<Tuple>(tuple)); } | (2) | (exposition only\*) |
-| template< class T >  constexpr T& /\*as-lvalue\*/( T&& t )  {      return static_cast<T&>(t); } | (3) | (exposition only\*) |
-|  |  |  |
-
-Some range adaptors are specified in terms of these exposition-only function templates.
-
-1) /\*tuple-transform\*/ returns a new tuple constructed by applying f to each element of tuple.2) /\*tuple-for-each\*/ applies f to each element of tuple and returns nothing.3) /\*as-lvalue\*/ forwards rvalue t as lvalue.
-
-#### Helper concepts
-
-Following exposition-only concepts are used for several types, but they are not parts of the interface of standard library.
-
-|  |  |  |
-| --- | --- | --- |
-| template< class R >  concept /\*simple-view\*/ =      ranges::view<R> && ranges::range<const R> &&      std::same_as<ranges::iterator_t<R>, ranges::iterator_t<const R>> && std::same_as<ranges::sentinel_t<R>, ranges::sentinel_t<const R>>; | (1) | (exposition only\*) |
-| template< class I >  concept /\*has-arrow\*/ =      ranges::input_iterator<I> && (std::is_pointer_v<I> || requires(I i) { i.operator->(); }); | (2) | (exposition only\*) |
-| template< class T, class U >  concept /\*different-from\*/ = !std::same_as<std::remove_cvref_t<T>, std::remove_cvref_t<U>>; | (3) | (exposition only\*) |
-| template< class R >  concept /\*range-with-movable-references\*/ =      ranges::input_range<R> &&      std::move_constructible<ranges::range_reference_t<R>> && std::move_constructible<ranges::range_rvalue_reference_t<R>>; | (4) | (exposition only\*) |
-| template< bool C, class... Views >  concept /\*all-random-access\*/ =      (ranges::random_access_range <std::conditional_t<C, const Views, Views>> && ...); | (5) | (exposition only\*) |
-| template< bool C, class... Views >  concept /\*all-bidirectional\*/ =      (ranges::bidirectional_range <std::conditional_t<C, const Views, Views>> && ...); | (6) | (exposition only\*) |
-| template< bool C, class... Views >  concept /\*all-forward\*/ =      (ranges::forward_range <std::conditional_t<C, const Views, Views>> && ...); | (7) | (exposition only\*) |
-|  |  |  |
-
-### Notes
-
-| Feature-test macro | Value | Std | Feature |
-| --- | --- | --- | --- |
-| `__cpp_lib_generator` | `202207L` | (C++23) | std::generator – synchronous coroutine generator for ranges |
-| `__cpp_lib_ranges` | `201911L` | (C++20) | Ranges library and constrained algorithms |
-| `202106L` | (C++23) (DR20) | Non-default-initializable views |
-| `202110L` | (C++23) (DR20) | Views with ownership |
-| `202202L` | (C++23) | ranges::range_adaptor_closure |
-| `202207L` | (C++23) | Relaxing range adaptors to allow for move-only types |
-| `202211L` | (C++23) | Removing "poison pills" (P2602) overloads in ranges::begin etc |
-| `202302L` | (C++23) | Relaxing ranges to allow certain projections |
-| `202406L` | (C++26) (DR20) | Removing the common reference requirement from the indirectly invocable concepts |
-| `__cpp_lib_ranges_as_const` | `202207L` | (C++23) | std::const_iterator, ranges::as_const_view |
-| `__cpp_lib_ranges_as_rvalue` | `202207L` | (C++23) | ranges::as_rvalue_view |
-| `__cpp_lib_ranges_cache_latest` | `202411L` | (C++26) | ranges::cache_latest_view |
-| `__cpp_lib_ranges_cartesian_product` | `202207L` | (C++23) | ranges::cartesian_product_view |
-| `__cpp_lib_ranges_chunk` | `202202L` | (C++23) | ranges::chunk_view |
-| `__cpp_lib_ranges_chunk_by` | `202202L` | (C++23) | ranges::chunk_by_view |
-| `__cpp_lib_ranges_concat` | `202403L` | (C++26) | ranges::concat_view |
-| `__cpp_lib_ranges_enumerate` | `202302L` | (C++23) | ranges::enumerate_view |
-| `__cpp_lib_ranges_join_with` | `202202L` | (C++23) | ranges::join_with_view |
-| `__cpp_lib_ranges_repeat` | `202207L` | (C++23) | ranges::repeat_view |
-| `__cpp_lib_ranges_slide` | `202202L` | (C++23) | ranges::slide_view |
-| `__cpp_lib_ranges_stride` | `202207L` | (C++23) | ranges::stride_view |
-| `__cpp_lib_ranges_to_container` | `202202L` | (C++23) | ranges::to |
-| `__cpp_lib_ranges_zip` | `202110L` | (C++23) | ranges::zip_view, ranges::zip_transform_view, ranges::adjacent_view, ranges::adjacent_transform_view |
-
-### Example
-
-Run this code
-
+```cpp
+// 命名空间别名
+namespace std { namespace views = ranges::views; } // (C++20起)
 ```
-#include <iostream>
+
+## 核心组件
+
+### 一、范围访问
+
+| 函数 | 说明 |
+|------|------|
+| `ranges::begin`(C++20) | 返回范围起始的迭代器（定制点对象） |
+| `ranges::end`(C++20) | 返回范围结束的哨兵（定制点对象） |
+| `ranges::cbegin`(C++20) | 返回只读范围起始的迭代器（定制点对象） |
+| `ranges::cend`(C++20) | 返回只读范围结束的哨兵（定制点对象） |
+| `ranges::rbegin`(C++20) | 返回范围的反向迭代器（定制点对象） |
+| `ranges::rend`(C++20) | 返回范围的反向结束迭代器（定制点对象） |
+| `ranges::size`(C++20) | 返回等于范围大小的整数（定制点对象） |
+| `ranges::empty`(C++20) | 检查范围是否为空（定制点对象） |
+| `ranges::data`(C++20) | 获取连续范围起始的指针（定制点对象） |
+
+### 二、范围概念
+
+| 概念 | 说明 |
+|------|------|
+| `ranges::range`(C++20) | 指定类型为范围 |
+| `ranges::view`(C++20) | 指定范围是视图（具有常数时间复制/移动/赋值） |
+| `ranges::sized_range`(C++20) | 指定范围在常数时间知道其大小 |
+| `ranges::input_range`(C++20) | 指定迭代器类型满足`input_iterator`的范围 |
+| `ranges::forward_range`(C++20) | 指定迭代器类型满足`forward_iterator`的范围 |
+| `ranges::bidirectional_range`(C++20) | 指定迭代器类型满足`bidirectional_iterator`的范围 |
+| `ranges::random_access_range`(C++20) | 指定迭代器类型满足`random_access_iterator`的范围 |
+| `ranges::contiguous_range`(C++20) | 指定迭代器类型满足`contiguous_iterator`的范围 |
+
+### 三、范围工厂
+
+| 工厂 | 说明 |
+|------|------|
+| `ranges::empty_view`(C++20) | 没有元素的空视图（类模板） |
+| `ranges::single_view`(C++20) | 包含单个指定值元素的视图（类模板） |
+| `ranges::iota_view`(C++20) | 通过重复递增初始值生成的序列视图（类模板） |
+| `ranges::basic_istream_view`(C++20) | 通过对关联输入流连续应用`operator>>`获得元素的视图（类模板） |
+
+### 四、范围适配器
+
+| 适配器 | 说明 |
+|--------|------|
+| `views::filter`(C++20) | 由满足谓词的范围元素组成的视图（类模板） |
+| `views::transform`(C++20) | 对每个元素应用变换函数的序列视图（类模板） |
+| `views::take`(C++20) | 由另一个视图前N个元素组成的视图（类模板） |
+| `views::drop`(C++20) | 跳过前N个元素的视图（类模板） |
+| `views::join`(C++20) | 通过展平范围视图获得的序列视图（类模板） |
+| `views::reverse`(C++20) | 反向迭代另一个双向视图元素的视图（类模板） |
+| `views::split`(C++20) | 使用分隔符拆分视图获得的子范围视图（类模板） |
+
+---
+
+## 扩展知识详解
+
+### 一、基础概念和使用
+
+#### 1. 范围访问函数
+```cpp
 #include <ranges>
- 
-int main()
-{
-    auto const ints = {0, 1, 2, 3, 4, 5};
-    auto even = [](int i) { return 0 == i % 2; };
-    auto square = [](int i) { return i * i; };
- 
-    // the "pipe" syntax of composing the views:
-    for (int i : ints | std::views::filter(even) | std::views::transform(square))
-        std::cout << i << ' ';
- 
-    std::cout << '\n';
- 
-    // a traditional "functional" composing syntax:
-    for (int i : std::views::transform(std::views::filter(ints, even), square))
-        std::cout << i << ' ';
+#include <vector>
+#include <iostream>
+#include <string>
+
+void range_access_examples() {
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+    std::string str = "Hello";
+    
+    // 基本范围访问
+    auto begin_it = std::ranges::begin(vec);
+    auto end_it = std::ranges::end(vec);
+    std::cout << "Vector size: " << std::ranges::size(vec) << std::endl;
+    std::cout << "Vector empty: " << std::ranges::empty(vec) << std::endl;
+    
+    // 数据访问（适用于连续范围）
+    if (std::ranges::data(vec)) {
+        std::cout << "Vector data pointer: " << std::ranges::data(vec) << std::endl;
+    }
+    
+    // 只读访问
+    auto cbegin_it = std::ranges::cbegin(str);
+    auto cend_it = std::ranges::cend(str);
+    std::cout << "String size: " << std::ranges::size(str) << std::endl;
+    
+    // 反向访问
+    auto rbegin_it = std::ranges::rbegin(str);
+    auto rend_it = std::ranges::rend(str);
+    std::cout << "Reverse string: ";
+    for (auto it = rbegin_it; it != rend_it; ++it) {
+        std::cout << *it;
+    }
+    std::cout << std::endl;
+}
+```
+
+#### 2. 范围概念检查
+```cpp
+#include <ranges>
+#include <vector>
+#include <list>
+#include <array>
+#include <iostream>
+
+template<typename T>
+void check_range_concepts(const T& range) {
+    std::cout << "Type: " << typeid(T).name() << std::endl;
+    std::cout << "  is_range: " << std::ranges::range<T> << std::endl;
+    std::cout << "  is_sized_range: " << std::ranges::sized_range<T> << std::endl;
+    std::cout << "  is_input_range: " << std::ranges::input_range<T> << std::endl;
+    std::cout << "  is_forward_range: " << std::ranges::forward_range<T> << std::endl;
+    std::cout << "  is_bidirectional_range: " << std::ranges::bidirectional_range<T> << std::endl;
+    std::cout << "  is_random_access_range: " << std::ranges::random_access_range<T> << std::endl;
+    std::cout << "  is_contiguous_range: " << std::ranges::contiguous_range<T> << std::endl;
+    std::cout << "  is_view: " << std::ranges::view<T> << std::endl;
+    std::cout << std::endl;
 }
 
+void range_concept_examples() {
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+    std::list<int> lst = {1, 2, 3, 4, 5};
+    std::array<int, 5> arr = {1, 2, 3, 4, 5};
+    
+    check_range_concepts(vec);
+    check_range_concepts(lst);
+    check_range_concepts(arr);
+}
 ```
 
-Output:
+### 二、范围工厂详解
 
+#### 1. 基本范围工厂
+```cpp
+#include <ranges>
+#include <iostream>
+
+void range_factory_examples() {
+    // empty_view
+    auto empty_view = std::views::empty<int>;
+    std::cout << "Empty view size: " << std::ranges::size(empty_view) << std::endl;
+    std::cout << "Empty view empty: " << std::ranges::empty(empty_view) << std::endl;
+    
+    // single_view
+    auto single_view = std::views::single(42);
+    std::cout << "Single view size: " << std::ranges::size(single_view) << std::endl;
+    std::cout << "Single view element: " << *std::ranges::begin(single_view) << std::endl;
+    
+    // iota_view
+    auto iota_view = std::views::iota(0, 10);
+    std::cout << "Iota view elements: ";
+    for (const auto& elem : iota_view) {
+        std::cout << elem << " ";
+    }
+    std::cout << std::endl;
+    
+    // C++23 repeat_view
+    auto repeat_view = std::views::repeat(7, 5);  // 重复7五次
+    std::cout << "Repeat view elements: ";
+    for (const auto& elem : repeat_view) {
+        std::cout << elem << " ";
+    }
+    std::cout << std::endl;
+}
 ```
-0 4 16
-0 4 16
 
+#### 2. 输入流视图（C++20）
+```cpp
+#include <ranges>
+#include <sstream>
+#include <iostream>
+
+void istream_view_example() {
+    std::stringstream ss("1 2 3 4 5");
+    auto istream_range = std::views::istream<int>(ss);
+    
+    std::cout << "Istream view elements: ";
+    for (const auto& elem : istream_range) {
+        std::cout << elem << " ";
+    }
+    std::cout << std::endl;
+}
 ```
 
-### Defect reports
+### 三、范围适配器详解
 
-The following behavior-changing defect reports were applied retroactively to previously published C++ standards.
+#### 1. 基础适配器
+```cpp
+#include <ranges>
+#include <vector>
+#include <iostream>
 
-| DR | Applied to | Behavior as published | Correct behavior |
-| --- | --- | --- | --- |
-| LWG 3509 (P2281R1) | C++20 | it was unclear how range adaptor objects bound trailing arguments | they are bound by value |
-| LWG 3948 | C++23 | `possibly-const-range` and `as-const-pointer` were not declared noexcept | declared noexcept |
-| LWG 4027 | C++23 | `possibly-const-range` would not add const-qualification for ranges that has already modeled `constant_range` | adds const-qualification for such ranges |
+void basic_adaptor_examples() {
+    std::vector<int> vec = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    
+    // filter适配器
+    auto even_numbers = vec | std::views::filter([](int n) { return n % 2 == 0; });
+    std::cout << "Even numbers: ";
+    for (const auto& n : even_numbers) {
+        std::cout << n << " ";
+    }
+    std::cout << std::endl;
+    
+    // transform适配器
+    auto squares = vec | std::views::transform([](int n) { return n * n; });
+    std::cout << "Squares: ";
+    for (const auto& n : squares) {
+        std::cout << n << " ";
+    }
+    std::cout << std::endl;
+    
+    // take适配器
+    auto first_five = vec | std::views::take(5);
+    std::cout << "First five: ";
+    for (const auto& n : first_five) {
+        std::cout << n << " ";
+    }
+    std::cout << std::endl;
+    
+    // drop适配器
+    auto skip_three = vec | std::views::drop(3);
+    std::cout << "Skip three: ";
+    for (const auto& n : skip_three) {
+        std::cout << n << " ";
+    }
+    std::cout << std::endl;
+}
+```
 
-### See also
+#### 2. 复合适配器
+```cpp
+#include <ranges>
+#include <vector>
+#include <iostream>
 
-- Iterator library
-- Constrained algorithms
-Retrieved from "<https://en.cppreference.com/mwiki/index.php?title=cpp/ranges&oldid=180221>"
+void composite_adaptor_examples() {
+    std::vector<int> vec = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    
+    // 管道语法：过滤偶数并取前3个的平方
+    auto pipeline_result = vec 
+                         | std::views::filter([](int n) { return n % 2 == 0; })
+                         | std::views::take(3)
+                         | std::views::transform([](int n) { return n * n; });
+    
+    std::cout << "Pipeline result: ";
+    for (const auto& n : pipeline_result) {
+        std::cout << n << " ";
+    }
+    std::cout << std::endl;
+    
+    // 传统函数调用语法
+    auto functional_result = std::views::transform(
+        std::views::take(
+            std::views::filter(vec, [](int n) { return n % 2 == 0; }),
+            3
+        ),
+        [](int n) { return n * n; }
+    );
+    
+    std::cout << "Functional result: ";
+    for (const auto& n : functional_result) {
+        std::cout << n << " ";
+    }
+    std::cout << std::endl;
+}
+```
 
-##### Navigation
+#### 3. 高级适配器
+```cpp
+#include <ranges>
+#include <vector>
+#include <iostream>
+#include <string>
 
-- Online version
-- Offline version retrieved 2025-02-09 16:39.
+void advanced_adaptor_examples() {
+    // join适配器
+    std::vector<std::vector<int>> nested = {{1, 2}, {3, 4, 5}, {6}};
+    auto flattened = nested | std::views::join;
+    std::cout << "Flattened: ";
+    for (const auto& n : flattened) {
+        std::cout << n << " ";
+    }
+    std::cout << std::endl;
+    
+    // reverse适配器
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+    auto reversed = vec | std::views::reverse;
+    std::cout << "Reversed: ";
+    for (const auto& n : reversed) {
+        std::cout << n << " ";
+    }
+    std::cout << std::endl;
+    
+    // split适配器
+    std::string text = "hello,world,cpp,ranges";
+    auto split_view = text | std::views::split(',') 
+                           | std::views::transform([](auto&& rng) {
+                               return std::string_view(&*rng.begin(), std::ranges::distance(rng));
+                           });
+    
+    std::cout << "Split elements: ";
+    for (const auto& part : split_view) {
+        std::cout << "[" << part << "] ";
+    }
+    std::cout << std::endl;
+}
+```
 
-- This page was last modified on 7 February 2025, at 00:05.
+### 四、C++23新增特性
+
+#### 1. zip和相关适配器（C++23）
+```cpp
+#include <ranges>
+#include <vector>
+#include <iostream>
+
+void zip_adaptor_examples() {
+    std::vector<int> nums = {1, 2, 3, 4, 5};
+    std::vector<std::string> words = {"one", "two", "three", "four", "five"};
+    
+    // zip适配器
+    auto zipped = std::views::zip(nums, words);
+    std::cout << "Zipped pairs: ";
+    for (const auto& [num, word] : zipped) {
+        std::cout << "(" << num << "," << word << ") ";
+    }
+    std::cout << std::endl;
+    
+    // enumerate适配器
+    auto enumerated = words | std::views::enumerate;
+    std::cout << "Enumerated: ";
+    for (const auto& [index, word] : enumerated) {
+        std::cout << "(" << index << "," << word << ") ";
+    }
+    std::cout << std::endl;
+    
+    // adjacent适配器
+    auto adjacent_pairs = nums | std::views::adjacent<2>;
+    std::cout << "Adjacent pairs: ";
+    for (const auto& [a, b] : adjacent_pairs) {
+        std::cout << "(" << a << "," << b << ") ";
+    }
+    std::cout << std::endl;
+}
+```
+
+#### 2. chunk和slide适配器（C++23）
+```cpp
+#include <ranges>
+#include <vector>
+#include <iostream>
+
+void chunk_slide_examples() {
+    std::vector<int> vec = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    
+    // chunk适配器
+    auto chunks = vec | std::views::chunk(3);
+    std::cout << "Chunks of 3: ";
+    for (const auto& chunk : chunks) {
+        std::cout << "[";
+        for (const auto& elem : chunk) {
+            std::cout << elem << " ";
+        }
+        std::cout << "] ";
+    }
+    std::cout << std::endl;
+    
+    // slide适配器
+    auto sliding = vec | std::views::slide(3);
+    std::cout << "Sliding window of 3: ";
+    for (const auto& window : sliding) {
+        std::cout << "[";
+        for (const auto& elem : window) {
+            std::cout << elem << " ";
+        }
+        std::cout << "] ";
+    }
+    std::cout << std::endl;
+}
+```
+
+### 五、范围生成器（C++23）
+
+#### 1. 同步协程生成器
+```cpp
+#include <generator>
+#include <ranges>
+#include <iostream>
+
+// C++23生成器示例
+std::generator<int> fibonacci_sequence(int n) {
+    int a = 0, b = 1;
+    for (int i = 0; i < n; ++i) {
+        co_yield a;
+        int next = a + b;
+        a = b;
+        b = next;
+    }
+}
+
+void generator_example() {
+    std::cout << "Fibonacci sequence: ";
+    for (int value : fibonacci_sequence(10)) {
+        std::cout << value << " ";
+    }
+    std::cout << std::endl;
+    
+    // 生成器是视图，可以使用范围适配器
+    auto even_fib = fibonacci_sequence(15) 
+                  | std::views::filter([](int n) { return n % 2 == 0; })
+                  | std::views::take(5);
+    
+    std::cout << "Even Fibonacci numbers: ";
+    for (int value : even_fib) {
+        std::cout << value << " ";
+    }
+    std::cout << std::endl;
+}
+```
+
+### 六、范围转换（C++23）
+
+#### 1. ranges::to转换
+```cpp
+#include <ranges>
+#include <vector>
+#include <list>
+#include <iostream>
+
+void range_conversion_examples() {
+    // 从视图转换为容器
+    auto filtered_view = std::views::iota(1, 11) 
+                        | std::views::filter([](int n) { return n % 2 == 0; });
+    
+    // 转换为vector
+    std::vector<int> even_vector = std::ranges::to<std::vector<int>>(filtered_view);
+    std::cout << "Even vector: ";
+    for (const auto& n : even_vector) {
+        std::cout << n << " ";
+    }
+    std::cout << std::endl;
+    
+    // 转换为list
+    std::list<int> even_list = std::ranges::to<std::list<int>>(filtered_view);
+    std::cout << "Even list: ";
+    for (const auto& n : even_list) {
+        std::cout << n << " ";
+    }
+    std::cout << std::endl;
+    
+    // 带分配器的转换
+    std::vector<int> with_allocator = std::ranges::to<std::vector<int>>(filtered_view, std::allocator<int>{});
+    std::cout << "With allocator size: " << with_allocator.size() << std::endl;
+}
+```
+
+### 七、实际应用场景
+
+#### 1. 数据处理管道
+```cpp
+#include <ranges>
+#include <vector>
+#include <iostream>
+#include <string>
+#include <algorithm>
+
+struct Person {
+    std::string name;
+    int age;
+    double salary;
+};
+
+void data_processing_pipeline() {
+    std::vector<Person> people = {
+        {"Alice", 30, 50000},
+        {"Bob", 25, 45000},
+        {"Charlie", 35, 60000},
+        {"David", 28, 48000},
+        {"Eve", 32, 55000}
+    };
+    
+    // 复杂数据处理管道
+    auto processed_data = people
+        | std::views::filter([](const Person& p) { return p.age >= 30; })  // 筛选年龄>=30
+        | std::views::transform([](const Person& p) {  // 转换为姓名和薪资
+            return std::make_pair(p.name, p.salary);
+        })
+        | std::views::filter([](const auto& pair) { return pair.second > 50000; })  // 薪资>50000
+        | std::views::transform([](const auto& pair) {  // 格式化输出
+            return pair.first + ": $" + std::to_string(static_cast<int>(pair.second));
+        });
+    
+    std::cout << "Processed data: ";
+    for (const auto& item : processed_data) {
+        std::cout << item << " | ";
+    }
+    std::cout << std::endl;
+}
+```
+
+#### 2. 文件处理示例
+```cpp
+#include <ranges>
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <sstream>
+
+void file_processing_example() {
+    // 模拟文件内容
+    std::string file_content = "10\n20\n30\n40\n50\ninvalid\n60\n70";
+    std::stringstream ss(file_content);
+    
+    // 处理文件中的数字
+    auto numbers = std::views::istream<std::string>(ss)
+                 | std::views::transform([](const std::string& str) -> std::optional<int> {
+                     try {
+                         return std::stoi(str);
+                     } catch (...) {
+                         return std::nullopt;
+                     }
+                 })
+                 | std::views::filter([](const std::optional<int>& opt) { return opt.has_value(); })
+                 | std::views::transform([](const std::optional<int>& opt) { return opt.value(); })
+                 | std::views::filter([](int n) { return n > 30; });  // 只要大于30的数字
+    
+    std::cout << "Filtered numbers: ";
+    for (const auto& n : numbers) {
+        std::cout << n << " ";
+    }
+    std::cout << std::endl;
+}
+```
+
+### 八、性能优化和最佳实践
+
+#### 1. 惰性求值优势
+```cpp
+#include <ranges>
+#include <vector>
+#include <chrono>
+#include <iostream>
+
+void lazy_evaluation_benefit() {
+    std::vector<int> large_vector(1000000);
+    std::iota(large_vector.begin(), large_vector.end(), 1);
+    
+    // 惰性求值：只处理需要的元素
+    auto start = std::chrono::high_resolution_clock::now();
+    
+    auto result = large_vector
+                 | std::views::filter([](int n) { return n % 2 == 0; })  // 过滤偶数
+                 | std::views::transform([](int n) { return n * n; })    // 平方
+                 | std::views::take(10);                                 // 只取前10个
+    
+    // 实际计算只在迭代时发生
+    std::cout << "First 10 results: ";
+    for (const auto& n : result) {
+        std::cout << n << " ";
+        if (--const_cast<int&>(n) < 0) break;  // 模拟只处理部分结果
+    }
+    std::cout << std::endl;
+    
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "Time taken: " << duration.count() << " microseconds" << std::endl;
+}
+```
+
+#### 2. 内存效率比较
+```cpp
+#include <ranges>
+#include <vector>
+#include <algorithm>
+#include <chrono>
+#include <iostream>
+
+void memory_efficiency_comparison() {
+    std::vector<int> data(100000);
+    std::iota(data.begin(), data.end(), 1);
+    
+    // 传统方式：创建中间容器
+    auto start = std::chrono::high_resolution_clock::now();
+    std::vector<int> temp1, temp2, result_traditional;
+    
+    std::copy_if(data.begin(), data.end(), std::back_inserter(temp1),
+                 [](int n) { return n % 2 == 0; });
+    
+    std::transform(temp1.begin(), temp1.end(), std::back_inserter(temp2),
+                   [](int n) { return n * n; });
+    
+    std::copy_n(temp2.begin(), 100, std::back_inserter(result_traditional));
+    
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration_traditional = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    
+    // 范围方式：链式操作，无中间容器
+    start = std::chrono::high_resolution_clock::now();
+    std::vector<int> result_ranges;
+    
+    auto range_result = data
+                      | std::views::filter([](int n) { return n % 2 == 0; })
+                      | std::views::transform([](int n) { return n * n; })
+                      | std::views::take(100);
+    
+    std::ranges::copy(range_result, std::back_inserter(result_ranges));
+    
+    end = std::chrono::high_resolution_clock::now();
+    auto duration_ranges = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    
+    std::cout << "Traditional approach time: " << duration_traditional.count() << " microseconds" << std::endl;
+    std::cout << "Ranges approach time: " << duration_ranges.count() << " microseconds" << std::endl;
+    std::cout << "Memory usage: Ranges approach uses less intermediate memory" << std::endl;
+}
+```
+
+## 最佳实践建议
+
+### 一、范围使用准则
+
+1. **优先使用管道语法**：`range | view1 | view2`比嵌套函数调用更清晰
+2. **理解惰性求值**：视图在迭代时才执行操作
+3. **合理组合适配器**：避免不必要的复杂管道
+4. **注意所有权**：视图不拥有数据，确保底层数据在使用期间有效
+
+### 二、性能考虑
+
+1. **避免重复计算**：复杂视图应保存在变量中重用
+2. **选择合适适配器**：了解各适配器的时间复杂度
+3. **及时转换**：需要多次访问时考虑转换为容器
+4. **内存局部性**：连续范围比非连续范围访问效率更高
+
+### 三、错误处理
+
+1. **边界检查**：使用`views::take`等避免越界
+2. **类型安全**：利用编译期检查确保类型正确
+3. **异常安全**：范围操作应保证强异常安全保证
+
+## 相关页面
+
+| 页面 | 说明 |
+|------|------|
+| 迭代器库 | 基础迭代器概念 |
+| 约束算法 | 使用概念的算法 |
+
+## 页面信息
+
+- 页面地址：<https://en.cppreference.com/mwiki/index.php?title=cpp/ranges&oldid=180221>
+- 最后修改时间：2025年2月7日 00:05
+- 离线版本获取时间：2025年2月9日 16:39
+
+---
+
+✅ C++范围库是现代C++的重要特性，它通过提供可组合、惰性求值的范围操作，大幅简化了数据处理代码。从基础的范围访问到复杂的适配器组合，从简单的过滤变换到高级的zip和chunk操作，范围库为开发者提供了强大的工具。正确理解和使用范围库能够编写更清晰、更高效的代码。惰性求值避免了不必要的中间计算，管道语法提升了代码可读性，而丰富的适配器集合满足了各种数据处理需求。随着C++23引入更多特性如生成器、zip适配器等，范围库变得更加完善。持续学习和实践范围库技术，结合性能分析和最佳实践，能够构建出高质量的现代C++应用程序。

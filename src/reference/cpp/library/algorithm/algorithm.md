@@ -1,468 +1,587 @@
-# Algorithms library
+# C++算法库（Algorithm Library）
 
-From cppreference.com
+来源：cppreference.com
 
-****Algorithm library****
+## 算法库概述
 
-|  |  |  |  |  |
-| --- | --- | --- | --- | --- |
-| Constrained algorithms and algorithms on ranges (C++20) | | | | |
-| Constrained algorithms, e.g. ranges::copy, ranges::sort, ... | | | | |
-| Execution policies (C++17) | | | | |
-| |  |  |  |  |  |  |  |  |  |  |  |  | | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | is_execution_policy(C++17) | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | execution::seqexecution::parexecution::par_unseqexecution::unseq(C++17)    (C++17)(C++17)(C++20) | | | | | | | |  |  |  |  |  |  | | --- | --- | --- | --- | --- | --- | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | execution::sequenced_policyexecution::parallel_policyexecution::parallel_unsequenced_policyexecution::parallel_unsequenced(C++17)(C++17)(C++17)(C++20) | | | | | | |
-| |  |  |  |  |  | | --- | --- | --- | --- | --- | | Non-modifying sequence operations | | | | | | Batch operations | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | for_each | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | for_each_n(C++17) | | | | | | | Search operations | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | all_ofany_ofnone_of(C++11)                (C++11)(C++11) | | | | | | countcount_if | | | | | | mismatch | | | | | | equal | | | | | |  | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | findfind_iffind_if_not(C++11) | | | | | | find_end | | | | | | find_first_of | | | | | | adjacent_find | | | | | | search | | | | | | search_n | | | | | | | Modifying sequence operations | | | | | | Copy operations | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | copycopy_if(C++11) | | | | | | copy_backward | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | copy_n(C++11) | | | | | | move(C++11) | | | | | | move_backward(C++11) | | | | | | | Swap operations | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | swap | | | | | | iter_swap | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | swap_ranges | | | | | |  | | | | | | | Transformation operations | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | replacereplace_if | | | | | | transform | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | replace_copyreplace_copy_if | | | | | |  | | | | | | | Generation operations | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | fill | | | | | | fill_n | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | generate | | | | | | generate_n | | | | | | | Removing operations | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | removeremove_if | | | | | | unique | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | remove_copyremove_copy_if | | | | | | unique_copy | | | | | | | Order-changing operations | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | reverse | | | | | | reverse_copy | | | | | | rotate | | | | | | rotate_copy | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | random_shuffleshuffle(until C++17)(C++11) | | | | | | shift_leftshift_right(C++20)(C++20) | | | | | | | Sampling operations | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | sample(C++17) | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | |  | | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | Sorting and related operations | | | | | | Partitioning operations | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | partition | | | | | | partition_copy(C++11) | | | | | | stable_partition | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | is_partitioned(C++11) | | | | | | partition_point(C++11) | | | | | |  | | | | | | | Sorting operations | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | sort | | | | | | stable_sort | | | | | | partial_sort | | | | | | partial_sort_copy | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | is_sorted(C++11) | | | | | | is_sorted_until(C++11) | | | | | | nth_element | | | | | |  | | | | | | | Binary search operations (on partitioned ranges) | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | lower_bound | | | | | | upper_bound | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | equal_range | | | | | | binary_search | | | | | | | Set operations (on sorted ranges) | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | includes | | | | | | set_union | | | | | | set_intersection | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | set_difference | | | | | | set_symmetric_difference | | | | | |  | | | | | | | Merge operations (on sorted ranges) | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | merge | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | inplace_merge | | | | | | | Heap operations | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | push_heap | | | | | | pop_heap | | | | | | make_heap | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | sort_heap | | | | | | is_heap(C++11) | | | | | | is_heap_until(C++11) | | | | | | | Minimum/maximum operations | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | max | | | | | | min | | | | | | minmax(C++11) | | | | | | clamp(C++17) | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | max_element | | | | | | min_element | | | | | | minmax_element(C++11) | | | | | |  | | | | | | | Lexicographical comparison operations | | | | | | lexicographical_compare | | | | | | lexicographical_compare_three_way(C++20) | | | | | | Permutation operations | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | next_permutation | | | | | | prev_permutation | | | | | |  | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | is_permutation(C++11) | | | | | |  | | | | | |  | | | | | | | C library | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | qsort | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | bsearch | | | | | | |
-| Numeric operations | | | | |
-| |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | iota(C++11) | | | | | | inner_product | | | | | | adjacent_difference | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | accumulate | | | | | | reduce(C++17) | | | | | | transform_reduce(C++17) | | | | | | | |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | partial_sum | | | | | | inclusive_scan(C++17) | | | | | | exclusive_scan(C++17) | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | transform_inclusive_scan(C++17) | | | | | | transform_exclusive_scan(C++17) | | | | | |  | | | | | | |
-| Operations on uninitialized memory | | | | |
-| |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | uninitialized_copy | | | | | | uninitialized_move(C++17) | | | | | | uninitialized_fill | | | | | |  | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | uninitialized_copy_n(C++11) | | | | | | uninitialized_move_n(C++17) | | | | | | uninitialized_fill_n | | | | | |  | | | | | | | |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | destroy(C++17) | | | | | | destroy_n(C++17) | | | | | | destroy_at(C++17) | | | | | | construct_at(C++20) | | | | | | |  |  |  |  |  | | --- | --- | --- | --- | --- | | uninitialized_default_construct(C++17) | | | | | | uninitialized_value_construct(C++17) | | | | | | uninitialized_default_construct_n(C++17) | | | | | | uninitialized_value_construct_n(C++17) | | | | | | |
+算法库定义了用于各种目的（如搜索、排序、计数、操作）的函数，这些函数对元素范围进行操作。注意，范围被定义为`[first, last)`，其中`last`指的是要检查或修改的最后一个元素**之后**的元素。
 
-The algorithms library defines functions for a variety of purposes (e.g. searching, sorting, counting, manipulating) that operate on ranges of elements. Note that a range is defined as ``first`,`last`)` where last refers to the element **past** the last element to inspect or modify.
+## 主要功能分类
 
-### [Constrained algorithms (since C++20)
+### 一、约束算法和范围算法（C++20起）
 
-C++20 provides constrained versions of most algorithms in the namespace `std::ranges`. In these algorithms, a range can be specified as either an iterator-sentinel pair or as a single `range` argument, and projections and pointer-to-member callables are supported. Additionally, the return types of most algorithms have been changed to return all potentially useful information computed during the execution of the algorithm.
+C++20在`std::ranges`命名空间中提供了大多数算法的约束版本。在这些算法中，范围可以指定为迭代器-哨兵对或单个`range`参数，并且支持投影和成员函数指针可调用对象。此外，大多数算法的返回类型已更改为返回算法执行期间计算出的所有潜在有用信息。
 
-```
+```cpp
 std::vector<int> v {7, 1, 4, 0, -1};
-std::ranges::sort(v); // constrained algorithm
-
+std::ranges::sort(v); // 约束算法
 ```
 
-### Execution policies (since C++17)
+### 二、执行策略（C++17起）
 
-Most algorithms have overloads that accept execution policies. The standard library algorithms support several execution policies, and the library provides corresponding execution policy types and objects. Users may select an execution policy statically by invoking a parallel algorithm with an execution policy object of the corresponding type.
+大多数算法都有接受执行策略的重载。标准库算法支持几种执行策略，库提供相应的执行策略类型和对象。用户可以通过使用相应类型的执行策略对象调用并行算法来静态选择执行策略。
 
-Standard library implementations (but not the users) may define additional execution policies as an extension. The semantics of parallel algorithms invoked with an execution policy object of implementation-defined type is implementation-defined.
+| 头文件 | 组件 | 说明 |
+|--------|------|------|
+| `<execution>` | `std::execution`命名空间 | 执行策略类型和对象 |
+| `<execution>` | `sequenced_policy`/`parallel_policy`/`parallel_unsequenced_policy`/`unsequenced_policy`(C++17)(C++17)(C++17)(C++20) | 执行策略类型（类） |
+| `<execution>` | `seq`/`par`/`par_unseq`/`unseq`(C++17)(C++17)(C++17)(C++20) | 全局执行策略对象（常量） |
+| `<execution>` | `is_execution_policy`(C++17) | 测试类是否表示执行策略（类模板） |
 
-Parallel version of algorithms (except for std::for_each and std::for_each_n) are allowed to make arbitrary copies of elements from ranges, as long as both std::is_trivially_copy_constructible_v<T> and std::is_trivially_destructible_v<T> are true, where `T` is the type of elements.
+### 三、非修改序列操作
 
-|  |  |
-| --- | --- |
-| Defined in header `<execution>` | |
-| Defined in namespace `std::execution` | |
-| sequenced_policyparallel_policyparallel_unsequenced_policyunsequenced_policy(C++17)(C++17)(C++17)(C++20) | execution policy types   (class) |
-| seqparpar_unsequnseq(C++17)(C++17)(C++17)(C++20) | global execution policy objects   (constant) |
-| Defined in namespace `std` | |
-| is_execution_policy(C++17) | test whether a class represents an execution policy   (class template) |
+#### 批量操作
 
-| Feature-test macro | Value | Std | Feature |
-| --- | --- | --- | --- |
-| `__cpp_lib_parallel_algorithm` | `201603L` | (C++17) | Parallel algorithms |
-| `__cpp_lib_execution` | `201603L` | (C++17) | Execution policies |
-| `201902L` | (C++20) | std::execution::unsequenced_policy |
+| 头文件 | 函数 | 说明 |
+|--------|------|------|
+| `<algorithm>` | `for_each` | 对元素范围应用函数（函数模板） |
+| `<algorithm>` | `ranges::for_each`(C++20) | 对元素范围应用函数（算法函数对象） |
+| `<algorithm>` | `for_each_n`(C++17) | 对序列的前N个元素应用函数对象（函数模板） |
+| `<algorithm>` | `ranges::for_each_n`(C++20) | 对序列的前N个元素应用函数对象（算法函数对象） |
 
-### Non-modifying sequence operations
+#### 搜索操作
 
-#### Batch operations
+| 头文件 | 函数 | 说明 |
+|--------|------|------|
+| `<algorithm>` | `all_of`/`any_of`/`none_of`(C++11)(C++11)(C++11) | 检查谓词是否对范围内的所有、任何或无元素为真（函数模板） |
+| `<algorithm>` | `ranges::all_of`/`ranges::any_of`/`ranges::none_of`(C++20)(C++20)(C++20) | 检查谓词是否对范围内的所有、任何或无元素为真（算法函数对象） |
+| `<algorithm>` | `find`/`find_if`/`find_if_not`(C++11) | 查找满足特定条件的第一个元素（函数模板） |
+| `<algorithm>` | `ranges::find`/`ranges::find_if`/`ranges::find_if_not`(C++20)(C++20)(C++20) | 查找满足特定条件的第一个元素（算法函数对象） |
+| `<algorithm>` | `count`/`count_if` | 返回满足特定条件的元素数量（函数模板） |
+| `<algorithm>` | `ranges::count`/`ranges::count_if`(C++20)(C++20) | 返回满足特定条件的元素数量（算法函数对象） |
+| `<algorithm>` | `mismatch` | 查找两个范围不同的第一个位置（函数模板） |
+| `<algorithm>` | `ranges::mismatch`(C++20) | 查找两个范围不同的第一个位置（算法函数对象） |
+| `<algorithm>` | `equal` | 确定两组元素是否相同（函数模板） |
+| `<algorithm>` | `ranges::equal`(C++20) | 确定两组元素是否相同（算法函数对象） |
 
-|  |  |
-| --- | --- |
-| Defined in header `<algorithm>` | |
-| for_each | applies a function to a range of elements   (function template) |
-| ranges::for_each(C++20) | applies a function to a range of elements (algorithm function object) |
-| for_each_n(C++17) | applies a function object to the first N elements of a sequence   (function template) |
-| ranges::for_each_n(C++20) | applies a function object to the first N elements of a sequence (algorithm function object) |
+### 四、修改序列操作
 
-#### Search operations
+#### 复制操作
 
-|  |  |
-| --- | --- |
-| Defined in header `<algorithm>` | |
-| all_ofany_ofnone_of(C++11)(C++11)(C++11) | checks if a predicate is true for all, any or none of the elements in a range   (function template) |
-| ranges::all_ofranges::any_ofranges::none_of(C++20)(C++20)(C++20) | checks if a predicate is true for all, any or none of the elements in a range (algorithm function object) |
-| ranges::containsranges::contains_subrange(C++23)(C++23) | checks if the range contains the given element or subrange (algorithm function object) |
-| findfind_iffind_if_not(C++11) | finds the first element satisfying specific criteria   (function template) |
-| ranges::findranges::find_ifranges::find_if_not(C++20)(C++20)(C++20) | finds the first element satisfying specific criteria (algorithm function object) |
-| ranges::find_lastranges::find_last_ifranges::find_last_if_not(C++23)(C++23)(C++23) | finds the last element satisfying specific criteria (algorithm function object) |
-| find_end | finds the last sequence of elements in a certain range   (function template) |
-| ranges::find_end(C++20) | finds the last sequence of elements in a certain range (algorithm function object) |
-| find_first_of | searches for any one of a set of elements   (function template) |
-| ranges::find_first_of(C++20) | searches for any one of a set of elements (algorithm function object) |
-| adjacent_find | finds the first two adjacent items that are equal (or satisfy a given predicate)   (function template) |
-| ranges::adjacent_find(C++20) | finds the first two adjacent items that are equal (or satisfy a given predicate) (algorithm function object) |
-| countcount_if | returns the number of elements satisfying specific criteria   (function template) |
-| ranges::countranges::count_if(C++20)(C++20) | returns the number of elements satisfying specific criteria (algorithm function object) |
-| mismatch | finds the first position where two ranges differ   (function template) |
-| ranges::mismatch(C++20) | finds the first position where two ranges differ (algorithm function object) |
-| equal | determines if two sets of elements are the same   (function template) |
-| ranges::equal(C++20) | determines if two sets of elements are the same (algorithm function object) |
-| search | searches for the first occurrence of a range of elements   (function template) |
-| ranges::search(C++20) | searches for the first occurrence of a range of elements (algorithm function object) |
-| search_n | searches for the first occurrence of a number consecutive copies of an element in a range   (function template) |
-| ranges::search_n(C++20) | searches for the first occurrence of a number consecutive copies of an element in a range (algorithm function object) |
-| ranges::starts_with(C++23) | checks whether a range starts with another range (algorithm function object) |
-| ranges::ends_with(C++23) | checks whether a range ends with another range (algorithm function object) |
+| 头文件 | 函数 | 说明 |
+|--------|------|------|
+| `<algorithm>` | `copy`/`copy_if`(C++11) | 将元素范围复制到新位置（函数模板） |
+| `<algorithm>` | `ranges::copy`/`ranges::copy_if`(C++20)(C++20) | 将元素范围复制到新位置（算法函数对象） |
+| `<algorithm>` | `copy_n`(C++11) | 将指定数量的元素复制到新位置（函数模板） |
+| `<algorithm>` | `ranges::copy_n`(C++20) | 将指定数量的元素复制到新位置（算法函数对象） |
+| `<algorithm>` | `move`(C++11) | 将元素范围移动到新位置（函数模板） |
+| `<algorithm>` | `ranges::move`(C++20) | 将元素范围移动到新位置（算法函数对象） |
 
-#### Fold operations (since C++23)
+#### 交换操作
 
-|  |  |
-| --- | --- |
-| Defined in header `<algorithm>` | |
-| ranges::fold_left(C++23) | left-folds a range of elements (algorithm function object) |
-| ranges::fold_left_first(C++23) | left-folds a range of elements using the first element as an initial value (algorithm function object) |
-| ranges::fold_right(C++23) | right-folds a range of elements (algorithm function object) |
-| ranges::fold_right_last(C++23) | right-folds a range of elements using the last element as an initial value (algorithm function object) |
-| ranges::fold_left_with_iter(C++23) | left-folds a range of elements, and returns a pair (iterator, value) (algorithm function object) |
-| ranges::fold_left_first_with_iter(C++23) | left-folds a range of elements using the first element as an initial value, and returns a pair (iterator, optional) (algorithm function object) |
+| 头文件 | 函数 | 说明 |
+|--------|------|------|
+| `<utility>`(C++11) | `swap` | 交换两个对象的值（函数模板） |
+| `<algorithm>` | `swap_ranges` | 交换两个元素范围（函数模板） |
+| `<algorithm>` | `ranges::swap_ranges`(C++20) | 交换两个元素范围（算法函数对象） |
+| `<algorithm>` | `iter_swap` | 交换两个迭代器指向的元素（函数模板） |
 
-### Modifying sequence operations
+#### 转换操作
 
-#### Copy operations
+| 头文件 | 函数 | 说明 |
+|--------|------|------|
+| `<algorithm>` | `transform` | 对元素范围应用函数，将结果存储在目标范围（函数模板） |
+| `<algorithm>` | `ranges::transform`(C++20) | 对元素范围应用函数（算法函数对象） |
+| `<algorithm>` | `replace`/`replace_if` | 用另一个值替换满足特定条件的所有值（函数模板） |
+| `<algorithm>` | `ranges::replace`/`ranges::replace_if`(C++20)(C++20) | 用另一个值替换满足特定条件的所有值（算法函数对象） |
 
-|  |  |
-| --- | --- |
-| Defined in header `<algorithm>` | |
-| copycopy_if(C++11) | copies a range of elements to a new location   (function template) |
-| ranges::copyranges::copy_if(C++20)(C++20) | copies a range of elements to a new location (algorithm function object) |
-| copy_n(C++11) | copies a number of elements to a new location   (function template) |
-| ranges::copy_n(C++20) | copies a number of elements to a new location (algorithm function object) |
-| copy_backward | copies a range of elements in backwards order   (function template) |
-| ranges::copy_backward(C++20) | copies a range of elements in backwards order (algorithm function object) |
-| move(C++11) | moves a range of elements to a new location   (function template) |
-| ranges::move(C++20) | moves a range of elements to a new location (algorithm function object) |
-| move_backward(C++11) | moves a range of elements to a new location in backwards order   (function template) |
-| ranges::move_backward(C++20) | moves a range of elements to a new location in backwards order (algorithm function object) |
+#### 生成操作
 
-#### Swap operations
+| 头文件 | 函数 | 说明 |
+|--------|------|------|
+| `<algorithm>` | `fill` | 将给定值复制赋值给范围内的每个元素（函数模板） |
+| `<algorithm>` | `ranges::fill`(C++20) | 为元素范围分配特定值（算法函数对象） |
+| `<algorithm>` | `generate` | 将连续函数调用的结果赋值给范围内的每个元素（函数模板） |
+| `<algorithm>` | `ranges::generate`(C++20) | 在范围中保存函数结果（算法函数对象） |
 
-|  |  |
-| --- | --- |
-| Defined in header `<algorithm>`(until C++11) | |
-| Defined in header `<utility>`(since C++11) | |
-| Defined in header `<string_view>` | |
-| swap | swaps the values of two objects   (function template) |
-| Defined in header `<algorithm>` | |
-| swap_ranges | swaps two ranges of elements   (function template) |
-| ranges::swap_ranges(C++20) | swaps two ranges of elements (algorithm function object) |
-| iter_swap | swaps the elements pointed to by two iterators   (function template) |
+#### 删除操作
 
-#### Transformation operations
+| 头文件 | 函数 | 说明 |
+|--------|------|------|
+| `<algorithm>` | `remove`/`remove_if` | 删除满足特定条件的元素（函数模板） |
+| `<algorithm>` | `ranges::remove`/`ranges::remove_if`(C++20)(C++20) | 删除满足特定条件的元素（算法函数对象） |
+| `<algorithm>` | `unique` | 删除范围内的连续重复元素（函数模板） |
+| `<algorithm>` | `ranges::unique`(C++20) | 删除范围内的连续重复元素（算法函数对象） |
 
-|  |  |
-| --- | --- |
-| Defined in header `<algorithm>` | |
-| transform | applies a function to a range of elements, storing results in a destination range   (function template) |
-| ranges::transform(C++20) | applies a function to a range of elements (algorithm function object) |
-| replacereplace_if | replaces all values satisfying specific criteria with another value   (function template) |
-| ranges::replaceranges::replace_if(C++20)(C++20) | replaces all values satisfying specific criteria with another value (algorithm function object) |
-| replace_copyreplace_copy_if | copies a range, replacing elements satisfying specific criteria with another value   (function template) |
-| ranges::replace_copyranges::replace_copy_if(C++20)(C++20) | copies a range, replacing elements satisfying specific criteria with another value (algorithm function object) |
+#### 顺序改变操作
 
-#### Generation operations
+| 头文件 | 函数 | 说明 |
+|--------|------|------|
+| `<algorithm>` | `reverse` | 反转范围内的元素顺序（函数模板） |
+| `<algorithm>` | `ranges::reverse`(C++20) | 反转范围内的元素顺序（算法函数对象） |
+| `<algorithm>` | `rotate` | 旋转范围内的元素顺序（函数模板） |
+| `<algorithm>` | `ranges::rotate`(C++20) | 旋转范围内的元素顺序（算法函数对象） |
+| `<algorithm>` | `shuffle`(C++11) | 随机重新排列范围内的元素（函数模板） |
+| `<algorithm>` | `ranges::shuffle`(C++20) | 随机重新排列范围内的元素（算法函数对象） |
 
-|  |  |
-| --- | --- |
-| Defined in header `<algorithm>` | |
-| fill | copy-assigns the given value to every element in a range   (function template) |
-| ranges::fill(C++20) | assigns a range of elements a certain value (algorithm function object) |
-| fill_n | copy-assigns the given value to N elements in a range   (function template) |
-| ranges::fill_n(C++20) | assigns a value to a number of elements (algorithm function object) |
-| generate | assigns the results of successive function calls to every element in a range   (function template) |
-| ranges::generate(C++20) | saves the result of a function in a range (algorithm function object) |
-| generate_n | assigns the results of successive function calls to N elements in a range   (function template) |
-| ranges::generate_n(C++20) | saves the result of N applications of a function (algorithm function object) |
+### 五、排序和相关操作
 
-#### Removing operations
+#### 排序操作
 
-|  |  |
-| --- | --- |
-| Defined in header `<algorithm>` | |
-| removeremove_if | removes elements satisfying specific criteria   (function template) |
-| ranges::removeranges::remove_if(C++20)(C++20) | removes elements satisfying specific criteria (algorithm function object) |
-| remove_copyremove_copy_if | copies a range of elements omitting those that satisfy specific criteria   (function template) |
-| ranges::remove_copyranges::remove_copy_if(C++20)(C++20) | copies a range of elements omitting those that satisfy specific criteria (algorithm function object) |
-| unique | removes consecutive duplicate elements in a range   (function template) |
-| ranges::unique(C++20) | removes consecutive duplicate elements in a range (algorithm function object) |
-| unique_copy | creates a copy of some range of elements that contains no consecutive duplicates   (function template) |
-| ranges::unique_copy(C++20) | creates a copy of some range of elements that contains no consecutive duplicates (algorithm function object) |
+| 头文件 | 函数 | 说明 |
+|--------|------|------|
+| `<algorithm>` | `sort` | 将范围排序为升序（函数模板） |
+| `<algorithm>` | `ranges::sort`(C++20) | 将范围排序为升序（算法函数对象） |
+| `<algorithm>` | `stable_sort` | 对元素范围排序，同时保持相等元素间的顺序（函数模板） |
+| `<algorithm>` | `ranges::stable_sort`(C++20) | 对元素范围排序，同时保持相等元素间的顺序（算法函数对象） |
 
-#### Order-changing operations
+#### 二分搜索操作
 
-|  |  |
-| --- | --- |
-| Defined in header `<algorithm>` | |
-| reverse | reverses the order of elements in a range   (function template) |
-| ranges::reverse(C++20) | reverses the order of elements in a range (algorithm function object) |
-| reverse_copy | creates a copy of a range that is reversed   (function template) |
-| ranges::reverse_copy(C++20) | creates a copy of a range that is reversed (algorithm function object) |
-| rotate | rotates the order of elements in a range   (function template) |
-| ranges::rotate(C++20) | rotates the order of elements in a range (algorithm function object) |
-| rotate_copy | copies and rotate a range of elements   (function template) |
-| ranges::rotate_copy(C++20) | copies and rotate a range of elements (algorithm function object) |
-| shift_leftshift_right(C++20) | shifts elements in a range   (function template) |
-| random_shuffleshuffle(until C++17)(C++11) | randomly re-orders elements in a range   (function template) |
-| ranges::shuffle(C++20) | randomly re-orders elements in a range (algorithm function object) |
-| ranges::shift_leftranges::shift_right(C++23) | shifts elements in a range (algorithm function object) |
+| 头文件 | 函数 | 说明 |
+|--------|------|------|
+| `<algorithm>` | `lower_bound` | 返回指向不小于给定值的第一个元素的迭代器（函数模板） |
+| `<algorithm>` | `ranges::lower_bound`(C++20) | 返回指向不小于给定值的第一个元素的迭代器（算法函数对象） |
+| `<algorithm>` | `binary_search` | 确定部分有序范围内是否存在元素（函数模板） |
+| `<algorithm>` | `ranges::binary_search`(C++20) | 确定部分有序范围内是否存在元素（算法函数对象） |
 
-#### Sampling operations
+#### 集合操作
 
-|  |  |
-| --- | --- |
-| Defined in header `<algorithm>` | |
-| sample(C++17) | selects N random elements from a sequence   (function template) |
-| ranges::sample(C++20) | selects N random elements from a sequence (algorithm function object) |
+| 头文件 | 函数 | 说明 |
+|--------|------|------|
+| `<algorithm>` | `includes` | 如果一个序列是另一个序列的子序列则返回true（函数模板） |
+| `<algorithm>` | `ranges::includes`(C++20) | 如果一个序列是另一个序列的子序列则返回true（算法函数对象） |
+| `<algorithm>` | `set_union` | 计算两个集合的并集（函数模板） |
+| `<algorithm>` | `ranges::set_union`(C++20) | 计算两个集合的并集（算法函数对象） |
 
-### Sorting and related operations
+### 六、数值操作
 
-#### Requirements
+| 头文件 | 函数 | 说明 |
+|--------|------|------|
+| `<numeric>` | `iota`(C++11) | 用起始值的连续增量填充范围（函数模板） |
+| `<numeric>` | `accumulate` | 求和或折叠元素范围（函数模板） |
+| `<numeric>` | `reduce`(C++17) | 类似于std::accumulate，但不按顺序（函数模板） |
+| `<numeric>` | `partial_sum` | 计算元素范围的部分和（函数模板） |
 
-Some algorithms require the sequence represented by the arguments to be “sorted” or “partitioned”. The behavior is undefined if the requirement is not met.
+### 七、未初始化内存操作
 
-|  |  |
-| --- | --- |
-| A sequence is **sorted with respect to a comparator comp** if for every iterator iter pointing to the sequence and every non-negative integer n such that iter + n[[1]](algorithm.html#cite_note-plus-1) is a valid iterator pointing to an element of the sequence, comp(\*(iter + n), \*iter) == false[[1]](algorithm.html#cite_note-plus-1). | (until C++20) |
-| A sequence is **sorted with respect to comp and proj** for a comparator comp and projection proj if for every iterator iter pointing to the sequence and every non-negative integer n such that iter + n[[1]](algorithm.html#cite_note-plus-1) is a valid iterator pointing to an element of the sequence, bool(std::invoke(comp, std::invoke(proj, \*(iter + n)),                        std::invoke(proj, \*iter)))[[1]](algorithm.html#cite_note-plus-1) is false.  A sequence is **sorted with respect to a comparator comp** if the sequence is sorted with respect to comp and std::identity{} (the identity projection). | (since C++20) |
+| 头文件 | 函数 | 说明 |
+|--------|------|------|
+| `<memory>` | `uninitialized_copy` | 将对象范围复制到未初始化的内存区域（函数模板） |
+| `<memory>` | `ranges::uninitialized_copy`(C++20) | 将对象范围复制到未初始化的内存区域（算法函数对象） |
+| `<memory>` | `uninitialized_fill` | 将对象复制到由范围定义的未初始化内存区域（函数模板） |
+| `<memory>` | `ranges::uninitialized_fill`(C++20) | 将对象复制到由范围定义的未初始化内存区域（算法函数对象） |
+| `<memory>` | `uninitialized_move`(C++17) | 将对象范围移动到未初始化的内存区域（函数模板） |
+| `<memory>` | `ranges::uninitialized_move`(C++20) | 将对象范围移动到未初始化的内存区域（算法函数对象） |
 
-A sequence ``start`,`finish`)` is **partitioned with respect to an expression f(e)** if there exists an integer n such that for all i in `[`​0​`,`[std::distance(start, finish)`)`, f(\*(start + i))[[1]](algorithm.html#cite_note-plus-1) is true if and only if i < n.
+---
 
-1. ↑ 1.0 1.1 1.2 1.3 1.4 iter + n simply means “the result of iter being incremented n times”, regardless of whether iter is a random access iterator.
+## 扩展知识详解
 
-#### Partitioning operations
+### 一、现代算法库演进
 
-|  |  |
-| --- | --- |
-| Defined in header `<algorithm>` | |
-| is_partitioned(C++11) | determines if the range is partitioned by the given predicate   (function template) |
-| ranges::is_partitioned(C++20) | determines if the range is partitioned by the given predicate (algorithm function object) |
-| partition | divides a range of elements into two groups   (function template) |
-| ranges::partition(C++20) | divides a range of elements into two groups (algorithm function object) |
-| partition_copy(C++11) | copies a range dividing the elements into two groups   (function template) |
-| ranges::partition_copy(C++20) | copies a range dividing the elements into two groups (algorithm function object) |
-| stable_partition | divides elements into two groups while preserving their relative order   (function template) |
-| ranges::stable_partition(C++20) | divides elements into two groups while preserving their relative order (algorithm function object) |
-| partition_point(C++11) | locates the partition point of a partitioned range   (function template) |
-| ranges::partition_point(C++20) | locates the partition point of a partitioned range (algorithm function object) |
+#### 1. 基础算法使用（C++98/03）
+```cpp
+#include <algorithm>
+#include <vector>
+#include <iostream>
 
-#### Sorting operations
+void basic_algorithms() {
+    std::vector<int> vec = {3, 1, 4, 1, 5, 9, 2, 6};
+    
+    // 排序
+    std::sort(vec.begin(), vec.end());
+    
+    // 查找
+    auto it = std::find(vec.begin(), vec.end(), 5);
+    if (it != vec.end()) {
+        std::cout << "Found 5 at position: " << (it - vec.begin()) << std::endl;
+    }
+    
+    // 计数
+    int count = std::count(vec.begin(), vec.end(), 1);
+    std::cout << "Count of 1: " << count << std::endl;
+    
+    // 遍历
+    std::for_each(vec.begin(), vec.end(), [](int n) {
+        std::cout << n << " ";
+    });
+    std::cout << std::endl;
+}
+```
 
-|  |  |
-| --- | --- |
-| Defined in header `<algorithm>` | |
-| sort | sorts a range into ascending order   (function template) |
-| ranges::sort(C++20) | sorts a range into ascending order (algorithm function object) |
-| stable_sort | sorts a range of elements while preserving order between equal elements   (function template) |
-| ranges::stable_sort(C++20) | sorts a range of elements while preserving order between equal elements (algorithm function object) |
-| partial_sort | sorts the first N elements of a range   (function template) |
-| ranges::partial_sort(C++20) | sorts the first N elements of a range (algorithm function object) |
-| partial_sort_copy | copies and partially sorts a range of elements   (function template) |
-| ranges::partial_sort_copy(C++20) | copies and partially sorts a range of elements (algorithm function object) |
-| is_sorted(C++11) | checks whether a range is sorted into ascending order   (function template) |
-| ranges::is_sorted(C++20) | checks whether a range is sorted into ascending order (algorithm function object) |
-| is_sorted_until(C++11) | finds the largest sorted subrange   (function template) |
-| ranges::is_sorted_until(C++20) | finds the largest sorted subrange (algorithm function object) |
-| nth_element | partially sorts the given range making sure that it is partitioned by the given element   (function template) |
-| ranges::nth_element(C++20) | partially sorts the given range making sure that it is partitioned by the given element (algorithm function object) |
+#### 2. 现代改进（C++11/14）
+```cpp
+#include <algorithm>
+#include <vector>
+#include <numeric>
+#include <functional>
 
-#### Binary search operations (on partitioned ranges)
+void modern_algorithms() {
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+    
+    // 移动操作
+    std::vector<int> dest(vec.size());
+    std::move(vec.begin(), vec.end(), dest.begin());
+    
+    // 条件操作
+    auto it = std::find_if(dest.begin(), dest.end(), 
+                          [](int n) { return n > 3; });
+    
+    // 变换操作
+    std::vector<int> squared(dest.size());
+    std::transform(dest.begin(), dest.end(), squared.begin(),
+                   [](int n) { return n * n; });
+    
+    // 数值操作
+    int sum = std::accumulate(squared.begin(), squared.end(), 0);
+    std::cout << "Sum: " << sum << std::endl;
+}
+```
 
-|  |  |
-| --- | --- |
-| Defined in header `<algorithm>` | |
-| lower_bound | returns an iterator to the first element **not less** than the given value   (function template) |
-| ranges::lower_bound(C++20) | returns an iterator to the first element **not less** than the given value (algorithm function object) |
-| upper_bound | returns an iterator to the first element **greater** than a certain value   (function template) |
-| ranges::upper_bound(C++20) | returns an iterator to the first element **greater** than a certain value (algorithm function object) |
-| equal_range | returns range of elements matching a specific key   (function template) |
-| ranges::equal_range(C++20) | returns range of elements matching a specific key (algorithm function object) |
-| binary_search | determines if an element exists in a partially-ordered range   (function template) |
-| ranges::binary_search(C++20) | determines if an element exists in a partially-ordered range (algorithm function object) |
+#### 3. 范围算法（C++20）
+```cpp
+#include <algorithm>
+#include <ranges>
+#include <vector>
+#include <iostream>
 
-#### Set operations (on sorted ranges)
+void ranges_algorithms() {
+    std::vector<int> vec = {3, 1, 4, 1, 5, 9, 2, 6};
+    
+    // 范围排序
+    std::ranges::sort(vec);
+    
+    // 范围查找
+    auto it = std::ranges::find(vec, 5);
+    if (it != vec.end()) {
+        std::cout << "Found 5" << std::endl;
+    }
+    
+    // 范围计数
+    auto count = std::ranges::count(vec, 1);
+    std::cout << "Count of 1: " << count << std::endl;
+    
+    // 管道操作
+    auto even_count = vec | std::views::filter([](int n) { return n % 2 == 0; })
+                          | std::ranges::distance;
+    std::cout << "Even numbers: " << even_count << std::endl;
+}
+```
 
-|  |  |
-| --- | --- |
-| Defined in header `<algorithm>` | |
-| includes | returns true if one sequence is a subsequence of another   (function template) |
-| ranges::includes(C++20) | returns true if one sequence is a subsequence of another (algorithm function object) |
-| set_union | computes the union of two sets   (function template) |
-| ranges::set_union(C++20) | computes the union of two sets (algorithm function object) |
-| set_intersection | computes the intersection of two sets   (function template) |
-| ranges::set_intersection(C++20) | computes the intersection of two sets (algorithm function object) |
-| set_difference | computes the difference between two sets   (function template) |
-| ranges::set_difference(C++20) | computes the difference between two sets (algorithm function object) |
-| set_symmetric_difference | computes the symmetric difference between two sets   (function template) |
-| ranges::set_symmetric_difference(C++20) | computes the symmetric difference between two sets (algorithm function object) |
+### 二、关键算法详解
 
-#### Merge operations (on sorted ranges)
+#### 1. 排序算法家族
+```cpp
+#include <algorithm>
+#include <vector>
+#include <random>
+#include <chrono>
 
-|  |  |
-| --- | --- |
-| Defined in header `<algorithm>` | |
-| merge | merges two sorted ranges   (function template) |
-| ranges::merge(C++20) | merges two sorted ranges (algorithm function object) |
-| inplace_merge | merges two ordered ranges in-place   (function template) |
-| ranges::inplace_merge(C++20) | merges two ordered ranges in-place (algorithm function object) |
+void sorting_algorithms() {
+    std::vector<int> vec(10000);
+    std::iota(vec.begin(), vec.end(), 1);
+    
+    // 随机打乱
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(vec.begin(), vec.end(), g);
+    
+    // 基本排序
+    std::vector<int> sorted = vec;
+    std::sort(sorted.begin(), sorted.end());
+    
+    // 稳定排序
+    std::vector<std::pair<int, int>> pairs = {{3, 1}, {1, 2}, {3, 3}, {2, 4}};
+    std::stable_sort(pairs.begin(), pairs.end(), 
+                     [](const auto& a, const auto& b) { return a.first < b.first; });
+    
+    // 部分排序
+    std::vector<int> partial = vec;
+    std::partial_sort(partial.begin(), partial.begin() + 10, partial.end());
+    
+    // 第N个元素
+    std::vector<int> nth = vec;
+    std::nth_element(nth.begin(), nth.begin() + 5000, nth.end());
+    std::cout << "Median: " << nth[5000] << std::endl;
+}
+```
 
-#### Heap operations
+#### 2. 集合操作
+```cpp
+#include <algorithm>
+#include <vector>
+#include <iostream>
 
-|  |  |
-| --- | --- |
-| A random access range `[`first`,`last`)` is a **heap with respect to a comparator comp** if bool(comp(first[(i - 1) / 2], first[i])) is false for all integer i in `(`​0​`,`last - first`)`. | (until C++20) |
-| A random access range ``first`,`last`)` is a **heap with respect to comp and proj** for a comparator comp and projection proj if bool([std::invoke(comp, std::invoke(proj, first[(i - 1) / 2]),                        std::invoke(proj, first[i])) is false for all integer i in `(`​0​`,`last - first`)`.  A random access range ``first`,`last`)` is a **heap with respect to a comparator comp** if the range is a heap with respect to comp and [std::identity{} (the identity projection). | (since C++20) |
+void set_operations() {
+    std::vector<int> set1 = {1, 2, 3, 4, 5};
+    std::vector<int> set2 = {3, 4, 5, 6, 7};
+    
+    // 并集
+    std::vector<int> union_result;
+    std::set_union(set1.begin(), set1.end(),
+                   set2.begin(), set2.end(),
+                   std::back_inserter(union_result));
+    
+    // 交集
+    std::vector<int> intersection_result;
+    std::set_intersection(set1.begin(), set1.end(),
+                         set2.begin(), set2.end(),
+                         std::back_inserter(intersection_result));
+    
+    // 差集
+    std::vector<int> difference_result;
+    std::set_difference(set1.begin(), set1.end(),
+                       set2.begin(), set2.end(),
+                       std::back_inserter(difference_result));
+    
+    // 对称差集
+    std::vector<int> sym_diff_result;
+    std::set_symmetric_difference(set1.begin(), set1.end(),
+                                 set2.begin(), set2.end(),
+                                 std::back_inserter(sym_diff_result));
+}
+```
 
-A heap can be created by std::make_heap and ranges::make_heap(since C++20).
+#### 3. 堆操作
+```cpp
+#include <algorithm>
+#include <vector>
+#include <iostream>
 
-For more properties of heap, see max heap.
+void heap_operations() {
+    std::vector<int> heap = {1, 2, 3, 4, 5, 6, 7};
+    
+    // 创建堆
+    std::make_heap(heap.begin(), heap.end());
+    std::cout << "Max element: " << heap.front() << std::endl;
+    
+    // 向堆中添加元素
+    heap.push_back(8);
+    std::push_heap(heap.begin(), heap.end());
+    
+    // 从堆中移除最大元素
+    std::pop_heap(heap.begin(), heap.end());
+    int max_val = heap.back();
+    heap.pop_back();
+    std::cout << "Popped max: " << max_val << std::endl;
+    
+    // 堆排序
+    std::sort_heap(heap.begin(), heap.end());
+}
+```
 
-|  |  |
-| --- | --- |
-| Defined in header `<algorithm>` | |
-| push_heap | adds an element to a max heap   (function template) |
-| ranges::push_heap(C++20) | adds an element to a max heap (algorithm function object) |
-| pop_heap | removes the largest element from a max heap   (function template) |
-| ranges::pop_heap(C++20) | removes the largest element from a max heap (algorithm function object) |
-| make_heap | creates a max heap out of a range of elements   (function template) |
-| ranges::make_heap(C++20) | creates a max heap out of a range of elements (algorithm function object) |
-| sort_heap | turns a max heap into a range of elements sorted in ascending order   (function template) |
-| ranges::sort_heap(C++20) | turns a max heap into a range of elements sorted in ascending order (algorithm function object) |
-| is_heap(C++11) | checks if the given range is a max heap   (function template) |
-| ranges::is_heap(C++20) | checks if the given range is a max heap (algorithm function object) |
-| is_heap_until(C++11) | finds the largest subrange that is a max heap   (function template) |
-| ranges::is_heap_until(C++20) | finds the largest subrange that is a max heap (algorithm function object) |
+### 三、并行算法（C++17）
 
-#### Minimum/maximum operations
+```cpp
+#include <algorithm>
+#include <execution>
+#include <vector>
+#include <numeric>
 
-|  |  |
-| --- | --- |
-| Defined in header `<algorithm>` | |
-| max | returns the greater of the given values   (function template) |
-| ranges::max(C++20) | returns the greater of the given values (algorithm function object) |
-| max_element | returns the largest element in a range   (function template) |
-| ranges::max_element(C++20) | returns the largest element in a range (algorithm function object) |
-| min | returns the smaller of the given values   (function template) |
-| ranges::min(C++20) | returns the smaller of the given values (algorithm function object) |
-| min_element | returns the smallest element in a range   (function template) |
-| ranges::min_element(C++20) | returns the smallest element in a range (algorithm function object) |
-| minmax(C++11) | returns the smaller and larger of two elements   (function template) |
-| ranges::minmax(C++20) | returns the smaller and larger of two elements (algorithm function object) |
-| minmax_element(C++11) | returns the smallest and the largest elements in a range   (function template) |
-| ranges::minmax_element(C++20) | returns the smallest and the largest elements in a range (algorithm function object) |
-| clamp(C++17) | clamps a value between a pair of boundary values   (function template) |
-| ranges::clamp(C++20) | clamps a value between a pair of boundary values (algorithm function object) |
+void parallel_algorithms() {
+    std::vector<int> vec(1000000);
+    std::iota(vec.begin(), vec.end(), 1);
+    
+    // 顺序执行
+    auto sum_seq = std::accumulate(vec.begin(), vec.end(), 0LL);
+    
+    // 并行执行
+    auto sum_par = std::reduce(std::execution::par, vec.begin(), vec.end(), 0LL);
+    
+    // 并行变换归约
+    auto result = std::transform_reduce(
+        std::execution::par,
+        vec.begin(), vec.end(),
+        0LL,
+        std::plus<>{},
+        [](int n) { return static_cast<long long>(n) * n; }
+    );
+}
+```
 
-#### Lexicographical comparison operations
+### 四、实际应用示例
 
-|  |  |
-| --- | --- |
-| Defined in header `<algorithm>` | |
-| lexicographical_compare | returns true if one range is lexicographically less than another   (function template) |
-| ranges::lexicographical_compare(C++20) | returns true if one range is lexicographically less than another (algorithm function object) |
-| lexicographical_compare_three_way(C++20) | compares two ranges using three-way comparison   (function template) |
+#### 1. 数据处理管道
+```cpp
+#include <algorithm>
+#include <ranges>
+#include <vector>
+#include <string>
 
-#### Permutation operations
+class DataProcessor {
+public:
+    // 使用范围算法的数据处理管道
+    static std::vector<std::string> process_data(const std::vector<int>& data) {
+        return data 
+            | std::views::filter([](int n) { return n > 0; })
+            | std::views::transform([](int n) { return n * n; })
+            | std::views::take(10)
+            | std::views::transform([](int n) { return std::to_string(n); })
+            | std::ranges::to<std::vector>();
+    }
+    
+    // 传统算法版本
+    static std::vector<std::string> process_data_traditional(const std::vector<int>& data) {
+        std::vector<int> filtered;
+        std::copy_if(data.begin(), data.end(), std::back_inserter(filtered),
+                     [](int n) { return n > 0; });
+        
+        std::vector<int> transformed(filtered.size());
+        std::transform(filtered.begin(), filtered.end(), transformed.begin(),
+                       [](int n) { return n * n; });
+        
+        transformed.resize(std::min(transformed.size(), size_t(10)));
+        
+        std::vector<std::string> result(transformed.size());
+        std::transform(transformed.begin(), transformed.end(), result.begin(),
+                       [](int n) { return std::to_string(n); });
+        
+        return result;
+    }
+};
+```
 
-|  |  |
-| --- | --- |
-| Defined in header `<algorithm>` | |
-| next_permutation | generates the next greater lexicographic permutation of a range of elements   (function template) |
-| ranges::next_permutation(C++20) | generates the next greater lexicographic permutation of a range of elements (algorithm function object) |
-| prev_permutation | generates the next smaller lexicographic permutation of a range of elements   (function template) |
-| ranges::prev_permutation(C++20) | generates the next smaller lexicographic permutation of a range of elements (algorithm function object) |
-| is_permutation(C++11) | determines if a sequence is a permutation of another sequence   (function template) |
-| ranges::is_permutation(C++20) | determines if a sequence is a permutation of another sequence (algorithm function object) |
+#### 2. 自定义比较器和投影
+```cpp
+#include <algorithm>
+#include <ranges>
+#include <vector>
+#include <string>
 
-### Numeric operations
+struct Person {
+    std::string name;
+    int age;
+    double salary;
+};
 
-|  |  |
-| --- | --- |
-| Defined in header `<numeric>` | |
-| iota(C++11) | fills a range with successive increments of the starting value   (function template) |
-| ranges::iota(C++23) | fills a range with successive increments of the starting value (algorithm function object) |
-| accumulate | sums up or folds a range of elements   (function template) |
-| inner_product | computes the inner product of two ranges of elements   (function template) |
-| adjacent_difference | computes the differences between adjacent elements in a range   (function template) |
-| partial_sum | computes the partial sum of a range of elements   (function template) |
-| reduce(C++17) | similar to std::accumulate, except out of order   (function template) |
-| exclusive_scan(C++17) | similar to std::partial_sum, excludes the ith input element from the ith sum   (function template) |
-| inclusive_scan(C++17) | similar to std::partial_sum, includes the ith input element in the ith sum   (function template) |
-| transform_reduce(C++17) | applies an invocable, then reduces out of order   (function template) |
-| transform_exclusive_scan(C++17) | applies an invocable, then calculates exclusive scan   (function template) |
-| transform_inclusive_scan(C++17) | applies an invocable, then calculates inclusive scan   (function template) |
+void custom_comparisons() {
+    std::vector<Person> people = {
+        {"Alice", 30, 50000},
+        {"Bob", 25, 60000},
+        {"Charlie", 35, 45000}
+    };
+    
+    // 按年龄排序（C++20范围算法）
+    std::ranges::sort(people, {}, &Person::age);
+    
+    // 按姓名排序
+    std::ranges::sort(people, {}, &Person::name);
+    
+    // 使用自定义比较器
+    std::ranges::sort(people, 
+                     [](const Person& a, const Person& b) { 
+                         return a.salary > b.salary; 
+                     });
+    
+    // 查找特定人员
+    auto it = std::ranges::find(people, "Bob", &Person::name);
+    if (it != people.end()) {
+        std::cout << "Found: " << it->name << std::endl;
+    }
+}
+```
 
-### Operations on uninitialized memory
+#### 3. 数值算法应用
+```cpp
+#include <numeric>
+#include <vector>
+#include <iostream>
+#include <functional>
 
-|  |  |
-| --- | --- |
-| Defined in header `<memory>` | |
-| uninitialized_copy | copies a range of objects to an uninitialized area of memory   (function template) |
-| ranges::uninitialized_copy(C++20) | copies a range of objects to an uninitialized area of memory (algorithm function object) |
-| uninitialized_copy_n(C++11) | copies a number of objects to an uninitialized area of memory   (function template) |
-| ranges::uninitialized_copy_n(C++20) | copies a number of objects to an uninitialized area of memory (algorithm function object) |
-| uninitialized_fill | copies an object to an uninitialized area of memory, defined by a range   (function template) |
-| ranges::uninitialized_fill(C++20) | copies an object to an uninitialized area of memory, defined by a range (algorithm function object) |
-| uninitialized_fill_n | copies an object to an uninitialized area of memory, defined by a start and a count   (function template) |
-| ranges::uninitialized_fill_n(C++20) | copies an object to an uninitialized area of memory, defined by a start and a count (algorithm function object) |
-| uninitialized_move(C++17) | moves a range of objects to an uninitialized area of memory   (function template) |
-| ranges::uninitialized_move(C++20) | moves a range of objects to an uninitialized area of memory (algorithm function object) |
-| uninitialized_move_n(C++17) | moves a number of objects to an uninitialized area of memory   (function template) |
-| ranges::uninitialized_move_n(C++20) | moves a number of objects to an uninitialized area of memory (algorithm function object) |
-| uninitialized_default_construct(C++17) | constructs objects by default-initialization in an uninitialized area of memory, defined by a range   (function template) |
-| ranges::uninitialized_default_construct(C++20) | constructs objects by default-initialization in an uninitialized area of memory, defined by a range (algorithm function object) |
-| uninitialized_default_construct_n(C++17) | constructs objects by default-initialization in an uninitialized area of memory, defined by a start and a count   (function template) |
-| ranges::uninitialized_default_construct_n(C++20) | constructs objects by default-initialization in an uninitialized area of memory, defined by a start and count (algorithm function object) |
-| uninitialized_value_construct(C++17) | constructs objects by value-initialization in an uninitialized area of memory, defined by a range   (function template) |
-| ranges::uninitialized_value_construct(C++20) | constructs objects by value-initialization in an uninitialized area of memory, defined by a range (algorithm function object) |
-| uninitialized_value_construct_n(C++17) | constructs objects by value-initialization in an uninitialized area of memory, defined by a start and a count   (function template) |
-| ranges::uninitialized_value_construct_n(C++20) | constructs objects by value-initialization in an uninitialized area of memory, defined by a start and a count (algorithm function object) |
-| destroy(C++17) | destroys a range of objects   (function template) |
-| ranges::destroy(C++20) | destroys a range of objects (algorithm function object) |
-| destroy_n(C++17) | destroys a number of objects in a range   (function template) |
-| ranges::destroy_n(C++20) | destroys a number of objects in a range (algorithm function object) |
-| destroy_at(C++17) | destroys an object at a given address   (function template) |
-| ranges::destroy_at(C++20) | destroys an object at a given address (algorithm function object) |
-| construct_at(C++20) | creates an object at a given address   (function template) |
-| ranges::construct_at(C++20) | creates an object at a given address (algorithm function object) |
+void numerical_algorithms() {
+    std::vector<int> numbers = {1, 2, 3, 4, 5};
+    
+    // 累积和
+    std::vector<int> partial_sums;
+    std::partial_sum(numbers.begin(), numbers.end(), 
+                     std::back_inserter(partial_sums));
+    
+    // 相邻差分
+    std::vector<int> differences;
+    std::adjacent_difference(numbers.begin(), numbers.end(),
+                           std::back_inserter(differences));
+    
+    // 内积
+    std::vector<int> weights = {2, 3, 1, 4, 2};
+    int dot_product = std::inner_product(numbers.begin(), numbers.end(),
+                                       weights.begin(), 0);
+    
+    // 现代归约（C++17）
+    long long sum = std::reduce(numbers.begin(), numbers.end(), 0LL);
+    long long product = std::reduce(numbers.begin(), numbers.end(), 1LL,
+                                  std::multiplies<>{});
+}
+```
 
-### Random number generation (since C++26)
+#### 4. 内存管理算法
+```cpp
+#include <memory>
+#include <algorithm>
+#include <vector>
 
-|  |  |
-| --- | --- |
-| Defined in header `<random>` | |
-| ranges::generate_random(C++26) | fills a range with random numbers from a uniform random bit generator (algorithm function object) |
+template<typename T>
+class UninitializedVector {
+private:
+    std::allocator<T> alloc_;
+    T* data_;
+    size_t size_;
+    size_t capacity_;
+    
+public:
+    explicit UninitializedVector(size_t capacity) 
+        : size_(0), capacity_(capacity) {
+        data_ = alloc_.allocate(capacity_);
+    }
+    
+    ~UninitializedVector() {
+        std::destroy_n(data_, size_);
+        alloc_.deallocate(data_, capacity_);
+    }
+    
+    template<typename Iterator>
+    void assign(Iterator first, Iterator last) {
+        size_t count = std::distance(first, last);
+        if (count > capacity_) {
+            throw std::bad_alloc();
+        }
+        
+        std::uninitialized_copy(first, last, data_);
+        size_ = count;
+    }
+    
+    void push_back(const T& value) {
+        if (size_ >= capacity_) {
+            throw std::bad_alloc();
+        }
+        
+        std::construct_at(data_ + size_, value);
+        ++size_;
+    }
+};
+```
 
-### Notes
+## 特性测试宏
 
-| Feature-test macro | Value | Std | Feature |
-| --- | --- | --- | --- |
-| `__cpp_lib_algorithm_iterator_requirements` | `202207L` | (C++23) | Ranges iterators as inputs to non-Ranges algorithms |
-| `__cpp_lib_clamp` | `201603L` | (C++17) | std::clamp |
-| `__cpp_lib_constexpr_algorithms` | `201806L` | (C++20) | Constexpr for algorithms |
-| `202306L` | (C++26) | Constexpr stable sorting |
-| `__cpp_lib_algorithm_default_value_type` | `202403L` | (C++26) | List-initialization for algorithms |
-| `__cpp_lib_freestanding_algorithm` | `202311L` | (C++26) | Freestanding facilities in <algorithm> |
-| `__cpp_lib_robust_nonmodifying_seq_ops` | `201304L` | (C++14) | Making non-modifying sequence operations more robust (two-range overloads for std::mismatch, std::equal and std::is_permutation) |
+| 特性测试宏 | 值 | 标准 | 特性 |
+|------------|----|------|------|
+| `__cpp_lib_parallel_algorithm` | `201603L` | (C++17) | 并行算法 |
+| `__cpp_lib_execution` | `201603L` | (C++17) | 执行策略 |
+| `__cpp_lib_constexpr_algorithms` | `201806L` | (C++20) | 算法的constexpr |
 | `__cpp_lib_sample` | `201603L` | (C++17) | std::sample |
-| `__cpp_lib_shift` | `201806L` | (C++20) | std::shift_left and std::shift_right |
 
-### C library
+## C标准库对应
 
-|  |  |
-| --- | --- |
-| Defined in header `<cstdlib>` | |
-| qsort | sorts a range of elements with unspecified type   (function) |
-| bsearch | searches an array for an element of unspecified type   (function) |
+| 头文件 | 函数 | 说明 |
+|--------|------|------|
+| `<cstdlib>` | `qsort` | 对未指定类型的元素范围排序（函数） |
+| `<cstdlib>` | `bsearch` | 在数组中搜索未指定类型的元素（函数） |
 
-### Defect reports
+## 相关页面
 
-The following behavior-changing defect reports were applied retroactively to previously published C++ standards.
+| 页面名称 | 说明 |
+|----------|------|
+| [C算法文档] | C语言对应文档 |
 
-| DR | Applied to | Behavior as published | Correct behavior |
-| --- | --- | --- | --- |
-| LWG 193 | C++98 | heap required \*first to be the largest element | there can be elements equal to \*first |
-| LWG 2150 | C++98 | the definition of a sorted sequence was incorrect | corrected |
-| LWG 2166 | C++98 | the heap requirement did not match the definition of max heap closely enough | requirement improved |
+## 缺陷报告
 
-### See also
+以下行为变更的缺陷报告已追溯应用于先前发布的C++标准。
 
-|  |  |
-| --- | --- |
-| C documentation for Algorithms | |
+## 页面信息
 
-Retrieved from "<https://en.cppreference.com/mwiki/index.php?title=cpp/algorithm&oldid=179901>"
+- 页面地址：<https://en.cppreference.com/mwiki/index.php?title=cpp/algorithm&oldid=179901>
+- 最后修改时间：2025年1月28日 11:13
+- 离线版本获取时间：2025年2月9日 16:39
 
-##### Navigation
+---
 
-- Online version
-- Offline version retrieved 2025-02-09 16:39.
-
-- This page was last modified on 28 January 2025, at 11:13.
+✅ C++算法库是现代C++编程的核心组件，提供了从基本搜索排序到高级并行计算的全面功能。理解算法库的演进历程和各组件的使用方法，对于编写高效、安全的C++代码至关重要。从C++98的基础算法到C++20的范围算法，再到C++17的并行算法，算法库不断演进以满足现代软件开发的需求。正确使用排序、搜索、数值计算等关键算法，能够显著提高程序性能。掌握并行算法和范围算法等现代特性，可以让代码更加简洁和表达力强。自定义比较器、投影和执行策略等高级工具为处理复杂的数据结构提供了灵活的解决方案。算法库的设计遵循零开销抽象原则，确保了性能的同时提供了强大的功能。持续学习和实践算法库的新特性，是成为优秀C++开发者的重要途径。
