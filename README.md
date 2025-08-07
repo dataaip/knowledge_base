@@ -11,7 +11,6 @@
 
 // 每周对比学习 C/C++/Rust/Python/Go 语言一个模块
   // src/reference
-  // src/tour
 
 // 每周针对上述学习整理博客出来发布
   // doc -> csdn
