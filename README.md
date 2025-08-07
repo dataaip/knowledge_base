@@ -3,9 +3,11 @@
 ```cpp
 
 // 每周完成一个工具/库/项目并分析总结
-  // src/guess_game
-  // src/calculator
-  // src/tiny_editor
+  // src -- 可执行文件项目
+  // library -- 库文件项目
+  // test -- 测试样例项目
+  // tools -- 工具项目
+  // scripts -- 脚本项目
 
 // 每周对比学习 C/C++/Rust/Python/Go 语言一个模块
   // src/reference
