@@ -707,3 +707,7 @@ Intel C++ 是英特尔开发的 C/C++ 编译器，专注于高性能计算。它
 **相关标准**：相关标准包括JTC1/SC22/WG14、POSIX.1-2024/IEEE Std 1003.1-2024和The Unicode Standard，提供了与C++相关的其他标准。
 
 **非 ANSI/ISO C++ 库列表**：非 ANSI/ISO C++ 库列表包括包管理器和开源库，提供了C++的第三方库资源。
+
+---
+
+来源：[cppreference.com](https://en.cppreference.com/index.html)
