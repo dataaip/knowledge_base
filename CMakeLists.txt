@@ -34,7 +34,8 @@ add_subdirectory(library/colorfmt)          # 添加Utils库的子目录
 add_subdirectory(library/toolsmath)         # 添加Math库的子目录
 add_subdirectory(library/utils)             # 添加Utils库的子目录
 # 三方库代码
-add_subdirectory(thridparty/log.c)       # 添加logc库的子目录
+add_subdirectory(thridparty/log_fmt/log.c)       # 添加logc库的子目录
+
 # 本项目源代码
 add_subdirectory(reference/tour_c_cpp/cpp)                      # 添加源代码的子目录
 # add_subdirectory(reference/tour_c_cpp/c)                      # 添加源代码的子目录
