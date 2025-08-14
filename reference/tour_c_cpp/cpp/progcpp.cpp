@@ -8,24 +8,29 @@
 #define SPDLOG_FMT_EXTERNAL // 定义不使用 spdlog 内部的 fmt 使用外部自定义引入的
 #include "spdlog/spdlog.h"
 
-#define STRIP_FLAG_HELP 1
 #include "gflags/gflags.h"
 
 DEFINE_bool(verbose, false, "Enable verbose output");
 DEFINE_string(config, "default.cfg", "Config file path");
 DEFINE_int32(port, 8080, "Server port");
 
+// 手动定义帮助标志（如果 gflags 没有自动生成）
+DECLARE_bool(help);
+DECLARE_bool(helpshort);
+DECLARE_bool(helpfull);
+
 int main(int argc, char** argv)
 {
-    ToolsMath math;
-    Utils     utils;
-
-    // 设置自定义帮助信息
+    // 设置帮助信息
     gflags::SetUsageMessage(
-        "A demo program using gflags\n"
-        "Usage: progcpp --config=<file> --port=<num> [--verbose]\n"
-        "Example: ./progcpp --config=my.cfg --port=8081 --verbose"
+        "progcpp: 命令行参数演示程序\n\n"
+        "用法示例:\n"
+        "  $ ./progcpp --config=settings.cfg --port=8081 --verbose\n"
+        "  $ ./progcpp --help  # 查看完整帮助"
     );
+
+    // 设置版本信息（可选）
+    gflags::SetVersionString("1.0.0");
 
     gflags::ParseCommandLineFlags(&argc, &argv, true);
 
@@ -35,6 +40,9 @@ int main(int argc, char** argv)
     std::cout << "Server port: " << FLAGS_port << std::endl;
 
     fmt::print("----------------------------\n");
+
+    ToolsMath math;
+    Utils     utils;
 
 #ifdef Debug
     std::cout << "This is a Debug version." << std::endl;
