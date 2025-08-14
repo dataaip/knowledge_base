@@ -1,410 +1,517 @@
-#include <iostream>
-#include <vector>
 #include <string>
-#include <map>
+#include <vector>
+#include <unordered_map>
 #include <functional>
-#include <stdexcept>
-#include <sstream>
-#include <algorithm>
-#include <cctype>
 #include <memory>
-#include <iomanip>
+#include <variant>
+#include <optional>
+#include <sstream>
+#include <iostream>
+#include <algorithm>
+#include <stdexcept>
+#include <type_traits>
+#include <any>
 
-namespace argparse {
+namespace cmdline {
 
-// 异常类
+// --- 1. 内部辅助类型 ---
+
+namespace detail {
+    // 用于统一存储不同类型的值
+    using Value = std::variant<bool, int, float, std::string, std::vector<std::string>>;
+
+    // 类型转换器的前向声明
+    template <typename T>
+    struct ValueConverter;
+
+    // 通用转换函数
+    template <typename T>
+    T convert(const std::string& str) {
+        return ValueConverter<T>::from_string(str);
+    }
+}
+
+// --- 2. 异常类 ---
+
+class ParseError : public std::runtime_error {
+public:
+    explicit ParseError(const std::string& msg) : std::runtime_error("Parse error: " + msg) {}
+};
+
 class ArgumentError : public std::runtime_error {
 public:
-    explicit ArgumentError(const std::string& msg) : std::runtime_error(msg) {}
+    explicit ArgumentError(const std::string& msg) : std::runtime_error("Argument error: " + msg) {}
 };
 
-// 参数基类
+// --- 3. ParseResult 类 ---
+
+class ParseResult {
+public:
+    void set_value(const std::string& name, detail::Value value) {
+        values_[name] = std::move(value);
+    }
+
+    bool has_value(const std::string& name) const {
+        return values_.find(name) != values_.end();
+    }
+
+    template <typename T>
+    T get(const std::string& name) const {
+        auto it = values_.find(name);
+        if (it == values_.end()) {
+            throw std::out_of_range("No value found for argument: " + name);
+        }
+        try {
+            return std::get<T>(it->second);
+        } catch (const std::bad_variant_access&) {
+            throw std::runtime_error("Type mismatch for argument: " + name);
+        }
+    }
+
+    const std::unordered_map<std::string, detail::Value>& get_all_values() const {
+        return values_;
+    }
+
+private:
+    std::unordered_map<std::string, detail::Value> values_;
+};
+
+// --- 4. Argument 类 ---
+
 class Argument {
 public:
-    virtual ~Argument() = default;
-    virtual void parse(const std::string& value) = 0;
-    virtual bool is_flag() const { return false; }
-    virtual std::string help_text() const = 0;
-    virtual bool match(const std::string& arg) const = 0;
-    virtual bool requires_value() const = 0;
-};
+    struct Config {
+        std::string name;
+        std::vector<std::string> flags; // e.g., {"-f", "--file"}
+        std::string help;
+        bool required = false;
+        std::optional<detail::Value> default_value;
+        std::string metavar; // 用于帮助信息中的占位符
+        std::function<bool(const detail::Value&)> validator;
+    };
 
-// 具体参数类型
-template <typename T>
-class TypedArgument : public Argument {
-public:
-    using ParserFunc = std::function<T(const std::string&)>;
-
-    TypedArgument(const std::vector<std::string>& names, 
-                  T& storage, 
-                  const std::string& help,
-                  ParserFunc parser,
-                  bool required = false)
-        : names_(names), storage_(storage), help_(help), 
-          parser_(std::move(parser)), required_(required) {}
-
-    void parse(const std::string& value) override {
-        try {
-            storage_ = parser_(value);
-        } catch (const std::exception& e) {
-            throw ArgumentError("Invalid value for '" + names_[0] + "': " + e.what());
+    explicit Argument(Config config) : config_(std::move(config)) {
+        if (config_.flags.empty() && config_.name.empty()) {
+            throw ArgumentError("Argument must have a name or flags.");
+        }
+        if (config_.metavar.empty() && !config_.flags.empty()) {
+             config_.metavar = config_.flags.back().substr(config_.flags.back().find_last_of('-') + 1);
+             std::transform(config_.metavar.begin(), config_.metavar.end(), config_.metavar.begin(), ::toupper);
         }
     }
 
-    bool is_flag() const override { return false; }
-    bool requires_value() const override { return true; }
+    [[nodiscard]] const Config& get_config() const { return config_; }
 
-    std::string help_text() const override {
-        std::ostringstream oss;
-        oss << std::left << std::setw(20);
-        
-        // 组合名称
-        std::string name_str;
-        for (size_t i = 0; i < names_.size(); ++i) {
-            if (i > 0) name_str += ", ";
-            name_str += names_[i];
-        }
-        
-        oss << name_str << " : " << help_;
-        if (required_) oss << " (required)";
-        return oss.str();
-    }
-
-    bool match(const std::string& arg) const override {
-        return std::find(names_.begin(), names_.end(), arg) != names_.end();
+    // 检查命令行参数是否匹配此 Argument
+    bool matches(const std::string& token) const {
+        return std::find(config_.flags.begin(), config_.flags.end(), token) != config_.flags.end();
     }
 
 private:
-    std::vector<std::string> names_;
-    T& storage_;
-    std::string help_;
-    ParserFunc parser_;
-    bool required_;
+    Config config_;
 };
 
-// 标志参数 (bool类型)
-class FlagArgument : public Argument {
+// --- 5. Subparser 类 ---
+
+class Subparser;
+
+// --- 6. ArgumentParser 类 ---
+
+class ArgumentParser {
 public:
-    FlagArgument(const std::vector<std::string>& names, 
-                 bool& storage, 
-                 const std::string& help)
-        : names_(names), storage_(storage), help_(help) {
-        storage_ = false; // 默认值
-    }
+    explicit ArgumentParser(std::string prog_name = "", std::string description = "")
+        : prog_name_(std::move(prog_name)), description_(std::move(description)) {}
 
-    void parse(const std::string&) override {
-        storage_ = true;
-    }
+    // --- 添加参数 ---
+    template <typename T = std::string>
+    ArgumentParser& add_argument(const std::vector<std::string>& flags, const std::string& help = "") {
+        Argument::Config config;
+        config.flags = flags;
+        config.help = help;
+        config.metavar = flags.empty() ? "" : flags.back().substr(flags.back().find_last_of('-') + 1);
+        std::transform(config.metavar.begin(), config.metavar.end(), config.metavar.begin(), ::toupper);
 
-    bool is_flag() const override { return true; }
-    bool requires_value() const override { return false; }
-
-    std::string help_text() const override {
-        std::ostringstream oss;
-        oss << std::left << std::setw(20);
-        
-        std::string name_str;
-        for (size_t i = 0; i < names_.size(); ++i) {
-            if (i > 0) name_str += ", ";
-            name_str += names_[i];
+        // 通过特化判断是否为 bool (flag)
+        if constexpr (std::is_same_v<T, bool>) {
+            config.default_value = false;
         }
-        
-        oss << name_str << " : " << help_;
-        return oss.str();
+
+        arguments_.emplace_back(std::make_unique<Argument>(config));
+        return *this;
     }
 
-    bool match(const std::string& arg) const override {
-        return std::find(names_.begin(), names_.end(), arg) != names_.end();
+    // 重载用于位置参数
+    template <typename T = std::string>
+    ArgumentParser& add_argument(const std::string& name, const std::string& help = "") {
+        Argument::Config config;
+        config.name = name;
+        config.help = help;
+        config.metavar = name;
+        arguments_.emplace_back(std::make_unique<Argument>(config));
+        return *this;
     }
+
+    // --- 添加子命令 ---
+    Subparser& add_subparser(const std::string& name, const std::string& help = "");
+
+    // --- 设置程序信息 ---
+    ArgumentParser& prog(const std::string& name) { prog_name_ = name; return *this; }
+    ArgumentParser& description(const std::string& desc) { description_ = desc; return *this; }
+    ArgumentParser& epilog(const std::string& epi) { epilog_ = epi; return *this; }
+
+    // --- 解析 ---
+    ParseResult parse_args(int argc, char* argv[]);
+
+    // --- 帮助 ---
+    void print_help(std::ostream& os = std::cout) const;
+    [[noreturn]] void print_help_and_exit(int exit_code = 0) const {
+        print_help(std::cout);
+        std::exit(exit_code);
+    }
+
 
 private:
-    std::vector<std::string> names_;
-    bool& storage_;
-    std::string help_;
-};
-
-// 位置参数
-class PositionalArgument : public Argument {
-public:
-    using ParserFunc = std::function<void(const std::string&)>;
-
-    PositionalArgument(const std::string& name, 
-                       ParserFunc parser, 
-                       const std::string& help,
-                       bool required = true)
-        : name_(name), parser_(std::move(parser)), 
-          help_(help), required_(required) {}
-
-    void parse(const std::string& value) override {
-        try {
-            parser_(value);
-        } catch (const std::exception& e) {
-            throw ArgumentError("Invalid value for '" + name_ + "': " + e.what());
-        }
-    }
-
-    bool is_flag() const override { return false; }
-    bool requires_value() const override { return true; }
-
-    std::string help_text() const override {
-        std::ostringstream oss;
-        oss << std::left << std::setw(20) << name_ << " : " << help_;
-        if (required_) oss << " (required)";
-        return oss.str();
-    }
-
-    bool match(const std::string&) const override {
-        return false; // 位置参数不匹配选项名称
-    }
-
-private:
-    std::string name_;
-    ParserFunc parser_;
-    std::string help_;
-    bool required_;
-};
-
-// 命令解析器
-class Command {
-public:
-    Command(const std::string& name, const std::string& description = "")
-        : name_(name), description_(description) {}
-
-    // 添加选项
-    template <typename T>
-    void add_option(const std::vector<std::string>& names,
-                   T& storage,
-                   const std::string& help = "",
-                   bool required = false,
-                   typename TypedArgument<T>::ParserFunc parser = nullptr) {
-        if (!parser) {
-            parser = [](const std::string& str) {
-                std::istringstream iss(str);
-                T value;
-                if (!(iss >> value)) throw std::runtime_error("Type conversion failed");
-                return value;
-            };
-        }
-        options_.push_back(std::make_unique<TypedArgument<T>>(
-            names, storage, help, parser, required));
-    }
-
-    // 添加标志
-    void add_flag(const std::vector<std::string>& names,
-                 bool& storage,
-                 const std::string& help = "") {
-        options_.push_back(std::make_unique<FlagArgument>(names, storage, help));
-    }
-
-    // 添加位置参数
-    void add_argument(const std::string& name,
-                     std::function<void(const std::string&)> handler,
-                     const std::string& help = "",
-                     bool required = true) {
-        positionals_.push_back(std::make_unique<PositionalArgument>(
-            name, std::move(handler), help, required));
-    }
-
-    // 添加子命令
-    Command& add_subcommand(const std::string& name, const std::string& description = "") {
-        auto cmd = std::make_unique<Command>(name, description);
-        auto& ref = *cmd;
-        subcommands_[name] = std::move(cmd);
-        return ref;
-    }
-
-    // 解析命令行
-    void parse(int argc, char* argv[]) {
-        std::vector<std::string> args(argv + 1, argv + argc);
-        parse(args);
-    }
-
-    void parse(const std::vector<std::string>& args) {
-        size_t pos_index = 0;
-        bool end_of_options = false;
-
-        for (size_t i = 0; i < args.size(); ) {
-            const std::string& arg = args[i];
-
-            // 处理子命令
-            if (!end_of_options && !arg.empty() && arg[0] != '-' && subcommands_.count(arg)) {
-                current_subcommand_ = arg;
-                std::vector<std::string> remaining(args.begin() + i + 1, args.end());
-                subcommands_[arg]->parse(remaining);
-                return;
-            }
-
-            // 处理 "--" 选项结束符
-            if (arg == "--") {
-                end_of_options = true;
-                ++i;
-                continue;
-            }
-
-            // 处理选项
-            if (!end_of_options && arg.size() > 1 && arg[0] == '-') {
-                std::string option = arg;
-                std::string value;
-
-                // 处理 --option=value 形式
-                size_t eq_pos = arg.find('=');
-                if (eq_pos != std::string::npos) {
-                    option = arg.substr(0, eq_pos);
-                    value = arg.substr(eq_pos + 1);
-                }
-
-                // 查找匹配的选项
-                bool found = false;
-                for (auto& opt : options_) {
-                    if (opt->match(option)) {
-                        found = true;
-
-                        if (opt->is_flag()) {
-                            opt->parse("");
-                        } else {
-                            if (!value.empty()) {
-                                opt->parse(value);
-                            } else {
-                                if (i + 1 >= args.size()) {
-                                    throw ArgumentError("Option " + option + " requires a value");
-                                }
-                                opt->parse(args[++i]);
-                            }
-                        }
-                        break;
-                    }
-                }
-
-                if (!found) {
-                    throw ArgumentError("Unknown option: " + option);
-                }
-                ++i;
-                continue;
-            }
-
-            // 处理位置参数
-            if (pos_index < positionals_.size()) {
-                positionals_[pos_index++]->parse(arg);
-            } else {
-                throw ArgumentError("Unexpected argument: " + arg);
-            }
-            ++i;
-        }
-
-        // 检查必填参数
-        for (auto& opt : options_) {
-            if (auto typed_opt = dynamic_cast<TypedArgument<std::string>*>(opt.get())) {
-                if (typed_opt->requires_value() && typed_opt->help_text().find("(required)") != std::string::npos) {
-                    throw ArgumentError("Missing required option");
-                }
-            }
-        }
-
-        if (pos_index < positionals_.size()) {
-            for (size_t i = pos_index; i < positionals_.size(); ++i) {
-                if (positionals_[i]->help_text().find("(required)") != std::string::npos) {
-                    throw ArgumentError("Missing required positional argument: " + 
-                                        positionals_[i]->help_text().substr(0, 20));
-                }
-            }
-        }
-    }
-
-    // 生成帮助信息
-    std::string help() const {
-        std::ostringstream oss;
-        
-        // 命令名称和描述
-        oss << "Usage: " << name_;
-        if (!options_.empty()) oss << " [OPTIONS]";
-        for (const auto& pos : positionals_) {
-            oss << " " << pos->help_text().substr(0, pos->help_text().find(" :"));
-        }
-        if (!subcommands_.empty()) {
-            oss << " COMMAND [ARGS]...";
-        }
-        oss << "\n\n";
-        
-        if (!description_.empty()) {
-            oss << description_ << "\n\n";
-        }
-        
-        // 位置参数
-        if (!positionals_.empty()) {
-            oss << "Positional arguments:\n";
-            for (const auto& pos : positionals_) {
-                oss << "  " << pos->help_text() << "\n";
-            }
-            oss << "\n";
-        }
-        
-        // 选项
-        if (!options_.empty()) {
-            oss << "Options:\n";
-            for (const auto& opt : options_) {
-                oss << "  " << opt->help_text() << "\n";
-            }
-            oss << "\n";
-        }
-        
-        // 子命令
-        if (!subcommands_.empty()) {
-            oss << "Commands:\n";
-            for (const auto& [name, cmd] : subcommands_) {
-                oss << "  " << std::setw(15) << std::left << name 
-                    << cmd->description_ << "\n";
-            }
-        }
-        
-        return oss.str();
-    }
-
-private:
-    std::string name_;
+    std::string prog_name_;
     std::string description_;
-    std::vector<std::unique_ptr<Argument>> options_;
-    std::vector<std::unique_ptr<Argument>> positionals_;
-    std::map<std::string, std::unique_ptr<Command>> subcommands_;
-    std::string current_subcommand_;
+    std::string epilog_;
+    std::vector<std::unique_ptr<Argument>> arguments_;
+    std::unordered_map<std::string, std::unique_ptr<Subparser>> subparsers_;
+
+    void print_usage(std::ostream& os) const;
+    friend class Subparser; // 允许 Subparser 访问私有成员以打印自己的帮助
 };
 
-} // namespace argparse
+// --- 7. Subparser 类 (定义) ---
+
+class Subparser {
+public:
+    Subparser(ArgumentParser& parent, std::string name, std::string help)
+        : parent_(parent), name_(std::move(name)), help_(std::move(help)),
+          parser_(name_, "") {
+        parser_.epilog_ = parent_.epilog_; // 继承 epilog
+    }
+
+    template <typename T = std::string>
+    Subparser& add_argument(const std::vector<std::string>& flags, const std::string& help = "") {
+        parser_.add_argument<T>(flags, help);
+        return *this;
+    }
+
+    template <typename T = std::string>
+    Subparser& add_argument(const std::string& name, const std::string& help = "") {
+        parser_.add_argument<T>(name, help);
+        return *this;
+    }
+
+    Subparser& description(const std::string& desc) { parser_.description_ = desc; return *this; }
+
+    ArgumentParser& get_parser() { return parser_; }
+    const ArgumentParser& get_parser() const { return parser_; }
+    const std::string& get_name() const { return name_; }
+    const std::string& get_help() const { return help_; }
+
+private:
+    ArgumentParser& parent_;
+    std::string name_;
+    std::string help_;
+    ArgumentParser parser_;
+};
+
+// ArgumentParser 中 add_subparser 的实现
+inline Subparser& ArgumentParser::add_subparser(const std::string& name, const std::string& help) {
+    auto subparser = std::make_unique<Subparser>(*this, name, help);
+    Subparser* ptr = subparser.get();
+    subparsers_[name] = std::move(subparser);
+    return *ptr;
+}
+
+} // namespace cmdline
+```
+
+#### `argparse.cpp`
+
+```cpp
+// argparse.cpp
+#include "argparse.h"
+#include <iomanip>
+#include <numeric> // for std::accumulate
+
+namespace cmdline {
+
+namespace detail {
+    // --- 默认类型转换器实现 ---
+    template<>
+    struct ValueConverter<bool> {
+        static bool from_string(const std::string& str) {
+            if (str == "true" || str == "1" || str.empty()) return true;
+            if (str == "false" || str == "0") return false;
+            throw std::invalid_argument("Cannot convert '" + str + "' to bool");
+        }
+    };
+
+    template<>
+    struct ValueConverter<int> {
+        static int from_string(const std::string& str) {
+            try {
+                return std::stoi(str);
+            } catch (const std::exception&) {
+                throw std::invalid_argument("Cannot convert '" + str + "' to int");
+            }
+        }
+    };
+
+    template<>
+    struct ValueConverter<float> {
+        static float from_string(const std::string& str) {
+            try {
+                return std::stof(str);
+            } catch (const std::exception&) {
+                throw std::invalid_argument("Cannot convert '" + str + "' to float");
+            }
+        }
+    };
+
+    template<>
+    struct ValueConverter<std::string> {
+        static std::string from_string(const std::string& str) {
+            return str;
+        }
+    };
+
+    template<>
+    struct ValueConverter<std::vector<std::string>> {
+        static std::vector<std::string> from_string(const std::string& str) {
+            // For simplicity, we'll just store the string as a single element vector
+            // A more complex parser could split on commas, etc.
+            return {str};
+        }
+    };
+} // namespace detail
+
+void ArgumentParser::print_usage(std::ostream& os) const {
+    os << "Usage: " << (prog_name_.empty() ? "program" : prog_name_);
+    if (!arguments_.empty()) {
+        os << " [OPTIONS]";
+    }
+    if (!subparsers_.empty()) {
+        os << " COMMAND ...";
+    }
+    os << "\n";
+}
+
+void ArgumentParser::print_help(std::ostream& os) const {
+    print_usage(os);
+    if (!description_.empty()) {
+        os << "\n" << description_ << "\n";
+    }
+
+    if (!arguments_.empty()) {
+        os << "\nOptions:\n";
+        size_t max_width = 0;
+        std::vector<std::string> arg_strings;
+        for (const auto& arg : arguments_) {
+            const auto& config = arg->get_config();
+            std::string arg_str;
+            if (!config.flags.empty()) {
+                arg_str = std::accumulate(config.flags.begin(), config.flags.end(), std::string(""),
+                                         [](const std::string& a, const std::string& b) {
+                                             return a.empty() ? b : a + ", " + b;
+                                         });
+            } else {
+                arg_str = config.name;
+            }
+            if (config.default_value.has_value()) {
+                arg_str += " (default: " + std::visit([](const auto& v) { return std::to_string(v); }, *config.default_value) + ")";
+            }
+            arg_strings.push_back(arg_str);
+            max_width = std::max(max_width, arg_str.size());
+        }
+        max_width = std::min(max_width, size_t(30)); // Cap width for aesthetics
+
+        for (size_t i = 0; i < arguments_.size(); ++i) {
+            const auto& config = arguments_[i]->get_config();
+            os << "  " << std::left << std::setw(max_width + 2) << arg_strings[i];
+            if (!config.help.empty()) {
+                os << config.help;
+            }
+            os << "\n";
+        }
+    }
+
+    if (!subparsers_.empty()) {
+        os << "\nCommands:\n";
+        size_t max_cmd_width = 0;
+        for (const auto& [name, subparser] : subparsers_) {
+            max_cmd_width = std::max(max_cmd_width, name.size());
+        }
+        max_cmd_width = std::min(max_cmd_width, size_t(20));
+
+        for (const auto& [name, subparser] : subparsers_) {
+            os << "  " << std::left << std::setw(max_cmd_width + 2) << name << subparser->get_help() << "\n";
+        }
+    }
+
+    if (!epilog_.empty()) {
+        os << "\n" << epilog_ << "\n";
+    }
+}
+
+ParseResult ArgumentParser::parse_args(int argc, char* argv[]) {
+    if (prog_name_.empty() && argc > 0) {
+        prog_name_ = argv[0];
+    }
+
+    ParseResult result;
+    std::vector<std::string> tokens(argv + 1, argv + argc);
+
+    // 检查帮助
+    for (const auto& token : tokens) {
+        if (token == "-h" || token == "--help") {
+            print_help_and_exit(0);
+        }
+    }
+
+    size_t i = 0;
+    std::optional<std::string> chosen_subcommand;
+
+    while (i < tokens.size()) {
+        const std::string& token = tokens[i];
+
+        // 检查是否是子命令
+        if (subparsers_.find(token) != subparsers_.end()) {
+            chosen_subcommand = token;
+            // 将剩余参数传递给子命令解析器
+            std::vector<char*> sub_argv;
+            sub_argv.push_back(argv[0]); // 程序名
+            for (size_t j = i + 1; j < tokens.size(); ++j) {
+                sub_argv.push_back(const_cast<char*>(tokens[j].c_str()));
+            }
+            sub_argv.push_back(nullptr);
+
+            try {
+                auto sub_result = subparsers_.at(token)->get_parser().parse_args(sub_argv.size() - 1, sub_argv.data());
+                // 将子命令的结果存入主结果中
+                result.set_value(token, static_cast<int>(0)); // 用一个标记表示子命令被调用
+                // 这里可以更复杂地存储子命令的所有结果
+                // 为简化，我们只标记哪个子命令被调用
+                // 实际应用中，你可能需要一个嵌套的 ParseResult 结构
+            } catch (const ParseError& e) {
+                std::cerr << prog_name_ << " " << token << ": " << e.what() << "\n";
+                subparsers_.at(token)->get_parser().print_help(std::cerr);
+                std::exit(1);
+            }
+            return result; // 解析完成
+        }
+
+        bool found = false;
+        for (const auto& arg : arguments_) {
+            const auto& config = arg->get_config();
+            if (arg->matches(token)) {
+                detail::Value value;
+                if (std::holds_alternative<bool>(value)) {
+                    // Flag 类型
+                    value = true;
+                    result.set_value(config.flags.empty() ? config.name : config.flags[0], value);
+                } else {
+                    // 需要值的参数
+                    if (i + 1 >= tokens.size()) {
+                        throw ParseError("Argument " + token + " requires a value.");
+                    }
+                    i++; // 移动到下一个 token 作为值
+                    const std::string& val_str = tokens[i];
+                    // 这里需要根据参数定义的类型进行转换
+                    // 一个简化的方法是假设所有非-flag 都是字符串
+                    // 更好的方法是 Argument 类中存储类型信息
+                    // 为简化，我们只处理字符串
+                    value = val_str;
+                    result.set_value(config.flags.empty() ? config.name : config.flags[0], value);
+                }
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            // Treat as positional argument or unknown option
+            bool pos_found = false;
+            for (const auto& arg : arguments_) {
+                const auto& config = arg->get_config();
+                if (!config.name.empty() && !result.has_value(config.name)) {
+                    result.set_value(config.name, detail::convert<std::string>(token));
+                    pos_found = true;
+                    break;
+                }
+            }
+            if (!pos_found) {
+                throw ParseError("Unrecognized argument: " + token);
+            }
+        }
+        i++;
+    }
+
+    // Check for missing required arguments
+    for (const auto& arg : arguments_) {
+        const auto& config = arg->get_config();
+        std::string key = config.flags.empty() ? config.name : config.flags[0];
+        if (config.required && !result.has_value(key)) {
+            throw ParseError("Missing required argument: " + key);
+        }
+        if (!config.required && config.default_value.has_value() && !result.has_value(key)) {
+            result.set_value(key, *config.default_value);
+        }
+    }
+
+    return result;
+}
+
+} // namespace cmdline
 
 int main(int argc, char* argv[]) {
-    argparse::Command cmd("app", "Sample application");
+    using namespace cmdline;
 
-    // 添加选项
-    int verbosity = 0;
-    cmd.add_option({"-v", "--verbose"}, verbosity, "Verbosity level", false);
+    ArgumentParser parser("mytool", "A multi-functional command-line tool.");
 
-    // 添加标志
-    bool enable_feature = false;
-    cmd.add_flag({"-f", "--feature"}, enable_feature, "Enable feature");
+    // 添加全局选项
+    parser.add_argument<bool>({"-v", "--verbose"}, "Enable verbose output");
+    parser.add_argument<std::string>({"-o", "--output"}, "Output file name")->required(true);
 
-    // 添加位置参数
-    std::string filename;
-    cmd.add_argument("FILE", [&](const std::string& value) {
-        filename = value;
-    }, "Input file", true);
+    // 添加子命令 "compress"
+    auto& compress_cmd = parser.add_subparser("compress", "Compress files");
+    compress_cmd.add_argument<std::string>("input_file", "File to compress");
+    compress_cmd.add_argument<int>({"-l", "--level"}, "Compression level (1-9)")->default_value = 6;
 
-    // 添加子命令
-    auto& sub = cmd.add_subcommand("build", "Build project");
-    std::string build_type = "debug";
-    sub.add_option({"-t", "--type"}, build_type, "Build type (debug/release)");
+    // 添加子命令 "extract"
+    auto& extract_cmd = parser.add_subparser("extract", "Extract files");
+    extract_cmd.add_argument<std::string>("archive", "Archive to extract");
 
     try {
-        cmd.parse(argc, argv);
-        
-        if (enable_feature) {
-            std::cout << "Feature enabled\n";
+        auto args = parser.parse_args(argc, argv);
+
+        bool verbose = args.get<bool>("--verbose");
+        std::string output = args.get<std::string>("--output");
+
+        std::cout << "Verbose: " << (verbose ? "true" : "false") << "\n";
+        std::cout << "Output file: " << output << "\n";
+
+        // 检查调用了哪个子命令
+        if (args.has_value("compress")) {
+            std::cout << "Executing 'compress' command...\n";
+            // 从 compress_cmd 的解析器中获取其参数
+            // 注意：当前实现中，子命令的参数没有直接传递回来
+            // 在更完整的实现中，ParseResult 会更复杂
+            // 这里我们简化处理
+        } else if (args.has_value("extract")) {
+            std::cout << "Executing 'extract' command...\n";
+        } else {
+            std::cout << "No subcommand provided.\n";
         }
-        
-        std::cout << "Processing: " << filename 
-                  << " with verbosity: " << verbosity << "\n";
-        
-    } catch (const argparse::ArgumentError& e) {
-        std::cerr << "Error: " << e.what() << "\n\n";
-        std::cerr << cmd.help();
+
+    } catch (const ParseError& e) {
+        std::cerr << e.what() << "\n";
+        parser.print_help(std::cerr);
+        return 1;
+    } catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << "\n";
         return 1;
     }
 
