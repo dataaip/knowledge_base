@@ -1,6 +1,5 @@
 # 定义子模块（Submodule）的仓库路径和本地映射目录，通常由 git submodule add 命令自动生成
 
-# [submodule "libs/external-lib"]
-#     path = libs/external-lib
-#     url = https://github.com/user/external-lib.git
-#     branch = main
+[submodule "thridparty/utility/boost"]
+	path = thridparty/utility/boost
+	url = https://github.com/boostorg/boost.git
