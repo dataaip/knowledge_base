@@ -95,8 +95,8 @@
     "C_Cpp.intelliSenseEngineFallback": "Disabled",
     "C_Cpp.intelliSenseEngine": "Disabled",
     "C_Cpp.autocomplete": "Disabled", // So you don't get autocomplete from both extensions.
-    // "clangd.path": "/usr/lib/llvm-19/bin/clangd",
-    "clangd.path": "/opt/homebrew/Cellar/llvm/20.1.7/bin/clangd",
+    "clangd.path": "/usr/lib/llvm-19/bin/clangd",
+    //"clangd.path": "/opt/homebrew/Cellar/llvm/20.1.7/bin/clangd",
     // Clangd 运行参数(在终端/命令行输入 clangd --help-list-hidden 可查看更多)
     "clangd.arguments": [
         // 让 Clangd 生成更详细的日志
