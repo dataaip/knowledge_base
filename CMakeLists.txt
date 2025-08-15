@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # 不接受编译器提供的C++扩展（便于跨编译器使用）
 set(CMAKE_CXX_EXTENSIONS OFF)
 # 指定为C++14 版本
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 # 指定为C11 版本
 set(CMAKE_C_STANDARD 11)
 # 指令告诉 CMake 使用 Unix Makefile 生成器创建 Makefile 而不是 Ninja
@@ -38,23 +38,13 @@ add_subdirectory(thridparty/log_format/log.c)       # 添加logc库的子目录
 add_subdirectory(thridparty/cmdline_parser/gflags)   # 添加gflags库的子目录
 add_subdirectory(thridparty/general_purpose/boost)      # 添加boost库的子目录
 
-## 设置公共头文件目录
-#include_directories(include)
-## 创建第三方库包装层接口库
-#add_library(thirdparty_wrappers INTERFACE)
-## 1. 添加包装头文件目录
-#target_include_directories(thirdparty_wrappers INTERFACE
-#        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/cmdline_parser
-#        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/general_purpose
-#        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/log_format
-#)
-
 # 本项目源代码
 add_subdirectory(reference/tour_c_cpp/cpp)                      # 添加源代码的子目录
 # add_subdirectory(reference/tour_c_cpp/c)                      # 添加源代码的子目录
 add_subdirectory(src/guess_game)                     # 添加源代码的子目录
 add_subdirectory(src/calculator_qt)                     # 添加源代码的子目录
 
+add_subdirectory(tests/examples/thridparty)
 # =================================================
 # 安装
 # 设置安装目录，以下表示安装在当前目录的myapp_install目录下，没有目录会自动创建

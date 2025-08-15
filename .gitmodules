@@ -3,3 +3,7 @@
 [submodule "thridparty/general_purpose/boost"]
 	path = thridparty/general_purpose/boost
 	url = https://github.com/boostorg/boost.git
+
+[submodule "thridparty/cmdline_parser/gflags"]
+	path = thridparty/cmdline_parser/gflags
+	url = https://github.com/gflags/gflags.git
