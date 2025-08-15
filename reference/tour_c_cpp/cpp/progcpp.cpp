@@ -17,6 +17,9 @@ DECLARE_bool(help);
 DECLARE_bool(helpshort);
 DECLARE_bool(helpfull);
 
+#include <boost/program_options.hpp>
+namespace po = boost::program_options;
+
 int main(int argc, char** argv)
 {
     // 设置帮助信息
@@ -38,6 +41,30 @@ int main(int argc, char** argv)
     std::cout << "Server port: " << FLAGS_port << std::endl;
 
     fmt::print("----------------------------\n");
+
+    po::options_description desc("Allowed options");
+    desc.add_options()
+        ("help", "show help message")
+            ("input", po::value<std::string>(), "input file")
+                ("verbose", po::bool_switch(), "verbose mode");
+
+    po::variables_map vm;
+    po::store(po::parse_command_line(argc, argv, desc), vm);
+    po::notify(vm);
+
+    if (vm.count("help")) {
+        std::cout << desc << "\n";
+        return 1;
+    }
+
+    if (vm.count("input")) {
+        std::cout << "Input file: "
+                  << vm["input"].as<std::string>() << "\n";
+    }
+
+    if (vm["verbose"].as<bool>()) {
+        std::cout << "Verbose mode enabled\n";
+    }
 
 #ifdef Debug
     std::cout << "This is a Debug version." << std::endl;

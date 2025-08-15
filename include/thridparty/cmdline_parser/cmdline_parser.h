@@ -5,4 +5,6 @@
 #ifndef DATAAIP_CMDLINE_PARSER_H
 #define DATAAIP_CMDLINE_PARSER_H
 
+#include "gflags/gflags.h"
+
 #endif // DATAAIP_CMDLINE_PARSER_H

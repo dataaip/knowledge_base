@@ -38,6 +38,17 @@ add_subdirectory(thridparty/log_format/log.c)       # 添加logc库的子目录
 add_subdirectory(thridparty/cmdline_parser/gflags)   # 添加gflags库的子目录
 add_subdirectory(thridparty/general_purpose/boost)      # 添加boost库的子目录
 
+## 设置公共头文件目录
+#include_directories(include)
+## 创建第三方库包装层接口库
+#add_library(thirdparty_wrappers INTERFACE)
+## 1. 添加包装头文件目录
+#target_include_directories(thirdparty_wrappers INTERFACE
+#        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/cmdline_parser
+#        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/general_purpose
+#        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/log_format
+#)
+
 # 本项目源代码
 add_subdirectory(reference/tour_c_cpp/cpp)                      # 添加源代码的子目录
 # add_subdirectory(reference/tour_c_cpp/c)                      # 添加源代码的子目录
