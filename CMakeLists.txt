@@ -38,6 +38,21 @@ add_subdirectory(thridparty/log_format/log.c)       # 添加logc库的子目录
 add_subdirectory(thridparty/cmdline_parser/gflags)   # 添加gflags库的子目录
 add_subdirectory(thridparty/general_purpose/boost)      # 添加boost库的子目录
 
+## 设置公共头文件路径
+#set(PROJECT_PUBLIC_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include/thridparty)
+## 添加第三方库路径
+#list(APPEND THIRDPARTY_INCLUDE_DIRS
+#        ${CMAKE_SOURCE_DIR}/thridparty/cmdline_parser
+#        ${CMAKE_SOURCE_DIR}/thridparty/log_format
+#        ${CMAKE_SOURCE_DIR}/thridparty/general_purpose/boost
+#)
+## 创建接口库 (统一访问点)
+#add_library(thridparty_warp INTERFACE)
+#target_include_directories(thridparty_warp INTERFACE
+#        $<BUILD_INTERFACE:${PROJECT_PUBLIC_INCLUDE_DIR}>  # 项目公共头文件
+#        $<BUILD_INTERFACE:${THIRDPARTY_INCLUDE_DIRS}>     # 第三方头文件
+#)
+
 # 本项目源代码
 add_subdirectory(reference/tour_c_cpp/cpp)                      # 添加源代码的子目录
 # add_subdirectory(reference/tour_c_cpp/c)                      # 添加源代码的子目录

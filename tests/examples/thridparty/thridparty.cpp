@@ -1,14 +1,14 @@
 #include <iostream>
 #include <string>
 
-//#include "fmt/base.h"
-//#define FMT_HEADER_ONLY
-//#define SPDLOG_FMT_EXTERNAL // 定义不使用 spdlog 内部的 fmt 使用外部自定义引入的
-//#include "spdlog/spdlog.h"
-#include "log_format/log_format.h"
+#include "fmt/base.h"
+#define FMT_HEADER_ONLY
+#define SPDLOG_FMT_EXTERNAL // 定义不使用 spdlog 内部的 fmt 使用外部自定义引入的
+#include "spdlog/spdlog.h"
+//#include "log_format/log_format.h"
 
-// #include "gflags/gflags.h"
-#include "cmdline_parser/gflags/gflags.h"
+ #include "gflags/gflags.h"
+//#include "cmdline_parser/gflags/gflags.h"
 
 DEFINE_bool(verbose, false, "Enable verbose output");
 DEFINE_string(config, "default.cfg", "Config file path");
@@ -19,8 +19,8 @@ DECLARE_bool(help);
 DECLARE_bool(helpshort);
 DECLARE_bool(helpfull);
 
-//#include "boost/program_options.hpp"
-#include "general_purpose/boost/boost/program_options.hpp"
+#include "boost/program_options.hpp"
+//#include "general_purpose/boost/boost/program_options.hpp"
 namespace po = boost::program_options;
 
 int main(int argc, char** argv)
