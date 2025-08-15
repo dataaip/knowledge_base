@@ -1,3 +1,5 @@
+# C++ 第三方依赖库管理
+
 在C++项目中管理第三方依赖库有多种方法，以下是最常用的方案及其实现细节：
 
 ### 主流管理方案对比
@@ -70,37 +72,32 @@ target_link_libraries(main_app PRIVATE fmt)
 ---
 
 ### 不同场景下的选择建议
-1. **跨平台商业项目**  
-   → 使用**vcpkg/Conan**包管理器
+1. **跨平台商业项目** → 使用**vcpkg/Conan**包管理器
    ```bash
    # Conan示例
    conan install . --install-folder=build --build=missing
    ```
 
-2. **需要修改第三方源码的研究项目**  
-   → 使用**Git子模块**  
+2. **需要修改第三方源码的研究项目** → 使用**Git子模块**  
    ```bash
    git submodule foreach git checkout -b custom-fix
    ```
 
-3. **单平台快速原型**  
-   → 使用**系统包管理器**  
+3. **单平台快速原型** → 使用**系统包管理器**  
    ```bash
    # Ubuntu示例
    sudo apt-get install libfmt-dev
    ```
 
-4. **仅头文件库（如catch2）**  
-   → **直接包含头文件**  
+4. **仅头文件库（如catch2）** → **直接包含头文件**  
    ```cmake
    include_directories(third_party/catch2/single_include)
    ```
-
+   
 ---
 
 ### 最佳实践
-1. **版本锁定**  
-   在vcpkg中使用manifest模式（`vcpkg.json`）：
+1. **版本锁定** 在vcpkg中使用manifest模式（`vcpkg.json`）：
    ```json
    {
      "dependencies": [
@@ -110,8 +107,7 @@ target_link_libraries(main_app PRIVATE fmt)
    }
    ```
 
-2. **CI/CD集成**  
-   GitHub Actions示例：
+2. **CI/CD集成** GitHub Actions示例：
    ```yaml
    jobs:
      build:
@@ -123,28 +119,28 @@ target_link_libraries(main_app PRIVATE fmt)
          run: ./vcpkg/vcpkg install fmt catch2
    ```
 
-3. **避免二进制冲突**  
-   使用静态链接（vcpkg默认）：
+3. **避免二进制冲突** 使用静态链接（vcpkg默认）：
    ```cmake
    set(VCPKG_TARGET_TRIPLET x64-linux-static)  # 在CMake中指定
    ```
 
 > 建议优先采用vcpkg方案，微软维护的生态系统支持超过2000个C++库，且与Visual Studio/CMake深度集成。对于需要高度定制化的场景可配合Git子模块使用。
 
+---
 
-# 跨平台安装
+### 跨平台安装 Boost.Program_options 库
 
 Boost.Program_options 是 Boost C++ 库的一部分，用于解析命令行选项。以下是安装 Boost.Program_options 的几种方法：
 
-## 方法一：使用包管理器安装（推荐）
+#### 方法一：使用包管理器安装（推荐）
 
-### Ubuntu/Debian
+1. **Ubuntu/Debian**
 ```bash
 sudo apt-get update
 sudo apt-get install libboost-program-options-dev
 ```
 
-### CentOS/RHEL/Fedora
+2. **CentOS/RHEL/Fedora**
 ```bash
 # CentOS/RHEL
 sudo yum install boost-devel
@@ -152,32 +148,33 @@ sudo yum install boost-devel
 sudo dnf install boost-devel
 ```
 
-### macOS (使用 Homebrew)
+3. **macOS (使用 Homebrew)**
 ```bash
 brew install boost
 ```
 
-## 方法二：从源码编译安装
+#### 方法二：从源码编译安装
 
-### 1. 下载 Boost
+1. **下载 Boost**
 ```bash
 wget https://boostorg.jfrog.io/artifactory/main/release/1.83.0/source/boost_1_83_0.tar.gz
 tar -xzf boost_1_83_0.tar.gz
 cd boost_1_83_0
 ```
 
-### 2. Bootstrap 和编译
+2. **Bootstrap 和编译**
 ```bash
 ./bootstrap.sh --with-libraries=program_options
 ./b2
+./b2 headers
 ```
 
-### 3. 安装
+3. **安装**
 ```bash
 sudo ./b2 install
 ```
 
-## 方法三：使用 vcpkg（跨平台）
+#### 方法三：使用 vcpkg（跨平台）
 
 ```bash
 # 安装 vcpkg（如果还没安装）
@@ -190,9 +187,9 @@ cd vcpkg
 ./vcpkg install boost-program-options
 ```
 
-## 验证安装
+#### 验证安装
 
-创建一个简单的测试程序 `test.cpp`：
+1. 创建一个简单的测试程序 `test.cpp`：
 
 ```cpp
 #include <boost/program_options.hpp>
@@ -228,13 +225,13 @@ int main(int argc, char* argv[]) {
 }
 ```
 
-编译测试程序：
+2. 编译测试程序：
 ```bash
 g++ -o test test.cpp -lboost_program_options
 ./test --help
 ```
 
-## CMake 配置示例
+3. CMake 配置示例
 
 如果你使用 CMake，可以在 `CMakeLists.txt` 中添加：
 
@@ -250,7 +247,7 @@ target_include_directories(your_target PRIVATE
 )
 ```
 
-## 常见问题
+4. 常见问题
 
 1. **找不到库文件**：确保库文件路径在链接器搜索路径中
 2. **版本不匹配**：确保编译器和库版本兼容
@@ -260,19 +257,19 @@ target_include_directories(your_target PRIVATE
 
 ---
 
-# 子项目
+### 将 Boost.Program_options 库作为子项目
+
 将 Boost 作为子项目添加到你的项目中是一个很好的做法，可以确保项目依赖的一致性。以下是几种方法：
 
-## 方法一：使用 Git Submodule
+#### 方法一：使用 Git Submodule
 
-### 1. 添加 Boost 作为子模块
+1. 添加 Boost 作为子模块
 ```bash
 git submodule add https://github.com/boostorg/boost.git external/boost
 git submodule update --init --recursive
 ```
 
-### 2. 创建 CMakeLists.txt 配置
-在你的主 CMakeLists.txt 中添加：
+2. 创建 CMakeLists.txt 配置，在你的主 CMakeLists.txt 中添加：
 
 ```cmake
 cmake_minimum_required(VERSION 3.14)
@@ -291,10 +288,9 @@ target_link_libraries(your_app
 )
 ```
 
-## 方法二：下载并构建特定版本
+#### 方法二：下载并构建特定版本
 
-### 1. 创建获取脚本
-创建 `scripts/get_boost.cmake`：
+1. 创建获取脚本，创建 `scripts/get_boost.cmake`：
 
 ```cmake
 set(BOOST_VERSION "1.83.0")
@@ -311,7 +307,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(boost)
 ```
 
-### 2. 在主 CMakeLists.txt 中使用
+2. 在主 CMakeLists.txt 中使用
 ```cmake
 cmake_minimum_required(VERSION 3.14)
 project(YourProject)
@@ -336,9 +332,9 @@ target_link_libraries(your_app PRIVATE
 )
 ```
 
-## 方法三：使用 CMake 的 FetchContent（推荐）
+#### 方法三：使用 CMake 的 FetchContent（推荐）
 
-### 1. 在 CMakeLists.txt 中添加：
+1. 在 CMakeLists.txt 中添加：
 ```cmake
 cmake_minimum_required(VERSION 3.14)
 project(YourProject)
@@ -367,9 +363,9 @@ target_link_libraries(your_app
 )
 ```
 
-## 方法四：手动下载和集成
+#### 方法四：手动下载和集成
 
-### 1. 创建项目结构
+1. 创建项目结构
 ```
 your_project/
 ├── CMakeLists.txt
@@ -383,7 +379,7 @@ your_project/
 └── include/
 ```
 
-### 2. 下载 Boost 库
+2. 下载 Boost 库
 ```bash
 mkdir -p external/boost
 cd external/boost
@@ -393,7 +389,7 @@ mv boost_1_83_0/* .
 cd ../..
 ```
 
-### 3. CMakeLists.txt 配置
+3. CMakeLists.txt 配置
 ```cmake
 cmake_minimum_required(VERSION 3.14)
 project(YourProject)
@@ -413,9 +409,9 @@ target_include_directories(your_app PRIVATE ${Boost_INCLUDE_DIRS})
 target_link_libraries(your_app PRIVATE ${Boost_LIBRARIES})
 ```
 
-## 示例：完整的工作项目
+#### 示例：完整的工作项目
 
-### 项目结构
+**项目结构**
 ```
 my_project/
 ├── CMakeLists.txt
@@ -425,7 +421,7 @@ my_project/
     └── .gitkeep
 ```
 
-### CMakeLists.txt
+**CMakeLists.txt 示例**
 ```cmake
 cmake_minimum_required(VERSION 3.14)
 project(MyProject)
@@ -460,7 +456,7 @@ target_include_directories(my_app PRIVATE
 )
 ```
 
-### src/main.cpp 示例
+**src/main.cpp 示例**
 ```cpp
 #include <boost/program_options.hpp>
 #include <iostream>
@@ -502,7 +498,7 @@ int main(int argc, char* argv[]) {
 }
 ```
 
-## 构建项目
+#### 构建项目
 
 ```bash
 mkdir build
