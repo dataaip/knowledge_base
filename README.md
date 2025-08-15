@@ -3,13 +3,13 @@
 ```cpp
 
 // 每周完成一个工具/库/项目并分析总结
-  // src -- 可执行文件项目
-  // program -- 项目入口接口文件
+  // include -- 库和可执行对外开放的头文件
+  // program -- 库和可执行项目入口
   // reference -- 学习教程参考项目
   // library -- 库文件项目
-  // test -- 测试样例项目
-  // tools -- 工具项目
-  // scripts -- 脚本项目
+  // src -- 可执行文件项目
+  // test -- 测试和样例项目
+  // thridparty --三方库文件
 
 // 每周对比学习 C/C++/Rust/Python/Go 语言一个模块
   // src/reference
@@ -21,44 +21,6 @@
 // 每周对比学习【书籍、官网、博客】：编程语言路线：Java(spring) --> Rust/Go --> C/C++
 // 深耕领域路线【开源项目】：大数据与数据库架构平台 --> AI算法平台工程化开发
 
-```  
-
-### 一般的 C/C++ 工程目录
-
-```bash   
-dataaip/                项目目录结构   
-├── .vscode/            存放 vscode 环境配置目录，包含了你的工作环境配置如调试、任务、格式化  
-├── bin/                存放项目编译后的二进制文件，可执行文件、静态、动态链接库文件       
-├── build/              存放项目编译的中间文件、构建的中间文件 
-├── cmake/              存放 cmake、make 构建的配置和脚本文件
-├── config/             存放项目运行所需的配置文件       
-├── dist/               存放项目可部署的项目，包括各种环境依赖的安装包  
-├── doc/                存放项目中的描述文档，包括说明性质的文档              
-├── docker/             存放项目 docker 环境配置文件，包含 Dockerfile 和与 docker 相关的脚本   
-├── env/                存放与环境配置相关的文件  
-├── examples/           存放项目示例相关代码 
-├── include/            存放项目公共的、对外头文件目录，包含 C/C++ 的 .h、.hpp 文件     
-├── lib/                存放项目依赖的库文件，或静态库、动态链接库          
-├── resource/           存放项目使用的资源文件，如图像、音频
-├── install/            存放项目安装目录，存放bin、lib、include文件目录   
-├── src/                存放项目的源代码文件      
-├── test/               存放项目的测试代码文件     
-├── thirdparty/         存放项目依赖的第三方库文件      
-├── todo/               存放项目 TODO 清单   
-├── tools/              存放项目提供的工具包   
-├── .clang-format       存放项目自动格式化 C++ 代码配置文件   
-├── .clang-tidy         存放项目静态分析 C++ 代码的质量和风格配置文件  
-├── .clangd             存放项目 clangd 解析服务配置文件  
-├── .gitgnore           存放项目 git 忽略版本控制配置文件 
-├── .gitattributes      存放项目 gitattributes 配置文件，定义特定路径目录子目录或文件类型的属性和行为
-├── .gitmodules         存放项目 git modules 配置文件   
-├── BUILD.md            存放项目构建文档文件，包含如何构建项目、运行项目
-├── configure           存放项目 configure 脚本，基于 Autotools 项目，用于配置和生成适合当前系统环境的 Makefile
-├── Makefile            存放项目 Make 构建的配置文件
-├── CMakeLists.txt      存放项目 CMake 构建的配置文件，包含了如何构建项目的指南   
-├── CMakePresets.json   存放项目 CMake 预设的配置文件   
-├── LICENSE             存放项目的许可证信息   
-└── README.md           存放项目的说明和描述信息
 ```
 
 ### 项目进度优化

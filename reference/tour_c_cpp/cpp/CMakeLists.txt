@@ -5,7 +5,7 @@ file(GLOB_RECURSE CUR_DIR_SRCS "./*.cpp")
 add_executable(progcpp ${CUR_DIR_SRCS}) 
 
 # 为目标链接库
-target_link_libraries(progcpp PRIVATE toolsmath utils gflags::gflags)
+target_link_libraries(progcpp PRIVATE gflags::gflags)
 
 # 为目标添加头文件包含路径
 target_include_directories(progcpp PRIVATE ${CMAKE_SOURCE_DIR}/library)
