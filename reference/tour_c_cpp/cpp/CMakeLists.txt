@@ -9,7 +9,7 @@ target_link_libraries(progcpp PRIVATE toolsmath utils gflags::gflags)
 
 # 为目标添加头文件包含路径
 target_include_directories(progcpp PRIVATE ${CMAKE_SOURCE_DIR}/library)
-target_include_directories(progcpp PRIVATE ${CMAKE_SOURCE_DIR}/thridparty/log_fmt)
+target_include_directories(progcpp PRIVATE ${CMAKE_SOURCE_DIR}/thridparty/log_format)
 target_include_directories(progcpp PRIVATE ${CMAKE_SOURCE_DIR}/thridparty/cmdline_parser)
 
 add_custom_target(other_app_target

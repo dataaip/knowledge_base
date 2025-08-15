@@ -42,7 +42,7 @@ add_subdirectory(thridparty/general_purpose/boost)      # 添加boost库的子�
 add_subdirectory(reference/tour_c_cpp/cpp)                      # 添加源代码的子目录
 # add_subdirectory(reference/tour_c_cpp/c)                      # 添加源代码的子目录
 add_subdirectory(src/guess_game)                     # 添加源代码的子目录
-add_subdirectory(src/qt_calculator)                     # 添加源代码的子目录
+add_subdirectory(src/calculator_qt)                     # 添加源代码的子目录
 
 # =================================================
 # 安装
