@@ -8,62 +8,73 @@
 
 #include "gflags/gflags.h"
 
-DEFINE_bool(verbose, false, "Enable verbose output");
-DEFINE_string(config, "default.cfg", "Config file path");
-DEFINE_int32(port, 8080, "Server port");
+// DEFINE_bool(verbose, false, "Enable verbose output");
+// DEFINE_string(config, "default.cfg", "Config file path");
+// DEFINE_int32(port, 8080, "Server port");
 
-// 手动定义帮助标志（如果 gflags 没有自动生成）
-DECLARE_bool(help);
-DECLARE_bool(helpshort);
-DECLARE_bool(helpfull);
+// // 手动定义帮助标志（如果 gflags 没有自动生成）
+// DECLARE_bool(help);
+// DECLARE_bool(helpshort);
+// DECLARE_bool(helpfull);
 
 #include "boost/program_options.hpp"
+
 namespace po = boost::program_options;
 
-int main(int argc, char** argv)
+auto main(int argc, char** argv) -> int
 {
-    // 设置帮助信息
-    gflags::SetUsageMessage(
-        "progcpp: 命令行参数演示程序\n\n"
-        "用法示例:\n"
-        "  $ ./progcpp --config=settings.cfg --port=8081 --verbose\n"
-        "  $ ./progcpp --help  # 查看完整帮助"
-    );
+    // // 设置帮助信息
+    // gflags::SetUsageMessage(
+    //     "progcpp: 命令行参数演示程序\n\n"
+    //     "用法示例:\n"
+    //     "  $ ./progcpp --config=settings.cfg --port=8081 --verbose\n"
+    //     "  $ ./progcpp --help  # 查看完整帮助"
+    // );
+  
+    // // 设置版本信息（可选）
+    // gflags::SetVersionString("1.0.0");
+  
+    // gflags::ParseCommandLineFlags(&argc, &argv, true);
+  
+    // if (FLAGS_verbose) {
+    //     std::cout << "Using config file: " << FLAGS_config << std::endl;
+    // }
+    // std::cout << "Server port: " << FLAGS_port << std::endl;
+  
+    // fmt::print("----------------------------\n");
 
-    // 设置版本信息（可选）
-    gflags::SetVersionString("1.0.0");
-
-    gflags::ParseCommandLineFlags(&argc, &argv, true);
-
-    if (FLAGS_verbose) {
-        std::cout << "Using config file: " << FLAGS_config << std::endl;
+    try {  
+      po::options_description desc("Allowed options");
+      desc.add_options()
+          ("help", "show help message")
+              ("input", po::value<std::string>(), "input file")
+                  ("verbose", po::bool_switch(), "verbose mode");
+  
+      po::variables_map vm;
+      po::store(po::parse_command_line(argc, argv, desc), vm);
+      po::notify(vm);
+  
+      if (vm.count("help")) {
+          std::cout << desc << "\n";
+          return 1;
+      }
+  
+      if (vm.count("input")) {
+          std::cout << "Input file: "
+                    << vm["input"].as<std::string>() << "\n";
+      }
+  
+      if (vm["verbose"].as<bool>()) {
+          std::cout << "Verbose mode enabled\n";
+      }
+    } 
+    catch (const std::exception& e) {
+        std::cerr << "Exception: " << e.what() << std::endl;
+        return EXIT_FAILURE;
     }
-    std::cout << "Server port: " << FLAGS_port << std::endl;
-
-    fmt::print("----------------------------\n");
-
-    po::options_description desc("Allowed options");
-    desc.add_options()
-        ("help", "show help message")
-            ("input", po::value<std::string>(), "input file")
-                ("verbose", po::bool_switch(), "verbose mode");
-
-    po::variables_map vm;
-    po::store(po::parse_command_line(argc, argv, desc), vm);
-    po::notify(vm);
-
-    if (vm.count("help")) {
-        std::cout << desc << "\n";
-        return 1;
-    }
-
-    if (vm.count("input")) {
-        std::cout << "Input file: "
-                  << vm["input"].as<std::string>() << "\n";
-    }
-
-    if (vm["verbose"].as<bool>()) {
-        std::cout << "Verbose mode enabled\n";
+    catch (...) {
+        std::cerr << "Unknown exception" << std::endl;
+        return EXIT_FAILURE;
     }
 
 #ifdef Debug

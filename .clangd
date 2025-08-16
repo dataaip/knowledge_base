@@ -33,7 +33,7 @@ Diagnostics:
 # 编译器标志
 CompileFlags:
   # 指定编译命令数据库路径（通常由CMake生成）
-  CompilationDatabase: build  # 从 build 目录获取编译命令
+  CompilationDatabase: cmake-build  # 从 cmake-build 目录获取编译命令
   
   # 添加额外的编译器标志
   Add:                        
