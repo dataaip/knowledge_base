@@ -33,6 +33,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -finput-charset=UTF-8 -fexec-charset=UTF-8")
 # 包含子目录
 # 本项目库代码
 add_subdirectory(library/log_format/colorfmt)          # 添加Utils库的子目录
+
 # 三方库代码
 add_subdirectory(thridparty/log_format/log.c)       # 添加logc库的子目录
 add_subdirectory(thridparty/cmdline_parser/gflags)   # 添加gflags库的子目录
