@@ -12,6 +12,19 @@
 class MenuManager;
 class SubMenuItem;
 
+// 菜单显示布局枚举
+enum class MenuLayout {
+    LIST,     // 列表布局（默认）
+    GRID      // 网格布局
+};
+
+// 菜单显示配置结构体
+struct MenuDisplayConfig {
+    MenuLayout layout = MenuLayout::LIST;  // 默认使用列表布局
+    int columns = 3;                       // 网格布局时的列数
+    int maxItemsPerLine = 3;               // 每行最大项目数
+};
+
 /**
  * 跨平台清屏函数
  * 根据操作系统类型执行相应的清屏命令
@@ -224,8 +237,17 @@ public:
      * 构造函数，初始化菜单管理器
      * 创建主菜单并设置为当前菜单
      */
-    MenuManager() : mainMenu(std::make_unique<SubMenuItem>("主菜单")) {
+    MenuManager() : mainMenu(std::make_unique<SubMenuItem>("主菜单")),
+                    displayConfig({MenuLayout::LIST, 3, 3}) {
         currentMenu = mainMenu.get();
+    }
+
+    /**
+     * 设置菜单显示配置
+     * @param config 菜单显示配置
+     */
+    void setDisplayConfig(const MenuDisplayConfig& config) {
+        displayConfig = config;
     }
 
     /**
@@ -315,6 +337,62 @@ public:
 
 private:
     /**
+     * 以网格布局显示菜单项
+     * @param items 菜单项列表
+     */
+    void displayGridMenu(const std::vector<std::unique_ptr<MenuItem>>& items) const {
+        int totalItems = items.size();
+        int cols = displayConfig.columns;
+
+        // 计算需要的行数
+        int rows = (totalItems + cols - 1) / cols;
+
+        // 存储每项的字符串表示，便于对齐
+        std::vector<std::string> itemStrings;
+        itemStrings.reserve(totalItems);
+
+        // 生成所有菜单项的字符串表示
+        for (int i = 0; i < totalItems; i++) {
+            std::ostringstream oss;
+            oss << (i + 1) << ". " << items[i]->getName();
+
+            // 如果是子菜单项，添加指示符
+            if (dynamic_cast<SubMenuItem*>(items[i].get())) {
+                oss << " >";
+            }
+            itemStrings.push_back(oss.str());
+        }
+
+        // 计算每列的最大宽度
+        std::vector<int> columnWidths(cols, 0);
+        for (int i = 0; i < totalItems; i++) {
+            int col = i % cols;
+            if (itemStrings[i].length() > static_cast<size_t>(columnWidths[col])) {
+                columnWidths[col] = itemStrings[i].length();
+            }
+        }
+
+        // 显示网格布局
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                int index = row * cols + col;
+                if (index < totalItems) {
+                    std::cout << itemStrings[index];
+                    // 添加填充以对齐
+                    if (col < cols - 1) { // 不是最后一列
+                        for (size_t j = itemStrings[index].length();
+                             j < static_cast<size_t>(columnWidths[col]); j++) {
+                            std::cout << " ";
+                        }
+                        std::cout << "  "; // 列间距
+                    }
+                }
+            }
+            std::cout << "\n";
+        }
+    }
+
+    /**
      * 显示当前菜单
      * 清屏并显示当前菜单的所有项
      */
@@ -340,16 +418,25 @@ private:
 
         // 显示所有菜单项
         const auto& items = current->getItems();
-        for (size_t i = 0; i < items.size(); ++i) {
-            // 显示菜单项（索引从1开始）
-            items[i]->display(i + 1);
 
-            // 如果是子菜单项，显示指示符
-            if (dynamic_cast<SubMenuItem*>(items[i].get())) {
-                std::cout << " >";
+        // 根据配置选择显示方式
+        if (displayConfig.layout == MenuLayout::GRID && !items.empty()) {
+            // 使用网格布局显示
+            displayGridMenu(items);
+        } else {
+            // 使用列表布局显示（默认）
+            for (size_t i = 0; i < items.size(); ++i) {
+                // 显示菜单项（索引从1开始）
+                items[i]->display(i + 1);
+
+                // 如果是子菜单项，显示指示符
+                if (dynamic_cast<SubMenuItem*>(items[i].get())) {
+                    std::cout << " >";
+                }
+                std::cout << "\n";
             }
-            std::cout << "\n";
         }
+
         // 显示菜单分隔线
         std::cout << "============================\n";
         // 显示退出提示
@@ -419,6 +506,8 @@ private:
     SubMenuItem* currentMenu = nullptr;
     // 菜单栈，用于管理菜单导航
     std::stack<SubMenuItem*> menuStack;
+    // 菜单显示配置
+    MenuDisplayConfig displayConfig;
 
     // 声明MenuBuilder为友元类，使其可以访问私有成员
     friend class MenuBuilder;
@@ -527,6 +616,12 @@ void sampleFunction3() {
 int main() {
     // 创建菜单管理器实例
     MenuManager manager;
+
+    // 设置网格布局显示
+    MenuDisplayConfig config;
+    config.layout = MenuLayout::GRID;
+    config.columns = 3;
+    manager.setDisplayConfig(config);
 
     // 使用构建器模式构建菜单结构
     auto builder = manager.getBuilder();
