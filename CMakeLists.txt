@@ -59,6 +59,7 @@ add_subdirectory(reference/tour_c_cpp/cpp)                      # 添加源代�
 # add_subdirectory(reference/tour_c_cpp/c)                      # 添加源代码的子目录
 add_subdirectory(src/guess_game)                     # 添加源代码的子目录
 add_subdirectory(src/calculator_qt)                     # 添加源代码的子目录
+add_subdirectory(library/menu_manager/menu_cmdline_cpp)
 
 add_subdirectory(tests/examples/thridparty)
 # =================================================

@@ -1,97 +1,83 @@
 #include <iostream>
 #include <string>
 
-#include "fmt/base.h"
-#define FMT_HEADER_ONLY
-#define SPDLOG_FMT_EXTERNAL // 定义不使用 spdlog 内部的 fmt 使用外部自定义引入的
-#include "spdlog/spdlog.h"
+#include "menu_manager/menu_cmdline_cpp/MenuCmdline.h"
 
-#include "gflags/gflags.h"
+// 示例功能函数
+/**
+ * 示例功能1
+ * 演示功能项的实现
+ */
+void sampleFunction1() {
+    std::cout << "这是功能1的执行结果\n";
+    // 实际功能代码...
+}
 
-// DEFINE_bool(verbose, false, "Enable verbose output");
-// DEFINE_string(config, "default.cfg", "Config file path");
-// DEFINE_int32(port, 8080, "Server port");
+/**
+ * 示例功能2
+ * 演示功能项的实现
+ */
+void sampleFunction2() {
+    std::cout << "功能2已成功执行\n";
+    // 实际功能代码...
+}
 
-// // 手动定义帮助标志（如果 gflags 没有自动生成）
-// DECLARE_bool(help);
-// DECLARE_bool(helpshort);
-// DECLARE_bool(helpfull);
+/**
+ * 示例功能3
+ * 演示功能项的实现
+ */
+void sampleFunction3() {
+    std::cout << "正在处理功能3...\n";
+    // 实际功能代码...
+}
 
-#include "boost/program_options.hpp"
+/**
+ * 程序入口点
+ * 构建菜单结构并运行菜单系统
+ */
+int main() {
+    // 创建菜单管理器实例
+    MenuManager manager = getMenuManager();
 
-namespace po = boost::program_options;
+    // 设置网格布局显示
+    MenuDisplayConfig config = getMenuDisplayConfig();
+    config.layout = MenuLayout::GRID;
+    config.columns = 3;
+    manager.setDisplayConfig(config);
 
-auto main(int argc, char** argv) -> int
-{
-    // // 设置帮助信息
-    // gflags::SetUsageMessage(
-    //     "progcpp: 命令行参数演示程序\n\n"
-    //     "用法示例:\n"
-    //     "  $ ./progcpp --config=settings.cfg --port=8081 --verbose\n"
-    //     "  $ ./progcpp --help  # 查看完整帮助"
-    // );
-  
-    // // 设置版本信息（可选）
-    // gflags::SetVersionString("1.0.0");
-  
-    // gflags::ParseCommandLineFlags(&argc, &argv, true);
-  
-    // if (FLAGS_verbose) {
-    //     std::cout << "Using config file: " << FLAGS_config << std::endl;
-    // }
-    // std::cout << "Server port: " << FLAGS_port << std::endl;
-  
-    // fmt::print("----------------------------\n");
+    // 使用构建器模式构建菜单结构
+    auto builder = manager.getBuilder();
 
-    try {  
-      po::options_description desc("Allowed options");
-      desc.add_options()
-          ("help", "show help message")
-              ("input", po::value<std::string>(), "input file")
-                  ("verbose", po::bool_switch(), "verbose mode");
-  
-      po::variables_map vm;
-      po::store(po::parse_command_line(argc, argv, desc), vm);
-      po::notify(vm);
-  
-      if (vm.count("help")) {
-          std::cout << desc << "\n";
-          return 1;
-      }
-  
-      if (vm.count("input")) {
-          std::cout << "Input file: "
-                    << vm["input"].as<std::string>() << "\n";
-      }
-  
-      if (vm["verbose"].as<bool>()) {
-          std::cout << "Verbose mode enabled\n";
-      }
-    } 
-    catch (const std::exception& e) {
-        std::cerr << "Exception: " << e.what() << std::endl;
-        return EXIT_FAILURE;
-    }
-    catch (...) {
-        std::cerr << "Unknown exception" << std::endl;
-        return EXIT_FAILURE;
-    }
+    // 使用链式调用构建复杂的菜单结构
+    builder.addFunction("功能1", sampleFunction1)
+        .addFunction("功能2", sampleFunction2)
+        .addSubMenu("系统设置")
+        .addFunction("网络设置", []() {
+            std::cout << "网络配置选项...\n";
+        })
+        .addSubMenu("安全设置")
+        .addFunction("密码管理", []() {
+            std::cout << "修改登录密码...\n";
+        })
+        .addFunction("权限设置", []() {
+            std::cout << "用户权限管理...\n";
+        })
+        .endSubMenu()
+        .endSubMenu()
+        .toMainMenu()
+        .addFunction("功能3", sampleFunction3)
+        .addSubMenu("工具集")
+        .addFunction("数据备份", []() {
+            std::cout << "正在备份数据...\n";
+        })
+        .addFunction("系统诊断", []() {
+            std::cout << "执行系统诊断...\n";
+        })
+        .endSubMenu();
 
-#ifdef Debug
-    std::cout << "This is a Debug version." << std::endl;
-#else
-    std::cout << "This is a Release version." << std::endl;
-#endif
+    // 运行菜单系统
+    manager.run();
 
-    int sum = 3 + 4;
-    int square = 5;
-
-    std::cout << "Sum: " << sum << ", Square: " << square << std::endl;
-
-    constexpr int err_num = 12;
-    spdlog::warn("spdlog format char {:08d}", err_num);
-
-    fmt::print("{}\n", err_num);
-
+    // 程序正常退出
     return 0;
 }
