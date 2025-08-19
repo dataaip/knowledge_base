@@ -1,7 +1,9 @@
 #include <iostream>
 #include <string>
 
-#include "menu_manager/menu_cmdline_cpp/MenuCmdline.h"
+#include "menu_manager/menu_cmdline_cpp/MenuBuilder.h"
+#include "menu_manager/menu_cmdline_cpp/MenuManager.h"
+#include "menu_manager/menu_cmdline_cpp/MenuLayout.h"
 
 // 示例功能函数
 /**
@@ -37,10 +39,10 @@ void sampleFunction3() {
  */
 int main() {
     // 创建菜单管理器实例
-    MenuManager manager = getMenuManager();
+    MenuManager manager;
 
     // 设置网格布局显示
-    MenuDisplayConfig config = getMenuDisplayConfig();
+    MenuDisplayConfig config;
     config.layout = MenuLayout::GRID;
     config.columns = 3;
     manager.setDisplayConfig(config);

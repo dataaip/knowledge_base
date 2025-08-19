@@ -5,7 +5,7 @@
 #ifndef DATAAIP_SUBMENUITEM_H
 #define DATAAIP_SUBMENUITEM_H
 
-#include "MenuItem.h"
+#include "menu_manager/menu_cmdline_cpp/MenuItem.h"
 
 #include <iostream>      // 用于标准输入输出流操作
 #include <string>        // 用于字符串处理

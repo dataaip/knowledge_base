@@ -5,15 +5,16 @@
 #ifndef DATAAIP_MENUMANAGER_H
 #define DATAAIP_MENUMANAGER_H
 
-#include <iostream>      // 用于标准输入输出流操作
-#include <string>        // 用于字符串处理
-#include <sstream>       // 用于字符串流处理
+#include <iostream> // 用于标准输入输出流操作
+#include <sstream>  // 用于字符串流处理
+#include <string>   // 用于字符串处理
 
+#include "MenuItem.h"
 #include "MenuLayout.h"
-#include "SubMenuItem.h"
 
 // 前向声明
 class MenuBuilder;
+class SubMenuItem;
 
 /**
  * 菜单管理器类
