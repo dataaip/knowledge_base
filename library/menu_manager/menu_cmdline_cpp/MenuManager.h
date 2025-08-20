@@ -9,12 +9,13 @@
 #include <sstream>  // 用于字符串流处理
 #include <string>   // 用于字符串处理
 
-#include "MenuItem.h"
 #include "MenuLayout.h"
+#include "MenuItem.h"
+#include "FunctionItem.h"
+#include "SubMenuItem.h"
 
 // 前向声明
 class MenuBuilder;
-class SubMenuItem;
 
 /**
  * 菜单管理器类

@@ -1,9 +1,11 @@
-#include <iostream>
-#include <string>
+#include "ExampleMenuManager.h"
 
+#include <iostream>
+
+#include "ExampleMenuManager.h"
 #include "menu_manager/menu_cmdline_cpp/MenuBuilder.h"
-#include "menu_manager/menu_cmdline_cpp/MenuManager.h"
 #include "menu_manager/menu_cmdline_cpp/MenuLayout.h"
+#include "menu_manager/menu_cmdline_cpp/MenuManager.h"
 
 // 示例功能函数
 /**
@@ -37,7 +39,7 @@ void sampleFunction3() {
  * 程序入口点
  * 构建菜单结构并运行菜单系统
  */
-int main() {
+int exampleMenu() {
     // 创建菜单管理器实例
     MenuManager manager;
 
@@ -51,9 +53,9 @@ int main() {
     auto builder = manager.getBuilder();
 
     // 使用链式调用构建复杂的菜单结构
-    builder.addFunction("功能1", sampleFunction1)
-        .addFunction("功能2", sampleFunction2)
-        .addSubMenu("系统设置")
+    builder.addFunction("语言标准", sampleFunction1)
+        .addFunction("编译器支持", sampleFunction2)
+        .addSubMenu("语言概念")
         .addFunction("网络设置", []() {
             std::cout << "网络配置选项...\n";
         })
@@ -67,14 +69,17 @@ int main() {
         .endSubMenu()
         .endSubMenu()
         .toMainMenu()
-        .addFunction("功能3", sampleFunction3)
-        .addSubMenu("工具集")
+        .addFunction("标准库头文件", sampleFunction3)
+        .addSubMenu("命名要求")
         .addFunction("数据备份", []() {
             std::cout << "正在备份数据...\n";
         })
         .addFunction("系统诊断", []() {
             std::cout << "执行系统诊断...\n";
         })
+        .addFunction("功能测试", sampleFunction3)
+        .addFunction("技术规格", sampleFunction3)
+        .addFunction("有用资源", sampleFunction3)
         .endSubMenu();
 
     // 运行菜单系统

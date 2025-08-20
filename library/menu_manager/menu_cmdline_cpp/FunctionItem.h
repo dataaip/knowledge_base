@@ -5,7 +5,7 @@
 #ifndef DATAAIP_FUNCTIONITEM_H
 #define DATAAIP_FUNCTIONITEM_H
 
-#include "menu_manager/menu_cmdline_cpp/MenuItem.h"
+#include "MenuItem.h"
 #include "Common.h"
 
 #include <iostream>      // 用于标准输入输出流操作

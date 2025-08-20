@@ -9,9 +9,11 @@
 #include <string>        // 用于字符串处理
 #include <sstream>       // 用于字符串流处理
 
+#include "FunctionItem.h"
+#include "SubMenuItem.h"
+
 // 前向声明
 class MenuManager;
-class SubMenuItem;
 
 /**
  * 菜单构建器类

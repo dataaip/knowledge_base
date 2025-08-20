@@ -61,13 +61,15 @@ add_subdirectory(src/guess_game)                     # 添加源代码的子目�
 add_subdirectory(src/calculator_qt)                     # 添加源代码的子目录
 add_subdirectory(library/menu_manager/menu_cmdline_cpp)
 
+# 本地样例代码
+add_subdirectory(tests/examples/knowledge_base)
 add_subdirectory(tests/examples/thridparty)
 # =================================================
 # 安装
 # 设置安装目录，以下表示安装在当前目录的myapp_install目录下，没有目录会自动创建
 set(CMAKE_INSTALL_PREFIX "progc")
 # 安装可执行文件：
-install(TARGETS progcpp
+install(TARGETS tour_cpp
         DESTINATION bin PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE WORLD_EXECUTE WORLD_READ)
 # 安装库文件：
 install(TARGETS colorfmt

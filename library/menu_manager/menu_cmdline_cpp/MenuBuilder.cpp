@@ -2,10 +2,8 @@
 // Created by minghui.liu on 25-8-19.
 //
 
-#include "menu_manager/menu_cmdline_cpp/MenuManager.h"
-#include "menu_manager/menu_cmdline_cpp/MenuBuilder.h"
-
-#include "SubMenuItem.h"
+#include "MenuManager.h"
+#include "MenuBuilder.h"
 
 // MenuBuilder 方法实现
 
