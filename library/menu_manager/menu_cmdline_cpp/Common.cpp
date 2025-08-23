@@ -3,6 +3,7 @@
 //
 
 #include <iostream>      // 用于标准输入输出流操作
+#include <limits>   // 添加 std::numeric_limits
 
 #include "Common.h"
 

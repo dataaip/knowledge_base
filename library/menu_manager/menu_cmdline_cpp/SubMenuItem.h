@@ -10,6 +10,8 @@
 #include <iostream>      // 用于标准输入输出流操作
 #include <string>        // 用于字符串处理
 #include <sstream>       // 用于字符串流处理
+#include <vector>
+#include <memory>
 
 /**
  * 子菜单项类

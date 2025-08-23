@@ -8,6 +8,10 @@
 #include <iostream> // 用于标准输入输出流操作
 #include <sstream>  // 用于字符串流处理
 #include <string>   // 用于字符串处理
+#include <functional>
+#include <stack>
+#include <vector>
+#include <memory>
 
 #include "MenuLayout.h"
 #include "MenuItem.h"

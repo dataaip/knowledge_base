@@ -8,6 +8,7 @@
 #include <cctype>        // 用于字符处理函数
 #include <string>        // 用于字符串处理
 #include <sstream>       // 用于字符串流处理
+#include <functional>
 
 #include "MenuManager.h"
 #include "MenuBuilder.h"
