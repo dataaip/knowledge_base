@@ -55,7 +55,7 @@ add_subdirectory(thridparty/general_purpose/boost)      # 添加boost库的子�
 #)
 
 # 本项目源代码
-add_subdirectory(reference/tour_c_cpp/cpp)                      # 添加源代码的子目录
+# add_subdirectory(reference/tour_c_cpp/cpp)                    # 添加源代码的子目录
 # add_subdirectory(reference/tour_c_cpp/c)                      # 添加源代码的子目录
 add_subdirectory(src/guess_game)                     # 添加源代码的子目录
 add_subdirectory(src/calculator_qt)                     # 添加源代码的子目录
@@ -69,8 +69,8 @@ add_subdirectory(tests/examples/thridparty)
 # 设置安装目录，以下表示安装在当前目录的myapp_install目录下，没有目录会自动创建
 set(CMAKE_INSTALL_PREFIX "progc")
 # 安装可执行文件：
-install(TARGETS tour_cpp
-        DESTINATION bin PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE WORLD_EXECUTE WORLD_READ)
+# install(TARGETS tour_cpp
+#         DESTINATION bin PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE WORLD_EXECUTE WORLD_READ)
 # 安装库文件：
 install(TARGETS colorfmt
         ARCHIVE DESTINATION lib
