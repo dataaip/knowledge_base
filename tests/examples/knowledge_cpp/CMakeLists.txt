@@ -9,7 +9,7 @@ target_link_libraries(example_knowbase PRIVATE menu_cmdline_cpp)
 
 # 为目标添加头文件包含路径
 
-target_include_directories(example_knowbase PRIVATE ${CMAKE_SOURCE_DIR}/include/knowledge_base)
+target_include_directories(example_knowbase PRIVATE ${CMAKE_SOURCE_DIR}/include/knowledge_cpp)
 target_include_directories(example_knowbase PRIVATE ${CMAKE_SOURCE_DIR}/library)
 
 target_include_directories(example_knowbase PRIVATE ${CMAKE_SOURCE_DIR}/include/thridparty)

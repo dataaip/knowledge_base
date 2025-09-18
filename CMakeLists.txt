@@ -62,7 +62,7 @@ add_subdirectory(src/calculator_qt)                     # 添加源代码的子�
 add_subdirectory(library/menu_manager/menu_cmdline_cpp)
 
 # 本地样例代码
-add_subdirectory(tests/examples/knowledge_base)
+add_subdirectory(tests/examples/knowledge_cpp)
 add_subdirectory(tests/examples/thridparty)
 # =================================================
 # 安装
